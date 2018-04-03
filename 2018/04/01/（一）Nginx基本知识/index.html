@@ -102,8 +102,8 @@
   <meta name="description" content="简介Nginx是一款轻量级的Web服务器，也是一款轻量级的反向代理服务器 用途 直接支持Rails和PHP程序 作为HTTP反向代理服务器 作为负载均衡服务器 作为邮件代理服务器 帮助实现动静分离  特点高稳定、高性能、资源占用少、功能丰富、模块化结构、支持热部署 安装Nginx 依赖gcc openssl-devel pcre-devel zlib zlib-devel  1yum instal">
 <meta name="keywords" content="Nginx">
 <meta property="og:type" content="article">
-<meta property="og:title" content="(一)Nginx基本知识">
-<meta property="og:url" content="https://destinywang.github.io/blog/2018/04/01/一-Nginx基本知识/index.html">
+<meta property="og:title" content="（一）Nginx基本知识">
+<meta property="og:url" content="https://destinywang.github.io/blog/2018/04/01/（一）Nginx基本知识/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="简介Nginx是一款轻量级的Web服务器，也是一款轻量级的反向代理服务器 用途 直接支持Rails和PHP程序 作为HTTP反向代理服务器 作为负载均衡服务器 作为邮件代理服务器 帮助实现动静分离  特点高稳定、高性能、资源占用少、功能丰富、模块化结构、支持热部署 安装Nginx 依赖gcc openssl-devel pcre-devel zlib zlib-devel  1yum instal">
 <meta property="og:locale" content="zh-Hans">
@@ -114,9 +114,9 @@
 <meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-3-25/61702919.jpg">
 <meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-3-25/72685599.jpg">
 <meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-3-28/28711425.jpg">
-<meta property="og:updated_time" content="2018-04-02T13:55:24.910Z">
+<meta property="og:updated_time" content="2018-04-03T15:27:16.272Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="(一)Nginx基本知识">
+<meta name="twitter:title" content="（一）Nginx基本知识">
 <meta name="twitter:description" content="简介Nginx是一款轻量级的Web服务器，也是一款轻量级的反向代理服务器 用途 直接支持Rails和PHP程序 作为HTTP反向代理服务器 作为负载均衡服务器 作为邮件代理服务器 帮助实现动静分离  特点高稳定、高性能、资源占用少、功能丰富、模块化结构、支持热部署 安装Nginx 依赖gcc openssl-devel pcre-devel zlib zlib-devel  1yum instal">
 <meta name="twitter:image" content="http://oetw0yrii.bkt.clouddn.com/18-3-25/9736175.jpg">
 
@@ -125,7 +125,7 @@
 
 
 
-  <link rel="canonical" href="https://destinywang.github.io/blog/2018/04/01/一-Nginx基本知识/"/>
+  <link rel="canonical" href="https://destinywang.github.io/blog/2018/04/01/（一）Nginx基本知识/"/>
 
 
 
@@ -135,7 +135,7 @@
   };
 </script>
 
-  <title>(一)Nginx基本知识 | Hexo</title>
+  <title>（一）Nginx基本知识 | Hexo</title>
   
 
 
@@ -339,7 +339,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://destinywang.github.io/blog/blog/2018/04/01/一-Nginx基本知识/">
+    <link itemprop="mainEntityOfPage" href="https://destinywang.github.io/blog/blog/2018/04/01/（一）Nginx基本知识/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="destiny">
@@ -356,7 +356,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">(一)Nginx基本知识</h1>
+          <h1 class="post-title" itemprop="name headline">（一）Nginx基本知识</h1>
         
 
         <div class="post-meta">
@@ -496,7 +496,7 @@ ps -ef | grep nginx
 </tr>
 </tbody>
 </table>
-<h2 id="nginx-cong"><a href="#nginx-cong" class="headerlink" title="nginx.cong"></a>nginx.cong</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">user root;</span><br><span class="line">worker_processes 1;</span><br><span class="line"></span><br><span class="line">error_log logs/error.log crit;</span><br><span class="line"></span><br><span class="line">pid         logs/nginx.pid;     # nginx 进程号文件路径</span><br><span class="line"></span><br><span class="line">events &#123;                        # 事件模块</span><br><span class="line">    use epoll;                  # 文件的模型</span><br><span class="line">    worker_connections 24;      # 每个worker的connections</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;                              # web反向代理</span><br><span class="line">    include         mime.type;      # 引入mime.type </span><br><span class="line">    include         proxy.conf;     # 引入proxy.conf</span><br><span class="line">    </span><br><span class="line">    defualt_type application/octet-stream;  # mine.type 的缺省类型</span><br><span class="line">    </span><br><span class="line">    log_format main &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot;&apos;  # 日志格式，远程地址 - 远程用户 时间 等</span><br><span class="line">                    &apos;$status $body_bytes_sent &quot;$http_referer&quot;&apos;</span><br><span class="line">                    &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;</span><br><span class="line">                    </span><br><span class="line">    access_log  logs/access.log main;       # 使用为main的格式</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">upstream test.com &#123;                         # 负载均衡模块</span><br><span class="line">    server 127.0.0.1:8080 weight = 5;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    lisent          80;</span><br><span class="line">    server_name     detiny;</span><br><span class="line">    </span><br><span class="line">    access_log  logs/host.access.log    main;</span><br><span class="line">    </span><br><span class="line">    index       index.html index.htm index.jsp;</span><br><span class="line">    root        /Users/destiny/Download/apache-tomcat-9.0.1/webapps/ROOT/;</span><br><span class="line">    </span><br><span class="line">    location ~* .*\.(jpg|jepg|gif|png|wsf|ico)$ &#123;   # 如果是图片，就去root路径查询</span><br><span class="line">        if(-f $request_filename) &#123;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    location /         proxy_pass http://destiny.com;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="nginx-cong"><a href="#nginx-cong" class="headerlink" title="nginx.cong"></a>nginx.cong</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">user root;</span><br><span class="line">worker_processes 1;</span><br><span class="line"></span><br><span class="line">error_log logs/error.log crit;</span><br><span class="line"></span><br><span class="line">pid         logs/nginx.pid;     # nginx 进程号文件路径</span><br><span class="line"></span><br><span class="line">events &#123;                        # 事件模块</span><br><span class="line">    use epoll;                  # 文件的模型</span><br><span class="line">    worker_connections 24;      # 每个worker的connections</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;                              # web反向代理</span><br><span class="line">    include         mime.type;      # 引入mime.type </span><br><span class="line">    include         proxy.conf;     # 引入proxy.conf</span><br><span class="line">    </span><br><span class="line">    defualt_type application/octet-stream;  # mine.type 的缺省类型</span><br><span class="line">    </span><br><span class="line">    log_format main &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot;&apos;  # 日志格式，远程地址 - 远程用户 时间 等</span><br><span class="line">                    &apos;$status $body_bytes_sent &quot;$http_referer&quot;&apos;</span><br><span class="line">                    &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;</span><br><span class="line">                    </span><br><span class="line">    access_log  logs/access.log main;       # 使用为main的格式</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    upstream test.com &#123;                         # 负载均衡模块</span><br><span class="line">        server 127.0.0.1:8080 weight = 5;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        lisent          80;</span><br><span class="line">        server_name     detiny;</span><br><span class="line">        </span><br><span class="line">        access_log  logs/host.access.log    main;</span><br><span class="line">        </span><br><span class="line">        index       index.html index.htm index.jsp;</span><br><span class="line">        root        /Users/destiny/Download/apache-tomcat-9.0.1/webapps/ROOT/;</span><br><span class="line">        </span><br><span class="line">        location ~* .*\.(jpg|jepg|gif|png|wsf|ico)$ &#123;   # 如果是图片，就去root路径查询</span><br><span class="line">            if(-f $request_filename) &#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        location /         proxy_pass http://destiny.com;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="Nginx的进程结构"><a href="#Nginx的进程结构" class="headerlink" title="Nginx的进程结构"></a>Nginx的进程结构</h2><pre><code>启动Nginx的时候，会启动一个Master进程，这个进程不处理客户端的任何请求，主要用来产生worker进程
 而每个worker进程用来处理一个Request
 </code></pre><h2 id="Niginx-模块"><a href="#Niginx-模块" class="headerlink" title="Niginx 模块"></a>Niginx 模块</h2><p>分为：核心模块、时间模块、标准HTTP模块、可选HTTP模块、邮件模块、第三方模块和补丁等。</p>
@@ -833,7 +833,7 @@ location / {
                 
                   <a href="/blog/archives">
                 
-                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
