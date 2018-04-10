@@ -448,98 +448,22 @@
       
         
           
-            <h1 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h1><h2 id="ActiveMQ简介"><a href="#ActiveMQ简介" class="headerlink" title="ActiveMQ简介"></a>ActiveMQ简介</h2><ul>
-<li>什么是ActiveMQ</li>
-<li>ActiveMQ的作用</li>
-<li>ActiveMQ的特点</li>
-<li>消息中间件的功能、特点、应用场景等</li>
-</ul>
-<h2 id="ActiveMQ安装和基本使用"><a href="#ActiveMQ安装和基本使用" class="headerlink" title="ActiveMQ安装和基本使用"></a>ActiveMQ安装和基本使用</h2><p>通过源码安装、基本的配置实例、启动、测试运行、关闭等</p>
-<h2 id="JMS"><a href="#JMS" class="headerlink" title="JMS"></a>JMS</h2><p>基本概念、消息结构、可靠性机制、PTP、Pub/Sub、API结构、JMS应用开发的基本步骤、持久和非持久的Topic</p>
-<h2 id="同ActiveMQ构建应用"><a href="#同ActiveMQ构建应用" class="headerlink" title="同ActiveMQ构建应用"></a>同ActiveMQ构建应用</h2><ul>
-<li>多种启动Broker的方法</li>
-<li>单独应用的开发</li>
-<li>结合Spring开发</li>
-</ul>
-<h2 id="ActiveMQ的Transport"><a href="#ActiveMQ的Transport" class="headerlink" title="ActiveMQ的Transport"></a>ActiveMQ的Transport</h2><p>多种运输协议的功能、配置和使用</p>
-<h2 id="ActiveMQ的消息存储"><a href="#ActiveMQ的消息存储" class="headerlink" title="ActiveMQ的消息存储"></a>ActiveMQ的消息存储</h2><p>队列和Topic、KahaDB、AMQ、JDBC、MMS等</p>
-<h2 id="ActiveMQ的Network"><a href="#ActiveMQ的Network" class="headerlink" title="ActiveMQ的Network"></a>ActiveMQ的Network</h2><ul>
-<li>在一台服务器上启动多个Broker</li>
-<li>静态网络连接的功能、配置</li>
-<li>“丢失”消息的处理</li>
-<li>容错或可负载均衡的连接</li>
-<li>动态网络连接等</li>
-</ul>
-<h2 id="ActiveMQ集群"><a href="#ActiveMQ集群" class="headerlink" title="ActiveMQ集群"></a>ActiveMQ集群</h2><ul>
-<li>队列消费者集群</li>
-<li>Broker的集群</li>
-<li>MasterSlave等</li>
-</ul>
-<h2 id="Destination高级特性"><a href="#Destination高级特性" class="headerlink" title="Destination高级特性"></a>Destination高级特性</h2><ul>
-<li>通配符</li>
-<li>组合队列</li>
-<li>配置启动的Destination</li>
-<li>删除不活动的Destination</li>
-<li>虚拟Destination</li>
-<li>镜像队列</li>
-</ul>
-<h2 id="Message-Dispatch高级特性"><a href="#Message-Dispatch高级特性" class="headerlink" title="Message Dispatch高级特性"></a>Message Dispatch高级特性</h2><ul>
-<li>消息游标</li>
-<li>异步发送</li>
-<li>分发策略</li>
-<li>优化批量控制</li>
-</ul>
-<h2 id="Message高级特性"><a href="#Message高级特性" class="headerlink" title="Message高级特性"></a>Message高级特性</h2><ul>
-<li>消息属性</li>
-<li>Advisory Message</li>
-<li>延迟和定时消息投递</li>
-<li>Blob消息</li>
-<li>消息转换</li>
-</ul>
-<h2 id="Consumer高级特性"><a href="#Consumer高级特性" class="headerlink" title="Consumer高级特性"></a>Consumer高级特性</h2><ul>
-<li>消息异步分发</li>
-<li>消息优先级</li>
-<li>管理持久化消息</li>
-<li>消息分组</li>
-<li>消息重抵策略</li>
-</ul>
-<h2 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h2><ul>
-<li>监控和管理</li>
-<li>集成ActiveMQ和Tomcat</li>
-</ul>
-<h2 id="ActiveMQ优化"><a href="#ActiveMQ优化" class="headerlink" title="ActiveMQ优化"></a>ActiveMQ优化</h2><h1 id="ActiveMQ简介-1"><a href="#ActiveMQ简介-1" class="headerlink" title="ActiveMQ简介"></a>ActiveMQ简介</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>ActiveMQ是Apache推出的一款开源的、完全支持JMS和J2EE规范的JMSProvider实现的消息中间件(Message Oriented Middleware, MOM)。</p>
-<h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><p>用来帮助实现高可用、高性能、可伸缩、易用和安全的企业级面向消息服务的系统。</p>
-<h1 id="ActiveMQ安装和基本使用-1"><a href="#ActiveMQ安装和基本使用-1" class="headerlink" title="ActiveMQ安装和基本使用"></a>ActiveMQ安装和基本使用</h1><h2 id="下载并安装服务端"><a href="#下载并安装服务端" class="headerlink" title="下载并安装服务端"></a>下载并安装服务端</h2><ul>
-<li>从<code>http://activemq.apache.org/download.html</code>下载最新的ActiveMQ</li>
-<li>直接解压<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf apache-activemq-5.9.0-bin.tar.gz activemq</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="启动运行"><a href="#启动运行" class="headerlink" title="启动运行"></a>启动运行</h2><ol>
-<li><p>普通启动</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">pwd</span></span><br><span class="line">/usr/<span class="built_in">local</span>/activemq/bin</span><br><span class="line"></span><br><span class="line">$ ./activemq start</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启动并指定日志文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./activemq start &gt; /tmp/activemqlog</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="检查是否已经启动"><a href="#检查是否已经启动" class="headerlink" title="检查是否已经启动"></a>检查是否已经启动</h2><p>ActiveMQ默认采用61616端口提供JMS服务，使用8061端口提供管理控制台服务，执行以下命令以便检验是否已经成功启动ActiveMQ服务：</p>
-<ul>
-<li>查看61616端口是否已经打开： <code>netstat -an | grep 61616</code></li>
-<li>查看控制台输出或者日志文件</li>
-<li>直接访问ActiveMQ的管理页面：<code>http://localhost:8161/admin</code>，默认的用户名和密码是<code>admin/admin</code></li>
-</ul>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-9/51018237.jpg" alt=""></p>
-<h1 id="关闭ActiveMQ"><a href="#关闭ActiveMQ" class="headerlink" title="关闭ActiveMQ"></a>关闭ActiveMQ</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./activemq stop</span><br></pre></td></tr></table></figure>
-<h1 id="基本的消息发送"><a href="#基本的消息发送" class="headerlink" title="基本的消息发送"></a>基本的消息发送</h1><h2 id="配置MAVEN所需的依赖"><a href="#配置MAVEN所需的依赖" class="headerlink" title="配置MAVEN所需的依赖"></a>配置MAVEN所需的依赖</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">gruopId</span>&gt;</span>org.apache.activemq<span class="tag">&lt;/<span class="name">gruopId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>activemq-all<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.9.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">gruopId</span>&gt;</span>org.apache.xbean<span class="tag">&lt;/<span class="name">gruopId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>xbean-spring<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.16<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="消息生产者"><a href="#消息生产者" class="headerlink" title="消息生产者"></a>消息生产者</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> JMSException, InterruptedException </span>&#123;</span><br><span class="line">    <span class="comment">// 创建连接工厂，连接工程负责与ActiveMQ服务端建立连接</span></span><br><span class="line">    ConnectionFactory connectionFactory = <span class="keyword">new</span> ActiveMQConnectionFactory(<span class="string">"tcp://localhost:61616"</span>);</span><br><span class="line">    <span class="comment">// 由连接工厂创建连接</span></span><br><span class="line">    Connection connection = connectionFactory.createConnection();</span><br><span class="line">    <span class="comment">// 启动连接</span></span><br><span class="line">    connection.start();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通过连接创建会话</span></span><br><span class="line">    Session session = connection.createSession(<span class="keyword">true</span>, Session.AUTO_ACKNOWLEDGE);</span><br><span class="line">    <span class="comment">// 通过会话创建目的地，名称表示对列名</span></span><br><span class="line">    Destination destination = session.createQueue(<span class="string">"my-queue"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通过 session 创建生产者</span></span><br><span class="line">    MessageProducer producer = session.createProducer(destination);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; ++i) &#123;</span><br><span class="line">        TextMessage message = session.createTextMessage(<span class="string">"message -- "</span> + i);</span><br><span class="line">        Thread.sleep(<span class="number">100</span>);</span><br><span class="line">        <span class="comment">// 通过消息生产者发出消息</span></span><br><span class="line">        producer.send(message);</span><br><span class="line">        System.out.println(<span class="string">"创建成功"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    session.commit();</span><br><span class="line">    session.close();</span><br><span class="line">    connection.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>运行结果：</p>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-9/51224256.jpg" alt=""></p>
-<h2 id="消息消费者"><a href="#消息消费者" class="headerlink" title="消息消费者"></a>消息消费者</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> JMSException, InterruptedException </span>&#123;</span><br><span class="line">    <span class="comment">// 创建连接工厂，连接工厂负责与ActiveMQ服务端建立连接</span></span><br><span class="line">    ConnectionFactory connectionFactory = <span class="keyword">new</span> ActiveMQConnectionFactory(<span class="string">"tcp://localhost:61616"</span>);</span><br><span class="line">    <span class="comment">// 由连接工厂创建连接</span></span><br><span class="line">    Connection connection = connectionFactory.createConnection();</span><br><span class="line">    <span class="comment">// 启动连接</span></span><br><span class="line">    connection.start();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通过连接创建会话</span></span><br><span class="line">    Session session = connection.createSession(<span class="keyword">true</span>, Session.AUTO_ACKNOWLEDGE);</span><br><span class="line">    <span class="comment">// 通过会话创建目的地，名称表示对列名</span></span><br><span class="line">    Destination destination = session.createQueue(<span class="string">"my-queue"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通过 session 创建生产者</span></span><br><span class="line">    MessageConsumer consumer = session.createConsumer(destination);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; ++i) &#123;</span><br><span class="line">        TextMessage message = (TextMessage) consumer.receive();</span><br><span class="line">        session.commit();</span><br><span class="line">        System.out.println(<span class="string">"收到消息: "</span> + message.getText());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    session.close();</span><br><span class="line">    connection.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>运行结果：</p>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-9/74587109.jpg" alt=""></p>
-<h2 id="JMS模型"><a href="#JMS模型" class="headerlink" title="JMS模型"></a>JMS模型</h2><p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-9/43815928.jpg" alt=""></p>
+          概览ActiveMQ简介
+什么是ActiveMQ
+ActiveMQ的作用
+ActiveMQ的特点
+消息中间件的功能、特点、应用场景等
 
-          
+ActiveMQ安装和基本使用通过源码安装、基本的配置实例、启动、测试运行、关闭等
+JMS基本概念、消息结构、可靠性机制、PTP、Pub/Sub、API结构、JMS
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/blog/2018/04/09/ActiveMQ-1-——概览-入门/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -679,35 +603,15 @@
       
         
           
-            <h1 id="MD5"><a href="#MD5" class="headerlink" title="MD5"></a>MD5</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><code>MD5即Message-Digest Algorithm 5</code>（信息-摘要算法5），用于确保信息传输完整一致。是计算机广泛使用的杂凑算法之一（又译摘要算法、哈希算法），主流编程语言普遍已有MD5实现。<br>将数据（如汉字）运算为另一固定长度值，是杂凑算法的基础原理，MD5的前身有MD2、MD3和MD4。</p>
-<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ol>
-<li>压缩性：任意长度的数据，算出的MD5值长度都是固定的。</li>
-<li>容易计算：从原数据计算出MD5值很容易。</li>
-<li>抗修改性：对原数据进行任何改动，哪怕只修改1个字节，所得到的MD5值都有很大区别。</li>
-<li>强抗碰撞：已知原数据和其MD5值，想找到一个具有相同MD5值的数据（即伪造数据）是非常困难的。</li>
-</ol>
-<p>MD5的作用是让大容量信息在用数字签名软件签署私人密钥前被”压缩”成一种保密的格式（就是把一个任意长度的字节串变换成一定长的十六进制数字串）。除了MD5以外，其中比较有名的还有sha-1、RIPEMD以及Haval等。</p>
-<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><h3 id="一致性验证"><a href="#一致性验证" class="headerlink" title="一致性验证"></a>一致性验证</h3><p>MD5的典型应用是对一段信息（Message）产生信息摘要（Message-Digest），以防止被篡改。MD5就可以为任何文件（不管其大小、格式、数量）产生一个同样独一无二的“数字指纹”，如果任何人对文件做了任何改动，其MD5值也就是对应的“数字指纹”都会发生变化。</p>
-<h3 id="数字签名"><a href="#数字签名" class="headerlink" title="数字签名"></a>数字签名</h3><p>MD5的典型应用是对一段Message(字节串)产生fingerprint(指纹），以防止被“篡改”。举个例子，你将一段话写在一个叫 readme.txt文件中，并对这个readme.txt产生一个MD5的值并记录在案，然后你可以传播这个文件给别人，别人如果修改了文件中的任何内容，你对这个文件重新计算MD5时就会发现（两个MD5值不相同）。如果再有一个第三方的认证机构，用MD5还可以防止文件作者的“抵赖”，这就是所谓的数字签名应用。</p>
-<h3 id="安全访问认证"><a href="#安全访问认证" class="headerlink" title="安全访问认证"></a>安全访问认证</h3><p>MD5还广泛用于操作系统的登陆认证上，如Unix、各类BSD系统登录密码、数字签名等诸多方面。如在Unix系统中用户的密码是以MD5（或其它类似的算法）经Hash运算后存储在文件系统中。当用户登录的时候，系统把用户输入的密码进行MD5 Hash运算，然后再去和保存在文件系统中的MD5值进行比较，进而确定输入的密码是否正确。通过这样的步骤，系统在并不知道用户密码的明码的情况下就可以确定用户登录系统的合法性。这可以避免用户的密码被具有系统管理员权限的用户知道。</p>
-<h2 id="缺点与不足"><a href="#缺点与不足" class="headerlink" title="缺点与不足"></a>缺点与不足</h2><p>2014年中国山东大学的王小云教授公布破译了MD5、HAVAL-128、 MD4和RIPEMD算法的报告。通过加速的杂凑与冲撞方法破译了MD5算法。</p>
-<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-8/17215732.jpg" alt=""></p>
-<h1 id="RSA"><a href="#RSA" class="headerlink" title="RSA"></a>RSA</h1><h2 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h2><p>RSA为公钥加密体制</p>
-<ul>
-<li>乙方生成两把秘钥（公钥和私钥）。公钥是公开的，任何人都可以获得，私钥则是保密的。</li>
-<li>甲方获取乙方的公钥，然后用它对信息加密。</li>
-<li>乙方得到加密后的信息，用私钥解密。</li>
-</ul>
-<p><img src="http://img.blog.csdn.net/20130613222101437" alt="image"></p>
-<h2 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h2><h3 id="便于理解，使用广泛"><a href="#便于理解，使用广泛" class="headerlink" title="便于理解，使用广泛"></a>便于理解，使用广泛</h3><p>RSA算法是第一个能同时用于加密和数字签名的算法，也易于理解和操作。RSA是被研究得最广泛的公钥算法，从提出到现今的三十多年里，经历了各种攻击的考验，逐渐为人们接受，普遍认为是目前最优秀的公钥方案之一。</p>
-<h3 id="缺点与不足：加密和解密花费时间长、速度慢，只适合对少量数据进行加密"><a href="#缺点与不足：加密和解密花费时间长、速度慢，只适合对少量数据进行加密" class="headerlink" title="缺点与不足：加密和解密花费时间长、速度慢，只适合对少量数据进行加密"></a>缺点与不足：加密和解密花费时间长、速度慢，只适合对少量数据进行加密</h3><p>为提高保密强度，RSA密钥至少为500位长，一般推荐使用1024位。这就使加密的计算量很大。为减少计算量，在传送信息时，常采用传统加密方法与公开密钥加密方法相结合的方式，即信息采用改进的DES或IDEA对话密钥加密，然后使用RSA密钥加密对话密钥和信息摘要。对方收到信息后，用不同的密钥解密并可核对信息摘要。</p>
-<h2 id="实践-1"><a href="#实践-1" class="headerlink" title="实践"></a>实践</h2><h3 id="ssh口令登录"><a href="#ssh口令登录" class="headerlink" title="ssh口令登录"></a>ssh口令登录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">客户端-&gt;&gt;服务端: 口令登录</span><br><span class="line">服务端-&gt;&gt;客户端: 发送1024为公钥指纹</span><br><span class="line">客户端-&gt;&gt;服务端: 指纹保存在$HOME/.ssh/known_hosts，接受远程主机秘钥</span><br><span class="line">服务端-&gt;&gt;客户端: 请求输入密码</span><br><span class="line">客户端-&gt;&gt;服务端: 输入密码</span><br><span class="line">服务端-&gt;&gt;客户端: 接受或拒绝链接</span><br></pre></td></tr></table></figure>
-<h3 id="ssh公钥登录"><a href="#ssh公钥登录" class="headerlink" title="ssh公钥登录"></a>ssh公钥登录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">客户端-&gt;&gt;服务端: 登录请求</span><br><span class="line">服务端-&gt;&gt;客户端: 发送随机字符串</span><br><span class="line">客户端-&gt;&gt;服务端: 发送加密后的随机字符串</span><br><span class="line">服务端-&gt;&gt;客户端: 接受或拒绝链接</span><br></pre></td></tr></table></figure>
-<p>客户端事先把自己的公钥保存在服务端的指定目录: <code>$HOME/.ssh/authorized_keys</code></p>
-<p>客户端生成秘钥: <code>ssh-keygen</code>，运行结束后，在<code>$HOME/.ssh/</code>目录下，会新生成两个文件: <code>id_rsa.pub</code>和<code>id_rsa</code>。前者是公钥，后者是私钥。</p>
-<p>将公钥发送给远程主机: <code>ssh-copy-id user@host</code></p>
-
-          
+          MD5定义MD5即Message-Digest Algorithm 5（信息-摘要算法5），用于确保信息传输完整一致。是计算机广泛使用的杂凑算法之一（又译摘要算法、哈希算法），主流编程语言普遍已有MD5实现。将数据（如汉字）运算为另一固定长度值，是杂凑算法的基础原理，MD5的前身有MD2、MD3和M
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/blog/2018/04/08/盘点实际项目中常用的加密算法及使用场景/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -847,41 +751,19 @@
       
         
           
-            <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><pre><code>在反向代理时，如果是静态资源，就直接从Nginx发布的路径中去读取，而不需要从后台服务器获取。
-</code></pre><p>但这种情况下需要保证后端跟前端的程序保持一致，可以使用Rsync做服务端自动同步或者使用NFS、MFS分布式共享存储。</p>
-<h2 id="概念图"><a href="#概念图" class="headerlink" title="概念图"></a>概念图</h2><p><img src="http://images0.cnblogs.com/blog/682202/201501/221032498757036.gif" alt="image"></p>
-<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>Nginx可以拦截请求</p>
-<p>因此可以利用这一特性，将拦截到的静态请求进行重定向。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen          80;</span><br><span class="line">    server_name     destiny;</span><br><span class="line">    access_log      logs/host.access.log main;</span><br><span class="line">    </span><br><span class="line">    index   index.html index.htm index.jsp;</span><br><span class="line">    root    /usr/local/tomcat-9.0.0-RC5-1/webapps/ROOT/;</span><br><span class="line">    </span><br><span class="line">    # 不区分大小写的正则匹配</span><br><span class="line">    location ~* .*\.(jpg|jepg|fig|png|wsf|ico)$ &#123;</span><br><span class="line">        if(-f $request_filename) &#123;</span><br><span class="line">            # expires   15d;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    # 不区分大小写的正则匹配</span><br><span class="line">    locatin ~* .*\.(html|htm|js|css)$ &#123;</span><br><span class="line">        # expires       1d;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass      http://10.211.55.5</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在前两个location中，没有配置后端服务器的路径<br>Nginx就会默认去寻找<code>root</code>的资源</p>
-<p>Nginx会以<code>root</code>为根路径，将请求的路径拼在其后去查找，如果能访问到，Nginx就可以直接将该文件返回。</p>
-<p>如果能够查询到响应的文件，就会直接返回。</p>
-<h1 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h1><h2 id="index-默认主页设置模块"><a href="#index-默认主页设置模块" class="headerlink" title="index(默认主页设置模块)"></a>index(默认主页设置模块)</h2><pre><code>如果URL中没有指定文件，则设置一个默认主页。
-可以指定多个文件，如果第一个文件没有找到，将会查找后面指定的文件
-</code></pre><p>index   index.html index.htm index.jsp</p>
-<h2 id="root"><a href="#root" class="headerlink" title="root"></a>root</h2><pre><code>请求到达后的文件根目录
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location  /i/ &#123;</span><br><span class="line">  root  /spool/w3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如果请求<code>/i/top.gif</code>文件，Nginx将转到<code>/spool/w3/i/top.gif</code>文件</p>
-<p>在请求中root会添加这个location到它的值后面，即”/i/top.gif”并不会请求”/spool/w3/top.gif”文件，如果要实现上述类似于apache alias的功能，可以使用alias指令。</p>
-<pre><code>简单来说，root是拼接，alias是替换。
-</code></pre><h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>当访问静态资源的请求进入(假设为<code>http://10.211.55.4:80/static/person.jpg</code>)时，会被配置文件中的第一个location拦截</p>
-<p>location会将<code>root</code>中配置的路径和访问路径拼接在一起，新的路径为<code>/usr/local/tomcat-9.0.0-RC5-1/webapps/ROOT/static/person.jpg</code>，在Nginx的路径中进行查找。</p>
-<h2 id="初始情况，不加Nginx的情况下启动Tomcat"><a href="#初始情况，不加Nginx的情况下启动Tomcat" class="headerlink" title="初始情况，不加Nginx的情况下启动Tomcat"></a>初始情况，不加Nginx的情况下启动Tomcat</h2><p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-3/3587203.jpg" alt=""></p>
-<p>访问<code>10.211.55.4:8080</code>即可访问Tomcat主页。</p>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-3/22785804.jpg" alt=""></p>
-<p>查看<code>logs/localhost_access_log.2018-04-03.txt</code>可以看到访问日志</p>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-3/98037964.jpg" alt=""></p>
-<p>此时可以看到，请求了多个静态文件。</p>
-<h2 id="加入Nginx"><a href="#加入Nginx" class="headerlink" title="加入Nginx"></a>加入Nginx</h2><p>将包含上图中文件的路径<code>/usr/local/apache-tomcat-7.0.73/webapps/ROOT/</code>配置进Nginx配置文件中的<code>root</code>属性。</p>
-<p>并配置location用于拦截<code>jpg/jepg/fig/png/wsf/ico</code>后缀的文件。</p>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-3/41423428.jpg" alt=""></p>
-<p>然后<code>sbin/nginx -s reload</code>重启Nginx</p>
-<h2 id="效果展示"><a href="#效果展示" class="headerlink" title="效果展示"></a>效果展示</h2><p>分别重启Tomcat和Nginx后，再访问<code>10.211.55.4</code>(Nginx自动监听80端口并转发至8080)</p>
-<p>删除浏览器缓存</p>
-<p>此时再查看日志，已经请求中已经不再对静态资源进行请求</p>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-3/88998797.jpg" alt=""></p>
-
-          
+          概念在反向代理时，如果是静态资源，就直接从Nginx发布的路径中去读取，而不需要从后台服务器获取。
+但这种情况下需要保证后端跟前端的程序保持一致，可以使用Rsync做服务端自动同步或者使用NFS、MFS分布式共享存储。
+概念图
+原理Nginx可以拦截请求
+因此可以利用这一特性，将拦截到的静态请求进行
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/blog/2018/04/03/（二）Nginx实现动静分离/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1003,113 +885,23 @@
       
         
           
-            <h1 id="安装Node-js并配置Node-js环境"><a href="#安装Node-js并配置Node-js环境" class="headerlink" title="安装Node.js并配置Node.js环境"></a>安装Node.js并配置Node.js环境</h1><p>成功界面如下：</p>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/70261172.jpg" alt=""></p>
-<h1 id="安装git并配置git环境"><a href="#安装git并配置git环境" class="headerlink" title="安装git并配置git环境"></a>安装git并配置git环境</h1><p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/70159677.jpg" alt=""></p>
-<h1 id="注册Github并新建项目"><a href="#注册Github并新建项目" class="headerlink" title="注册Github并新建项目"></a>注册Github并新建项目</h1><h2 id="首页"><a href="#首页" class="headerlink" title="首页"></a>首页</h2><p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/97358630.jpg" alt=""></p>
-<h2 id="新建仓库页"><a href="#新建仓库页" class="headerlink" title="新建仓库页"></a>新建仓库页</h2><p>参考其他博客的时候，很多博客中都提到`</p>
-<blockquote>
-<p>项目名必须是 <code>github账户名.github.io</code></p>
-</blockquote>
-<p>但经本人测试其实项目名称可以任意选取，如本人的仓库名就是<code>blog</code>，而非<code>destinywang.github.io</code></p>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/27050333.jpg" alt=""></p>
-<h2 id="设置"><a href="#设置" class="headerlink" title="设置"></a>设置</h2><p>进入项目的<code>setting</code>选项卡中</p>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/78571147.jpg" alt=""></p>
-<p>下拉到<code>Github Pages</code>，此时该项目已经被部署，可以通过提供的外网链接去访问。</p>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/58918233.jpg" alt=""></p>
-<h1 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h1><p><a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">Hexo中文网站</a></p>
-<pre><code>Hexo是个快捷，简介且高效的博客框架
-让上百个页面在几秒内完成渲染
-Hexo支持Github Flavored Markdown的所有功能
-</code></pre><h2 id="在合适的位置创建文件夹"><a href="#在合适的位置创建文件夹" class="headerlink" title="在合适的位置创建文件夹"></a>在合适的位置创建文件夹</h2><p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/99445506.jpg" alt=""></p>
-<p>以上操作需要在空文件夹中进行</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npm install hexo -g             <span class="comment"># 安装Hexo</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> hexo -v                         <span class="comment"># 检查Hexo是否安装成功</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> hexo init                       <span class="comment"># 初始化文件夹</span></span></span><br></pre></td></tr></table></figure>
-<h2 id="Hexo-init"><a href="#Hexo-init" class="headerlink" title="Hexo init"></a>Hexo init</h2><p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/8639246.jpg" alt=""></p>
-<h2 id="npm-install"><a href="#npm-install" class="headerlink" title="npm install"></a>npm install</h2><p>此命令用于安装所需要的组件<br><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/77556695.jpg" alt=""></p>
-<h2 id="hexo-g"><a href="#hexo-g" class="headerlink" title="hexo g"></a>hexo g</h2><p>首次体验Hexo</p>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/78086644.jpg" alt=""></p>
-<h2 id="hexo-s"><a href="#hexo-s" class="headerlink" title="hexo s"></a>hexo s</h2><p>此命令会在本地开启Hexo的服务器</p>
-<p>可以在发布到github之前先在本地进行调试</p>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/85905480.jpg" alt=""></p>
-<p>然后再浏览器中输入<code>localhost:4000/blog/</code><br>如果出现如下界面就成功了<br><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/66613199.jpg" alt=""></p>
-<h1 id="将Hexo和Github-page联系起来"><a href="#将Hexo和Github-page联系起来" class="headerlink" title="将Hexo和Github page联系起来"></a>将Hexo和Github page联系起来</h1><h2 id="设置本地git"><a href="#设置本地git" class="headerlink" title="设置本地git"></a>设置本地git</h2><p>如果是第一次使用git的话需要设置<code>name</code>和<code>email</code><br><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/13461778.jpg" alt=""></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C &quot;your email&quot;     # 生成秘钥，路径在~/.ssh下，windows用户的路径为C:\Users\Administrator\.ssh</span><br><span class="line"></span><br><span class="line">$ eval &quot;$(ssh-agent -s)&quot;                # 添加秘钥到ssh-agent</span><br><span class="line">$ ssh-add ~/.ssh/id_rsa                 # 添加生成的SSH key到ssh-agent</span><br></pre></td></tr></table></figure>
-<h2 id="登录github，进行设置"><a href="#登录github，进行设置" class="headerlink" title="登录github，进行设置"></a>登录github，进行设置</h2><ol>
-<li>进入用户的setting页面</li>
-</ol>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/59448019.jpg" alt=""></p>
-<ol start="2">
-<li>在<code>SSH and GPG keys</code>选项卡中添加一个ssh key，并将<code>id_rsa.pub</code>(公钥)的内容复制上去</li>
-</ol>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/74389678.jpg" alt=""></p>
-<h1 id="配置Deployment"><a href="#配置Deployment" class="headerlink" title="配置Deployment"></a>配置Deployment</h1><p>为了保证Hexo能够正确的通过Git进行<code>add</code>、<code>commit</code>、<code>pull</code>、<code>push</code>等操作<br>需要将本地及远程的git仓库信息进行配置</p>
-<p>当前站点文件夹的状态：<br><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/15486482.jpg" alt=""></p>
-<p>修改<code>_config.yml</code>文件，将<code>deployment</code>部分相关的内容进行替换</p>
-<ul>
-<li>type: 部署类型</li>
-<li>repository: 远程仓库路径，即github中的仓库路径</li>
-<li>branch: 分支名</li>
-</ul>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/85193500.jpg" alt=""></p>
-<h1 id="新建一篇博客"><a href="#新建一篇博客" class="headerlink" title="新建一篇博客"></a>新建一篇博客</h1><h2 id="在终端中执行命令hexo-new-post-博客名"><a href="#在终端中执行命令hexo-new-post-博客名" class="headerlink" title="在终端中执行命令hexo new post 博客名"></a>在终端中执行命令<code>hexo new post 博客名</code></h2><p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/44957206.jpg" alt=""></p>
-<p>会在<code>source/_posts</code>路径下生成对应的博客文件<code>test.md</code><br><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/50261262.jpg" alt=""></p>
-<h2 id="安装hexo-deployer-git扩展文件"><a href="#安装hexo-deployer-git扩展文件" class="headerlink" title="安装hexo-deployer-git扩展文件"></a>安装<code>hexo-deployer-git</code>扩展文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/92845681.jpg" alt=""></p>
-<h2 id="编辑文章"><a href="#编辑文章" class="headerlink" title="编辑文章"></a>编辑文章</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim source/_posts/test.md</span><br></pre></td></tr></table></figure>
-<p>打开<code>test.md</code>文件，按照正常的Markdown文件编辑即可<br><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/50073786.jpg" alt=""></p>
-<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d -g</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Files loaded in 640 ms</span><br><span class="line">INFO  Generated: tags/index.html</span><br><span class="line">INFO  Generated: about/index.html</span><br><span class="line">INFO  Generated: 2018/04/01/jvm/index.html</span><br><span class="line">INFO  Generated: 2018/04/01/test/index.html</span><br><span class="line">INFO  Generated: 2018/04/01/hello-world-1/index.html</span><br><span class="line">INFO  Generated: archives/index.html</span><br><span class="line">INFO  Generated: tags/jvm/index.html</span><br><span class="line">INFO  Generated: archives/2018/index.html</span><br><span class="line">INFO  Generated: archives/2018/04/index.html</span><br><span class="line">INFO  Generated: tags/java基础/index.html</span><br><span class="line">INFO  Generated: index.html</span><br><span class="line">INFO  Generated: 2018/04/01/hello-world/index.html</span><br><span class="line">INFO  Generated: 2018/04/01/一-Nginx基本知识/index.html</span><br><span class="line">INFO  Generated: tags/Nginx/index.html</span><br><span class="line">INFO  Generated: images/cc-by-nc-nd.svg</span><br><span class="line">INFO  Generated: images/avatar.gif</span><br><span class="line">INFO  Generated: images/apple-touch-icon-next.png</span><br><span class="line">INFO  Generated: images/cc-by-nc-sa.svg</span><br><span class="line">INFO  Generated: images/algolia_logo.svg</span><br><span class="line">INFO  Generated: images/cc-by-nc.svg</span><br><span class="line">INFO  Generated: images/cc-by-nd.svg</span><br><span class="line">INFO  Generated: images/cc-by-sa.svg</span><br><span class="line">INFO  Generated: images/cc-by.svg</span><br><span class="line">INFO  Generated: images/cc-zero.svg</span><br><span class="line">INFO  Generated: images/favicon-16x16-next.png</span><br><span class="line">INFO  Generated: images/favicon-32x32-next.png</span><br><span class="line">INFO  Generated: images/loading.gif</span><br><span class="line">INFO  Generated: images/logo.svg</span><br><span class="line">INFO  Generated: images/placeholder.gif</span><br><span class="line">INFO  Generated: images/quote-r.svg</span><br><span class="line">INFO  Generated: images/searchicon.png</span><br><span class="line">INFO  Generated: lib/font-awesome/css/font-awesome.css.map</span><br><span class="line">INFO  Generated: images/quote-l.svg</span><br><span class="line">INFO  Generated: lib/font-awesome/HELP-US-OUT.txt</span><br><span class="line">INFO  Generated: images/blog-logo.jpeg</span><br><span class="line">INFO  Generated: lib/font-awesome/fonts/fontawesome-webfont.woff2</span><br><span class="line">INFO  Generated: css/main.css</span><br><span class="line">INFO  Generated: lib/font-awesome/fonts/fontawesome-webfont.woff</span><br><span class="line">INFO  Generated: js/src/affix.js</span><br><span class="line">INFO  Generated: js/src/exturl.js</span><br><span class="line">INFO  Generated: js/src/algolia-search.js</span><br><span class="line">INFO  Generated: js/src/bootstrap.js</span><br><span class="line">INFO  Generated: js/src/love.js</span><br><span class="line">INFO  Generated: js/src/js.cookie.js</span><br><span class="line">INFO  Generated: js/src/post-details.js</span><br><span class="line">INFO  Generated: js/src/motion.js</span><br><span class="line">INFO  Generated: js/src/scrollspy.js</span><br><span class="line">INFO  Generated: js/src/scroll-cookie.js</span><br><span class="line">INFO  Generated: lib/font-awesome/bower.json</span><br><span class="line">INFO  Generated: js/src/utils.js</span><br><span class="line">INFO  Generated: lib/ua-parser-js/dist/ua-parser.min.js</span><br><span class="line">INFO  Generated: lib/velocity/velocity.ui.min.js</span><br><span class="line">INFO  Generated: lib/velocity/velocity.min.js</span><br><span class="line">INFO  Generated: js/src/schemes/pisces.js</span><br><span class="line">INFO  Generated: lib/ua-parser-js/dist/ua-parser.pack.js</span><br><span class="line">INFO  Generated: lib/velocity/velocity.ui.js</span><br><span class="line">INFO  Generated: lib/font-awesome/css/font-awesome.css</span><br><span class="line">INFO  Generated: lib/jquery/index.js</span><br><span class="line">INFO  Generated: lib/font-awesome/css/font-awesome.min.css</span><br><span class="line">INFO  Generated: lib/font-awesome/fonts/fontawesome-webfont.eot</span><br><span class="line">INFO  Generated: lib/velocity/velocity.js</span><br><span class="line">INFO  61 files generated in 1.13 s</span><br><span class="line">INFO  Deploying: git</span><br><span class="line">INFO  Clearing .deploy_git folder...</span><br><span class="line">INFO  Copying files from public folder...</span><br><span class="line">INFO  Copying files from extend dirs...</span><br><span class="line">[master 966acc9] Site updated: 2018-04-01 21:18:16</span><br><span class="line"> 1 file changed, 1 insertion(+), 1 deletion(-)</span><br><span class="line">To github.com:DestinyWang/blog.git</span><br><span class="line"> + fa066f8...966acc9 HEAD -&gt; master (forced update)</span><br><span class="line">Branch &apos;master&apos; set up to track remote branch &apos;master&apos; from &apos;git@github.com:DestinyWang/blog.git&apos;.</span><br><span class="line">INFO  Deploy done: git</span><br></pre></td></tr></table></figure>
-<p>至此，博客已经部署成功，可以去<code>http://用户名.github.io</code>查看。</p>
-<p><img src="http://images2017.cnblogs.com/blog/1108615/201710/1108615-20171022001738037-1195721153.png" alt="image"></p>
-<h1 id="安装Next"><a href="#安装Next" class="headerlink" title="安装Next"></a>安装Next</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
-<p>下载到站点文件夹路径下的<code>themes/next</code></p>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/97713977.jpg" alt=""></p>
-<h1 id="启用Next主体"><a href="#启用Next主体" class="headerlink" title="启用Next主体"></a>启用Next主体</h1><p>在站点目录中，打开配置文件<code>_config.yml</code>，修改<code>theme: next</code><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">pwd</span></span></span><br><span class="line">~/blog</span><br><span class="line"><span class="meta">$</span><span class="bash"> vim _config.yml</span></span><br></pre></td></tr></table></figure></p>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/41418865.jpg" alt=""></p>
-<h1 id="主题设定"><a href="#主题设定" class="headerlink" title="主题设定"></a>主题设定</h1><p>在next主题目录下的<code>_config.yml</code>，修改<code>scheme: Pisces</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ pwd</span><br><span class="line">~/blog</span><br><span class="line">$ vim themes/next/_config.yml</span><br></pre></td></tr></table></figure>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/3206762.jpg" alt=""></p>
-<h1 id="语言设定"><a href="#语言设定" class="headerlink" title="语言设定"></a>语言设定</h1><p>Hexo提供了多种语言支持，包括简体中文<code>zh-Hans</code><br>在站点根目录下修改配置文件<code>_config.yml</code>中的<code>language</code>为<code>zh-Hans</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">pwd</span></span></span><br><span class="line">~/blog</span><br><span class="line"><span class="meta">$</span><span class="bash"> vim _config.yml</span></span><br></pre></td></tr></table></figure>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/30730480.jpg" alt=""></p>
-<h1 id="修改菜单栏"><a href="#修改菜单栏" class="headerlink" title="修改菜单栏"></a>修改菜单栏</h1><p>在主题目录下修改配置文件<code>_config.yml</code>中的<code>menu</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ pwd</span><br><span class="line">~/blog</span><br><span class="line">$ vim themes/next/_config.yml</span><br></pre></td></tr></table></figure>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/60828279.jpg" alt=""></p>
-<h1 id="设置菜单项图标"><a href="#设置菜单项图标" class="headerlink" title="设置菜单项图标"></a>设置菜单项图标</h1><p>对应字段是<code>menu_icons</code><br>同样在主题目录下的<code>_config.yml</code>中修改</p>
-<p>格式为<code>item name: icon name</code>，其中<code>item name</code> 与所配置的菜单名字对应，<code>icon name</code>是<code>Font Awesome</code>图标的名字。而 <code>enable</code>可用于控制是否显示图标，你可以设置成 <code>false</code> 来去掉图标。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ pwd</span><br><span class="line">~/blog</span><br><span class="line">$ vim themes/next/_config.yml</span><br></pre></td></tr></table></figure>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/60198648.jpg" alt=""></p>
-<h1 id="设置侧栏位置"><a href="#设置侧栏位置" class="headerlink" title="设置侧栏位置"></a>设置侧栏位置</h1><p>修改主题目录下<code>sidebar</code>的<code>position</code>值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ pwd</span><br><span class="line">~/blog</span><br><span class="line">$ vim themes/next/_config.yml</span><br></pre></td></tr></table></figure>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/98610330.jpg" alt=""></p>
-<h1 id="设置头像"><a href="#设置头像" class="headerlink" title="设置头像"></a>设置头像</h1><p>在站点根目录下载配置文件中新增avatar，值设置为头像的链接地址。地址可以是网络地址，也可以是本地地址（放置在<code>source/images/</code>目录下）</p>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/90699135.jpg" alt=""></p>
-<h1 id="设置文章代码主题"><a href="#设置文章代码主题" class="headerlink" title="设置文章代码主题"></a>设置文章代码主题</h1><p>在主题目录下修改配置文件<code>_config.yml</code>，字段<code>highlight_theme</code>，默认值为<code>nomal</code>。可以设置为<code>night</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ pwd</span><br><span class="line">~/blog</span><br><span class="line">$ vim themes/next/_config.yml</span><br></pre></td></tr></table></figure>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/42242111.jpg" alt=""></p>
-<h1 id="添加分类"><a href="#添加分类" class="headerlink" title="添加分类"></a>添加分类</h1><p>在站点路径下新建页面<code>categories</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ pwd</span><br><span class="line">~/blog</span><br><span class="line">$ hexo new page categories</span><br><span class="line"></span><br><span class="line"># 在 source/categories 目录中修改index.md</span><br><span class="line">vim source/categories/index.md</span><br></pre></td></tr></table></figure>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-2/61519989.jpg" alt=""></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 在主题的 _config.yml 中取消注释:</span><br><span class="line">$ vim _config.yml</span><br></pre></td></tr></table></figure>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-2/75484065.jpg" alt=""></p>
-<p>在要分类的文章中加入 category 属性:</p>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-2/86412607.jpg" alt=""></p>
-<h1 id="添加标签页面"><a href="#添加标签页面" class="headerlink" title="添加标签页面"></a>添加标签页面</h1><p>标签是对博客分类的方式<br>比如一个系列的博客都是将<code>神经网络</code>，那么就可以给每篇博客加上<code>神经网络</code>的tag</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ pwd</span><br><span class="line">~/blog</span><br><span class="line">$ hexo new page tags</span><br><span class="line">INFO Created: ~/blog/source/tags/index.md</span><br><span class="line"></span><br><span class="line"># 在新建的index.md中添加type: &quot;tags&quot;</span><br><span class="line">vim source/tags/index.md</span><br></pre></td></tr></table></figure>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/60934507.jpg" alt=""></p>
-<p>后面只需要在博客的开头中添加<code>tags: [A, B, C]</code>即可</p>
-<p>成功后，<code>标签</code>部分的导航栏为<br><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/92069862.jpg" alt=""></p>
-<h1 id="Aboute-Me"><a href="#Aboute-Me" class="headerlink" title="Aboute Me"></a><code>Aboute Me</code></h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ pwd</span><br><span class="line">~/blog</span><br><span class="line">$ hexo new page about</span><br><span class="line">INFO Created: ~/blog/source/about/index.md</span><br><span class="line"></span><br><span class="line"># 在新建的index.md中添加如下内容</span><br><span class="line">vim source/about/index.md</span><br></pre></td></tr></table></figure>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/87161448.jpg" alt=""></p>
-<p>成功后效果如下所示：<br><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/2887356.jpg" alt=""></p>
-<h1 id="添加github导航条"><a href="#添加github导航条" class="headerlink" title="添加github导航条"></a>添加github导航条</h1><p><a href="https://github.com/blog/273-github-ribbons" target="_blank" rel="noopener">从这里选择主题</a></p>
-<p>然后将代码复制到<code>themes/next/layout/_layout.swig</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ pwd</span><br><span class="line">~/blog</span><br><span class="line">$ vim themes/next/layout/_layout.swig</span><br></pre></td></tr></table></figure>
-<p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/69448329.jpg" alt=""></p>
-<p>成功后的效果如下：<br><img src="http://oetw0yrii.bkt.clouddn.com/18-4-1/97473185.jpg" alt=""></p>
-<h1 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h1><p>至此，博客基本设置OK<br>但还有很多地方可以继续挖掘</p>
-<p>包括更加个性化的主题、官方logo、访问量等等</p>
+          安装Node.js并配置Node.js环境成功界面如下：
 
-          
+安装git并配置git环境
+注册Github并新建项目首页
+新建仓库页参考其他博客的时候，很多博客中都提到
+
+项目名必须是 github账户名.github.io
+
+但经本人测试其实项目名称可以任意选取，如本人的仓库名就是blog，而非de
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/blog/2018/04/01/从头搭建github博客/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1249,295 +1041,25 @@ Hexo支持Github Flavored Markdown的所有功能
       
         
           
-            <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><pre><code>Nginx是一款轻量级的Web服务器，也是一款轻量级的反向代理服务器
-</code></pre><h2 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h2><ul>
-<li>直接支持Rails和PHP程序</li>
-<li>作为HTTP反向代理服务器</li>
-<li>作为负载均衡服务器</li>
-<li>作为邮件代理服务器</li>
-<li>帮助实现动静分离</li>
-</ul>
-<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><pre><code>高稳定、高性能、资源占用少、功能丰富、模块化结构、支持热部署
-</code></pre><h2 id="安装Nginx"><a href="#安装Nginx" class="headerlink" title="安装Nginx"></a>安装Nginx</h2><blockquote>
-<p>依赖gcc openssl-devel pcre-devel zlib zlib-devel</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc openssl-devel pcre-devel zlib zlib-devel</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>安装</p>
-</blockquote>
-<pre><code>$ ./configure
---prefix=/usr/local/nginx
---withhttp_stub_status_module
+          简介Nginx是一款轻量级的Web服务器，也是一款轻量级的反向代理服务器
+用途
+直接支持Rails和PHP程序
+作为HTTP反向代理服务器
+作为负载均衡服务器
+作为邮件代理服务器
+帮助实现动静分离
 
-$ make
-$ make install
-</code></pre><p><img src="http://oetw0yrii.bkt.clouddn.com/18-3-25/9736175.jpg" alt=""></p>
-<h2 id="常见的Nginx安装配置选项"><a href="#常见的Nginx安装配置选项" class="headerlink" title="常见的Nginx安装配置选项"></a>常见的Nginx安装配置选项</h2><p><img src="http://oetw0yrii.bkt.clouddn.com/18-3-25/45304814.jpg" alt=""><br><img src="http://oetw0yrii.bkt.clouddn.com/18-3-25/30829334.jpg" alt=""><br><img src="http://oetw0yrii.bkt.clouddn.com/18-3-25/7156821.jpg" alt=""><br><img src="http://oetw0yrii.bkt.clouddn.com/18-3-25/61702919.jpg" alt=""><br><img src="http://oetw0yrii.bkt.clouddn.com/18-3-25/72685599.jpg" alt=""></p>
-<h2 id="Nginx基本运行"><a href="#Nginx基本运行" class="headerlink" title="Nginx基本运行"></a>Nginx基本运行</h2><pre><code>// 测试配置文件
-$ sbin/nginx -t
-nginx: the configuration file /usr/local/nginx/conf/nginx.conf syntax is ok
-nginx: configuration file /usr/local/nginx/conf/nginx.conf test is successful
-
-// 启动
-$ sbin/nginx
-
-// 停止
-$ sbin/nginx -s stop
-$ sbin/nginx -s quit
-
-// 重启
-$ sbin/nginx -s reload
-
-// 查看进程
-ps -ef | grep nginx
-</code></pre><h1 id="Nginx的基本配置"><a href="#Nginx的基本配置" class="headerlink" title="Nginx的基本配置"></a>Nginx的基本配置</h1><pre><code>默认启动Nginx的时候，使用的配置文件是conf/nginx.conf文件
-也可以在启动Nginx的时候，通过-c来指定要去读的配置文件
-</code></pre><h2 id="常见的配置文件"><a href="#常见的配置文件" class="headerlink" title="常见的配置文件"></a><center>常见的配置文件</center></h2><table>
-<thead>
-<tr>
-<th>文件名</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>nginx.conf</code></td>
-<td>应用程序的基本配置文件</td>
-</tr>
-<tr>
-<td><code>mime.types</code></td>
-<td>MIME类型关联的扩展文件</td>
-</tr>
-<tr>
-<td><code>fastcgi.conf</code></td>
-<td>与fastcgi相关的配置，与PHP相关</td>
-</tr>
-<tr>
-<td><code>proxy.conf</code></td>
-<td>与proxy相关的配置（反向代理）</td>
-</tr>
-<tr>
-<td><code>sites.conf</code></td>
-<td>配置Nginx提供的网站，包括虚拟主机</td>
-</tr>
-</tbody>
-</table>
-<h2 id="nginx-cong"><a href="#nginx-cong" class="headerlink" title="nginx.cong"></a>nginx.cong</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">user root;</span><br><span class="line">worker_processes 1;</span><br><span class="line"></span><br><span class="line">error_log logs/error.log crit;</span><br><span class="line"></span><br><span class="line">pid         logs/nginx.pid;     # nginx 进程号文件路径</span><br><span class="line"></span><br><span class="line">events &#123;                        # 事件模块</span><br><span class="line">    use epoll;                  # 文件的模型</span><br><span class="line">    worker_connections 24;      # 每个worker的connections</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;                              # web反向代理</span><br><span class="line">    include         mime.type;      # 引入mime.type </span><br><span class="line">    include         proxy.conf;     # 引入proxy.conf</span><br><span class="line">    </span><br><span class="line">    defualt_type application/octet-stream;  # mine.type 的缺省类型</span><br><span class="line">    </span><br><span class="line">    log_format main &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot;&apos;  # 日志格式，远程地址 - 远程用户 时间 等</span><br><span class="line">                    &apos;$status $body_bytes_sent &quot;$http_referer&quot;&apos;</span><br><span class="line">                    &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;</span><br><span class="line">                    </span><br><span class="line">    access_log  logs/access.log main;       # 使用为main的格式</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    upstream test.com &#123;                         # 负载均衡模块</span><br><span class="line">        server 127.0.0.1:8080 weight = 5;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        lisent          80;</span><br><span class="line">        server_name     detiny;</span><br><span class="line">        </span><br><span class="line">        access_log  logs/host.access.log    main;</span><br><span class="line">        </span><br><span class="line">        index       index.html index.htm index.jsp;</span><br><span class="line">        root        /Users/destiny/Download/apache-tomcat-9.0.1/webapps/ROOT/;</span><br><span class="line">        </span><br><span class="line">        location ~* .*\.(jpg|jepg|gif|png|wsf|ico)$ &#123;   # 如果是图片，就去root路径查询</span><br><span class="line">            if(-f $request_filename) &#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        location /         proxy_pass http://destiny.com;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Nginx的进程结构"><a href="#Nginx的进程结构" class="headerlink" title="Nginx的进程结构"></a>Nginx的进程结构</h2><pre><code>启动Nginx的时候，会启动一个Master进程，这个进程不处理客户端的任何请求，主要用来产生worker进程
-而每个worker进程用来处理一个Request
-</code></pre><h2 id="Niginx-模块"><a href="#Niginx-模块" class="headerlink" title="Niginx 模块"></a>Niginx 模块</h2><p>分为：核心模块、时间模块、标准HTTP模块、可选HTTP模块、邮件模块、第三方模块和补丁等。</p>
-<h3 id="基本模块"><a href="#基本模块" class="headerlink" title="基本模块"></a>基本模块</h3><p>Nginx默认的功能模块，它们提供的指令，允许使用定义Nginx基本功能的变量，在编译的时候不能被禁用，包括:</p>
-<ul>
-<li>核心模块：基本功能和指令，如进程管理和安全</li>
-<li>事件模块：在Nginx内配置网络使用的能力</li>
-<li>配置模块：提供包含机制</li>
-</ul>
-<h1 id="常用模块"><a href="#常用模块" class="headerlink" title="常用模块"></a>常用模块</h1><h2 id="Nginx常用的核心模块指令"><a href="#Nginx常用的核心模块指令" class="headerlink" title="Nginx常用的核心模块指令"></a>Nginx常用的核心模块指令</h2><ul>
-<li>error_log</li>
-<li>include</li>
-<li>pid</li>
-<li>user</li>
-<li>worker_cpu_affinity</li>
-<li>worker_processes</li>
-</ul>
-<h3 id="error-log"><a href="#error-log" class="headerlink" title="error_log"></a>error_log</h3><pre><code>语法： error_log file [ debug|info|notice|warn|error|crit ]
-Nginx支持将不同的虚拟主机的日志记录在不同的路径
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    error_log logs/http_error.log error;</span><br><span class="line">    server &#123;</span><br><span class="line">        server_name one;</span><br><span class="line">        access_log logs/one_access.log;</span><br><span class="line">        error_log logs/one_error.log error;</span><br><span class="line">    &#125;</span><br><span class="line">    server &#123;</span><br><span class="line">        server_name two;</span><br><span class="line">        access_log logs/two_access.log;</span><br><span class="line">        error_log logs/two_error.log error;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="include"><a href="#include" class="headerlink" title="include"></a>include</h3><pre><code>从外部引入文件，支持文件通配符
-</code></pre><h3 id="pid"><a href="#pid" class="headerlink" title="pid"></a>pid</h3><pre><code>指定pid文件，可以使用kill命令
-</code></pre><h3 id="user"><a href="#user" class="headerlink" title="user"></a>user</h3><pre><code>为了提高安全性，指定允许操作Nginx的用户
-语法：user user [group]
-</code></pre><h3 id="worker-cpu-affinity"><a href="#worker-cpu-affinity" class="headerlink" title="worker_cpu_affinity"></a>worker_cpu_affinity</h3><pre><code>指定工作进程指定到某个CPU上
-
-// 指定每个进程绑定一个CPU
-worker_processes        4;
-worker_cpu_affinity     0001 0010 0100 1000;
-
-// 指定第一个进程到CPU0/CPU2，第二个进程到CPU1/CPU3
-worker_processes        2;
-worker_cpu_affinity     0101 1010;
-</code></pre><h3 id="worker-processes"><a href="#worker-processes" class="headerlink" title="worker_processes"></a>worker_processes</h3><pre><code>一个工作进程为一个单线程的进程
-如果Nginx工作在一些CPU密集型的环境中，并且你的机器拥有2块以上的CPU，则可以将worker_processes的数目设置为CPU核数。
-如果你的机器运行在需要处理大量静态文件的环境，并且文件的大小总和超出了可用的内存，那么可以增加worker_processes的以便充分利用磁盘带宽。
-</code></pre><h2 id="日志模块"><a href="#日志模块" class="headerlink" title="日志模块"></a>日志模块</h2><pre><code>控制Nginx如何记录请求日志
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">log_format gzip $remote_addr - $remote_user [$time_local] &quot;$request&quot;&apos;  </span><br><span class="line">                &apos;$status $body_bytes_sent &quot;$http_referer&quot;&apos;</span><br><span class="line">                &apos;&quot;$http_user_agent&quot; &quot;$gzip_ratio&quot;&apos;;</span><br><span class="line">                </span><br><span class="line">access_log /spool/logs/nginx-access.log gzip buffer=32k;</span><br></pre></td></tr></table></figure>
-<h3 id="access-log"><a href="#access-log" class="headerlink" title="access_log"></a>access_log</h3><p>语法：<code>access_log path [format [buffer=size | off]]</code></p>
-<p>默认值：access_log log/access.log combined</p>
-<p>使用字段：http、server、location</p>
-<p>注意：</p>
-<ul>
-<li>Nginx指定的用户必须有创建日志的权限</li>
-</ul>
-<h3 id="log-format"><a href="#log-format" class="headerlink" title="log_format"></a>log_format</h3><p>语法：<code>log_format name format [format ...]</code></p>
-<p>默认值：<code>log_format combined &quot;...&quot;</code></p>
-<p>使用字段：http、server</p>
-<table>
-<thead>
-<tr>
-<th>变量名</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>$body_bytes_sent</code></td>
-<td>减去应答头后传送给客户端的字节数</td>
-</tr>
-<tr>
-<td><code>$bytes_sent</code></td>
-<td>传送给客户端的字节数</td>
-</tr>
-<tr>
-<td><code>$connection</code></td>
-<td>连接数</td>
-</tr>
-<tr>
-<td><code>$msec</code></td>
-<td>正在写入日志条目的当前时间</td>
-</tr>
-<tr>
-<td><code>$pipe</code></td>
-<td>如果请求为<code>管道的</code></td>
-</tr>
-<tr>
-<td><code>request_length</code></td>
-<td>请求主体的长度</td>
-</tr>
-<tr>
-<td><code>$request_time</code></td>
-<td>从一个请求发出到Nginx工作的时间</td>
-</tr>
-<tr>
-<td><code>$status</code></td>
-<td>应答的状态</td>
-</tr>
-<tr>
-<td><code>$time_local</code></td>
-<td>写入普通日志格式的当地时间</td>
-</tr>
-</tbody>
-</table>
-<h2 id="事件模块"><a href="#事件模块" class="headerlink" title="事件模块"></a>事件模块</h2><ul>
-<li>use</li>
-<li>connection</li>
-</ul>
-<h3 id="use"><a href="#use" class="headerlink" title="use"></a>use</h3><p>语法：use [ kqueue | rtsig | epoll | /dev/poll | select | poll | eventport]</p>
-<h3 id="connections"><a href="#connections" class="headerlink" title="connections"></a>connections</h3><p>语法：worker_connections</p>
-<pre><code>最大连接数 = worker_processes * worker_connections
-
-// 反向代理环境下
-最大连接数 = worker_processes * worker_connections / 4
-原因：浏览器默认打开两个连接到服务器，Nginx使用来自相同地址池的fds与前后端相连接
-</code></pre><h2 id="HTTP模块基本配置"><a href="#HTTP模块基本配置" class="headerlink" title="HTTP模块基本配置"></a>HTTP模块基本配置</h2><p>Nginx的HTTP配置主要包括三个区块，结构如下<br><img src="http://oetw0yrii.bkt.clouddn.com/18-3-28/28711425.jpg" alt=""></p>
-<h3 id="alias"><a href="#alias" class="headerlink" title="alias"></a>alias</h3><p>语法：<code>alias file-path | directory-path;</code></p>
-<p>使用字段：location</p>
-<blockquote>
-<p>alias是替换路径，而root是追加路径，将location后的路径追到root之后</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">location /i/ &#123;</span><br><span class="line">    alias /spool/w3/images/</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">请求 /i/top.gif 将返回这个文件 &quot;/spool/w3/images/top.gif&quot;。</span><br></pre></td></tr></table></figure>
-<h3 id="error-page"><a href="#error-page" class="headerlink" title="error_page"></a>error_page</h3><p>语法：<code>error_page code [ code ... ] [ = | = answer-code ] uri | @named_location</code></p>
-<p>使用字段：http、server、location、location中的if字段</p>
-<blockquote>
-<p>这个参数可以为错误代码指定相应的错误页面</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">error_page      4040        /404.html;</span><br><span class="line">error_page      502 503 504 /50x.html;</span><br><span class="line">error_page      403         http://example.com/forbidden.html;</span><br><span class="line">error_page      404         = @fetch;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>同样，你也可以将原有响应代码修改为另一个响应代码</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">error_page      404 = 200   /empty.gif;</span><br><span class="line">error_page      404 = 403   /forbindden.gif;</span><br></pre></td></tr></table></figure>
-<h3 id="internal"><a href="#internal" class="headerlink" title="internal"></a>internal</h3><p>语法：<code>internal</code></p>
-<p>使用字段：location</p>
-<p>internal指定某个location只能被内部的请求调用，外部的调用会返回404.</p>
-<h2 id="location区段"><a href="#location区段" class="headerlink" title="location区段"></a>location区段</h2><pre><code>通过指定模式来与客户端请求的URI相匹配
-location [=|~|~*|^~|@] pattern {
-    # ...
-}
-</code></pre><h3 id="没有修饰符，表示必须以指定的模式开始"><a href="#没有修饰符，表示必须以指定的模式开始" class="headerlink" title="没有修饰符，表示必须以指定的模式开始"></a>没有修饰符，表示必须以指定的模式开始</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name destiny.com;</span><br><span class="line">    location /abc &#123;</span><br><span class="line">        # ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以匹配：</p>
-<ul>
-<li><a href="http://destiny.com/abc" target="_blank" rel="noopener">http://destiny.com/abc</a></li>
-<li><a href="http://destiny.com/abc?age=24" target="_blank" rel="noopener">http://destiny.com/abc?age=24</a></li>
-<li><a href="http://destiny.com/abc/" target="_blank" rel="noopener">http://destiny.com/abc/</a></li>
-<li><a href="http://destiny.com/abcde" target="_blank" rel="noopener">http://destiny.com/abcde</a></li>
-</ul>
-<h3 id="，表示必须与指定的模式精准匹配"><a href="#，表示必须与指定的模式精准匹配" class="headerlink" title="=，表示必须与指定的模式精准匹配"></a>=，表示必须与指定的模式精准匹配</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name destiny.com;</span><br><span class="line">    location = /abc &#123;</span><br><span class="line">        # ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以匹配：</p>
-<ul>
-<li><a href="http://destiny.com/abc" target="_blank" rel="noopener">http://destiny.com/abc</a></li>
-<li><a href="http://destiny.com/abc?age=24" target="_blank" rel="noopener">http://destiny.com/abc?age=24</a> (参数不参与匹配)</li>
-</ul>
-<p>不能匹配</p>
-<ul>
-<li><a href="http://destiny.com/abc/" target="_blank" rel="noopener">http://destiny.com/abc/</a></li>
-<li><a href="http://destiny.com/abcde" target="_blank" rel="noopener">http://destiny.com/abcde</a></li>
-</ul>
-<h3 id="，表示指定的正则表达式要区分大小写"><a href="#，表示指定的正则表达式要区分大小写" class="headerlink" title="~，表示指定的正则表达式要区分大小写"></a>~，表示指定的正则表达式要区分大小写</h3><blockquote>
-<p>~表示按照正则表达式的语法与pattern进行匹配</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name destiny.com;</span><br><span class="line">    location ~ ^/abc$ &#123;</span><br><span class="line">        # ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以匹配：</p>
-<ul>
-<li><a href="http://destiny.com/abc" target="_blank" rel="noopener">http://destiny.com/abc</a></li>
-<li><a href="http://destiny.com/abc?age=24" target="_blank" rel="noopener">http://destiny.com/abc?age=24</a> (参数不参与匹配)</li>
-</ul>
-<p>不能匹配</p>
-<ul>
-<li><a href="http://destiny.com/ABC/" target="_blank" rel="noopener">http://destiny.com/ABC/</a></li>
-<li><a href="http://destiny.com/abc/" target="_blank" rel="noopener">http://destiny.com/abc/</a></li>
-<li><a href="http://destiny.com/abcde" target="_blank" rel="noopener">http://destiny.com/abcde</a></li>
-</ul>
-<h3 id="，表示正则表达式不区分大小写"><a href="#，表示正则表达式不区分大小写" class="headerlink" title="~*，表示正则表达式不区分大小写"></a>~*，表示正则表达式不区分大小写</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name destiny.com;</span><br><span class="line">    location ~* ^/abc$ &#123;</span><br><span class="line">        # ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以匹配：</p>
-<ul>
-<li><a href="http://destiny.com/abc" target="_blank" rel="noopener">http://destiny.com/abc</a></li>
-<li><a href="http://destiny.com/abc?age=24" target="_blank" rel="noopener">http://destiny.com/abc?age=24</a> (参数不参与匹配)</li>
-<li><a href="http://destiny.com/ABC/" target="_blank" rel="noopener">http://destiny.com/ABC/</a></li>
-</ul>
-<p>不能匹配</p>
-<ul>
-<li><a href="http://destiny.com/abc/" target="_blank" rel="noopener">http://destiny.com/abc/</a></li>
-<li><a href="http://destiny.com/abcde" target="_blank" rel="noopener">http://destiny.com/abcde</a></li>
-</ul>
-<h3 id="，表示正则表达式不区分大小写-1"><a href="#，表示正则表达式不区分大小写-1" class="headerlink" title="^~，表示正则表达式不区分大小写"></a>^~，表示正则表达式不区分大小写</h3><blockquote>
-<p>类似于无修饰符的行为，也是以指定模式开始，但如果模式匹配，那么久停止搜索其他模式了。</p>
-</blockquote>
-<h3 id="，定义命名location区段，这些区段客户端不能访问，只可以由内部产生的请求来访问"><a href="#，定义命名location区段，这些区段客户端不能访问，只可以由内部产生的请求来访问" class="headerlink" title="@，定义命名location区段，这些区段客户端不能访问，只可以由内部产生的请求来访问"></a>@，定义命名location区段，这些区段客户端不能访问，只可以由内部产生的请求来访问</h3><h3 id="多个location的优先级问题"><a href="#多个location的优先级问题" class="headerlink" title="多个location的优先级问题"></a>多个location的优先级问题</h3><ol>
-<li>带有<code>=</code>的精准匹配</li>
-<li>没有修饰符的精准匹配</li>
-<li>正则表达式按照定义顺序</li>
-<li><code>^~</code>的开头匹配</li>
-<li><code>~</code>或<code>~*</code> 修饰符</li>
-<li>没有修饰符的，如果指定字符串与URI开头匹配</li>
-</ol>
-<h2 id="Http反向代理模块"><a href="#Http反向代理模块" class="headerlink" title="Http反向代理模块"></a>Http反向代理模块</h2><ul>
-<li>Nginx通常被用作后端服务器的反向代理，这样就可以很方便的实现动静分离，以及负载均衡，从而大大提高服务器的处理能力。</li>
-<li>Http Proxy模块，功能很多，最常用的是proxy_pass</li>
-<li>如果要使用proxy_cache的话，需要集成第三方的ngx_cache_purge模块，用来清除指定的URL缓存。</li>
-</ul>
-<h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><blockquote>
-<p>普通的正向代理，为客户端提供代理服务</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">A[客户端]--&gt;|发出请求|B&#123;代理&#125;</span><br><span class="line">B --&gt; |代理访问并返回响应|A</span><br><span class="line">B --&gt; |代理访问|C[服务器A]</span><br><span class="line">B --&gt; |代理访问|D[服务器B]</span><br><span class="line">B --&gt; |代理访问|E[服务器C]</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>反向代理，为服务端提供代理服务</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">A[客户端A]--&gt;|先访问反向代理服务器|D&#123;代理服务器&#125;</span><br><span class="line">B[客户端B]--&gt;|先访问反向代理服务器|D&#123;代理服务器&#125;</span><br><span class="line">C[客户端C]--&gt;|先访问反向代理服务器|D&#123;代理服务器&#125;</span><br><span class="line">D --&gt; |代理客户端访问|E[服务器]</span><br><span class="line">E --&gt; |返回请求|D</span><br></pre></td></tr></table></figure>
-<h3 id="Http代理模块"><a href="#Http代理模块" class="headerlink" title="Http代理模块"></a>Http代理模块</h3><pre><code>这个模块可以转发请求到其他的服务器
-
-location / {
-    proxy_pass          http://localhost:8080;  # 转发指令，把当前的指令转发到指定路径
-    proxy_set_header    X-Real-IP $remote_addr; # 设置http请求头
-}
-</code></pre><h3 id="proxy-buffer-size"><a href="#proxy-buffer-size" class="headerlink" title="proxy_buffer_size"></a>proxy_buffer_size</h3><pre><code>设置从被代理服务器(真实服务器)读取的第一部分应答的缓冲区大小
-</code></pre><p>语法：proxy_buffer_size the_size<br>通常情况下这部分应答中包含一个小的应答头</p>
-<h3 id="proxy-buffering"><a href="#proxy-buffering" class="headerlink" title="proxy_buffering"></a>proxy_buffering</h3><pre><code>为后端服务器启用响应缓冲
-如果启用缓冲，Nginx假设被代理服务器能够非常快的传递响应，并将其放入缓冲区
-如果禁用缓冲，从后端传来的应答将立即被传送到客户端
-</code></pre><p>语法：proxy_buffering on|off</p>
-<h3 id="proxy-pass"><a href="#proxy-pass" class="headerlink" title="proxy_pass"></a>proxy_pass</h3><pre><code>设置被代理服务器的地址和被映射的URL
-地址可以使用主机名或IP+端口号的形式
-</code></pre>
-          
+特点高稳定、高性能、资源占用少、功能丰富、模块化结构、支持热部署
+安装Nginx
+依赖gcc ope
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/blog/2018/04/01/（一）Nginx基本知识/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1659,17 +1181,15 @@ location / {
       
         
           
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
+          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in 
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/blog/2018/04/01/hello-world/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

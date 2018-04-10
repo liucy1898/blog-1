@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>https://destinywang.github.io/blog/2018/04/01/%E4%BB%8E%E5%A4%B4%E6%90%AD%E5%BB%BAgithub%E5%8D%9A%E5%AE%A2/</loc>
+        <lastmod>2018-04-10T02:58:37.397Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://destinywang.github.io/blog/2018/04/09/ActiveMQ-1-%E2%80%94%E2%80%94%E6%A6%82%E8%A7%88-%E5%85%A5%E9%97%A8/</loc>
         <lastmod>2018-04-09T15:55:47.152Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -33,14 +41,6 @@
     <url>
         <loc>https://destinywang.github.io/blog/2018/04/01/%EF%BC%88%E4%B8%80%EF%BC%89Nginx%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86/</loc>
         <lastmod>2018-04-03T15:27:16.272Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://destinywang.github.io/blog/2018/04/01/%E4%BB%8E%E5%A4%B4%E6%90%AD%E5%BB%BAgithub%E5%8D%9A%E5%AE%A2/</loc>
-        <lastmod>2018-04-02T14:10:21.990Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
