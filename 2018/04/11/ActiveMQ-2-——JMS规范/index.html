@@ -99,17 +99,18 @@
 
 
 
-  <meta name="description" content="About Me王康email1destinywk@163.com">
-<meta property="og:type" content="website">
-<meta property="og:title" content="about">
-<meta property="og:url" content="https://destinywang.github.io/blog/about/index.html">
+  <meta name="description" content="定义JMS(Java Message Service)，Java消息服务 JMS定义了Java访问消息中间件的接口，并没有给予实现。 实现JMS接口的消息中间件成为JMSProvider，如ActiveMQ。 JMS规范 JMS message：JMS的消息，由三部分组成：消息头、消息属性、消息体 JMS Producer：消息生产者，创建和发送消息 JMS Consumer：消息消费者，接受和处">
+<meta name="keywords" content="ActiveMQ,JMS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ActiveMQ(2)——JMS规范">
+<meta property="og:url" content="https://destinywang.github.io/blog/2018/04/11/ActiveMQ-2-——JMS规范/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="About Me王康email1destinywk@163.com">
+<meta property="og:description" content="定义JMS(Java Message Service)，Java消息服务 JMS定义了Java访问消息中间件的接口，并没有给予实现。 实现JMS接口的消息中间件成为JMSProvider，如ActiveMQ。 JMS规范 JMS message：JMS的消息，由三部分组成：消息头、消息属性、消息体 JMS Producer：消息生产者，创建和发送消息 JMS Consumer：消息消费者，接受和处">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-01T05:40:51.735Z">
+<meta property="og:updated_time" content="2018-04-10T16:10:37.522Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="about">
-<meta name="twitter:description" content="About Me王康email1destinywk@163.com">
+<meta name="twitter:title" content="ActiveMQ(2)——JMS规范">
+<meta name="twitter:description" content="定义JMS(Java Message Service)，Java消息服务 JMS定义了Java访问消息中间件的接口，并没有给予实现。 实现JMS接口的消息中间件成为JMSProvider，如ActiveMQ。 JMS规范 JMS message：JMS的消息，由三部分组成：消息头、消息属性、消息体 JMS Producer：消息生产者，创建和发送消息 JMS Consumer：消息消费者，接受和处">
 
 
 
@@ -118,7 +119,7 @@
 
 
 
-  <link rel="canonical" href="https://destinywang.github.io/blog/about/"/>
+  <link rel="canonical" href="https://destinywang.github.io/blog/2018/04/11/ActiveMQ-2-——JMS规范/"/>
 
 
 
@@ -128,7 +129,7 @@
   };
 </script>
 
-  <title>about | Hexo</title>
+  <title>ActiveMQ(2)——JMS规范 | Hexo</title>
   
 
 
@@ -343,80 +344,237 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://destinywang.github.io/blog/blog/2018/04/11/ActiveMQ-2-——JMS规范/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="destiny">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/blog-logo.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-<h1 class="post-title" itemprop="name headline">about</h1>
-
-<div class="post-meta">
-  
-  
-
-
-
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <h1 id="About-Me"><a href="#About-Me" class="headerlink" title="About Me"></a>About Me</h1><h2 id="王康"><a href="#王康" class="headerlink" title="王康"></a>王康</h2><h2 id="email"><a href="#email" class="headerlink" title="email"></a>email</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">destinywk@163.com</span><br></pre></td></tr></table></figure>
+          <h1 class="post-title" itemprop="name headline">ActiveMQ(2)——JMS规范</h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-11T00:09:30+08:00">2018-04-11</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/blog/categories/ActiveMQ/" itemprop="url" rel="index"><span itemprop="name">ActiveMQ</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><pre><code>JMS(Java Message Service)，Java消息服务
+JMS定义了Java访问消息中间件的接口，并没有给予实现。
+实现JMS接口的消息中间件成为JMSProvider，如ActiveMQ。
+</code></pre><h1 id="JMS规范"><a href="#JMS规范" class="headerlink" title="JMS规范"></a>JMS规范</h1><ul>
+<li>JMS message：JMS的消息，由三部分组成：<code>消息头</code>、<code>消息属性</code>、<code>消息体</code></li>
+<li>JMS Producer：消息生产者，创建和发送消息</li>
+<li>JMS Consumer：消息消费者，接受和处理消息，消息的消费可以采用以下两种方式之一：<ul>
+<li>同步消费：通过调用消费者的<code>receive</code>方法从目的地中显示提取消息，<code>receive</code>方法可以一直阻塞到消息到达</li>
+<li>异步消费：客户可以为消费者注册一个<code>Listener</code>，以定义在消息到达时所采取的动作。</li>
+</ul>
+</li>
+<li>JMS domains：消息传递域，JMS定义了两周消息传递域：<ul>
+<li>点对点：每个消息只能有一个消费者，生产者和消费者没有时间上的相关性，无论消费者在生产者发送消息的时候是否处于运行状态，都可以提取消息；</li>
+<li>发布订阅：每个消息可以被多个消费者消费，生产者和消费者有时间上的相关性，订阅一个主题的消费者只能消费它订阅之后发布的消息</li>
+</ul>
+</li>
+<li>ConnectionFactory：连接工厂，用来创建连接对象，已连接到JMS的Provider</li>
+<li>JMS Connection：封装了客户与JMS提供者之间的一个虚拟连接</li>
+<li><p>JMS Session：是生产和消费消息的一个单线程上下文</p>
+<p>  会话用于创建消息生产者、消费者和消息等。会话提供了一个事务性的上下文，在这个上下文中，一组发送和接受被组合到了一个原子操作中。</p>
+</li>
+<li><p>Destination：消息发送到的目的地。</p>
+</li>
+<li>Acknowledge：签收。消费者收到消息后，需要告诉JMS Provider消息已被消费。</li>
+<li>Transaction：事务</li>
+<li>JMS Client：用来收发消息的Java应用</li>
+</ul>
+<h1 id="JMS-Message结构"><a href="#JMS-Message结构" class="headerlink" title="JMS Message结构"></a>JMS Message结构</h1><h2 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h2><ul>
+<li>消息头</li>
+<li>属性</li>
+<li>消息体</li>
+</ul>
+<h2 id="消息头"><a href="#消息头" class="headerlink" title="消息头"></a>消息头</h2><pre><code>消息头包含识别信息和路由信息
+</code></pre><ul>
+<li>JMSDestination：消息发送的目的地，主要是指<code>Queue</code>或<code>Topic</code>。</li>
+<li>JMSDeliveryMode：传送模式，<code>持久</code>或<code>非持久</code>。<ul>
+<li>持久消息应该<code>会且只会被发送一次</code>，JMS提供者出现故障，消息也不会丢失，会在服务器恢复之后再次传递。</li>
+<li>非持久的消息<code>最多会被发送一次</code>，这意味着服务器出现故障，该消息会永远丢失。</li>
+</ul>
+</li>
+<li>JMSExpiration：消息过期时间，为0表示永不过期。</li>
+<li>JMSPriority：消息优先级，数字越大，级别越高，加急消息要先于普通消息。</li>
+<li>JMSMessageId：唯一标识。</li>
+<li>JMSCorrelationID：用来连接到另一个消息，典型应用是在回复消息中关联到原消息。</li>
+<li>JMSReplyTo：提供本消息回复消息的目的地址，由开发者提供</li>
+<li>JMSType：消息的类型识别符</li>
+<li>JMSRedelivered：如果一个客户端收到了一个设置了<code>JMSRedelivered</code>属性的消息，则表示客户端可能收到过该消息，但没有签收。</li>
+</ul>
+<h2 id="消息体"><a href="#消息体" class="headerlink" title="消息体"></a>消息体</h2><ul>
+<li>TextMessage：文本消息</li>
+<li>MapMessage：映射消息</li>
+<li>BytesMessage：二进制消息</li>
+<li>StreamMessage：流式消息</li>
+<li>ObjectMessage：对象消息</li>
+</ul>
+<h2 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h2><h3 id="应用程序设置和添加的属性"><a href="#应用程序设置和添加的属性" class="headerlink" title="应用程序设置和添加的属性"></a>应用程序设置和添加的属性</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">message.setStringProperty(<span class="string">"username"</span>, username);</span><br></pre></td></tr></table></figure>
+<h3 id="JMS定义的属性"><a href="#JMS定义的属性" class="headerlink" title="JMS定义的属性"></a>JMS定义的属性</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 返回所有连接支持的JMSX属性的名字</span></span><br><span class="line">connection.getMetaData().getJMSXPropertyNames();</span><br></pre></td></tr></table></figure>
+<h3 id="JMS供应商特定的属性"><a href="#JMS供应商特定的属性" class="headerlink" title="JMS供应商特定的属性"></a>JMS供应商特定的属性</h3><h2 id="JMS定义的属性-1"><a href="#JMS定义的属性-1" class="headerlink" title="JMS定义的属性"></a>JMS定义的属性</h2><ul>
+<li>JMSXUserID：发送消息的用户标识</li>
+<li>JMSXAppID：发送消息的应用标识</li>
+<li>JMSXDeliveryCount：转发消息重试次数</li>
+<li>JMSXGroupID：消息所在的消息组的标识</li>
+<li>JMSXGroupSeq：组内消息的序号</li>
+</ul>
+
       
     </div>
+
     
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/ActiveMQ/" rel="tag"># ActiveMQ</a>
+          
+            <a href="/blog/tags/JMS/" rel="tag"># JMS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2018/04/09/ActiveMQ-1-——概览-入门/" rel="next" title="ActiveMQ(1)——概览&入门">
+                <i class="fa fa-chevron-left"></i> ActiveMQ(1)——概览&入门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
 
 
 
-    
-    
-    
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -564,7 +722,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#About-Me"><span class="nav-number">1.</span> <span class="nav-text">About Me</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#王康"><span class="nav-number">1.1.</span> <span class="nav-text">王康</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#email"><span class="nav-number">1.2.</span> <span class="nav-text">email</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#定义"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JMS规范"><span class="nav-number">2.</span> <span class="nav-text">JMS规范</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JMS-Message结构"><span class="nav-number">3.</span> <span class="nav-text">JMS Message结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#组成"><span class="nav-number">3.1.</span> <span class="nav-text">组成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息头"><span class="nav-number">3.2.</span> <span class="nav-text">消息头</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息体"><span class="nav-number">3.3.</span> <span class="nav-text">消息体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#属性"><span class="nav-number">3.4.</span> <span class="nav-text">属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#应用程序设置和添加的属性"><span class="nav-number">3.4.1.</span> <span class="nav-text">应用程序设置和添加的属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JMS定义的属性"><span class="nav-number">3.4.2.</span> <span class="nav-text">JMS定义的属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JMS供应商特定的属性"><span class="nav-number">3.4.3.</span> <span class="nav-text">JMS供应商特定的属性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JMS定义的属性-1"><span class="nav-number">3.5.</span> <span class="nav-text">JMS定义的属性</span></a></li></ol></li></ol></div>
             
 
           </div>
