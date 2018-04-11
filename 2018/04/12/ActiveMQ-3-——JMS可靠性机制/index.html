@@ -99,13 +99,17 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://destinywang.github.io/blog/archives/2018/index.html">
+  <meta name="description" content="消息接受确认JMS消息只有在被确认之后，才认为已经被成功地消费了。消费的成功通常包含三个阶段：客户端接受消息、客户端处理消息和消息被确认。在事务性会话中，当一个事务被提交的时候，确认自动发生。在非事务性会话中，消息何时被确认取决于创建会话时的应答模式。该参数有三个可选方案： Session.AUTO_ACKNOWLEDGE当客户成功的从receive()方法返回的时候，或者从MessageList">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ActiveMQ(3)——JMS可靠性机制">
+<meta property="og:url" content="https://destinywang.github.io/blog/2018/04/12/ActiveMQ-3-——JMS可靠性机制/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="消息接受确认JMS消息只有在被确认之后，才认为已经被成功地消费了。消费的成功通常包含三个阶段：客户端接受消息、客户端处理消息和消息被确认。在事务性会话中，当一个事务被提交的时候，确认自动发生。在非事务性会话中，消息何时被确认取决于创建会话时的应答模式。该参数有三个可选方案： Session.AUTO_ACKNOWLEDGE当客户成功的从receive()方法返回的时候，或者从MessageList">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-11T16:20:59.304Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="ActiveMQ(3)——JMS可靠性机制">
+<meta name="twitter:description" content="消息接受确认JMS消息只有在被确认之后，才认为已经被成功地消费了。消费的成功通常包含三个阶段：客户端接受消息、客户端处理消息和消息被确认。在事务性会话中，当一个事务被提交的时候，确认自动发生。在非事务性会话中，消息何时被确认取决于创建会话时的应答模式。该参数有三个可选方案： Session.AUTO_ACKNOWLEDGE当客户成功的从receive()方法返回的时候，或者从MessageList">
 
 
 
@@ -114,7 +118,7 @@
 
 
 
-  <link rel="canonical" href="https://destinywang.github.io/blog/archives/2018/"/>
+  <link rel="canonical" href="https://destinywang.github.io/blog/2018/04/12/ActiveMQ-3-——JMS可靠性机制/"/>
 
 
 
@@ -124,7 +128,7 @@
   };
 </script>
 
-  <title>归档 | Hexo</title>
+  <title>ActiveMQ(3)——JMS可靠性机制 | Hexo</title>
   
 
 
@@ -171,7 +175,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
     <a href="https://github.com/destinywang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
 
@@ -339,375 +343,187 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://destinywang.github.io/blog/blog/2018/04/12/ActiveMQ-3-——JMS可靠性机制/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="destiny">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/blog-logo.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">ActiveMQ(3)——JMS可靠性机制</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-12T00:20:25+08:00">2018-04-12</time>
+            
+
+            
+            
+
+            
+          </span>
+
           
-        
-        共计 8 篇文章。 
-        我会做的更好。
-      </span>
-      
 
-      
-
-        
-        
-        
-
-        
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2018">2018</h1>
-          </div>
-        
-        
+            
+          
 
-        
+          
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/blog/2018/04/12/ActiveMQ-3-——JMS可靠性机制/" itemprop="url">
-              
-                <span itemprop="name">ActiveMQ(3)——JMS可靠性机制</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-12T00:20:25+08:00"
-              content="2018-04-12" >
-          04-12
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+        </div>
+      </header>
+    
 
-
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/blog/2018/04/11/ActiveMQ-2-——JMS规范/" itemprop="url">
-              
-                <span itemprop="name">ActiveMQ(2)——JMS规范</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-11T00:09:30+08:00"
-              content="2018-04-11" >
-          04-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/blog/2018/04/09/ActiveMQ-1-——概览-入门/" itemprop="url">
-              
-                <span itemprop="name">ActiveMQ(1)——概览&入门</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-09T23:54:59+08:00"
-              content="2018-04-09" >
-          04-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <h1 id="消息接受确认"><a href="#消息接受确认" class="headerlink" title="消息接受确认"></a>消息接受确认</h1><p>JMS消息只有在被确认之后，才认为已经被成功地消费了。<br>消费的成功通常包含三个阶段：客户端接受消息、客户端处理消息和消息被确认。<br>在事务性会话中，当一个事务被提交的时候，确认自动发生。在非事务性会话中，消息何时被确认取决于创建会话时的应答模式。该参数有三个可选方案：</p>
+<h2 id="Session-AUTO-ACKNOWLEDGE"><a href="#Session-AUTO-ACKNOWLEDGE" class="headerlink" title="Session.AUTO_ACKNOWLEDGE"></a><code>Session.AUTO_ACKNOWLEDGE</code></h2><p>当客户成功的从<code>receive()</code>方法返回的时候，或者从<code>MessageListener.onMessage()</code>方法成功返回的时候，会话自动确认客户端收到的消息。</p>
+<h2 id="Session-CLIENT-ACKNOWLEDGE"><a href="#Session-CLIENT-ACKNOWLEDGE" class="headerlink" title="Session.CLIENT_ACKNOWLEDGE"></a><code>Session.CLIENT_ACKNOWLEDGE</code></h2><p>客户端通过调用消息的<code>acknowledge()</code>方法确认消息。在这种模式中，确认是在会话层上进行，确认一个被消费的消息将自动确认所有已被会话消费的消息。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Session session = connection.createSession(<span class="keyword">false</span>, Session.CLIENT_ACKNOWLEDGE);</span><br></pre></td></tr></table></figure>
+<h2 id="Session-DUPS-ACKNOWLEDGE"><a href="#Session-DUPS-ACKNOWLEDGE" class="headerlink" title="Session.DUPS_ACKNOWLEDGE"></a><code>Session.DUPS_ACKNOWLEDGE</code></h2><p>只是会话迟钝的确认消息的提交。如果JMS Provider失败，那么可能会导致一些重复的消息。如果是重复的消息，那么JMS Provider必须把消息头的JMSRedelivered字段设置为true</p>
+<h1 id="消息的持久性，JMS支持两种消息提交模式"><a href="#消息的持久性，JMS支持两种消息提交模式" class="headerlink" title="消息的持久性，JMS支持两种消息提交模式"></a>消息的持久性，JMS支持两种消息提交模式</h1><h2 id="PERSISTENT"><a href="#PERSISTENT" class="headerlink" title="PERSISTENT"></a>PERSISTENT</h2><p>JMS Provider永久保存消息，以保证消息不会因为JMS Provider的失败而丢失。</p>
+<h2 id="NON-PERSISTENT"><a href="#NON-PERSISTENT" class="headerlink" title="NON_PERSISTENT"></a>NON_PERSISTENT</h2><p>不要求JMS Provider持久保存消息</p>
+<h1 id="消息的临时目的地"><a href="#消息的临时目的地" class="headerlink" title="消息的临时目的地"></a>消息的临时目的地</h1><p>可以通过Session的<code>createTemporaryQueue()</code>和<code>createTemporaryTopic()</code>方法来创建临时目的地。他们的存在时间只限于创建他们的连接所保持的时间，只有创建该临时目的地的连接上的消息消费者才能够从临时目的地中提取消息。</p>
+<h1 id="本地事务"><a href="#本地事务" class="headerlink" title="本地事务"></a>本地事务</h1><p>在一个JMS客户端，可以使用本地事务来组合消息的发送和签收。Session接口提供了<code>commit()</code>和<code>rollback()</code>方法。</p>
+<ul>
+<li>事务提交意味着生产的所有消息被发送，消费的所有消息被确认。</li>
+<li>事务回滚意味着生产的所有消息被销毁，消费的所有消息被恢复并重新提交，除非他们已过期。</li>
+</ul>
+<h1 id="PTP模型"><a href="#PTP模型" class="headerlink" title="PTP模型"></a>PTP模型</h1><pre><code>该模型定义了客户端如何向队列发送消息，从队列接受消息。
+</code></pre><p>PTP模型是基于队列的，生产者发消息到队列，消费者从队列接受消息，队列使得消息的异步传输成为可能。</p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ol>
+<li>Session在关闭时，如果有消息已经被接受，但还没有确认，那么当消费者下次连接到相同的队列时，这些消息还会被再次接受。</li>
+<li>如果用户在<code>receive()</code>方法中设定了消息选择条件，那么不符合条件的消息会留在队列中。</li>
+<li>队列可以长久地保存消息直到消费者收到消息，消费者不需要因为担心消息丢失而时刻与队列保持激活的连接状态。</li>
+</ol>
+<h1 id="Pub-Sub模型"><a href="#Pub-Sub模型" class="headerlink" title="Pub/Sub模型"></a>Pub/Sub模型</h1><pre><code>该模型定义了如何向一个内容节点发布和订阅消息。
+</code></pre><p>主题可以被认为是消息的传输中介，发布者发布消息到主题，订阅者从主题订阅消息，二者相互独立，不需要接触。</p>
+<h2 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h2><ol>
+<li>消息订阅分为非持久订阅和持久订阅<ol>
+<li>非持久订阅时，只有当客户端处于激活状态才能收到某个主题的消息；离线时发布到主题的消息将会丢失。</li>
+<li>持久订阅时，客户端向JMS Provider注册一个自己身份的ID，当客户端处于离线状态时，Provider会为这个ID保存所有发送到主题的消息。</li>
+</ol>
+</li>
+<li>如果用户在<code>receive()</code>方法中设定了消息选择条件，那么不符合条件的消息不会被接收。</li>
+<li>非持久订阅状态下，不能恢复或重新派送一个未签收的消息。</li>
+</ol>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/blog/2018/04/08/盘点实际项目中常用的加密算法及使用场景/" itemprop="url">
-              
-                <span itemprop="name">盘点实际项目中常用的加密算法及使用场景</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-08T22:17:17+08:00"
-              content="2018-04-08" >
-          04-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/blog/2018/04/03/（二）Nginx实现动静分离/" itemprop="url">
-              
-                <span itemprop="name">（二）Nginx实现动静分离</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-03T23:16:48+08:00"
-              content="2018-04-03" >
-          04-03
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/blog/2018/04/01/从头搭建github博客/" itemprop="url">
-              
-                <span itemprop="name">从头搭建github博客</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-01T22:11:46+08:00"
-              content="2018-04-01" >
-          04-01
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/blog/2018/04/01/（一）Nginx基本知识/" itemprop="url">
-              
-                <span itemprop="name">（一）Nginx基本知识</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-01T15:06:23+08:00"
-              content="2018-04-01" >
-          04-01
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/blog/2018/04/01/hello-world/" itemprop="url">
-              
-                <span itemprop="name">Hello World</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-01T02:20:50+08:00"
-              content="2018-04-01" >
-          04-01
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2018/04/11/ActiveMQ-2-——JMS规范/" rel="next" title="ActiveMQ(2)——JMS规范">
+                <i class="fa fa-chevron-left"></i> ActiveMQ(2)——JMS规范
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -728,8 +544,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -827,6 +652,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#消息接受确认"><span class="nav-number">1.</span> <span class="nav-text">消息接受确认</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Session-AUTO-ACKNOWLEDGE"><span class="nav-number">1.1.</span> <span class="nav-text">Session.AUTO_ACKNOWLEDGE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Session-CLIENT-ACKNOWLEDGE"><span class="nav-number">1.2.</span> <span class="nav-text">Session.CLIENT_ACKNOWLEDGE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Session-DUPS-ACKNOWLEDGE"><span class="nav-number">1.3.</span> <span class="nav-text">Session.DUPS_ACKNOWLEDGE</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#消息的持久性，JMS支持两种消息提交模式"><span class="nav-number">2.</span> <span class="nav-text">消息的持久性，JMS支持两种消息提交模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PERSISTENT"><span class="nav-number">2.1.</span> <span class="nav-text">PERSISTENT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NON-PERSISTENT"><span class="nav-number">2.2.</span> <span class="nav-text">NON_PERSISTENT</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#消息的临时目的地"><span class="nav-number">3.</span> <span class="nav-text">消息的临时目的地</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本地事务"><span class="nav-number">4.</span> <span class="nav-text">本地事务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PTP模型"><span class="nav-number">5.</span> <span class="nav-text">PTP模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#特点"><span class="nav-number">5.1.</span> <span class="nav-text">特点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pub-Sub模型"><span class="nav-number">6.</span> <span class="nav-text">Pub/Sub模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#特点-1"><span class="nav-number">6.1.</span> <span class="nav-text">特点</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -967,6 +808,10 @@
 
 
   
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=6.1.0"></script>
+
+
 
   
 
