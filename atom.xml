@@ -6,7 +6,7 @@
   <link href="/blog/atom.xml" rel="self"/>
   
   <link href="https://destinywang.github.io/blog/"/>
-  <updated>2018-04-11T16:20:59.304Z</updated>
+  <updated>2018-04-11T16:23:25.354Z</updated>
   <id>https://destinywang.github.io/blog/</id>
   
   <author>
@@ -17,11 +17,42 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>ActiveMQ(4)——Broker的启动方式</title>
+    <link href="https://destinywang.github.io/blog/2018/04/12/ActiveMQ-4-%E2%80%94%E2%80%94Broker%E7%9A%84%E5%90%AF%E5%8A%A8%E6%96%B9%E5%BC%8F/"/>
+    <id>https://destinywang.github.io/blog/2018/04/12/ActiveMQ-4-——Broker的启动方式/</id>
+    <published>2018-04-11T16:22:37.000Z</published>
+    <updated>2018-04-11T16:23:25.354Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li>Broker：相当于一个ActiveMQ服务器实例。</li><li>命令行启动参数示例<ul><li><code>activemq start</code>：默认使用<code>acitvemq.xml来启动</code></li><li><code>activemq start xbean:file:../conf/activemq.xml</code>：使用指定的配置文件来启动。</li></ul></li><li>用ActiveMQ来构建Java应用<br>用ActiveMQ Broker作为独立的消息服务器来构建JAVA应用。ActiveMQ也支持在VM中通信基于嵌入式的Broker，能够无缝集成其他Java应用。</li></ul><h1 id="嵌入式Broker"><a href="#嵌入式Broker" class="headerlink" title="嵌入式Broker"></a>嵌入式Broker</h1><h2 id="BrokerService启动Broker"><a href="#BrokerService启动Broker" class="headerlink" title="BrokerService启动Broker"></a>BrokerService启动Broker</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="comment">// 开启ActiveMQ Broker</span></span><br><span class="line">    BrokerService brokerService = <span class="keyword">new</span> BrokerService();</span><br><span class="line">    brokerService.setUseJmx(<span class="keyword">true</span>);</span><br><span class="line">    brokerService.addConnector(<span class="string">"tcp://localhost:61616"</span>);</span><br><span class="line">    brokerService.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-11/6804604.jpg" alt=""></p><h2 id="BrokerFactory启动Broker"><a href="#BrokerFactory启动Broker" class="headerlink" title="BrokerFactory启动Broker"></a>BrokerFactory启动Broker</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="comment">// 开启ActiveMQ Broker</span></span><br><span class="line">    String uri = <span class="string">"properties:broker.properties"</span>;</span><br><span class="line">    BrokerService brokerService = BrokerFactory.createBroker(<span class="keyword">new</span> URI(uri));</span><br><span class="line">    brokerService.addConnector(<span class="string">"tcp://localhost:61616"</span>);</span><br><span class="line">    brokerService.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>配置文件<code>broker.properties</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useJmx=true</span><br><span class="line">persistent=false</span><br><span class="line">brokerName=Cheese</span><br></pre></td></tr></table></figure></p><p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-11/11567085.jpg" alt=""></p><h1 id="利用Spring集成Broker"><a href="#利用Spring集成Broker" class="headerlink" title="利用Spring集成Broker"></a>利用Spring集成Broker</h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"broker"</span> <span class="attr">class</span>=<span class="string">"org.apache.activemq.broker.BrokerService"</span> <span class="attr">init-method</span>=<span class="string">"start"</span> <span class="attr">destroy-method</span>=<span class="string">"stop"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"brokerName"</span> <span class="attr">value</span>=<span class="string">"myBroker"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"persistent"</span> <span class="attr">value</span>=<span class="string">"false"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"transportConnectorURIs"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">value</span>&gt;</span>tcp://localhost:61616<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure><p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-11/54820003.jpg" alt=""></p><h1 id="启动多个Broker"><a href="#启动多个Broker" class="headerlink" title="启动多个Broker"></a>启动多个Broker</h1><p>如果需要启动多个Broker，那么需要为每个Broker设置一个名字<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ul&gt;
+&lt;li&gt;Broker：相当于一个ActiveMQ服务器实例。&lt;/li&gt;
+&lt;li&gt;命令行启动参数示例&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;activemq start&lt;/code&gt;：默认使用&lt;code&gt;acitvemq.xml来启动&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;a
+      
+    
+    </summary>
+    
+      <category term="ActiveMQ" scheme="https://destinywang.github.io/blog/categories/ActiveMQ/"/>
+    
+    
+      <category term="ActiveMQ" scheme="https://destinywang.github.io/blog/tags/ActiveMQ/"/>
+    
+      <category term="JMS" scheme="https://destinywang.github.io/blog/tags/JMS/"/>
+    
+  </entry>
+  
+  <entry>
     <title>ActiveMQ(3)——JMS可靠性机制</title>
     <link href="https://destinywang.github.io/blog/2018/04/12/ActiveMQ-3-%E2%80%94%E2%80%94JMS%E5%8F%AF%E9%9D%A0%E6%80%A7%E6%9C%BA%E5%88%B6/"/>
     <id>https://destinywang.github.io/blog/2018/04/12/ActiveMQ-3-——JMS可靠性机制/</id>
     <published>2018-04-11T16:20:25.000Z</published>
-    <updated>2018-04-11T16:20:59.304Z</updated>
+    <updated>2018-04-11T16:24:44.984Z</updated>
     
     <content type="html"><![CDATA[<h1 id="消息接受确认"><a href="#消息接受确认" class="headerlink" title="消息接受确认"></a>消息接受确认</h1><p>JMS消息只有在被确认之后，才认为已经被成功地消费了。<br>消费的成功通常包含三个阶段：客户端接受消息、客户端处理消息和消息被确认。<br>在事务性会话中，当一个事务被提交的时候，确认自动发生。在非事务性会话中，消息何时被确认取决于创建会话时的应答模式。该参数有三个可选方案：</p><h2 id="Session-AUTO-ACKNOWLEDGE"><a href="#Session-AUTO-ACKNOWLEDGE" class="headerlink" title="Session.AUTO_ACKNOWLEDGE"></a><code>Session.AUTO_ACKNOWLEDGE</code></h2><p>当客户成功的从<code>receive()</code>方法返回的时候，或者从<code>MessageListener.onMessage()</code>方法成功返回的时候，会话自动确认客户端收到的消息。</p><h2 id="Session-CLIENT-ACKNOWLEDGE"><a href="#Session-CLIENT-ACKNOWLEDGE" class="headerlink" title="Session.CLIENT_ACKNOWLEDGE"></a><code>Session.CLIENT_ACKNOWLEDGE</code></h2><p>客户端通过调用消息的<code>acknowledge()</code>方法确认消息。在这种模式中，确认是在会话层上进行，确认一个被消费的消息将自动确认所有已被会话消费的消息。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Session session = connection.createSession(<span class="keyword">false</span>, Session.CLIENT_ACKNOWLEDGE);</span><br></pre></td></tr></table></figure><h2 id="Session-DUPS-ACKNOWLEDGE"><a href="#Session-DUPS-ACKNOWLEDGE" class="headerlink" title="Session.DUPS_ACKNOWLEDGE"></a><code>Session.DUPS_ACKNOWLEDGE</code></h2><p>只是会话迟钝的确认消息的提交。如果JMS Provider失败，那么可能会导致一些重复的消息。如果是重复的消息，那么JMS Provider必须把消息头的JMSRedelivered字段设置为true</p><h1 id="消息的持久性，JMS支持两种消息提交模式"><a href="#消息的持久性，JMS支持两种消息提交模式" class="headerlink" title="消息的持久性，JMS支持两种消息提交模式"></a>消息的持久性，JMS支持两种消息提交模式</h1><h2 id="PERSISTENT"><a href="#PERSISTENT" class="headerlink" title="PERSISTENT"></a>PERSISTENT</h2><p>JMS Provider永久保存消息，以保证消息不会因为JMS Provider的失败而丢失。</p><h2 id="NON-PERSISTENT"><a href="#NON-PERSISTENT" class="headerlink" title="NON_PERSISTENT"></a>NON_PERSISTENT</h2><p>不要求JMS Provider持久保存消息</p><h1 id="消息的临时目的地"><a href="#消息的临时目的地" class="headerlink" title="消息的临时目的地"></a>消息的临时目的地</h1><p>可以通过Session的<code>createTemporaryQueue()</code>和<code>createTemporaryTopic()</code>方法来创建临时目的地。他们的存在时间只限于创建他们的连接所保持的时间，只有创建该临时目的地的连接上的消息消费者才能够从临时目的地中提取消息。</p><h1 id="本地事务"><a href="#本地事务" class="headerlink" title="本地事务"></a>本地事务</h1><p>在一个JMS客户端，可以使用本地事务来组合消息的发送和签收。Session接口提供了<code>commit()</code>和<code>rollback()</code>方法。</p><ul><li>事务提交意味着生产的所有消息被发送，消费的所有消息被确认。</li><li>事务回滚意味着生产的所有消息被销毁，消费的所有消息被恢复并重新提交，除非他们已过期。</li></ul><h1 id="PTP模型"><a href="#PTP模型" class="headerlink" title="PTP模型"></a>PTP模型</h1><pre><code>该模型定义了客户端如何向队列发送消息，从队列接受消息。</code></pre><p>PTP模型是基于队列的，生产者发消息到队列，消费者从队列接受消息，队列使得消息的异步传输成为可能。</p><h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ol><li>Session在关闭时，如果有消息已经被接受，但还没有确认，那么当消费者下次连接到相同的队列时，这些消息还会被再次接受。</li><li>如果用户在<code>receive()</code>方法中设定了消息选择条件，那么不符合条件的消息会留在队列中。</li><li>队列可以长久地保存消息直到消费者收到消息，消费者不需要因为担心消息丢失而时刻与队列保持激活的连接状态。</li></ol><h1 id="Pub-Sub模型"><a href="#Pub-Sub模型" class="headerlink" title="Pub/Sub模型"></a>Pub/Sub模型</h1><pre><code>该模型定义了如何向一个内容节点发布和订阅消息。</code></pre><p>主题可以被认为是消息的传输中介，发布者发布消息到主题，订阅者从主题订阅消息，二者相互独立，不需要接触。</p><h2 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h2><ol><li>消息订阅分为非持久订阅和持久订阅<ol><li>非持久订阅时，只有当客户端处于激活状态才能收到某个主题的消息；离线时发布到主题的消息将会丢失。</li><li>持久订阅时，客户端向JMS Provider注册一个自己身份的ID，当客户端处于离线状态时，Provider会为这个ID保存所有发送到主题的消息。</li></ol></li><li>如果用户在<code>receive()</code>方法中设定了消息选择条件，那么不符合条件的消息不会被接收。</li><li>非持久订阅状态下，不能恢复或重新派送一个未签收的消息。</li></ol>]]></content>
     
@@ -34,6 +65,12 @@
     
     </summary>
     
+      <category term="ActiveMQ" scheme="https://destinywang.github.io/blog/categories/ActiveMQ/"/>
+    
+    
+      <category term="ActiveMQ" scheme="https://destinywang.github.io/blog/tags/ActiveMQ/"/>
+    
+      <category term="JMS" scheme="https://destinywang.github.io/blog/tags/JMS/"/>
     
   </entry>
   
