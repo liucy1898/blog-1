@@ -7,6 +7,22 @@
     </url>
 
     <url>
+        <loc>https://destinywang.github.io/blog/2018/04/01/%E4%BB%8E%E5%A4%B4%E6%90%AD%E5%BB%BAgithub%E5%8D%9A%E5%AE%A2/</loc>
+        <lastmod>2018-04-15T07:49:51.043Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://destinywang.github.io/blog/2018/04/15/%E7%BF%BB%E8%AF%91-In-Search-of-an-Understandable-Consensus-Algorithm-%E2%80%94%E2%80%94-Raft%E7%AE%97%E6%B3%95/</loc>
+        <lastmod>2018-04-15T07:42:23.777Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://destinywang.github.io/blog/2018/04/14/Raft%E5%8D%8F%E8%AE%AE-1-%E2%80%94%E2%80%94%E4%B8%80%E8%87%B4%E6%80%A7%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/</loc>
         <lastmod>2018-04-14T13:48:29.390Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -41,14 +57,6 @@
     <url>
         <loc>https://destinywang.github.io/blog/2018/04/11/ActiveMQ-2-%E2%80%94%E2%80%94JMS%E8%A7%84%E8%8C%83/</loc>
         <lastmod>2018-04-10T16:10:37.522Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://destinywang.github.io/blog/2018/04/01/%E4%BB%8E%E5%A4%B4%E6%90%AD%E5%BB%BAgithub%E5%8D%9A%E5%AE%A2/</loc>
-        <lastmod>2018-04-10T02:58:37.397Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
