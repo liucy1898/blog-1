@@ -99,13 +99,25 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://destinywang.github.io/blog/categories/ActiveMQ/index.html">
+  <meta name="description" content="今天在开发中遇到了一个需求： 在服务端保存一个Excel模板，用户通过浏览器传递不同的参数，解析参数并写入模板返回给用户以供下载。 需求本身很简单，但在开发的过程中踩了几个坑，所以记录下来。 1. 文件下载的原理  通过 HttpServletResponse.setContentType() 方法设置 Content-Type 字段的值，设置为 application/octet-stream">
+<meta name="keywords" content="踩坑总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java文件下载">
+<meta property="og:url" content="https://destinywang.github.io/blog/2018/04/16/Java文件下载/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="今天在开发中遇到了一个需求： 在服务端保存一个Excel模板，用户通过浏览器传递不同的参数，解析参数并写入模板返回给用户以供下载。 需求本身很简单，但在开发的过程中踩了几个坑，所以记录下来。 1. 文件下载的原理  通过 HttpServletResponse.setContentType() 方法设置 Content-Type 字段的值，设置为 application/octet-stream">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-4-16/99931223.jpg">
+<meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-4-16/35170323.jpg">
+<meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-4-16/14163886.jpg">
+<meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-4-16/86742792.jpg">
+<meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-4-16/68196612.jpg">
+<meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-4-16/88139961.jpg">
+<meta property="og:updated_time" content="2018-04-16T15:56:06.275Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="Java文件下载">
+<meta name="twitter:description" content="今天在开发中遇到了一个需求： 在服务端保存一个Excel模板，用户通过浏览器传递不同的参数，解析参数并写入模板返回给用户以供下载。 需求本身很简单，但在开发的过程中踩了几个坑，所以记录下来。 1. 文件下载的原理  通过 HttpServletResponse.setContentType() 方法设置 Content-Type 字段的值，设置为 application/octet-stream">
+<meta name="twitter:image" content="http://oetw0yrii.bkt.clouddn.com/18-4-16/99931223.jpg">
 
 
 
@@ -114,7 +126,7 @@
 
 
 
-  <link rel="canonical" href="https://destinywang.github.io/blog/categories/ActiveMQ/"/>
+  <link rel="canonical" href="https://destinywang.github.io/blog/2018/04/16/Java文件下载/"/>
 
 
 
@@ -124,7 +136,7 @@
   };
 </script>
 
-  <title>分类: ActiveMQ | Hexo</title>
+  <title>Java文件下载 | Hexo</title>
   
 
 
@@ -171,7 +183,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
     <a href="https://github.com/destinywang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
 
@@ -339,206 +351,234 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block category">
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>ActiveMQ<small>分类</small>
-        </h1>
-      </div>
-
-      
-        
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://destinywang.github.io/blog/blog/2018/04/16/Java文件下载/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="destiny">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/blog-logo.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/blog/2018/04/14/ActiveMQ-5-——ActiveMQ结合Spring开发/" itemprop="url">
-              
-                <span itemprop="name">ActiveMQ-(5)——ActiveMQ结合Spring开发</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Java文件下载</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-14T18:45:00+08:00"
-              content="2018-04-14" >
-          04-14
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-16T23:46:42+08:00">2018-04-16</time>
+            
 
-    </header>
-  </article>
+            
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/blog/categories/踩坑总结/" itemprop="url" rel="index"><span itemprop="name">踩坑总结</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/blog/2018/04/12/ActiveMQ-4-——Broker的启动方式/" itemprop="url">
-              
-                <span itemprop="name">ActiveMQ(4)——Broker的启动方式</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-12T00:22:37+08:00"
-              content="2018-04-12" >
-          04-12
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/blog/2018/04/12/ActiveMQ-3-——JMS可靠性机制/" itemprop="url">
-              
-                <span itemprop="name">ActiveMQ(3)——JMS可靠性机制</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-12T00:20:25+08:00"
-              content="2018-04-12" >
-          04-12
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/blog/2018/04/11/ActiveMQ-2-——JMS规范/" itemprop="url">
-              
-                <span itemprop="name">ActiveMQ(2)——JMS规范</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-11T00:09:30+08:00"
-              content="2018-04-11" >
-          04-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/blog/2018/04/09/ActiveMQ-1-——概览-入门/" itemprop="url">
-              
-                <span itemprop="name">ActiveMQ(1)——概览&入门</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-09T23:54:59+08:00"
-              content="2018-04-09" >
-          04-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+        <pre><code>今天在开发中遇到了一个需求：
+在服务端保存一个Excel模板，用户通过浏览器传递不同的参数，解析参数并写入模板返回给用户以供下载。
+需求本身很简单，但在开发的过程中踩了几个坑，所以记录下来。
+</code></pre><h2 id="1-文件下载的原理"><a href="#1-文件下载的原理" class="headerlink" title="1. 文件下载的原理"></a>1. 文件下载的原理</h2><blockquote>
+<ul>
+<li>通过 <code>HttpServletResponse.setContentType()</code> 方法设置 <code>Content-Type</code> 字段的值，设置为 <code>application/octet-stream</code> 或 <code>application/x-msdownload</code> ，决定客户端服务器以那种方式来接受返回的信息</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.setContentType(<span class="string">"application/vnd.ms-excel"</span>);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li>通过 <code>HttpServletResponse.setHeader()</code> 方法设置 <code>Content-Disposition</code> 头的值为 <code>attachment;filename=文件名</code> ，浏览器通过附件的形式来获取到用户上传的文件</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.addHeader(<span class="string">"Content-Disposition"</span>, <span class="string">"attachment; filename="</span> + fileName);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li>读取下载文件，通过 <code>HttpServletResponse.getOutputStream()</code> 方法返回 <code>ServletOutputStream</code> 对象来向客户端写入附件文件的内容</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> (OutputStream out = response.getOutputStream();</span><br><span class="line">     BufferedInputStream bis = <span class="keyword">new</span> BufferedInputStream(<span class="keyword">new</span> FileInputStream(file));</span><br><span class="line">     BufferedOutputStream bos = <span class="keyword">new</span> BufferedOutputStream(out)) &#123;</span><br><span class="line">    <span class="keyword">byte</span>[] buff = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">2048</span>];</span><br><span class="line">    <span class="keyword">int</span> bytesRead;</span><br><span class="line">    <span class="keyword">while</span> (-<span class="number">1</span> != (bytesRead = bis.read(buff, <span class="number">0</span>, buff.length))) &#123;</span><br><span class="line">        bos.write(buff, <span class="number">0</span>, bytesRead);</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">    logger.error(e.getMessage());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-Http-报头-Content-disposition-的作用"><a href="#2-Http-报头-Content-disposition-的作用" class="headerlink" title="2. Http 报头 Content-disposition 的作用"></a>2. <code>Http</code> 报头 <code>Content-disposition</code> 的作用</h2><pre><code>Content-Disposition 属性是作为对下载文件的一个标识字段。
+</code></pre><p>在 <a href="http://www.rfc-editor.org/rfc/rfc2616.pdf" target="_blank" rel="noopener">rfc2616</a> 章节19.5 Additional Features中</p>
+<p><code>Content-Disposition</code> 属性有两种类型：<code>inline</code> 和 <code>attachment</code></p>
+<ul>
+<li>inline ：将文件内容直接显示在页面</li>
+<li>attachment：弹出对话框让用户下载</li>
+</ul>
+<h3 id="2-1-inline"><a href="#2-1-inline" class="headerlink" title="2.1 inline"></a>2.1 inline</h3><pre><code>inline 用于直接在页面中展示该文件，常用与图片等
+</code></pre><p>示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">File file = <span class="keyword">new</span> File(<span class="string">"rfc1806.txt"</span>);</span><br><span class="line">String filename = file.getName();</span><br><span class="line">response.setHeader(<span class="string">"Content-Type"</span>,<span class="string">"text/plain"</span>);</span><br><span class="line">response.addHeader(<span class="string">"Content-Disposition"</span>,<span class="string">"inline;filename="</span> + <span class="keyword">new</span> String(filename.getBytes(),<span class="string">"utf-8"</span>));</span><br><span class="line">response.addHeader(<span class="string">"Content-Length"</span>,<span class="string">""</span> + file.length());</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-attachment"><a href="#2-2-attachment" class="headerlink" title="2.2 attachment"></a>2.2 attachment</h3><pre><code>attachment 用于通知浏览器弹出对话框以供用户下载。
+</code></pre><p>示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">File file = <span class="keyword">new</span> File(<span class="string">"rfc1806.txt"</span>);</span><br><span class="line">String filename = file.getName();</span><br><span class="line">response.setHeader(<span class="string">"Content-Type"</span>,<span class="string">"text/plain"</span>);</span><br><span class="line">response.addHeader(<span class="string">"Content-Disposition"</span>,<span class="string">"attachment; filename="</span> + <span class="keyword">new</span> String(filename.getBytes(),<span class="string">"utf-8"</span>));</span><br><span class="line">response.addHeader(<span class="string">"Content-Length"</span>,<span class="string">""</span> + file.length());</span><br></pre></td></tr></table></figure>
+<h2 id="3-filename-属性中文乱码"><a href="#3-filename-属性中文乱码" class="headerlink" title="3. filename 属性中文乱码"></a>3. <code>filename</code> 属性中文乱码</h2><p>如果在设置 <code>filename</code> 的时候直接使用中文，则会出现如下情况:</p>
+<ul>
+<li><p>在代码中直接使用中文进行设置<br><img src="http://oetw0yrii.bkt.clouddn.com/18-4-16/99931223.jpg" alt=""></p>
+</li>
+<li><p>相应的 <code>HTTP Response</code><br><img src="http://oetw0yrii.bkt.clouddn.com/18-4-16/35170323.jpg" alt=""></p>
+</li>
+<li><p>浏览器的弹窗<br><img src="http://oetw0yrii.bkt.clouddn.com/18-4-16/14163886.jpg" alt=""></p>
+</li>
+</ul>
+<p>首先，产生乱码的根本问题是在 HTTP 协议中，HTTP Header要求其内容必须为 <code>ISO-8859-1</code> 编码。</p>
+<p>所以，在开发中尽量使用如下方式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.setHeader(<span class="string">"Content-disposition"</span>, <span class="string">"attachment; filename="</span> + <span class="keyword">new</span> String(<span class="string">"中文文件名"</span>.getBytes(<span class="string">"utf-8"</span>), <span class="string">"ISO8859-1"</span>));</span><br></pre></td></tr></table></figure>
+<p>得到文件名的字节数组，将字节数组转换成 <code>IOS-8859-1</code> 格式编码的字符串。</p>
+<p>而不能通过如下方式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"中文文件名"</span>.getBytes(<span class="string">"ISO8859-1"</span>);</span><br></pre></td></tr></table></figure>
+<p>因为 <code>IOS-8859-1</code> 的编码表中没有汉字字符，因此无法通过以上的方式对中文字符串进行编码。</p>
+<p>以先通过 <code>&quot;中文文件名&quot;.getBytes(&quot;utf-8&quot;)</code> 获取其 <code>byte[]</code>字节，让其按照字节来编码，即在使用 <code>new String(&quot;中文文件名&quot;.getBytes(&quot;utf-8&quot;), &quot;ISO8859-1&quot;)</code> 将其重新组成一个字符串，传送给浏览器。</p>
+<h2 id="4-演示"><a href="#4-演示" class="headerlink" title="4. 演示"></a>4. 演示</h2><h3 id="4-1-代码及资源路径"><a href="#4-1-代码及资源路径" class="headerlink" title="4.1 代码及资源路径"></a>4.1 代码及资源路径</h3><p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-16/86742792.jpg" alt=""></p>
+<h3 id="4-2-HTTP-Response-详情"><a href="#4-2-HTTP-Response-详情" class="headerlink" title="4.2 HTTP Response 详情"></a>4.2 HTTP Response 详情</h3><p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-16/68196612.jpg" alt=""></p>
+<h3 id="4-3-浏览器能够正确识别"><a href="#4-3-浏览器能够正确识别" class="headerlink" title="4.3 浏览器能够正确识别"></a>4.3 浏览器能够正确识别</h3><p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-16/88139961.jpg" alt=""></p>
 
       
     </div>
 
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/踩坑总结/" rel="tag"># 踩坑总结</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2018/04/15/翻译-In-Search-of-an-Understandable-Consensus-Algorithm-——-Raft算法/" rel="next" title="(翻译)In Search of an Understandable Consensus Algorithm —— Raft算法">
+                <i class="fa fa-chevron-left"></i> (翻译)In Search of an Understandable Consensus Algorithm —— Raft算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -559,8 +599,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -674,6 +723,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-文件下载的原理"><span class="nav-text">1. 文件下载的原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Http-报头-Content-disposition-的作用"><span class="nav-text">2. Http 报头 Content-disposition 的作用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-inline"><span class="nav-text">2.1 inline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-attachment"><span class="nav-text">2.2 attachment</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-filename-属性中文乱码"><span class="nav-text">3. filename 属性中文乱码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-演示"><span class="nav-text">4. 演示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-代码及资源路径"><span class="nav-text">4.1 代码及资源路径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-HTTP-Response-详情"><span class="nav-text">4.2 HTTP Response 详情</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-浏览器能够正确识别"><span class="nav-text">4.3 浏览器能够正确识别</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -814,6 +879,10 @@
 
 
   
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=6.1.0"></script>
+
+
 
   
 

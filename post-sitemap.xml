@@ -7,8 +7,16 @@
     </url>
 
     <url>
+        <loc>https://destinywang.github.io/blog/2018/04/16/Java%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/</loc>
+        <lastmod>2018-04-16T15:56:06.275Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://destinywang.github.io/blog/2018/04/15/%E7%BF%BB%E8%AF%91-In-Search-of-an-Understandable-Consensus-Algorithm-%E2%80%94%E2%80%94-Raft%E7%AE%97%E6%B3%95/</loc>
-        <lastmod>2018-04-15T08:27:36.679Z</lastmod>
+        <lastmod>2018-04-15T14:55:31.574Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -16,7 +24,7 @@
 
     <url>
         <loc>https://destinywang.github.io/blog/2018/04/01/%E4%BB%8E%E5%A4%B4%E6%90%AD%E5%BB%BAgithub%E5%8D%9A%E5%AE%A2/</loc>
-        <lastmod>2018-04-15T07:49:51.043Z</lastmod>
+        <lastmod>2018-04-15T14:32:27.157Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

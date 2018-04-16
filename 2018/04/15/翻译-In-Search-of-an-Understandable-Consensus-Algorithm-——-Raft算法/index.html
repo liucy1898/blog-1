@@ -112,7 +112,7 @@
 <meta property="og:image" content="http://wx3.sinaimg.cn/mw690/4858d6a8ly1fc9vx0s6l6j20ef05odg9.jpg">
 <meta property="og:image" content="http://wx1.sinaimg.cn/mw690/4858d6a8ly1fc9zgzzchkj20hl0d7wg4.jpg">
 <meta property="og:image" content="http://wx2.sinaimg.cn/mw690/4858d6a8ly1fca1aw93cnj20gf0baabf.jpg">
-<meta property="og:updated_time" content="2018-04-15T08:27:36.679Z">
+<meta property="og:updated_time" content="2018-04-15T14:55:31.574Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="(翻译)In Search of an Understandable Consensus Algorithm —— Raft算法">
 <meta name="twitter:description" content="本篇博客为著名的 RAFT 一致性算法论文的中文翻译，论文名为《In search of an Understandable Consensus Algorithm (Extended Version)》(寻找一种易于理解的一致性算法) Raft 是一种用来管理日志复制的一致性算法。它和 Paxos 的性能和功能是一样的，但是它和 Paxos 的结构不一样；这使得 Raft 更容易理解并且更易于建">
@@ -464,9 +464,9 @@
 <ul>
 <li>强领导者<code>（Strong Leader）</code> : <code>Raft</code>使用一种比其他共识算法更强的领导方式。例如，日志条目只从<code>Leader</code>流向其他服务器。这样就简化了复制日志的管理，使<code>Raft</code>更容易理解。</li>
 <li>领导选取<code>（Leader Selection）</code>: <code>Raft</code> 使用<code>随机定时器</code>选举领导人。这只增加了对任何协商一致算法所需的心跳的一小部分机制，同时快速地解决冲突。</li>
-<li><code>成员变化（Membership Change）</code>: <code>Raft</code> 为了调整集群中成员关系使用了新的<code>联合一致性（joint consensus）</code>的方法，这种方法中大多数不同配置的机器在转换关系的时候会<code>交迭（overlap）</code>。这使得在配置改变的时候，集群能够继续操作。</li>
+<li>成员变化<code>（Membership Change）</code>: <code>Raft</code> 为了调整集群中成员关系使用了新的<code>联合一致性（joint consensus）</code>的方法，这种方法中大多数不同配置的机器在转换关系的时候会<code>交迭（overlap）</code>。这使得在配置改变的时候，集群能够继续操作。</li>
 </ul>
-<p>我们认为，Raft 在教学方面和实际实现方面比 Paxos 和其他算法更出众。</p>
+<p>我们认为，Raft 在教学方面和实际实现方面比 <code>Paxos</code> 和其他算法更出众。</p>
 <ul>
 <li>它比其他算法更简单、更容易理解；</li>
 <li>它能满足一个实际系统的需求；</li>
@@ -713,19 +713,19 @@ the ﬁnal system will be based on an unproven protocol
 </table>
 <p>接受者需要实现</p>
 <ol>
-<li>如果 <code>trem</code> &lt; <code>currentTrem</code> 返回false</li>
+<li>如果 <code>term</code> &lt; <code>currentTerm</code> 返回false</li>
 <li>如果 <code>votedFor</code> 为空或者与 <code>candidateId</code> 相同，并且候选人的日志和自己的日志一样新，则给候选人投票。</li>
 </ol>
 <hr>
-<h2 id="服务器需要遵守的规则"><a href="#服务器需要遵守的规则" class="headerlink" title="服务器需要遵守的规则"></a>服务器需要遵守的规则</h2><h3 id="所有服务器"><a href="#所有服务器" class="headerlink" title="++所有服务器++"></a>++所有服务器++</h3><ul>
+<h2 id="服务器需要遵守的规则"><a href="#服务器需要遵守的规则" class="headerlink" title="服务器需要遵守的规则"></a>服务器需要遵守的规则</h2><h3 id="所有服务器"><a href="#所有服务器" class="headerlink" title="所有服务器"></a><em>所有服务器</em></h3><ul>
 <li>如果 <code>commitIndex</code> &gt; <code>lastApplied</code>，<code>lastApplied</code> 自增，将 <code>log[lastApplied]</code> 应用到状态机；</li>
-<li>如果RPC的请求或者响应中包含一个 <code>Term</code> &gt; <code>currentTrem</code>，则 <code>currentTerm</code> 赋值为 <code>Trem</code>，并切换状态为<code>Follower</code>；</li>
+<li>如果RPC的请求或者响应中包含一个 <code>Term</code> &gt; <code>currentTerm</code>，则 <code>currentTerm</code> 赋值为 <code>Term</code>，并切换状态为<code>Follower</code>；</li>
 </ul>
-<h3 id="Follower"><a href="#Follower" class="headerlink" title="++Follower++"></a>++Follower++</h3><ul>
+<h3 id="Follower"><a href="#Follower" class="headerlink" title="Follower"></a><em>Follower</em></h3><ul>
 <li>响应来自候选人和领导人的RPC请求</li>
 <li>如果在超过选取 <code>Leader</code> 时间之前没有收到来自领导人的 <code>AppendEntries RPC</code> 或者没有收到候选人的投票请求，则自己转换状态为候选人</li>
 </ul>
-<h3 id="Candidate"><a href="#Candidate" class="headerlink" title="++Candidate++"></a>++Candidate++</h3><ul>
+<h3 id="Candidate"><a href="#Candidate" class="headerlink" title="Candidate"></a><em>Candidate</em></h3><ul>
 <li>转变为 <code>Candidate</code> 之后开始选举<ul>
 <li><code>currentTerm</code> 自增</li>
 <li>给自己投票</li>
@@ -737,7 +737,7 @@ the ﬁnal system will be based on an unproven protocol
 <li>如果收到了来自新 <code>Leader</code> 的 <code>AppendEntries RPC(heartbeat)</code>，则成为 <code>Follower</code></li>
 <li>如果选举超时，开始新一轮选举</li>
 </ul>
-<h3 id="Leader"><a href="#Leader" class="headerlink" title="++Leader++"></a>++Leader++</h3><ul>
+<h3 id="Leader"><a href="#Leader" class="headerlink" title="Leader"></a><em>Leader</em></h3><ul>
 <li>一旦成为领导人：想起他所有服务器发送空的 <code>AppendEntries PRC(heartbeat)</code>；在空闲时间重复发送以防止选举超时</li>
 <li>如果收到来自客户端的请求，向本地日子增加条目，在该条目应用到状态机后响应客户端</li>
 <li>对于一个 <code>Followed</code> 来说，如果上一次收到的日志索引大于将要收到的日志索引<code>(nextIndex)</code>：通过 <code>AppendEntries RPC</code> 将 <code>nextIndex</code> 之后的所有日志条目发送出去<ul>
@@ -745,7 +745,7 @@ the ﬁnal system will be based on an unproven protocol
 <li>如果由于日志不一致导致 <code>AppendEntries RPC</code> 失败：<code>nextIndex</code> 递减并且重新发送</li>
 </ul>
 </li>
-<li>如果存在一个满足 <code>N &gt; commitIndex</code> 和 <code>matchIndex[i] &gt;= N</code> 并且 <code>log[N].trem == currentTerm</code>的 N，则将 <code>commitIndex</code> 赋值为N</li>
+<li>如果存在一个满足 <code>N &gt; commitIndex</code> 和 <code>matchIndex[i] &gt;= N</code> 并且 <code>log[N].term == currentTerm</code>的 N，则将 <code>commitIndex</code> 赋值为N</li>
 </ul>
 <h2 id="Raft-一致性算法的总结（不包括成员变化和日志压缩）"><a href="#Raft-一致性算法的总结（不包括成员变化和日志压缩）" class="headerlink" title="Raft 一致性算法的总结（不包括成员变化和日志压缩）"></a>Raft 一致性算法的总结（不包括成员变化和日志压缩）</h2><blockquote>
 <p><center>表-3 Raft 算法保证这些特性任何时刻都能成立</center></p>
@@ -882,6 +882,10 @@ the ﬁnal system will be based on an unproven protocol
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/blog/2018/04/16/Java文件下载/" rel="prev" title="Java文件下载">
+                Java文件下载 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -958,7 +962,7 @@ the ﬁnal system will be based on an unproven protocol
                 
                   <a href="/blog/archives">
                 
-                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -979,7 +983,9 @@ the ﬁnal system will be based on an unproven protocol
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1016,7 +1022,9 @@ the ﬁnal system will be based on an unproven protocol
                     
                       
                     
-                    <span class="site-state-item-count">12</span>
+                      
+                    
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1059,7 +1067,7 @@ the ﬁnal system will be based on an unproven protocol
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-引言"><span class="nav-text">1. 引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-复制状态机（Replicated-State-Machine）"><span class="nav-text">2. 复制状态机（Replicated State Machine）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Paxos算法的不足"><span class="nav-text">3. Paxos算法的不足</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-易于理解的设计"><span class="nav-text">4. 易于理解的设计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-Raft-一致性算法"><span class="nav-text">5. Raft 一致性算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#状态"><span class="nav-text">状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附加日志远程调用（AppendEntries-RPC）"><span class="nav-text">附加日志远程调用（AppendEntries RPC）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#投票请求RPC（RequestVote-RPC）"><span class="nav-text">投票请求RPC（RequestVote RPC）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器需要遵守的规则"><span class="nav-text">服务器需要遵守的规则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#所有服务器"><span class="nav-text">++所有服务器++</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Follower"><span class="nav-text">++Follower++</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Candidate"><span class="nav-text">++Candidate++</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Leader"><span class="nav-text">++Leader++</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Raft-一致性算法的总结（不包括成员变化和日志压缩）"><span class="nav-text">Raft 一致性算法的总结（不包括成员变化和日志压缩）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-Raft基础"><span class="nav-text">5.1. Raft基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-领导人选举"><span class="nav-text">5.2. 领导人选举</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-日志复制"><span class="nav-text">5.3.日志复制</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-引言"><span class="nav-text">1. 引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-复制状态机（Replicated-State-Machine）"><span class="nav-text">2. 复制状态机（Replicated State Machine）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Paxos算法的不足"><span class="nav-text">3. Paxos算法的不足</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-易于理解的设计"><span class="nav-text">4. 易于理解的设计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-Raft-一致性算法"><span class="nav-text">5. Raft 一致性算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#状态"><span class="nav-text">状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附加日志远程调用（AppendEntries-RPC）"><span class="nav-text">附加日志远程调用（AppendEntries RPC）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#投票请求RPC（RequestVote-RPC）"><span class="nav-text">投票请求RPC（RequestVote RPC）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器需要遵守的规则"><span class="nav-text">服务器需要遵守的规则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#所有服务器"><span class="nav-text">所有服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Follower"><span class="nav-text">Follower</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Candidate"><span class="nav-text">Candidate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Leader"><span class="nav-text">Leader</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Raft-一致性算法的总结（不包括成员变化和日志压缩）"><span class="nav-text">Raft 一致性算法的总结（不包括成员变化和日志压缩）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-Raft基础"><span class="nav-text">5.1. Raft基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-领导人选举"><span class="nav-text">5.2. 领导人选举</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-日志复制"><span class="nav-text">5.3.日志复制</span></a></li></ol></li></ol></div>
             
 
           </div>
