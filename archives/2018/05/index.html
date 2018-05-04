@@ -99,29 +99,13 @@
 
 
 
-  <meta name="description" content="概述在一个由 Raft 协议组织的集群中有三类角色：  Leader（领袖） Follower（群众） Candidate（候选人）  就像一个民主社会，领袖由民众投票选出。刚开始没有领袖，所有集群中的参与者都是群众，那么首先开启一轮大选，在大选期间所有群众都能参与竞选，这时所有群众的角色就变成了候选人，民主投票选出领袖后就开始了这届领袖的任期，然后选举结束，所有除领袖的候选人又变回群众角色服从领">
-<meta name="keywords" content="Raft,一致性算法,分布式系统">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Raft协议(1)——一致性原理分析">
-<meta property="og:url" content="https://destinywang.github.io/blog/2018/04/14/Raft协议-1-——一致性原理分析/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="https://destinywang.github.io/blog/archives/2018/05/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="概述在一个由 Raft 协议组织的集群中有三类角色：  Leader（领袖） Follower（群众） Candidate（候选人）  就像一个民主社会，领袖由民众投票选出。刚开始没有领袖，所有集群中的参与者都是群众，那么首先开启一轮大选，在大选期间所有群众都能参与竞选，这时所有群众的角色就变成了候选人，民主投票选出领袖后就开始了这届领袖的任期，然后选举结束，所有除领袖的候选人又变回群众角色服从领">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/815275/201603/815275-20160301175331861-266461745.png">
-<meta property="og:image" content="http://on-img.com/chart_image/5aca2824e4b0cfe274897f04.png">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/815275/201603/815275-20160301175349689-522400583.png">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/815275/201603/815275-20160301175358173-526445555.png">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/815275/201603/815275-20160301175405705-1452838896.png">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/815275/201603/815275-20160301175412580-649716029.png">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/815275/201603/815275-20160301175419501-326023047.png">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/815275/201603/815275-20160301175427314-1771762822.png">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/815275/201603/815275-20160301175628111-980324469.png">
-<meta property="og:image" content="http://images2015.cnblogs.com/blog/815275/201603/815275-20160301175637220-1693295968.png">
-<meta property="og:updated_time" content="2018-04-14T13:48:29.390Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Raft协议(1)——一致性原理分析">
-<meta name="twitter:description" content="概述在一个由 Raft 协议组织的集群中有三类角色：  Leader（领袖） Follower（群众） Candidate（候选人）  就像一个民主社会，领袖由民众投票选出。刚开始没有领袖，所有集群中的参与者都是群众，那么首先开启一轮大选，在大选期间所有群众都能参与竞选，这时所有群众的角色就变成了候选人，民主投票选出领袖后就开始了这届领袖的任期，然后选举结束，所有除领袖的候选人又变回群众角色服从领">
-<meta name="twitter:image" content="http://images2015.cnblogs.com/blog/815275/201603/815275-20160301175331861-266461745.png">
+<meta name="twitter:title" content="Hexo">
 
 
 
@@ -130,7 +114,7 @@
 
 
 
-  <link rel="canonical" href="https://destinywang.github.io/blog/2018/04/14/Raft协议-1-——一致性原理分析/"/>
+  <link rel="canonical" href="https://destinywang.github.io/blog/archives/2018/05/"/>
 
 
 
@@ -140,7 +124,7 @@
   };
 </script>
 
-  <title>Raft协议(1)——一致性原理分析 | Hexo</title>
+  <title>归档 | Hexo</title>
   
 
 
@@ -187,7 +171,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left page-archive">
     <div class="headband"></div>
     <a href="https://github.com/destinywang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
 
@@ -355,218 +339,116 @@
           
             
 
+    
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+    
+
+  
+
+
           
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
+  
+  
+  
+  <div class="post-block archive">
+    <div id="posts" class="posts-collapse">
+      <span class="archive-move-on"></span>
 
-  
+      
+      <span class="archive-page-counter">
+        
+        
+        
+          
+        
+        共计 15 篇文章。 
+        我会做的更好。
+      </span>
+      
 
-  
-  
-  
+      
 
-  
+        
+        
+        
+
+        
+          
+          <div class="collection-title">
+            <h1 class="archive-year" id="archive-year-2018">2018</h1>
+          </div>
+        
+        
+
+        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://destinywang.github.io/blog/blog/2018/04/14/Raft协议-1-——一致性原理分析/">
+    <header class="post-header">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="destiny">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/blog/images/blog-logo.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
+      <h2 class="post-title">
         
+            <a class="post-title-link" href="/blog/2018/05/05/Lucene-一-——-快速入门/" itemprop="url">
+              
+                <span itemprop="name">Lucene(一) —— 快速入门</span>
+              
+            </a>
         
-          <h1 class="post-title" itemprop="name headline">Raft协议(1)——一致性原理分析</h1>
-        
+      </h2>
 
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-14T21:47:19+08:00">2018-04-14</time>
-            
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2018-05-05T00:01:42+08:00"
+              content="2018-05-05" >
+          05-05
+        </time>
+      </div>
 
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/blog/categories/Raft/" itemprop="url" rel="index"><span itemprop="name">Raft</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>在一个由 Raft 协议组织的集群中有三类角色：</p>
-<ul>
-<li>Leader（领袖）</li>
-<li>Follower（群众）</li>
-<li>Candidate（候选人）</li>
-</ul>
-<p>就像一个民主社会，领袖由民众投票选出。刚开始没有领袖，所有集群中的参与者都是群众，那么首先开启一轮大选，在大选期间所有群众都能参与竞选，这时所有群众的角色就变成了候选人，民主投票选出领袖后就开始了这届领袖的任期，然后选举结束，所有除领袖的候选人又变回群众角色服从领袖领导。这里提到一个概念「任期」，用术语 <code>Term</code> 表达。关于 Raft 协议的核心概念和术语就这么多而且和现实民主制度非常匹配，所以很容易理解。三类角色的变迁图如下，结合后面的选举过程来看很容易理解。</p>
-<p><img src="http://images2015.cnblogs.com/blog/815275/201603/815275-20160301175331861-266461745.png" alt="image"></p>
-<h1 id="Raft-集群中节点状态转化"><a href="#Raft-集群中节点状态转化" class="headerlink" title="Raft 集群中节点状态转化"></a>Raft 集群中节点状态转化</h1><p><img src="http://on-img.com/chart_image/5aca2824e4b0cfe274897f04.png" alt="image"></p>
-<h1 id="Leader-选举过程"><a href="#Leader-选举过程" class="headerlink" title="Leader 选举过程"></a>Leader 选举过程</h1><p>在极简的思维下，一个最小的 Raft 民主集群需要三个参与者（如下图：A、B、C），这样才可能投出多数票。初始状态 ABC 都是 Follower，然后发起选举这时有三种可能情形发生。下图中前二种都能选出 Leader，第三种则表明本轮投票无效（Split Votes），每方都投给了自己，结果没有任何一方获得多数票。之后每个参与方随机休息一阵（Election Timeout）重新发起投票直到一方获得多数票。这里的关键就是随机 timeout，最先从 timeout 中恢复发起投票的一方向还在 timeout 中的另外两方请求投票，这时它们就只能投给对方了，很快达成一致。</p>
-<p><img src="http://images2015.cnblogs.com/blog/815275/201603/815275-20160301175349689-522400583.png" alt="image"></p>
-<p>选出 Leader 后，Leader 通过定期向所有 Follower 发送心跳信息维持其统治。若 Follower 一段时间未收到 Leader 的心跳则认为 Leader 可能已经挂了再次发起选主过程。</p>
-<h1 id="Leader-节点对一致性的影响"><a href="#Leader-节点对一致性的影响" class="headerlink" title="Leader 节点对一致性的影响"></a>Leader 节点对一致性的影响</h1><p>Raft 协议强依赖 Leader 节点的可用性来确保集群数据的一致性。数据的流向只能从 Leader 节点向 Follower 节点转移。当 Client 向集群 Leader 节点提交数据后，Leader 节点接收到的数据处于未提交状态（Uncommitted），接着 Leader 节点会并发向所有 Follower 节点复制数据并等待接收响应，确保至少集群中超过半数节点已接收到数据后再向 Client 确认数据已接收。一旦向 Client 发出数据接收 Ack 响应后，表明此时数据状态进入已提交（Committed），Leader 节点再向 Follower 节点发通知告知该数据状态已提交。</p>
-<p><img src="http://images2015.cnblogs.com/blog/815275/201603/815275-20160301175358173-526445555.png" alt="image"></p>
-<p>在这个过程中，主节点可能在任意阶段挂掉，看下 Raft 协议如何针对不同阶段保障数据一致性的。</p>
-<h2 id="数据到达-Leader-节点前"><a href="#数据到达-Leader-节点前" class="headerlink" title="数据到达 Leader 节点前"></a>数据到达 Leader 节点前</h2><p>这个阶段 Leader 挂掉不影响一致性，不多说。</p>
-<p><img src="http://images2015.cnblogs.com/blog/815275/201603/815275-20160301175405705-1452838896.png" alt="image"></p>
-<h2 id="数据到达-Leader-节点，但未复制到-Follower-节点"><a href="#数据到达-Leader-节点，但未复制到-Follower-节点" class="headerlink" title="数据到达 Leader 节点，但未复制到 Follower 节点"></a>数据到达 Leader 节点，但未复制到 Follower 节点</h2><p>这个阶段 Leader 挂掉，数据属于未提交状态，Client 不会收到 Ack 会认为超时失败可安全发起重试。Follower 节点上没有该数据，重新选主后 Client 重试重新提交可成功。原来的 Leader 节点恢复后作为 Follower 加入集群重新从当前任期的新 Leader 处同步数据，强制保持和 Leader 数据一致。</p>
-<p><img src="http://images2015.cnblogs.com/blog/815275/201603/815275-20160301175412580-649716029.png" alt="image"></p>
-<h2 id="数据到达-Leader-节点，成功复制到-Follower-所有节点，但还未向-Leader响应"><a href="#数据到达-Leader-节点，成功复制到-Follower-所有节点，但还未向-Leader响应" class="headerlink" title="数据到达 Leader 节点，成功复制到 Follower 所有节点，但还未向 Leader响应"></a>数据到达 Leader 节点，成功复制到 Follower 所有节点，但还未向 Leader响应</h2><p>这个阶段 Leader 挂掉，虽然数据在 Follower 节点处于未提交状态（Uncommitted）但保持一致，重新选出 Leader 后可完成数据提交，此时 Client 由于不知到底提交成功没有，可重试提交。针对这种情况 Raft 要求 RPC 请求实现幂等性，也就是要实现内部去重机制。</p>
-<p><img src="http://images2015.cnblogs.com/blog/815275/201603/815275-20160301175419501-326023047.png" alt="image"></p>
-<h2 id="数据到达-Leader-节点，成功复制到-Follower-部分节点，但还未向-Leader-响应接受"><a href="#数据到达-Leader-节点，成功复制到-Follower-部分节点，但还未向-Leader-响应接受" class="headerlink" title="数据到达 Leader 节点，成功复制到 Follower 部分节点，但还未向 Leader 响应接受"></a>数据到达 Leader 节点，成功复制到 Follower 部分节点，但还未向 Leader 响应接受</h2><p>这个阶段 Leader 挂掉，数据在 Follower 节点处于未提交状态（Uncommitted）且不一致，Raft 协议要求投票只能投给拥有最新数据的节点。所以拥有最新数据的节点会被选为 Leader 再强制同步数据到 Follower，数据不会丢失并最终一致。</p>
-<p><img src="http://images2015.cnblogs.com/blog/815275/201603/815275-20160301175427314-1771762822.png" alt="image"></p>
-<h2 id="数据到达-Leader-节点，成功复制到-Follower-所有或多数节点，数据在所有节点都处于已提交状态，但还未响应-Client"><a href="#数据到达-Leader-节点，成功复制到-Follower-所有或多数节点，数据在所有节点都处于已提交状态，但还未响应-Client" class="headerlink" title="数据到达 Leader 节点，成功复制到 Follower 所有或多数节点，数据在所有节点都处于已提交状态，但还未响应 Client"></a>数据到达 Leader 节点，成功复制到 Follower 所有或多数节点，数据在所有节点都处于已提交状态，但还未响应 Client</h2><p>这个阶段 Leader 挂掉，Cluster 内部数据其实已经是一致的，Client 重复重试基于幂等策略对一致性无影响。</p>
-<p><img src="http://images2015.cnblogs.com/blog/815275/201603/815275-20160301175628111-980324469.png" alt="image"></p>
-<h2 id="网络分区导致的脑裂情况，出现双-Leader"><a href="#网络分区导致的脑裂情况，出现双-Leader" class="headerlink" title="网络分区导致的脑裂情况，出现双 Leader"></a>网络分区导致的脑裂情况，出现双 Leader</h2><p>网络分区将原先的 Leader 节点和 Follower 节点分隔开，Follower 收不到 Leader 的心跳将发起选举产生新的 Leader。这时就产生了双 Leader，原先的 Leader 独自在一个区，向它提交数据不可能复制到多数节点所以永远提交不成功。向新的 Leader 提交数据可以提交成功，网络恢复后旧的 Leader 发现集群中有更新任期（Term）的新 Leader 则自动降级为 Follower 并从新 Leader 处同步数据达成集群数据一致。</p>
-<p><img src="http://images2015.cnblogs.com/blog/815275/201603/815275-20160301175637220-1693295968.png" alt="image"></p>
-<blockquote>
-<p>算法以正确性、高效性、简洁性作为主要设计目标。<br>虽然这些都是很有价值的目标，但这些目标都不会达成直到开发者写出一个可用的实现。<br>所以我们相信可理解性同样重要。</p>
-</blockquote>
-
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/blog/tags/Raft/" rel="tag"># Raft</a>
-          
-            <a href="/blog/tags/一致性算法/" rel="tag"># 一致性算法</a>
-          
-            <a href="/blog/tags/分布式系统/" rel="tag"># 分布式系统</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/blog/2018/04/14/ActiveMQ-5-——ActiveMQ结合Spring开发/" rel="next" title="ActiveMQ-(5)——ActiveMQ结合Spring开发">
-                <i class="fa fa-chevron-left"></i> ActiveMQ-(5)——ActiveMQ结合Spring开发
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/blog/2018/04/15/翻译-In-Search-of-an-Understandable-Consensus-Algorithm-——-Raft算法/" rel="prev" title="(翻译)In Search of an Understandable Consensus Algorithm —— Raft算法">
-                (翻译)In Search of an Understandable Consensus Algorithm —— Raft算法 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+    </header>
   </article>
 
 
 
-    <div class="post-spread">
       
+
     </div>
   </div>
-
-
-          </div>
-          
+  
+  
+  
 
   
 
 
+
+          </div>
+          
 
         </div>
         
@@ -587,17 +469,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -719,22 +592,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Raft-集群中节点状态转化"><span class="nav-text">Raft 集群中节点状态转化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Leader-选举过程"><span class="nav-text">Leader 选举过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Leader-节点对一致性的影响"><span class="nav-text">Leader 节点对一致性的影响</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据到达-Leader-节点前"><span class="nav-text">数据到达 Leader 节点前</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据到达-Leader-节点，但未复制到-Follower-节点"><span class="nav-text">数据到达 Leader 节点，但未复制到 Follower 节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据到达-Leader-节点，成功复制到-Follower-所有节点，但还未向-Leader响应"><span class="nav-text">数据到达 Leader 节点，成功复制到 Follower 所有节点，但还未向 Leader响应</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据到达-Leader-节点，成功复制到-Follower-部分节点，但还未向-Leader-响应接受"><span class="nav-text">数据到达 Leader 节点，成功复制到 Follower 部分节点，但还未向 Leader 响应接受</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据到达-Leader-节点，成功复制到-Follower-所有或多数节点，数据在所有节点都处于已提交状态，但还未响应-Client"><span class="nav-text">数据到达 Leader 节点，成功复制到 Follower 所有或多数节点，数据在所有节点都处于已提交状态，但还未响应 Client</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络分区导致的脑裂情况，出现双-Leader"><span class="nav-text">网络分区导致的脑裂情况，出现双 Leader</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -875,10 +732,6 @@
 
 
   
-  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=6.1.0"></script>
-<script type="text/javascript" src="/blog/js/src/post-details.js?v=6.1.0"></script>
-
-
 
   
 
