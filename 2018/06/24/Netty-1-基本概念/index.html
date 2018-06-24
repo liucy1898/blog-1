@@ -118,7 +118,7 @@
 <meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-6-3/67183442.jpg">
 <meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-6-3/72901126.jpg">
 <meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-6-4/88956497.jpg">
-<meta property="og:updated_time" content="2018-06-24T09:44:35.779Z">
+<meta property="og:updated_time" content="2018-06-24T15:06:29.100Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Netty(1)基本概念">
 <meta name="twitter:description" content="1. Netty 架构设计Netty应用中必不可少的组件：    组件 作用     Bootstrap / ServerBootstrap 一个Netty应用通常由一个Bootstrap开始，它主要作用是配置整个Netty程序，串联起各个组件。   EventLoop 为 Channel 处理 IO 操作，一个 EventLoop 可以为多个 Channel 服务。   EventLoopGro">
@@ -572,9 +572,9 @@
 如果你想要调用后续的 channelHandler 的同名的方法就需要调用以 &quot;fire&quot; 为开头的方法了，这样做很灵活
 </code></pre><p>这样设计的优点：</p>
 <ol>
-<li>每一个 <code>handler</code> 只需要关注自己要处理的方法，如果你不关注 <code>channelActive</code> 方法时，你自定义的 <code>channelhandler</code> 就不需要重写 <code>channelActive</code> 方法</li>
-<li>异常处理，如果 <code>exceptionCaught</code> 方法每个 <code>handler</code> 都重写了，只需有一个类捕捉到然后做处理就可以了，不需要每个 <code>handler</code> 都处理一遍</li>
-<li>灵活性，也许左侧第一个 <code>ChannelHandler</code> 根本不需要管理某个业务逻辑，但是从第二个 <code>ChannelHandler</code> 就需要关注处理某个业务需求了，那么就可以很灵活地从第二个 <code>ChannelHandler</code> 开始处理业务，不需要从channel中的第一个 <code>ChannelHandler</code> 开始处理</li>
+<li>每一个 <code>handler</code> 只需要关注自己要处理的方法，如果你不关注 <code>channelActive</code> 方法时，你自定义的 <code>channelhandler</code> 就不需要重写 <code>channelActive</code> 方法;</li>
+<li>异常处理，如果 <code>exceptionCaught</code> 方法每个 <code>handler</code> 都重写了，只需有一个类捕捉到然后做处理就可以了，不需要每个 <code>handler</code> 都处理一遍;</li>
+<li>灵活性，也许左侧第一个 <code>ChannelHandler</code> 根本不需要管理某个业务逻辑，但是从第二个 <code>ChannelHandler</code> 就需要关注处理某个业务需求了，那么就可以很灵活地从第二个 <code>ChannelHandler</code> 开始处理业务，不需要从channel中的第一个 <code>ChannelHandler</code> 开始处理.</li>
 </ol>
 <p><img src="http://oetw0yrii.bkt.clouddn.com/18-6-3/72901126.jpg" alt=""></p>
 <h1 id="5-ByteBuf"><a href="#5-ByteBuf" class="headerlink" title="5. ByteBuf"></a>5. <code>ByteBuf</code></h1><pre><code>网络传输的载体是 byte, 这是任何框架谁也逃脱不了的一种规定. JAVA 的 NIO 提供了 ByteBuffer, 用来完成这项任务.
