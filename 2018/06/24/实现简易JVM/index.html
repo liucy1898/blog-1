@@ -126,7 +126,9 @@
 <meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-6-24/51718592.jpg">
 <meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-6-24/11946975.jpg">
 <meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-6-24/56894058.jpg">
-<meta property="og:updated_time" content="2018-06-24T15:08:24.544Z">
+<meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-6-25/6624730.jpg">
+<meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-6-25/90459462.jpg">
+<meta property="og:updated_time" content="2018-06-25T14:59:49.293Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="实现简易JVM">
 <meta name="twitter:description" content="1. 概述  Java 源代码经过编译生成 class 文件 在不同的操作系统上分别实现 JVM, JVM 在不同操作系统上实现差异很大, 如线程, 图形界面等, 由 JVM 屏蔽与操作系统的接口   1.1 Class 文件格式 1.1.1 魔数 &amp;amp; 版本 &amp;amp; 常量池个数  Magic Number  确定这是一个 Java 文件   Minor / Major Version:">
@@ -892,7 +894,7 @@
 <p>code 属性一般由两个常见的子属性, 分别是:</p>
 <ul>
 <li>LineNumberTable</li>
-<li></li>
+<li>LocalVariableTable</li>
 </ul>
 <p><img src="http://oetw0yrii.bkt.clouddn.com/18-6-24/56894058.jpg" alt=""></p>
 <h3 id="4-3-2-LocalLineTable"><a href="#4-3-2-LocalLineTable" class="headerlink" title="4.3.2 LocalLineTable"></a>4.3.2 LocalLineTable</h3><pre><code>通过该属性可以完成字节码与 Java 源码的行号映射
@@ -911,6 +913,54 @@
 </ul>
 <p>由此可知， 方法中的每个局部变量都会对应一个local_variable_info 。 </p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">LocalVariableTable_attribute &#123;</span><br><span class="line">    u2 attribute_name_index;        <span class="comment">// 指向常量池, 必须是值为 "LocalVariableTable_attribute" 的 Utf8 常量</span></span><br><span class="line">    u4 attribute_length;            <span class="comment">// 当前属性长度, 不包括开始的 6 个字节</span></span><br><span class="line">    u2 local_variable_table_length; <span class="comment">// local_variable_table[] 的元素个数</span></span><br><span class="line">    </span><br><span class="line">    &#123;</span><br><span class="line">        u2 start_pc;                <span class="comment">// 局部变量的索引都在范围 [start_pc, start_pc + length)</span></span><br><span class="line">        u2 length;</span><br><span class="line">        u2 name_index;              <span class="comment">// 变量名索引, 在常量池中</span></span><br><span class="line">        u2 descriptor_index;        <span class="comment">// 变量描述索引(在常量池中)</span></span><br><span class="line">        u2 index;                   <span class="comment">// 此局部变量在当前栈帧的局部变量表中的索引</span></span><br><span class="line">    &#125; local_variable_table[local_variable_table_length]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://oetw0yrii.bkt.clouddn.com/18-6-25/6624730.jpg" alt=""></p>
+<p>解析以上字节码得到:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">start pc</th>
+<th style="text-align:center">length</th>
+<th style="text-align:center">slot</th>
+<th style="text-align:center">name</th>
+<th style="text-align:center">descript</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">15</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">this</td>
+<td style="text-align:center">Lorg/destiny/jvm/model/Employee</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">15</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">name</td>
+<td style="text-align:center">Ljava/lang/String</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">15</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">age</td>
+<td style="text-align:center">I</td>
+</tr>
+</tbody>
+</table>
+<p>在解析 <code>code</code> 属性时需要注意的两点:</p>
+<ul>
+<li><code>code</code> 属性中包含了方法真正的字节码</li>
+<li><code>code</code> 属性中包含几个子属性, 包括 <code>LineNumberTable</code>, <code>LocalVariableTable</code>等, 也需要进行解析.</li>
+</ul>
+<p>在 <code>Field</code>, <code>Method</code>, <code>Attribute</code> 三者中, 我们可以抽象出如下的关系:</p>
+<p><img src="http://oetw0yrii.bkt.clouddn.com/18-6-25/90459462.jpg" alt=""></p>
+<h3 id="4-3-4-Exceptions"><a href="#4-3-4-Exceptions" class="headerlink" title="4.3.4 Exceptions"></a>4.3.4 Exceptions</h3><pre><code>如果代码中出现了try{}catch{}块,那么try{}块内的机器指令的地址范围记录下来, 并且记录对应的catch{}块中的起始机器指令地址.
+当运行时在try块中有异常抛出的话, JVM会将catch{}块对应懂得其实机器指令地址传递给PC寄存器，从而实现指令跳转.
+</code></pre><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">u2 exception_table_length;                  <span class="comment">// 捕获异常表的长度</span></span><br><span class="line">&#123;</span><br><span class="line">    u2 start_pc;        <span class="comment">// 捕获起始地址</span></span><br><span class="line">    u2 end_pc;          <span class="comment">// 捕获结束地址</span></span><br><span class="line">    u2 handler_pc;      <span class="comment">// </span></span><br><span class="line">    u2 catch_type;      <span class="comment">// 异常类型</span></span><br><span class="line">&#125; exception_table[exception_table_length];  <span class="comment">// 捕获异常表</span></span><br></pre></td></tr></table></figure>
+<p><code>exception_table</code> 记录了该 <code>code</code> 属性中所有显示抛出的异常信心, 包括异常的作用于及类型.</p>
+
       
     </div>
 
@@ -1158,7 +1208,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-概述"><span class="nav-text">1. 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-Class-文件格式"><span class="nav-text">1.1 Class 文件格式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-1-魔数-amp-版本-amp-常量池个数"><span class="nav-text">1.1.1 魔数 &amp; 版本 &amp; 常量池个数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-2-常量池"><span class="nav-text">1.1.2 常量池</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-2-1-常量池实例"><span class="nav-text">1.1.2.1 常量池实例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-3-访问标志"><span class="nav-text">1.1.3 访问标志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-4-类索引-父类索引"><span class="nav-text">1.1.4 类索引, 父类索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-5-接口"><span class="nav-text">1.1.5 接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-6-字段"><span class="nav-text">1.1.6 字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-7-方法"><span class="nav-text">1.1.7 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-8-属性"><span class="nav-text">1.1.8 属性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-8-1-Constant-Value"><span class="nav-text">1.1.8.1 Constant Value</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-8-2-Code"><span class="nav-text">1.1.8.2 Code</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-8-3-LineNumber"><span class="nav-text">1.1.8.3 LineNumber</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-8-4-LocalVariableTable-属性"><span class="nav-text">1.1.8.4 LocalVariableTable 属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-JVM-运行时动态行为"><span class="nav-text">1.2 JVM 运行时动态行为</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-1-实例"><span class="nav-text">1.2.1 实例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-ClassLoader"><span class="nav-text">2. ClassLoader</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Java-是动态链接"><span class="nav-text">2.1 Java 是动态链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-类加载器的委托模型"><span class="nav-text">2.2 类加载器的委托模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-类加载器的命名空间"><span class="nav-text">2.3 类加载器的命名空间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-验证"><span class="nav-text">2.4 验证</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-常量池"><span class="nav-text">3. 常量池</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-常见结构"><span class="nav-text">3.1 常见结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-访问标志"><span class="nav-text">3.2 访问标志</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-字段-amp-方法"><span class="nav-text">4. 字段 &amp; 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-字段"><span class="nav-text">4.1 字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-方法"><span class="nav-text">4.2 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-属性"><span class="nav-text">4.3 属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-1-Code-属性"><span class="nav-text">4.3.1 Code 属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-2-LocalLineTable"><span class="nav-text">4.3.2 LocalLineTable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-3-LocalVariableTable"><span class="nav-text">4.3.3 LocalVariableTable</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-概述"><span class="nav-text">1. 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-Class-文件格式"><span class="nav-text">1.1 Class 文件格式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-1-魔数-amp-版本-amp-常量池个数"><span class="nav-text">1.1.1 魔数 &amp; 版本 &amp; 常量池个数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-2-常量池"><span class="nav-text">1.1.2 常量池</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-2-1-常量池实例"><span class="nav-text">1.1.2.1 常量池实例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-3-访问标志"><span class="nav-text">1.1.3 访问标志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-4-类索引-父类索引"><span class="nav-text">1.1.4 类索引, 父类索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-5-接口"><span class="nav-text">1.1.5 接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-6-字段"><span class="nav-text">1.1.6 字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-7-方法"><span class="nav-text">1.1.7 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-8-属性"><span class="nav-text">1.1.8 属性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-8-1-Constant-Value"><span class="nav-text">1.1.8.1 Constant Value</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-8-2-Code"><span class="nav-text">1.1.8.2 Code</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-8-3-LineNumber"><span class="nav-text">1.1.8.3 LineNumber</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-8-4-LocalVariableTable-属性"><span class="nav-text">1.1.8.4 LocalVariableTable 属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-JVM-运行时动态行为"><span class="nav-text">1.2 JVM 运行时动态行为</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-1-实例"><span class="nav-text">1.2.1 实例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-ClassLoader"><span class="nav-text">2. ClassLoader</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Java-是动态链接"><span class="nav-text">2.1 Java 是动态链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-类加载器的委托模型"><span class="nav-text">2.2 类加载器的委托模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-类加载器的命名空间"><span class="nav-text">2.3 类加载器的命名空间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-验证"><span class="nav-text">2.4 验证</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-常量池"><span class="nav-text">3. 常量池</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-常见结构"><span class="nav-text">3.1 常见结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-访问标志"><span class="nav-text">3.2 访问标志</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-字段-amp-方法"><span class="nav-text">4. 字段 &amp; 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-字段"><span class="nav-text">4.1 字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-方法"><span class="nav-text">4.2 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-属性"><span class="nav-text">4.3 属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-1-Code-属性"><span class="nav-text">4.3.1 Code 属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-2-LocalLineTable"><span class="nav-text">4.3.2 LocalLineTable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-3-LocalVariableTable"><span class="nav-text">4.3.3 LocalVariableTable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-4-Exceptions"><span class="nav-text">4.3.4 Exceptions</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
