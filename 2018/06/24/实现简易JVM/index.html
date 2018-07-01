@@ -141,7 +141,10 @@
 <meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-6-26/25073553.jpg">
 <meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-6-26/36898043.jpg">
 <meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-6-26/32409326.jpg">
-<meta property="og:updated_time" content="2018-07-01T02:12:27.843Z">
+<meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-7-1/2187429.jpg">
+<meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-7-1/13981658.jpg">
+<meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-7-1/2587031.jpg">
+<meta property="og:updated_time" content="2018-07-01T15:04:36.832Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="实现简易JVM">
 <meta name="twitter:description" content="1. 概述  Java 源代码经过编译生成 class 文件 在不同的操作系统上分别实现 JVM, JVM 在不同操作系统上实现差异很大, 如线程, 图形界面等, 由 JVM 屏蔽与操作系统的接口   1.1 Class 文件格式 1.1.1 魔数 &amp;amp; 版本 &amp;amp; 常量池个数  Magic Number  确定这是一个 Java 文件   Minor / Major Version:">
@@ -1066,6 +1069,90 @@
 </ul>
 <h2 id="5-4-字节码指令的设计实现"><a href="#5-4-字节码指令的设计实现" class="headerlink" title="5.4 字节码指令的设计实现"></a>5.4 字节码指令的设计实现</h2><p>使用 <code>命令模式</code> 来抽象该场景, 即将所有字节码指令抽象为命令对象, 基类声明 <code>command</code> 方法, 再根据操作数的不同泛化出不同的抽象子类</p>
 <p><img src="http://oetw0yrii.bkt.clouddn.com/18-6-26/32409326.jpg" alt=""></p>
+<h1 id="6-JVM-执行引擎"><a href="#6-JVM-执行引擎" class="headerlink" title="6 JVM 执行引擎"></a>6 JVM 执行引擎</h1><p><img src="http://oetw0yrii.bkt.clouddn.com/18-7-1/2187429.jpg" alt=""></p>
+<h2 id="6-1-Java-命令"><a href="#6-1-Java-命令" class="headerlink" title="6.1 Java 命令"></a>6.1 Java 命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -cp path1;path2 org.destiny.jvm.Employee</span><br></pre></td></tr></table></figure>
+<ul>
+<li>cp: classpath(s), 默认是当前路径</li>
+<li>class name: 系统需要找到这个类的 main 方法, 然后执行它的字节码</li>
+</ul>
+<h2 id="6-2-执行过程"><a href="#6-2-执行过程" class="headerlink" title="6.2 执行过程"></a>6.2 执行过程</h2><ul>
+<li>加载类<ul>
+<li>工具: <code>ClassFileLoader</code></li>
+<li>目的地: 方法区</li>
+</ul>
+</li>
+<li>获取类的 <code>public static void main(String[] args)</code> 方法<ul>
+<li>从方法区寻找</li>
+</ul>
+</li>
+<li>执行 <code>main</code> 方法的字节码<ul>
+<li>字节码指令</li>
+<li>栈帧(StackFrame)</li>
+<li>堆(Heap)</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-3-字节码指令的分类"><a href="#6-3-字节码指令的分类" class="headerlink" title="6.3 字节码指令的分类"></a>6.3 字节码指令的分类</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">指令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">依次执行</td>
+<td style="text-align:center"><code>new</code><br><code>bipush</code><br><code>ldc</code><br><code>dup</code></td>
+</tr>
+<tr>
+<td style="text-align:center">暂停当前栈帧并创建新栈帧</td>
+<td style="text-align:center"><code>invokespecial</code><br><code>invokevirtual</code></td>
+</tr>
+<tr>
+<td style="text-align:center">跳转到另一行去执行</td>
+<td style="text-align:center"><code>if_icmp_ge</code><br><code>if_icmple</code><br><code>goto</code></td>
+</tr>
+<tr>
+<td style="text-align:center">退出当前栈帧</td>
+<td style="text-align:center"><code>return</code></td>
+</tr>
+</tbody>
+</table>
+<h1 id="7-垃圾回收机制"><a href="#7-垃圾回收机制" class="headerlink" title="7. 垃圾回收机制"></a>7. 垃圾回收机制</h1><h2 id="7-1-Java-对象的内存布局"><a href="#7-1-Java-对象的内存布局" class="headerlink" title="7.1 Java 对象的内存布局"></a>7.1 Java 对象的内存布局</h2><p><img src="http://oetw0yrii.bkt.clouddn.com/18-7-1/13981658.jpg" alt=""></p>
+<ul>
+<li>MarkWord: 标注对象的元信息<ul>
+<li>GC 年龄</li>
+<li>锁的标志位</li>
+</ul>
+</li>
+<li>ClassPointer: 指向方法区的类信息的指针</li>
+<li>InstanceData: 类实例对象的数据<ul>
+<li>方法信息保存在方法区</li>
+</ul>
+</li>
+<li>padding: 填充</li>
+</ul>
+<h2 id="7-2-对象分配和垃圾回收"><a href="#7-2-对象分配和垃圾回收" class="headerlink" title="7.2 对象分配和垃圾回收"></a>7.2 对象分配和垃圾回收</h2><ul>
+<li>对象优先分配在新生代<ul>
+<li>如果 Eden 区没有足够的空间, 则触发一次 MinorGC</li>
+<li>Java 对象大多具有生命周期短暂的特点, MinorGC 非常频繁, 速度也很快</li>
+</ul>
+</li>
+<li>大对象直接进入老年代<ul>
+<li>可以根据参数设置阈值</li>
+</ul>
+</li>
+<li>长期存活对象进入老年代<ul>
+<li>每个对象都有一个年龄(age), 在 MarkWord 中</li>
+<li>如果 age 超过阈值, 则晋升到老年代</li>
+</ul>
+</li>
+<li>动态年龄判断<ul>
+<li>如果在 Survivor 空间中相同年龄的所有对象大小的总数和大于 Survivor 空间的一半, 年龄大于或等于该年龄的对象可以直接进入老年代</li>
+</ul>
+</li>
+</ul>
+<h2 id="MinorGC-时-新生代与老年代的关系"><a href="#MinorGC-时-新生代与老年代的关系" class="headerlink" title="MinorGC 时 新生代与老年代的关系"></a>MinorGC 时 新生代与老年代的关系</h2><p><img src="http://oetw0yrii.bkt.clouddn.com/18-7-1/2587031.jpg" alt=""></p>
 
       
     </div>
@@ -1314,7 +1401,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-概述"><span class="nav-text">1. 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-Class-文件格式"><span class="nav-text">1.1 Class 文件格式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-1-魔数-amp-版本-amp-常量池个数"><span class="nav-text">1.1.1 魔数 &amp; 版本 &amp; 常量池个数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-2-常量池"><span class="nav-text">1.1.2 常量池</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-2-1-常量池实例"><span class="nav-text">1.1.2.1 常量池实例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-3-访问标志"><span class="nav-text">1.1.3 访问标志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-4-类索引-父类索引"><span class="nav-text">1.1.4 类索引, 父类索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-5-接口"><span class="nav-text">1.1.5 接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-6-字段"><span class="nav-text">1.1.6 字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-7-方法"><span class="nav-text">1.1.7 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-8-属性"><span class="nav-text">1.1.8 属性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-8-1-Constant-Value"><span class="nav-text">1.1.8.1 Constant Value</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-8-2-Code"><span class="nav-text">1.1.8.2 Code</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-8-3-LineNumber"><span class="nav-text">1.1.8.3 LineNumber</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-8-4-LocalVariableTable-属性"><span class="nav-text">1.1.8.4 LocalVariableTable 属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-JVM-运行时动态行为"><span class="nav-text">1.2 JVM 运行时动态行为</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-1-实例"><span class="nav-text">1.2.1 实例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-ClassLoader"><span class="nav-text">2. ClassLoader</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Java-是动态链接"><span class="nav-text">2.1 Java 是动态链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-类加载器的委托模型"><span class="nav-text">2.2 类加载器的委托模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-类加载器的命名空间"><span class="nav-text">2.3 类加载器的命名空间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-验证"><span class="nav-text">2.4 验证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-自定义类加载器"><span class="nav-text">2.5 自定义类加载器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-常量池"><span class="nav-text">3. 常量池</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-常见结构"><span class="nav-text">3.1 常见结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-访问标志"><span class="nav-text">3.2 访问标志</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-字段-amp-方法"><span class="nav-text">4. 字段 &amp; 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-字段"><span class="nav-text">4.1 字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-方法"><span class="nav-text">4.2 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-属性"><span class="nav-text">4.3 属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-1-Code-属性"><span class="nav-text">4.3.1 Code 属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-2-LocalLineTable"><span class="nav-text">4.3.2 LocalLineTable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-3-LocalVariableTable"><span class="nav-text">4.3.3 LocalVariableTable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-4-Exceptions"><span class="nav-text">4.3.4 Exceptions</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-字节码指令"><span class="nav-text">5. 字节码指令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-main-方法字节码"><span class="nav-text">5.1 main 方法字节码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-1-new"><span class="nav-text">5.1.1 new</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-2-dup"><span class="nav-text">5.1.2 dup</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-3-ldc"><span class="nav-text">5.1.3 ldc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-4-bipush"><span class="nav-text">5.1.4 bipush</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-5-invokespecial-indexbyte1-indexbyte2"><span class="nav-text">5.1.5 invokespecial indexbyte1 indexbyte2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-6-astore-n"><span class="nav-text">5.1.6 astore_n</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-7-aload-n"><span class="nav-text">5.1.7 aload_n</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-8-invokevirtual-indexbyte1-indexbyte2"><span class="nav-text">5.1.8 invokevirtual indexbyte1 indexbyte2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-9-return"><span class="nav-text">5.1.9 return</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-方法指令"><span class="nav-text">5.2  方法指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-1-aload-0"><span class="nav-text">5.2.1 aload_0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-2-aload-1"><span class="nav-text">5.2.2 aload_1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-3-putfield-indexbyte1-indexbyte2"><span class="nav-text">5.2.3 putfield indexbyte1 indexbyte2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-3-iload-2"><span class="nav-text">5.3.3 iload_2</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-字节码指令的设计实现"><span class="nav-text">5.4 字节码指令的设计实现</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-概述"><span class="nav-text">1. 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-Class-文件格式"><span class="nav-text">1.1 Class 文件格式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-1-魔数-amp-版本-amp-常量池个数"><span class="nav-text">1.1.1 魔数 &amp; 版本 &amp; 常量池个数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-2-常量池"><span class="nav-text">1.1.2 常量池</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-2-1-常量池实例"><span class="nav-text">1.1.2.1 常量池实例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-3-访问标志"><span class="nav-text">1.1.3 访问标志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-4-类索引-父类索引"><span class="nav-text">1.1.4 类索引, 父类索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-5-接口"><span class="nav-text">1.1.5 接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-6-字段"><span class="nav-text">1.1.6 字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-7-方法"><span class="nav-text">1.1.7 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-8-属性"><span class="nav-text">1.1.8 属性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-8-1-Constant-Value"><span class="nav-text">1.1.8.1 Constant Value</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-8-2-Code"><span class="nav-text">1.1.8.2 Code</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-8-3-LineNumber"><span class="nav-text">1.1.8.3 LineNumber</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-8-4-LocalVariableTable-属性"><span class="nav-text">1.1.8.4 LocalVariableTable 属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-JVM-运行时动态行为"><span class="nav-text">1.2 JVM 运行时动态行为</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-1-实例"><span class="nav-text">1.2.1 实例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-ClassLoader"><span class="nav-text">2. ClassLoader</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Java-是动态链接"><span class="nav-text">2.1 Java 是动态链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-类加载器的委托模型"><span class="nav-text">2.2 类加载器的委托模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-类加载器的命名空间"><span class="nav-text">2.3 类加载器的命名空间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-验证"><span class="nav-text">2.4 验证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-自定义类加载器"><span class="nav-text">2.5 自定义类加载器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-常量池"><span class="nav-text">3. 常量池</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-常见结构"><span class="nav-text">3.1 常见结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-访问标志"><span class="nav-text">3.2 访问标志</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-字段-amp-方法"><span class="nav-text">4. 字段 &amp; 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-字段"><span class="nav-text">4.1 字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-方法"><span class="nav-text">4.2 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-属性"><span class="nav-text">4.3 属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-1-Code-属性"><span class="nav-text">4.3.1 Code 属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-2-LocalLineTable"><span class="nav-text">4.3.2 LocalLineTable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-3-LocalVariableTable"><span class="nav-text">4.3.3 LocalVariableTable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-4-Exceptions"><span class="nav-text">4.3.4 Exceptions</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-字节码指令"><span class="nav-text">5. 字节码指令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-main-方法字节码"><span class="nav-text">5.1 main 方法字节码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-1-new"><span class="nav-text">5.1.1 new</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-2-dup"><span class="nav-text">5.1.2 dup</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-3-ldc"><span class="nav-text">5.1.3 ldc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-4-bipush"><span class="nav-text">5.1.4 bipush</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-5-invokespecial-indexbyte1-indexbyte2"><span class="nav-text">5.1.5 invokespecial indexbyte1 indexbyte2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-6-astore-n"><span class="nav-text">5.1.6 astore_n</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-7-aload-n"><span class="nav-text">5.1.7 aload_n</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-8-invokevirtual-indexbyte1-indexbyte2"><span class="nav-text">5.1.8 invokevirtual indexbyte1 indexbyte2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-9-return"><span class="nav-text">5.1.9 return</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-方法指令"><span class="nav-text">5.2  方法指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-1-aload-0"><span class="nav-text">5.2.1 aload_0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-2-aload-1"><span class="nav-text">5.2.2 aload_1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-3-putfield-indexbyte1-indexbyte2"><span class="nav-text">5.2.3 putfield indexbyte1 indexbyte2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-3-iload-2"><span class="nav-text">5.3.3 iload_2</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-字节码指令的设计实现"><span class="nav-text">5.4 字节码指令的设计实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-JVM-执行引擎"><span class="nav-text">6 JVM 执行引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-Java-命令"><span class="nav-text">6.1 Java 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-执行过程"><span class="nav-text">6.2 执行过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-字节码指令的分类"><span class="nav-text">6.3 字节码指令的分类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-垃圾回收机制"><span class="nav-text">7. 垃圾回收机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-Java-对象的内存布局"><span class="nav-text">7.1 Java 对象的内存布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-对象分配和垃圾回收"><span class="nav-text">7.2 对象分配和垃圾回收</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MinorGC-时-新生代与老年代的关系"><span class="nav-text">MinorGC 时 新生代与老年代的关系</span></a></li></ol></li></ol></div>
             
 
           </div>
