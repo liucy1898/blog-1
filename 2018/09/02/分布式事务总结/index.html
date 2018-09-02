@@ -99,25 +99,30 @@
 
 
 
-  <meta name="description" content="今天在开发中遇到了一个需求： 在服务端保存一个Excel模板，用户通过浏览器传递不同的参数，解析参数并写入模板返回给用户以供下载。 需求本身很简单，但在开发的过程中踩了几个坑，所以记录下来。 1. 文件下载的原理  通过 HttpServletResponse.setContentType() 方法设置 Content-Type 字段的值，设置为 application/octet-stream">
-<meta name="keywords" content="踩坑总结">
+  <meta name="description" content="1. 定义事务能够提供一种将一个活动涉及到的所有操作纳入到一个不可分割的执行单元的机制. 组成事务的操作只有在操作均能正常执行的情况下才能提交, 只要其中任意一步执行失败, 都将导致整个操作回滚. 2. 数据库本地事务2.1 ACID   特性 描述     原子性 一个事务的所有操作, 要么全部完成, 要么全部不完成, 不会结束在中间某个环节   一致性 在一个事务执行之前和执行之后, 数据库必">
+<meta name="keywords" content="分布式事务">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java文件下载">
-<meta property="og:url" content="https://destinywang.github.io/blog/2018/04/16/Java文件下载/index.html">
+<meta property="og:title" content="分布式事务总结">
+<meta property="og:url" content="https://destinywang.github.io/blog/2018/09/02/分布式事务总结/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="今天在开发中遇到了一个需求： 在服务端保存一个Excel模板，用户通过浏览器传递不同的参数，解析参数并写入模板返回给用户以供下载。 需求本身很简单，但在开发的过程中踩了几个坑，所以记录下来。 1. 文件下载的原理  通过 HttpServletResponse.setContentType() 方法设置 Content-Type 字段的值，设置为 application/octet-stream">
+<meta property="og:description" content="1. 定义事务能够提供一种将一个活动涉及到的所有操作纳入到一个不可分割的执行单元的机制. 组成事务的操作只有在操作均能正常执行的情况下才能提交, 只要其中任意一步执行失败, 都将导致整个操作回滚. 2. 数据库本地事务2.1 ACID   特性 描述     原子性 一个事务的所有操作, 要么全部完成, 要么全部不完成, 不会结束在中间某个环节   一致性 在一个事务执行之前和执行之后, 数据库必">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-4-16/99931223.jpg">
-<meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-4-16/35170323.jpg">
-<meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-4-16/14163886.jpg">
-<meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-4-16/86742792.jpg">
-<meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-4-16/68196612.jpg">
-<meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-4-16/88139961.jpg">
-<meta property="og:updated_time" content="2018-04-16T15:56:06.275Z">
+<meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-8-4/3451917.jpg">
+<meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-8-4/44346101.jpg">
+<meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-8-4/47229853.jpg">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/524341/201607/524341-20160718200514638-1914892480.png">
+<meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-8-4/81578002.jpg">
+<meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-8-4/62419454.jpg">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/175724-92abb226f288ff9c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/621">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/175724-1927b8f3d14ef823.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/618">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/175724-367b5cf60cbdfa16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/619">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/175724-ab0085543c6d02d6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/621">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/175724-1d9ba7bcd230e0dc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/624">
+<meta property="og:updated_time" content="2018-09-02T02:23:29.447Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java文件下载">
-<meta name="twitter:description" content="今天在开发中遇到了一个需求： 在服务端保存一个Excel模板，用户通过浏览器传递不同的参数，解析参数并写入模板返回给用户以供下载。 需求本身很简单，但在开发的过程中踩了几个坑，所以记录下来。 1. 文件下载的原理  通过 HttpServletResponse.setContentType() 方法设置 Content-Type 字段的值，设置为 application/octet-stream">
-<meta name="twitter:image" content="http://oetw0yrii.bkt.clouddn.com/18-4-16/99931223.jpg">
+<meta name="twitter:title" content="分布式事务总结">
+<meta name="twitter:description" content="1. 定义事务能够提供一种将一个活动涉及到的所有操作纳入到一个不可分割的执行单元的机制. 组成事务的操作只有在操作均能正常执行的情况下才能提交, 只要其中任意一步执行失败, 都将导致整个操作回滚. 2. 数据库本地事务2.1 ACID   特性 描述     原子性 一个事务的所有操作, 要么全部完成, 要么全部不完成, 不会结束在中间某个环节   一致性 在一个事务执行之前和执行之后, 数据库必">
+<meta name="twitter:image" content="http://oetw0yrii.bkt.clouddn.com/18-8-4/3451917.jpg">
 
 
 
@@ -126,7 +131,7 @@
 
 
 
-  <link rel="canonical" href="https://destinywang.github.io/blog/2018/04/16/Java文件下载/"/>
+  <link rel="canonical" href="https://destinywang.github.io/blog/2018/09/02/分布式事务总结/"/>
 
 
 
@@ -136,7 +141,7 @@
   };
 </script>
 
-  <title>Java文件下载 | Hexo</title>
+  <title>分布式事务总结 | Hexo</title>
   
 
 
@@ -371,7 +376,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://destinywang.github.io/blog/blog/2018/04/16/Java文件下载/">
+    <link itemprop="mainEntityOfPage" href="https://destinywang.github.io/blog/blog/2018/09/02/分布式事务总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="destiny">
@@ -388,7 +393,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Java文件下载</h1>
+          <h1 class="post-title" itemprop="name headline">分布式事务总结</h1>
         
 
         <div class="post-meta">
@@ -400,7 +405,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-16T23:46:42+08:00">2018-04-16</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-02T10:21:57+08:00">2018-09-02</time>
             
 
             
@@ -421,7 +426,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/blog/categories/踩坑总结/" itemprop="url" rel="index"><span itemprop="name">踩坑总结</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/blog/categories/分布式事务/" itemprop="url" rel="index"><span itemprop="name">分布式事务</span></a></span>
 
                 
                 
@@ -455,60 +460,132 @@
       
 
       
-        <pre><code>今天在开发中遇到了一个需求：
-在服务端保存一个Excel模板，用户通过浏览器传递不同的参数，解析参数并写入模板返回给用户以供下载。
-需求本身很简单，但在开发的过程中踩了几个坑，所以记录下来。
-</code></pre><h2 id="1-文件下载的原理"><a href="#1-文件下载的原理" class="headerlink" title="1. 文件下载的原理"></a>1. 文件下载的原理</h2><blockquote>
+        <h1 id="1-定义"><a href="#1-定义" class="headerlink" title="1. 定义"></a>1. 定义</h1><pre><code>事务能够提供一种将一个活动涉及到的所有操作纳入到一个不可分割的执行单元的机制.
+组成事务的操作只有在操作均能正常执行的情况下才能提交, 只要其中任意一步执行失败, 都将导致整个操作回滚.
+</code></pre><h1 id="2-数据库本地事务"><a href="#2-数据库本地事务" class="headerlink" title="2. 数据库本地事务"></a>2. 数据库本地事务</h1><h2 id="2-1-ACID"><a href="#2-1-ACID" class="headerlink" title="2.1 ACID"></a>2.1 ACID</h2><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>原子性</td>
+<td>一个事务的所有操作, 要么全部完成, 要么全部不完成, 不会结束在中间某个环节</td>
+</tr>
+<tr>
+<td>一致性</td>
+<td>在一个事务执行之前和执行之后, 数据库必须保持处于一致的状态. 如果事务成功执行, 系统中所有的变化都将正确地被应用, 反之, 所有变化都将被回滚</td>
+</tr>
+<tr>
+<td>隔离性</td>
+<td>当不同的事务操作相同的数据的时候, 每个事务都有各自的完整数据空间, 由事务所做的修改必须与任何其他事务所做的修改隔离, 事务不会看到数据的中间状态.</td>
+</tr>
+<tr>
+<td>持久性</td>
+<td>只要事务成功结束, 它对数据库所做的更新就必须永久保存下来</td>
+</tr>
+</tbody>
+</table>
+<p><img src="http://oetw0yrii.bkt.clouddn.com/18-8-4/3451917.jpg" alt=""></p>
+<p>而事务的 ACID 是通过 InnoDB 日志和锁来保证.</p>
 <ul>
-<li>通过 <code>HttpServletResponse.setContentType()</code> 方法设置 <code>Content-Type</code> 字段的值，设置为 <code>application/octet-stream</code> 或 <code>application/x-msdownload</code> ，决定客户端服务器以那种方式来接受返回的信息</li>
+<li>事务的隔离性是通过数据库锁的机制来实现;</li>
+<li>持久性是通过 redo log(重做日志) 来实现的</li>
+<li>原子性和一致性是通过 undo log(回滚日志)</li>
 </ul>
+<pre><code>Undo log: 为了满足事务的原子性, 在操作任何数据之前, 首先将数据备份到一个地方, 然后对数据进行修改, 如果出现了错误, 或者用户执行 RollBack, 系统可以利用 Undo log 中的备份将数据恢复到事务开始之前的状态
+Redo log: 记录新数据的备份, 在事务提交之前, 只要将 Redo log 持久化即可, 当系统崩溃时, 虽然数据没有持久化, 但是 Redo log 已经持久化, 系统可以根据 Redo log 的内容, 将所有数据恢复到最新状态.
+</code></pre><h1 id="3-分布式事务"><a href="#3-分布式事务" class="headerlink" title="3. 分布式事务"></a>3. 分布式事务</h1><h2 id="3-1-分布式事务概念"><a href="#3-1-分布式事务概念" class="headerlink" title="3.1 分布式事务概念"></a>3.1 分布式事务概念</h2><pre><code>指事物的参与者, 支持事务的服务器, 资源服务器以及事务管理器分别位于不同的分布式系统之上.
+本质上讲, 分布式事务就是为了保证不同数据库的数据一致性.
+</code></pre><h2 id="3-2-场景"><a href="#3-2-场景" class="headerlink" title="3.2 场景"></a>3.2 场景</h2><h3 id="3-2-1-service-多个节点"><a href="#3-2-1-service-多个节点" class="headerlink" title="3.2.1 service 多个节点"></a>3.2.1 service 多个节点</h3><blockquote>
+<p>随着互联网快速发展, SOA, 微服务等架构模式正在被大规模使用, 一个公司内, 用户的资产可能被分为好多个部分, 比如余额, 积分, 优惠券等</p>
 </blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.setContentType(<span class="string">"application/vnd.ms-excel"</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="http://oetw0yrii.bkt.clouddn.com/18-8-4/44346101.jpg" alt=""></p>
+<p>这样的话传统的单机事务实现方式无法保证积分扣减成功之后, 优惠券也能正确完成扣减操作.</p>
+<h3 id="3-2-2-resource-多个节点"><a href="#3-2-2-resource-多个节点" class="headerlink" title="3.2.2 resource 多个节点"></a>3.2.2 resource 多个节点</h3><blockquote>
+<p>同样, 由于单表数据过大需要进行拆分, 一次转账业务需要在北京的 MySQL 实例向 上海的 MySQL 实例转账, 同样无法保证他们能同时成功.</p>
+</blockquote>
+<p><img src="http://oetw0yrii.bkt.clouddn.com/18-8-4/47229853.jpg" alt=""></p>
+<h2 id="3-3-分布式事务基础"><a href="#3-3-分布式事务基础" class="headerlink" title="3.3 分布式事务基础"></a>3.3 分布式事务基础</h2><h3 id="3-3-1-CAP"><a href="#3-3-1-CAP" class="headerlink" title="3.3.1 CAP"></a>3.3.1 CAP</h3><ul>
+<li>C: 对某个执行的客户端来说, 读操作能返回最新的写操作. 对于数据分布在不同节点上的数据来说, 如果在某个节点更新了数据, 那么在其他节点都能读取到最新的数据, 那么就成为强一致, 反之就是分布式不一致;</li>
+<li>A: 非故障的节点在一定时间内返回合理的响应(不是错误或超时), 可用性的关键在于: <code>合理的时间</code> 和 <code>合理的响应</code>, 请求不能无限期得不到响应, 并且需要得到系统正确的返回结果;</li>
+<li>P: 当出现网络分区后, 系统依然能够正常工作.</li>
+</ul>
+<p>在分布式系统中, 网络永远无法 100% 可靠, 分区是一个一定会出现的情况, 如果我们选择 AC 而放弃 P, 当分区发生时, 为了保证一致性, 这个时候必须拒绝请求, 当时 A 又不允许拒绝, 所以分布式系统理论上不可能选择 CA 架构, 只能选择 CP 或者 AP 架构.</p>
+<p>对于 CP 来说, 放弃可用性, 追求一致性和分区容错性, 比如 Zookeeper 就是追求强一致.</p>
+<p>对于 AP 来说, 放弃一致性(强一致), 追求分区容错和可用, 这是很多分布式系统的选择.</p>
+<p>CAP 是忽略网络延迟的, 也就是当事务提交时, 从节点 A 复制到节点 B, 但是在现实中总会有一定的时间延迟.</p>
+<h3 id="3-3-2-BASE"><a href="#3-3-2-BASE" class="headerlink" title="3.3.2 BASE"></a>3.3.2 BASE</h3><pre><code>基本可用, 软状态, 最终一致性的缩写
+本质上是 AP 的一个扩张, 通过软状态实现基本可用和最终一致性.
+</code></pre><ul>
+<li>BA: 基本可用, 分布式系统出现故障时, 允许损失部分可用功能, 保证核心功能可用;</li>
+<li>软状态: 允许系统中存在中间状态, 这个状态不影响系统可用性, 这里指的是 CAP 中的不一致;</li>
+<li>最终一致性: 经过一段时间后, 所有节点数据都将达到一致.</li>
+</ul>
+<h1 id="4-分布式事务的解决方案"><a href="#4-分布式事务的解决方案" class="headerlink" title="4. 分布式事务的解决方案"></a>4. 分布式事务的解决方案</h1><h2 id="4-1-是否真的需要分布式事务"><a href="#4-1-是否真的需要分布式事务" class="headerlink" title="4.1 是否真的需要分布式事务"></a>4.1 是否真的需要分布式事务</h2><pre><code>首先要明确是否真的需要分布式事务?
+</code></pre><p>是否存在由于服务拆分过细导致不合理的分布式系统设计?</p>
+<p>可以先考虑将多个微服务聚合成一个单机服务, 避免引入不必要的成本和复杂度.</p>
+<h2 id="4-2-2PC"><a href="#4-2-2PC" class="headerlink" title="4.2 2PC"></a>4.2 2PC</h2><p><img src="http://images2015.cnblogs.com/blog/524341/201607/524341-20160718200514638-1914892480.png" alt="image"></p>
+<p>第一阶段: 事务管理器要求每个涉及到事务的数据库预提交此操作, 并反映是否可以提交</p>
+<p>第二节点: 事务协调器要求每个数据库提交数据, 或者回滚</p>
+<p>优点: 保证数据强一致, 实现简单;</p>
+<p>缺点: 事务管理器存在单机风险; 整个过程存在同步阻塞; 数据可能不一致; 不支持高并发.</p>
+<h2 id="4-3-TCC"><a href="#4-3-TCC" class="headerlink" title="4.3 TCC"></a>4.3 TCC</h2><p>相比 2PC, 解决了以下问题</p>
+<ol>
+<li>解决了协调者单点, 引入集群</li>
+<li>引入超时, 超时后进行补偿, 并且不会锁定整个资源, 将资源转换为业务逻辑形式</li>
+<li>数据一致性, 有了补偿机制后, 由业务管理其控制一致性</li>
+</ol>
+<pre><code>Try 阶段: 尝试执行, 完成所有业务检查(一致性), 预留必须业务资源(准隔离性)
+
+Confirm 阶段: 确认执行真正的业务, 不做任何业务检查, 只使用 Try 阶段预留的业务资源, Confirm 操作满足幂等性. 要求具备幂等设计, Confirm 失败后需要进行重试.
+
+Cancel 阶段: 取消执行, 释放 Try 阶段预留的业务资源, 也需要满足幂等性.
+</code></pre><p><img src="http://oetw0yrii.bkt.clouddn.com/18-8-4/81578002.jpg" alt=""></p>
+<h2 id="4-4-本地消息表"><a href="#4-4-本地消息表" class="headerlink" title="4.4 本地消息表"></a>4.4 本地消息表</h2><pre><code>将需要分布式处理的任务通过消息日至的方式来异步执行
+</code></pre><p>消息日志可以存储到本地文本, 数据库或者消息队列, 再通过业务规则或人工发起重试, 人工重试更多应用于支付系统</p>
 <blockquote>
-<ul>
-<li>通过 <code>HttpServletResponse.setHeader()</code> 方法设置 <code>Content-Disposition</code> 头的值为 <code>attachment;filename=文件名</code> ，浏览器通过附件的形式来获取到用户上传的文件</li>
-</ul>
+<p>举一个购物的例子</p>
 </blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.addHeader(<span class="string">"Content-Disposition"</span>, <span class="string">"attachment; filename="</span> + fileName);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<ul>
-<li>读取下载文件，通过 <code>HttpServletResponse.getOutputStream()</code> 方法返回 <code>ServletOutputStream</code> 对象来向客户端写入附件文件的内容</li>
-</ul>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> (OutputStream out = response.getOutputStream();</span><br><span class="line">     BufferedInputStream bis = <span class="keyword">new</span> BufferedInputStream(<span class="keyword">new</span> FileInputStream(file));</span><br><span class="line">     BufferedOutputStream bos = <span class="keyword">new</span> BufferedOutputStream(out)) &#123;</span><br><span class="line">    <span class="keyword">byte</span>[] buff = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">2048</span>];</span><br><span class="line">    <span class="keyword">int</span> bytesRead;</span><br><span class="line">    <span class="keyword">while</span> (-<span class="number">1</span> != (bytesRead = bis.read(buff, <span class="number">0</span>, buff.length))) &#123;</span><br><span class="line">        bos.write(buff, <span class="number">0</span>, bytesRead);</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">    logger.error(e.getMessage());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="2-Http-报头-Content-disposition-的作用"><a href="#2-Http-报头-Content-disposition-的作用" class="headerlink" title="2. Http 报头 Content-disposition 的作用"></a>2. <code>Http</code> 报头 <code>Content-disposition</code> 的作用</h2><pre><code>Content-Disposition 属性是作为对下载文件的一个标识字段。
-</code></pre><p>在 <a href="http://www.rfc-editor.org/rfc/rfc2616.pdf" target="_blank" rel="noopener">rfc2616</a> 章节19.5 Additional Features中</p>
-<p><code>Content-Disposition</code> 属性有两种类型：<code>inline</code> 和 <code>attachment</code></p>
-<ul>
-<li>inline ：将文件内容直接显示在页面</li>
-<li>attachment：弹出对话框让用户下载</li>
-</ul>
-<h3 id="2-1-inline"><a href="#2-1-inline" class="headerlink" title="2.1 inline"></a>2.1 inline</h3><pre><code>inline 用于直接在页面中展示该文件，常用与图片等
-</code></pre><p>示例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">File file = <span class="keyword">new</span> File(<span class="string">"rfc1806.txt"</span>);</span><br><span class="line">String filename = file.getName();</span><br><span class="line">response.setHeader(<span class="string">"Content-Type"</span>,<span class="string">"text/plain"</span>);</span><br><span class="line">response.addHeader(<span class="string">"Content-Disposition"</span>,<span class="string">"inline;filename="</span> + <span class="keyword">new</span> String(filename.getBytes(),<span class="string">"utf-8"</span>));</span><br><span class="line">response.addHeader(<span class="string">"Content-Length"</span>,<span class="string">""</span> + file.length());</span><br></pre></td></tr></table></figure>
-<h3 id="2-2-attachment"><a href="#2-2-attachment" class="headerlink" title="2.2 attachment"></a>2.2 attachment</h3><pre><code>attachment 用于通知浏览器弹出对话框以供用户下载。
-</code></pre><p>示例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">File file = <span class="keyword">new</span> File(<span class="string">"rfc1806.txt"</span>);</span><br><span class="line">String filename = file.getName();</span><br><span class="line">response.setHeader(<span class="string">"Content-Type"</span>,<span class="string">"text/plain"</span>);</span><br><span class="line">response.addHeader(<span class="string">"Content-Disposition"</span>,<span class="string">"attachment; filename="</span> + <span class="keyword">new</span> String(filename.getBytes(),<span class="string">"utf-8"</span>));</span><br><span class="line">response.addHeader(<span class="string">"Content-Length"</span>,<span class="string">""</span> + file.length());</span><br></pre></td></tr></table></figure>
-<h2 id="3-filename-属性中文乱码"><a href="#3-filename-属性中文乱码" class="headerlink" title="3. filename 属性中文乱码"></a>3. <code>filename</code> 属性中文乱码</h2><p>如果在设置 <code>filename</code> 的时候直接使用中文，则会出现如下情况:</p>
-<ul>
-<li><p>在代码中直接使用中文进行设置<br><img src="http://oetw0yrii.bkt.clouddn.com/18-4-16/99931223.jpg" alt=""></p>
-</li>
-<li><p>相应的 <code>HTTP Response</code><br><img src="http://oetw0yrii.bkt.clouddn.com/18-4-16/35170323.jpg" alt=""></p>
-</li>
-<li><p>浏览器的弹窗<br><img src="http://oetw0yrii.bkt.clouddn.com/18-4-16/14163886.jpg" alt=""></p>
-</li>
-</ul>
-<p>首先，产生乱码的根本问题是在 HTTP 协议中，HTTP Header要求其内容必须为 <code>ISO-8859-1</code> 编码。</p>
-<p>所以，在开发中尽量使用如下方式：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.setHeader(<span class="string">"Content-disposition"</span>, <span class="string">"attachment; filename="</span> + <span class="keyword">new</span> String(<span class="string">"中文文件名"</span>.getBytes(<span class="string">"utf-8"</span>), <span class="string">"ISO8859-1"</span>));</span><br></pre></td></tr></table></figure>
-<p>得到文件名的字节数组，将字节数组转换成 <code>IOS-8859-1</code> 格式编码的字符串。</p>
-<p>而不能通过如下方式：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"中文文件名"</span>.getBytes(<span class="string">"ISO8859-1"</span>);</span><br></pre></td></tr></table></figure>
-<p>因为 <code>IOS-8859-1</code> 的编码表中没有汉字字符，因此无法通过以上的方式对中文字符串进行编码。</p>
-<p>以先通过 <code>&quot;中文文件名&quot;.getBytes(&quot;utf-8&quot;)</code> 获取其 <code>byte[]</code>字节，让其按照字节来编码，即在使用 <code>new String(&quot;中文文件名&quot;.getBytes(&quot;utf-8&quot;), &quot;ISO8859-1&quot;)</code> 将其重新组成一个字符串，传送给浏览器。</p>
-<h2 id="4-演示"><a href="#4-演示" class="headerlink" title="4. 演示"></a>4. 演示</h2><h3 id="4-1-代码及资源路径"><a href="#4-1-代码及资源路径" class="headerlink" title="4.1 代码及资源路径"></a>4.1 代码及资源路径</h3><p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-16/86742792.jpg" alt=""></p>
-<h3 id="4-2-HTTP-Response-详情"><a href="#4-2-HTTP-Response-详情" class="headerlink" title="4.2 HTTP Response 详情"></a>4.2 HTTP Response 详情</h3><p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-16/68196612.jpg" alt=""></p>
-<h3 id="4-3-浏览器能够正确识别"><a href="#4-3-浏览器能够正确识别" class="headerlink" title="4.3 浏览器能够正确识别"></a>4.3 浏览器能够正确识别</h3><p><img src="http://oetw0yrii.bkt.clouddn.com/18-4-16/88139961.jpg" alt=""></p>
+<ol>
+<li>当账户扣款的时候, 需要在扣款相关的服务上新增一个本地消息表, 需要把记录扣款和写入扣减商品库存的本地消息表放入同一个事务.</li>
+<li>有个定时任务去轮询本地事务表, 把没有发送的消息扔给商品服务, 让它扣减库存, 到达商品服务后, 先写入这个服务器的事务表, 再进行扣减, 扣减成功后, 更新事务表中的状态;</li>
+<li>商品服务器通过定时任务扫描消息表或者直接通过扣款服务吗扣款服务本地消息表进行更新;</li>
+<li>针对特定情况, 定时扫描未成功处理的消息, 进行重新发送, 在商品服务收到消息后, 先判断是否是重复消息, 如果已经接受, 再判断是否执行, 如果执行再马上又进行通知事务, 如果未执行, 就需要重新执行需要由业务保证幂等.</li>
+</ol>
+<p><img src="http://oetw0yrii.bkt.clouddn.com/18-8-4/62419454.jpg" alt=""></p>
+<ol>
+<li>在分布式事务操作的一方完成写业务数据的操作之后向本地消息表发送一个消息，本地事务能保证这个消息一定会被写入本地消息表中。</li>
+<li>之后将本地消息表中的消息转发到 Kafka 等消息队列中，如果转发成功则将消息从本地消息表中删除，否则继续重新转发。</li>
+<li>在分布式事务操作的另一方从消息队列中读取一个消息，并执行消息中的操作。</li>
+</ol>
+<h2 id="4-5-MQ-事务"><a href="#4-5-MQ-事务" class="headerlink" title="4.5 MQ 事务"></a>4.5 MQ 事务</h2><p>还是以转账的模型举例:<br><img src="https://upload-images.jianshu.io/upload_images/175724-92abb226f288ff9c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/621" alt="image"></p>
+<h4 id="1-先发送消息"><a href="#1-先发送消息" class="headerlink" title="1. 先发送消息"></a>1. 先发送消息</h4><p><img src="https://upload-images.jianshu.io/upload_images/175724-1927b8f3d14ef823.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/618" alt="image"></p>
+<p>如果消息发送成功，但是扣款失败，消费端就会消费此消息，进而向Smith账户加钱。</p>
+<h4 id="2-先扣款"><a href="#2-先扣款" class="headerlink" title="2. 先扣款"></a>2. 先扣款</h4><p><img src="https://upload-images.jianshu.io/upload_images/175724-367b5cf60cbdfa16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/619" alt="image"></p>
+<p>如果扣款成功，发送消息失败，就会出现Bob扣钱了，但是Smith账户未加钱。</p>
+<h4 id="3-RocketMQ-的实现"><a href="#3-RocketMQ-的实现" class="headerlink" title="3. RocketMQ 的实现"></a>3. RocketMQ 的实现</h4><p><img src="https://upload-images.jianshu.io/upload_images/175724-ab0085543c6d02d6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/621" alt="image"></p>
+<ol>
+<li>发送 <code>Prepared</code> 消息时，会拿到消息的地址;</li>
+<li>执行本地事物;</li>
+<li>通过第一阶段拿到的地址去访问消息, 并修改消息的状态.</li>
+</ol>
+<p>这样可以保证消息发送消息和本地事务执行成功保持原子性操作.</p>
+<h4 id="问题1-如果步骤-3-失败怎么办"><a href="#问题1-如果步骤-3-失败怎么办" class="headerlink" title="问题1: 如果步骤 3 失败怎么办"></a>问题1: 如果步骤 3 失败怎么办</h4><pre><code>RocketMQ会定期扫描消息集群中的事物消息，如果发现了Prepared消息，它会向消息发送端(生产者)确认，Bob的钱到底是减了还是没减呢？
+如果减了是回滚还是继续发送确认消息呢？RocketMQ会根据发送端设置的策略来决定是回滚还是继续发送确认消息。这样就保证了消息发送与本地事务同时成功或同时失败。
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// =============================发送事务消息的一系列准备工作========================================</span></span><br><span class="line"><span class="comment">// 未决事务，MQ服务器回查客户端</span></span><br><span class="line"><span class="comment">// 也就是上文所说的，当RocketMQ发现`Prepared消息`时，会根据这个Listener实现的策略来决断事务</span></span><br><span class="line">TransactionCheckListener transactionCheckListener = <span class="keyword">new</span> TransactionCheckListenerImpl();</span><br><span class="line"><span class="comment">// 构造事务消息的生产者</span></span><br><span class="line">TransactionMQProducer producer = <span class="keyword">new</span> TransactionMQProducer(<span class="string">"groupName"</span>);</span><br><span class="line"><span class="comment">// 设置事务决断处理类</span></span><br><span class="line">producer.setTransactionCheckListener(transactionCheckListener);</span><br><span class="line"><span class="comment">// 本地事务的处理逻辑，相当于示例中检查Bob账户并扣钱的逻辑</span></span><br><span class="line">TransactionExecuterImpl tranExecuter = <span class="keyword">new</span> TransactionExecuterImpl();</span><br><span class="line">producer.start()</span><br><span class="line"><span class="comment">// 构造MSG，省略构造参数</span></span><br><span class="line">Message msg = <span class="keyword">new</span> Message(......);</span><br><span class="line"><span class="comment">// 发送消息</span></span><br><span class="line">SendResult sendResult = producer.sendMessageInTransaction(msg, tranExecuter, <span class="keyword">null</span>);</span><br><span class="line">producer.shutdown();</span><br></pre></td></tr></table></figure>
+<p>接着查看 <code>sendMessageInTransaction</code> 方法的源码，总共分为3个阶段：发送Prepared消息、执行本地事务、发送确认消息。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  ================================事务消息的发送过程=============================================</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> TransactionSendResult <span class="title">sendMessageInTransaction</span><span class="params">(.....)</span>  </span>&#123;</span><br><span class="line">    <span class="comment">// 逻辑代码，非实际代码</span></span><br><span class="line">    <span class="comment">// 1.发送消息</span></span><br><span class="line">    sendResult = <span class="keyword">this</span>.send(msg);</span><br><span class="line">    <span class="comment">// sendResult.getSendStatus() == SEND_OK</span></span><br><span class="line">    <span class="comment">// 2.如果消息发送成功，处理与消息关联的本地事务单元</span></span><br><span class="line">    LocalTransactionState localTransactionState = tranExecuter.executeLocalTransactionBranch(msg, arg);</span><br><span class="line">    <span class="comment">// 3.结束事务</span></span><br><span class="line">    <span class="keyword">this</span>.endTransaction(sendResult, localTransactionState, localException);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>endTransaction</code> 方法会将请求发往 <code>broker(mq server)</code> 去更新事务消息的最终状态：</p>
+<ol>
+<li>根据sendResult找到Prepared消息 ，sendResult包含事务消息的ID</li>
+<li>根据localTransaction更新消息的最终状态</li>
+</ol>
+<h4 id="问题2-Consumer-消费失败怎么办"><a href="#问题2-Consumer-消费失败怎么办" class="headerlink" title="问题2: Consumer 消费失败怎么办"></a>问题2: Consumer 消费失败怎么办</h4><pre><code>如果Bob的账户的余额已经减少，且消息已经发送成功，Smith端开始消费这条消息，这个时候就会出现消费失败和消费超时两个问题.
+解决超时问题的思路就是一直重试，直到消费端消费消息成功，整个过程中有可能会出现消息重复的问题，按照前面的思路解决即可。
+</code></pre><p><img src="https://upload-images.jianshu.io/upload_images/175724-1d9ba7bcd230e0dc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/624" alt="image"></p>
 
       
     </div>
@@ -529,7 +606,7 @@
       
         <div class="post-tags">
           
-            <a href="/blog/tags/踩坑总结/" rel="tag"># 踩坑总结</a>
+            <a href="/blog/tags/分布式事务/" rel="tag"># 分布式事务</a>
           
         </div>
       
@@ -542,8 +619,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog/2018/04/15/翻译-In-Search-of-an-Understandable-Consensus-Algorithm-——-Raft算法/" rel="next" title="(翻译)In Search of an Understandable Consensus Algorithm —— Raft算法">
-                <i class="fa fa-chevron-left"></i> (翻译)In Search of an Understandable Consensus Algorithm —— Raft算法
+              <a href="/blog/2018/06/24/实现简易JVM/" rel="next" title="实现简易JVM">
+                <i class="fa fa-chevron-left"></i> 实现简易JVM
               </a>
             
           </div>
@@ -551,10 +628,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/blog/2018/04/25/quartz-入门/" rel="prev" title="quartz 入门">
-                quartz 入门 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -765,7 +838,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-文件下载的原理"><span class="nav-text">1. 文件下载的原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Http-报头-Content-disposition-的作用"><span class="nav-text">2. Http 报头 Content-disposition 的作用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-inline"><span class="nav-text">2.1 inline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-attachment"><span class="nav-text">2.2 attachment</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-filename-属性中文乱码"><span class="nav-text">3. filename 属性中文乱码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-演示"><span class="nav-text">4. 演示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-代码及资源路径"><span class="nav-text">4.1 代码及资源路径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-HTTP-Response-详情"><span class="nav-text">4.2 HTTP Response 详情</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-浏览器能够正确识别"><span class="nav-text">4.3 浏览器能够正确识别</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-定义"><span class="nav-text">1. 定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-数据库本地事务"><span class="nav-text">2. 数据库本地事务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-ACID"><span class="nav-text">2.1 ACID</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-分布式事务"><span class="nav-text">3. 分布式事务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-分布式事务概念"><span class="nav-text">3.1 分布式事务概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-场景"><span class="nav-text">3.2 场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-service-多个节点"><span class="nav-text">3.2.1 service 多个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-resource-多个节点"><span class="nav-text">3.2.2 resource 多个节点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-分布式事务基础"><span class="nav-text">3.3 分布式事务基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-1-CAP"><span class="nav-text">3.3.1 CAP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-2-BASE"><span class="nav-text">3.3.2 BASE</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-分布式事务的解决方案"><span class="nav-text">4. 分布式事务的解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-是否真的需要分布式事务"><span class="nav-text">4.1 是否真的需要分布式事务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-2PC"><span class="nav-text">4.2 2PC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-TCC"><span class="nav-text">4.3 TCC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-本地消息表"><span class="nav-text">4.4 本地消息表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-5-MQ-事务"><span class="nav-text">4.5 MQ 事务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-先发送消息"><span class="nav-text">1. 先发送消息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-先扣款"><span class="nav-text">2. 先扣款</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-RocketMQ-的实现"><span class="nav-text">3. RocketMQ 的实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题1-如果步骤-3-失败怎么办"><span class="nav-text">问题1: 如果步骤 3 失败怎么办</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题2-Consumer-消费失败怎么办"><span class="nav-text">问题2: Consumer 消费失败怎么办</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>
