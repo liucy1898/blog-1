@@ -99,18 +99,21 @@
 
 
 
-  <meta name="description" content="步骤依赖123456789&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;spring-jms&amp;lt;/artifactId&amp;gt;&amp;lt;/dependency&amp;gt;&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.apac">
-<meta name="keywords" content="ActiveMQ,JMS">
+  <meta name="description" content="1. 逃逸概念的引入 我们都知道, Java 创建的对象都是被分配到堆内存上, 但是事实并不是这么绝对, 通过对Java对象分配的过程分析, 可以知道有两个地方会导致 Java 中创建出来的对象并不一定分别在所认为的堆上. 这两个点分别是 Java 中的 逃逸分析 和 TLAB(Thread Local Allocation Buffer)线程私有的缓存区。  2. 逃逸分析基本概念逃逸分析, 是">
+<meta name="keywords" content="逃逸分析">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ActiveMQ-(5)——ActiveMQ结合Spring开发">
-<meta property="og:url" content="https://destinywang.github.io/blog/2018/04/14/ActiveMQ-5-——ActiveMQ结合Spring开发/index.html">
+<meta property="og:title" content="Java逃逸分析">
+<meta property="og:url" content="https://destinywang.github.io/blog/2018/09/07/Java逃逸分析/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="步骤依赖123456789&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;spring-jms&amp;lt;/artifactId&amp;gt;&amp;lt;/dependency&amp;gt;&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.apac">
+<meta property="og:description" content="1. 逃逸概念的引入 我们都知道, Java 创建的对象都是被分配到堆内存上, 但是事实并不是这么绝对, 通过对Java对象分配的过程分析, 可以知道有两个地方会导致 Java 中创建出来的对象并不一定分别在所认为的堆上. 这两个点分别是 Java 中的 逃逸分析 和 TLAB(Thread Local Allocation Buffer)线程私有的缓存区。  2. 逃逸分析基本概念逃逸分析, 是">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-14T10:46:00.656Z">
+<meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-8-30/3446787.jpg">
+<meta property="og:image" content="http://oetw0yrii.bkt.clouddn.com/18-8-30/67522193.jpg">
+<meta property="og:updated_time" content="2018-09-07T14:45:38.224Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ActiveMQ-(5)——ActiveMQ结合Spring开发">
-<meta name="twitter:description" content="步骤依赖123456789&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;spring-jms&amp;lt;/artifactId&amp;gt;&amp;lt;/dependency&amp;gt;&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.apac">
+<meta name="twitter:title" content="Java逃逸分析">
+<meta name="twitter:description" content="1. 逃逸概念的引入 我们都知道, Java 创建的对象都是被分配到堆内存上, 但是事实并不是这么绝对, 通过对Java对象分配的过程分析, 可以知道有两个地方会导致 Java 中创建出来的对象并不一定分别在所认为的堆上. 这两个点分别是 Java 中的 逃逸分析 和 TLAB(Thread Local Allocation Buffer)线程私有的缓存区。  2. 逃逸分析基本概念逃逸分析, 是">
+<meta name="twitter:image" content="http://oetw0yrii.bkt.clouddn.com/18-8-30/3446787.jpg">
 
 
 
@@ -119,7 +122,7 @@
 
 
 
-  <link rel="canonical" href="https://destinywang.github.io/blog/2018/04/14/ActiveMQ-5-——ActiveMQ结合Spring开发/"/>
+  <link rel="canonical" href="https://destinywang.github.io/blog/2018/09/07/Java逃逸分析/"/>
 
 
 
@@ -129,7 +132,7 @@
   };
 </script>
 
-  <title>ActiveMQ-(5)——ActiveMQ结合Spring开发 | Hexo</title>
+  <title>Java逃逸分析 | Hexo</title>
   
 
 
@@ -364,7 +367,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://destinywang.github.io/blog/blog/2018/04/14/ActiveMQ-5-——ActiveMQ结合Spring开发/">
+    <link itemprop="mainEntityOfPage" href="https://destinywang.github.io/blog/blog/2018/09/07/Java逃逸分析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="destiny">
@@ -381,7 +384,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">ActiveMQ-(5)——ActiveMQ结合Spring开发</h1>
+          <h1 class="post-title" itemprop="name headline">Java逃逸分析</h1>
         
 
         <div class="post-meta">
@@ -393,7 +396,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-14T18:45:00+08:00">2018-04-14</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-07T22:45:00+08:00">2018-09-07</time>
             
 
             
@@ -414,7 +417,14 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/blog/categories/ActiveMQ/" itemprop="url" rel="index"><span itemprop="name">ActiveMQ</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/blog/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a></span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/blog/categories/JVM/逃逸分析/" itemprop="url" rel="index"><span itemprop="name">逃逸分析</span></a></span>
 
                 
                 
@@ -448,25 +458,173 @@
       
 
       
-        <h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-jms<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.activemq<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>activemq-pool<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="在Spring中配置jmsTemplate"><a href="#在Spring中配置jmsTemplate" class="headerlink" title="在Spring中配置jmsTemplate"></a>在Spring中配置<code>jmsTemplate</code></h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--JMS连接池工厂--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"jmsFactory"</span> <span class="attr">class</span>=<span class="string">"org.apache.activemq.pool.PooledConnectionFactory"</span> <span class="attr">destroy-method</span>=<span class="string">"stop"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"connectionFactory"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.apache.activemq.ActiveMQConnectionFactory"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"brokerURL"</span> <span class="attr">value</span>=<span class="string">"tcp://localhost:61616"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxConnections"</span> <span class="attr">value</span>=<span class="string">"100"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--目的地--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"destination"</span> <span class="attr">class</span>=<span class="string">"org.apache.activemq.command.ActiveMQQueue"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">index</span>=<span class="string">"0"</span> <span class="attr">value</span>=<span class="string">"spring-queue"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"jmsTemplate"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jms.core.JmsTemplate"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"connectionFactory"</span> <span class="attr">ref</span>=<span class="string">"jmsFactory"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"defaultDestination"</span> <span class="attr">ref</span>=<span class="string">"destination"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"messageConverter"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.jms.support.converter.SimpleMessageConverter"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="如果是topic"><a href="#如果是topic" class="headerlink" title="如果是topic"></a>如果是topic</h2><ol>
-<li>添加<code>topic</code>的配置</li>
-<li><p>修改<code>jmsTemplate</code>配置中的<code>defaultDestination</code></p>
- <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--JMS连接池工厂--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"jmsFactory"</span>     <span class="attr">class</span>=<span class="string">"org.apache.activemq.pool.PooledConnectionFactory"</span>     <span class="attr">destroy-method</span>=<span class="string">"stop"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"connectionFactory"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.apache.activemq.ActiveMQConnectionFactory"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"brokerURL"</span> <span class="attr">value</span>=<span class="string">"tcp://localhost:61616"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxConnections"</span> <span class="attr">value</span>=<span class="string">"100"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--目的地--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"destination"</span> <span class="attr">class</span>=<span class="string">"org.apache.activemq.command.ActiveMQTopic"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">index</span>=<span class="string">"0"</span> <span class="attr">value</span>=<span class="string">"spring-topic"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"jmsTemplate"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jms.core.JmsTemplate"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"connectionFactory"</span> <span class="attr">ref</span>=<span class="string">"jmsFactory"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"defaultDestination"</span> <span class="attr">ref</span>=<span class="string">"destination"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"messageConverter"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.jms.support.converter.SimpleMessageConverter"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
+        <h1 id="1-逃逸概念的引入"><a href="#1-逃逸概念的引入" class="headerlink" title="1. 逃逸概念的引入"></a>1. 逃逸概念的引入</h1><blockquote>
+<p>我们都知道, Java 创建的对象都是被分配到堆内存上, 但是事实并不是这么绝对, 通过对Java对象分配的过程分析, 可以知道有两个地方会导致 Java 中创建出来的对象并不一定分别在所认为的堆上. 这两个点分别是 Java 中的 <code>逃逸分析</code> 和 <code>TLAB(Thread Local Allocation Buffer)</code>线程私有的缓存区。</p>
+</blockquote>
+<h1 id="2-逃逸分析基本概念"><a href="#2-逃逸分析基本概念" class="headerlink" title="2. 逃逸分析基本概念"></a>2. 逃逸分析基本概念</h1><p>逃逸分析, 是一种可以有效减少 Java 程序中同步负载和内存堆分配压力的跨函数全局数据流分析算法. 通过逃逸分析, <code>Hotspot编译器</code> 能够分析出一个新的对象的引用的使用范围从而决定是否要将这个对象分配到堆上.</p>
+<p>在计算机语言编译器优化原理中, 逃逸分析是指分析指针动态范围的方法, 它同编译器优化原理的指针分析和外形分析相关联. 当变量(或者对象)在方法中分配后, 其指针有可能被返回或者被全局引用, 这样就会被其他过程或者线程所引用, 这种现象称作指针(或者引用)的 <code>逃逸(Escape)</code> . 通俗点讲, 如果一个对象的指针被多个方法或者线程引用时, 那么我们就称这个对象的指针发生了逃逸.</p>
+<h2 id="2-1-具体分析"><a href="#2-1-具体分析" class="headerlink" title="2.1. 具体分析"></a>2.1. 具体分析</h2><p>逃逸分析研究对于 java 编译器有什么好处呢? 我们知道 java 对象总是在堆中被分配的, 因此 java 对象的创建和回收对系统的开销是很大的. java 语言被批评的一个地方, 也是认为 java 性能慢的一个原因就是  java 不支持栈上分配对象, JDK6里的 <code>Swing</code> 内存和性能消耗的瓶颈就是由于 GC 来遍历引用树并回收内存的, 如果对象的数目比较多, 将给 GC 带来较大的压力, 也间接得影响了性能. 减少临时对象在堆内分配的数量, 无疑是最有效的优化方法. java 中应用里普遍存在一种场景, 一般是在方法体内, 声明了一个局部变量, 并且该变量在方法执行生命周期内未发生逃逸, 按照  JVM 内存分配机制, 首先会在堆内存上创建类的实例(对象), 然后将此对象的引用压入调用栈, 继续执行, 这是 JVM 优化前的方式. 当然, 我们可以采用逃逸分析对 JVM  进行优化, 即针对栈的重新分配方式, 首先我们需要分析并且找到未逃逸的变量, 将该变量类的实例化内存直接在栈里分配, 无需进入堆, 分配完成之后, 继续调用栈内执行, 最后线程执行结束, 栈空间被回收, 局部变量对象也被回收, 通过这种方式的优化, 与优化前的方案主要区别在于对象的存储介质, 优化前是在堆中, 而优化后的是在栈中, 从而减少了堆中临时对象的分配(较耗时), 最终完成性能的优化.</p>
+<blockquote>
+<p>逃逸分析实际上是 JVM 的一种为优化提供支持的分析手段, 逃逸分析的范围分为两个, 方法逃逸和线程逃逸</p>
+</blockquote>
+<h3 id="2-2-1-方法逃逸"><a href="#2-2-1-方法逃逸" class="headerlink" title="2.2.1 方法逃逸"></a>2.2.1 方法逃逸</h3><blockquote>
+<p>不逃逸出当前方法, 就是说在一个方法内 <code>new</code> 出来的对象, 它的引用没有泄露到这个方法之外<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a;</span><br><span class="line">    <span class="keyword">int</span> b;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Foo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">bar</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">    Foo foo = <span class="keyword">new</span> Foo();</span><br><span class="line">    foo.a = a;</span><br><span class="line">    foo.b = b;</span><br><span class="line">    <span class="comment">// foo 对象没有逃逸出 bar 方法, 只在 bar 方法里当做局部变量存在</span></span><br><span class="line">    <span class="keyword">return</span> foo.a + foo.b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>在上面的例子中, Foo 对象就没有逃逸出 bar 方法, 只有一个局部 foo 变量引用这个对象, foo 变量既没有被当做返回值, 也没有当做另一个方法的参数.</p>
+<p>但其实我们一般写的普通 Java Bean 都会有 getter /setter </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a;</span><br><span class="line">    <span class="keyword">int</span> b;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Foo</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.a = a;</span><br><span class="line">        <span class="keyword">this</span>.b = b;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getA</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getB</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果在 <code>bar()</code> 方法里依然给 Foo 实例对象赋值, 那肯定就会调用到 Foo 的成员方法 <code>setA(), setB()</code>, 把局部变量 foo 的 this 作为参数传递给 foo 的成员方法, 这个时候变量 foo 确实逃逸除了 bar 方法, 而 JIT 提供了 <code>方法内联</code>, 在完成方法内联后, 这个参数传递实际上优化掉了.</p>
+<h3 id="2-2-2-线程逃逸"><a href="#2-2-2-线程逃逸" class="headerlink" title="2.2.2 线程逃逸"></a>2.2.2 线程逃逸</h3><blockquote>
+<p>不逃逸出当前线程, 指的是实例对象没有被别的类引用到. 该对象的引用赋值到其他对象的字段, 或其他类的静态字段上, 没办法让它进入一个全局可见的范围, 这个时候我们认为该实例没有逃逸出当前线程</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">bar</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">    Foo foo = <span class="keyword">new</span> Foo();</span><br><span class="line">    foo.a = a;</span><br><span class="line">    foo.b = b;</span><br><span class="line">    <span class="keyword">return</span> doBar(foo);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">doBar</span><span class="params">(Foo foo)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> foo.a + foo.b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>bar()</code> 方法调用了 <code>doBar()</code>, 把 foo 实例作为入参传入了 <code>doBar()</code>, 这个时候认为 foo 逃逸除了 bar 方法, 但是 bar 和 doBar 都在一个类中, 并没有被其他类引用, 我们认为 foo 对象没有逃逸出线程.</p>
+<h2 id="2-3-JVM-为逃逸分析所做的优化"><a href="#2-3-JVM-为逃逸分析所做的优化" class="headerlink" title="2.3. JVM 为逃逸分析所做的优化"></a>2.3. JVM 为逃逸分析所做的优化</h2><h3 id="2-3-1-标量替换"><a href="#2-3-1-标量替换" class="headerlink" title="2.3.1 标量替换"></a>2.3.1 标量替换</h3><blockquote>
+<p>Java 中标量的意思是不能再分割的量, 如基本类型和 Reference 类型, 反之成为聚合量, 如果把一个对象拆开, 将它的成员变量分割成标量, 这个就叫标量替换.</p>
+</blockquote>
+<p>如果逃逸分析发现一个对象不会被外部访问, 并且该对象可以被拆散, 那么经过优化后, 并不直接生成该对象, 而是在栈上创建若干个成员变量, 原本的对象就无需再堆上整体分配空间了.</p>
+<pre><code>栈帧内分配对象的行为成为栈上分配, 目的是减少新生代的 GC 频率, 见解提高 JVM 性能, 通过 -XX+EliminateAllcations 可以开启标量替换.
+</code></pre><h3 id="2-3-2-锁消除优化"><a href="#2-3-2-锁消除优化" class="headerlink" title="2.3.2 锁消除优化"></a>2.3.2 锁消除优化</h3><blockquote>
+<p>Java 方法中返回值如果没有被其他类用到, 那这个对象就不会逃逸出线程, 我们知道变量的读写竞争的时候需要加锁访问, 如果确定该变量不会逃逸出该线程, 那同步访问控制就可以优化掉.</p>
+</blockquote>
+<h2 id="2-4-实操"><a href="#2-4-实操" class="headerlink" title="2.4 实操"></a>2.4 实操</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Sting name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// getters / setters / constructors</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">bar</span><span class="params">(Foo foo)</span> </span>&#123;</span><br><span class="line">    User user = <span class="keyword">new</span> User(<span class="number">23</span>);</span><br><span class="line">    <span class="keyword">return</span> foo.getA() + foo.getB() + user.getAge();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Foo foo = <span class="keyword">new</span> Foo();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000000000</span>; ++i) &#123;</span><br><span class="line">        foo.setA(<span class="number">4</span>);</span><br><span class="line">        foo.setB(<span class="number">45</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-4-1-关闭逃逸分析"><a href="#2-4-1-关闭逃逸分析" class="headerlink" title="2.4.1 关闭逃逸分析"></a>2.4.1 关闭逃逸分析</h3><p>启动 JVM 参数</p>
+<pre><code>-server
+-XX:-DoEscapeAnalysis
+</code></pre><p>使用 <code>jmap -histo</code><br><img src="http://oetw0yrii.bkt.clouddn.com/18-8-30/3446787.jpg" alt=""></p>
+<h3 id="2-4-2-打开逃逸分析"><a href="#2-4-2-打开逃逸分析" class="headerlink" title="2.4.2 打开逃逸分析"></a>2.4.2 打开逃逸分析</h3><p>JVM 参数</p>
+<pre><code>-server
+-XX:+DoEscapeAnalysis
+</code></pre><p><img src="http://oetw0yrii.bkt.clouddn.com/18-8-30/67522193.jpg" alt=""></p>
+<p>可以看到, 只有少量的对象在堆上实例化, 大部分对象的属性被标量替换了.</p>
+<h1 id="3-JIT-编译"><a href="#3-JIT-编译" class="headerlink" title="3. JIT 编译"></a>3. JIT 编译</h1><p>在 JVM 中触发 JIT 编译是基于两个计数器:</p>
+<ol>
+<li>一个方法被调用的次数</li>
+<li>存在有分支的方法中的循环次数, 如果方法里面有一个很长的循环, 这时候需要编译到这个循环, 每一次分支的循环被调用, 该分支的计数器都会增加</li>
 </ol>
-<h2 id="如果在Spring中配置消费者的话，就不需要启动消费者"><a href="#如果在Spring中配置消费者的话，就不需要启动消费者" class="headerlink" title="如果在Spring中配置消费者的话，就不需要启动消费者"></a>如果在Spring中配置消费者的话，就不需要启动消费者</h2><p>相当于注册了一个默认消息监听器</p>
-<p>当JMS Provider接受到消息之后就会触发<code>listener</code>的<code>onMessage()</code>方法</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"jmsContainer"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jms.listener.DefaultMessageListenerContainer"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"connectionFactory"</span> <span class="attr">ref</span>=<span class="string">"jmsFactory"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"destination"</span> <span class="attr">ref</span>=<span class="string">"destination"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"messageListener"</span> <span class="attr">ref</span>=<span class="string">"messageListener"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"messageListener"</span><span class="attr">class</span>=<span class="string">"org.destiny.activemq.spring.MyMessageListener"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.destiny.activemq.spring;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyMessageListener</span> <span class="keyword">implements</span> <span class="title">MessageListener</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onMessage</span><span class="params">(Message message)</span> </span>&#123;</span><br><span class="line">        TextMessage textMessage = (TextMessage) message;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">"receive: "</span> + textMessage.getText());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (JMSException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><ul>
-<li>Camel框架支持大量的企业集成模式，可以大大简化集成组件间的大量服务和复杂的消息流。而Spring更注重简单性。</li>
-<li>Spring消息发送的核心架构是<code>JmsTemplate</code>，隔离了像打开、关闭<code>Session</code>和<code>Producer</code>等操作。因此应用开发人员仅仅需要关注实际的业务逻辑。但<code>JmsTemplate</code>损害了ActiveMQ的<code>PooledConnectionFactory</code>对<code>Session</code>和消息<code>Producer</code>的缓存机制带来的性能提升。</li>
-<li>新的Spring中，可以设置<code>org.springframework.jms.connection.CachingConnectionFactory</code>的<code>sessionCacheSize</code>，或者直接使用ActiveMQ的<code>PooledConnectionFactory</code>。</li>
-<li>不建议使用<code>JmsTemplate</code>的<code>receive()</code>，因为<code>JmsTemplate</code>上的所有调用都是同步的，这意味着调用的线程会阻塞，直到方法返回，性能影响较大。</li>
-<li>尽量使用<code>DefaultMessageListenerContainer</code>，它允许异步接受消息并缓存session和消息<code>Consuer</code>。</li>
+<p>增加 <code>-XX:+PrintCompileation</code> 参数观察 JVM 输出的编译日志</p>
+<pre><code>-
+ 96    1       3       java.lang.String::equals (81 bytes)
+ 96    4       3       java.io.UnixFileSystem::normalize (75 bytes)
+ 97    9       3       java.lang.String::hashCode (55 bytes)
+ 97    8       3       java.lang.Object::&lt;init&gt; (1 bytes)
+ 97    7       3       java.lang.AbstractStringBuilder::ensureCapacityInternal (16 bytes)
+ 98    3       3       java.lang.String::length (6 bytes)
+ 98   10       3       java.lang.Math::min (11 bytes)
+ 98    2       3       java.lang.System::getSecurityManager (4 bytes)
+ 98    6       3       java.util.Arrays::copyOf (19 bytes)
+ 98   11     n 0       java.lang.System::arraycopy (native)   (static)
+ 98   12       3       java.lang.String::indexOf (70 bytes)
+ 98   15       3       sun.nio.cs.UTF_8$Encoder::encode (359 bytes)
+ 99   13       4       java.lang.String::charAt (29 bytes)
+ 99   16       3       java.lang.String::lastIndexOf (52 bytes)
+ 99    5       3       java.util.HashMap::hash (20 bytes)
+100   18       3       java.lang.String::&lt;init&gt; (82 bytes)
+100   14       3       java.lang.StringBuilder::toString (17 bytes)
+100   19       3       java.lang.String::startsWith (72 bytes)
+100   20       1       java.util.ArrayList::size (5 bytes)
+100   17       1       java.lang.ref.Reference::get (5 bytes)
+101   21       1       sun.instrument.TransformerManager::getSnapshotTransformerList (5 bytes)
+101   22       3       java.lang.String::startsWith (7 bytes)
+101   23       3       java.lang.String::indexOf (166 bytes)
+102   26       1       java.lang.Object::&lt;init&gt; (1 bytes)
+102    8       3       java.lang.Object::&lt;init&gt; (1 bytes)   made not entrant
+102   30       3       org.destiny.demo.Foo::setA (6 bytes)
+102   31       3       org.destiny.demo.Foo::setB (6 bytes)
+102   32       3       org.destiny.demo.User::bar (25 bytes)
+102   33       3       org.destiny.demo.User::&lt;init&gt; (10 bytes)
+103   34       1       org.destiny.demo.Foo::setA (6 bytes)
+103   30       3       org.destiny.demo.Foo::setA (6 bytes)   made not entrant
+103   35       1       org.destiny.demo.Foo::setB (6 bytes)
+103   31       3       org.destiny.demo.Foo::setB (6 bytes)   made not entrant
+103   27       1       org.destiny.demo.Foo::getA (5 bytes)
+103   28       1       org.destiny.demo.Foo::getB (5 bytes)
+103   29       1       org.destiny.demo.User::getAge (5 bytes)
+103   24       3       java.lang.String::endsWith (17 bytes)
+103   36       4       org.destiny.demo.User::bar (25 bytes)
+103   25       3       java.lang.ref.SoftReference::get (29 bytes)
+104   32       3       org.destiny.demo.User::bar (25 bytes)   made not entrant
+104   37       1       java.lang.ThreadLocal::access$400 (5 bytes)
+106   38       3       java.lang.String::indexOf (7 bytes)
+106   39       3       java.lang.Character::toLowerCase (9 bytes)
+106   40       3       java.lang.CharacterDataLatin1::toLowerCase (39 bytes)
+108   41 %     3       org.destiny.demo.User::main @ 18 (48 bytes)
+108   42       3       org.destiny.demo.User::main (48 bytes)
+109   43 %     4       org.destiny.demo.User::main @ 18 (48 bytes)
+112   41 %     3       org.destiny.demo.User::main @ -2 (48 bytes)   made not entrant
+150   43 %     4       org.destiny.demo.User::main @ -2 (48 bytes)   made not entrant 
+</code></pre><p>编译日志分为 7 列, 依次是</p>
+<ul>
+<li>时间(基于 JVM 启动的时间戳)</li>
+<li>编译任务 id(基本递增)</li>
+<li>编译属性</li>
+<li>tiered_level(分为 4 级)</li>
+<li>方法信息</li>
+<li>占用字节数</li>
+<li>deopt</li>
 </ul>
+<p>其中, 编译属性 <code>attribute</code> 分为:</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>属性描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%</td>
+<td>The compilation is OSR</td>
+</tr>
+<tr>
+<td>s</td>
+<td>The method is synchronized</td>
+</tr>
+<tr>
+<td>!</td>
+<td>The method has an exception handler</td>
+</tr>
+<tr>
+<td>b</td>
+<td>Compliation occurred in blocking mode</td>
+</tr>
+<tr>
+<td>n</td>
+<td>Compliation occurred for a wrapper to a native method</td>
+</tr>
+</tbody>
+</table>
+<p>tiered_level:</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Interpreted Code</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Simple C1 Compiled Code</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Limited C1 Compiled Code</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Full C1 Compiled Code</td>
+</tr>
+<tr>
+<td>4</td>
+<td>C2 Compile Code</td>
+</tr>
+</tbody>
+</table>
 
       
     </div>
@@ -487,9 +645,7 @@
       
         <div class="post-tags">
           
-            <a href="/blog/tags/ActiveMQ/" rel="tag"># ActiveMQ</a>
-          
-            <a href="/blog/tags/JMS/" rel="tag"># JMS</a>
+            <a href="/blog/tags/逃逸分析/" rel="tag"># 逃逸分析</a>
           
         </div>
       
@@ -502,8 +658,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog/2018/04/12/ActiveMQ-4-——Broker的启动方式/" rel="next" title="ActiveMQ(4)——Broker的启动方式">
-                <i class="fa fa-chevron-left"></i> ActiveMQ(4)——Broker的启动方式
+              <a href="/blog/2018/09/02/分布式事务总结/" rel="next" title="分布式事务总结">
+                <i class="fa fa-chevron-left"></i> 分布式事务总结
               </a>
             
           </div>
@@ -511,10 +667,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/blog/2018/04/14/Raft协议-1-——一致性原理分析/" rel="prev" title="Raft协议(1)——一致性原理分析">
-                Raft协议(1)——一致性原理分析 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -729,7 +881,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#步骤"><span class="nav-text">步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#依赖"><span class="nav-text">依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在Spring中配置jmsTemplate"><span class="nav-text">在Spring中配置jmsTemplate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果是topic"><span class="nav-text">如果是topic</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果在Spring中配置消费者的话，就不需要启动消费者"><span class="nav-text">如果在Spring中配置消费者的话，就不需要启动消费者</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最佳实践"><span class="nav-text">最佳实践</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-逃逸概念的引入"><span class="nav-text">1. 逃逸概念的引入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-逃逸分析基本概念"><span class="nav-text">2. 逃逸分析基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-具体分析"><span class="nav-text">2.1. 具体分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-方法逃逸"><span class="nav-text">2.2.1 方法逃逸</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-线程逃逸"><span class="nav-text">2.2.2 线程逃逸</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-JVM-为逃逸分析所做的优化"><span class="nav-text">2.3. JVM 为逃逸分析所做的优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-1-标量替换"><span class="nav-text">2.3.1 标量替换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-2-锁消除优化"><span class="nav-text">2.3.2 锁消除优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-实操"><span class="nav-text">2.4 实操</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-1-关闭逃逸分析"><span class="nav-text">2.4.1 关闭逃逸分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-2-打开逃逸分析"><span class="nav-text">2.4.2 打开逃逸分析</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-JIT-编译"><span class="nav-text">3. JIT 编译</span></a></li></ol></div>
             
 
           </div>
