@@ -111,7 +111,7 @@
 <meta property="og:image" content="https://destinywang.github.io/blog/2018/11/26/Activiti工作流引擎/.Activiti工作流引擎_images/835a7f82.png">
 <meta property="og:image" content="https://destinywang.github.io/blog/2018/11/26/Activiti工作流引擎/.Activiti工作流引擎_images/0b951608.png">
 <meta property="og:image" content="https://destinywang.github.io/blog/2018/11/26/Activiti工作流引擎/.Activiti工作流引擎_images/3a10b0ab.png">
-<meta property="og:updated_time" content="2018-11-27T15:03:20.596Z">
+<meta property="og:updated_time" content="2018-11-28T00:48:43.422Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Activiti工作流引擎">
 <meta name="twitter:description" content="前段时间入职字节跳动, 目前负责 Lark 工作流审批功能的开发, 选用工作流引擎 Activiti 进行开发, 因此在此记录下对 Activiti 的学习过程.  概念 工作流引擎是用来驱动业务, 按照流程图次逐步流转的核心框架, 在复杂多变的场景下采用工作流引擎可以大大降低业务部署成本. 通过标准的业务流程模型作为业务与开发工作的桥梁, 有效减少业务团队与技术交流的障碍.  工作流引擎最早用">
@@ -641,6 +641,102 @@
 </tr>
 </tbody>
 </table>
+<h1 id="2-源码概述"><a href="#2-源码概述" class="headerlink" title="2. 源码概述"></a>2. 源码概述</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git@github.com:DestinyWang/Activiti.git</span><br><span class="line"></span><br><span class="line">git checkout -b study6 activiti-6.0.0</span><br><span class="line"></span><br><span class="line">mvn clean <span class="built_in">test</span>-compile</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>路径</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Activiti/activiti-engine/src/main/java/org/activiti/engine/cfg</code></td>
+<td>Activiti 的启动依赖 <code>activiti.cfg.xml</code>, 在该目录完成</td>
+</tr>
+<tr>
+<td><code>Activiti/activiti-engine/src/main/java/org/activiti/engine/compatibility</code></td>
+<td>Activiti 从 5 升级到 6 的时候有部分不兼容, 在该目录完成适配</td>
+</tr>
+<tr>
+<td><code>Activiti/activiti-engine/src/main/java/org/activiti/engine/debug</code></td>
+<td>调试相关目录</td>
+</tr>
+<tr>
+<td><code>Activiti/activiti-engine/src/main/java/org/activiti/engine/delegate</code></td>
+<td>需要制定的节点 Task 都需要实现 <code>JavaDelegate</code></td>
+</tr>
+<tr>
+<td><code>Activiti/activiti-engine/src/main/java/org/activiti/engine/event</code></td>
+<td>定义了事件和监听机制</td>
+</tr>
+<tr>
+<td><code>Activiti/activiti-engine/src/main/java/org/activiti/engine/form</code></td>
+<td>通用表单</td>
+</tr>
+<tr>
+<td><code>Activiti/activiti-engine/src/main/java/org/activiti/engine/history</code></td>
+<td>历史数据归档</td>
+</tr>
+<tr>
+<td><code>Activiti/activiti-engine/src/main/java/org/activiti/engine/identity</code></td>
+<td>身份认证相关操作</td>
+</tr>
+<tr>
+<td><code>Activiti/activiti-engine/src/main/java/org/activiti/engine/impl</code></td>
+<td>各个接口层的实现</td>
+</tr>
+<tr>
+<td><code>Activiti/activiti-engine/src/main/java/org/activiti/engine/logging</code></td>
+<td>LogMDC 将重要的变量(如流程 id 放在上下文, logback 可以打印出来)</td>
+</tr>
+<tr>
+<td><code>Activiti/activiti-engine/src/main/java/org/activiti/engine/management</code></td>
+<td>管理相关</td>
+</tr>
+<tr>
+<td><code>Activiti/activiti-engine/src/main/java/org/activiti/engine/parse</code></td>
+<td>流程文件是 xml, 需要解析和验证</td>
+</tr>
+<tr>
+<td><code>Activiti/activiti-engine/src/main/java/org/activiti/engine/query</code></td>
+<td>抽象了一些查询接口, 基于 mybatis</td>
+</tr>
+<tr>
+<td><code>Activiti/activiti-engine/src/main/java/org/activiti/engine/repository</code></td>
+<td>抽象流程部署到数据库的过程</td>
+</tr>
+<tr>
+<td><code>Activiti/activiti-engine/src/main/java/org/activiti/engine/runtime</code></td>
+<td>与 history 相对应, 是流程在流转过程中的数据</td>
+</tr>
+<tr>
+<td><code>Activiti/activiti-engine/src/main/java/org/activiti/engine/task</code></td>
+<td>每个流程在需要人工处理的时候都会对应一个 task</td>
+</tr>
+<tr>
+<td><code>Activiti/activiti-engine/src/main/java/org/activiti/engine/test</code></td>
+<td>支持集成测试的帮助类</td>
+</tr>
+</tbody>
+</table>
+<p>核心模块:</p>
+<ul>
+<li><code>module/activiti-engine</code>: 核心引擎</li>
+<li><code>module/activiti-spring</code>: Spring 集成模块</li>
+<li><code>module/activiti-spring-boot</code>: SpringBoot 集成模块</li>
+<li><code>module/activiti-rest</code>: 对外提供 rest api 模块</li>
+<li><code>module/activiti-form-engine</code>: 表单引擎模块</li>
+<li><code>module/activiti-ldap</code>: 集成 ldap 用户模块</li>
+</ul>
+<p>Activiti-engine 依赖的模块:</p>
+<ul>
+<li>bpmn-converter: 模型转换</li>
+<li>process-validation: 流程校验</li>
+<li>image-generator: 流程图绘制</li>
+<li>dmn-api: 决策标准</li>
+<li>form-api/form-model: form 表单相关</li>
+</ul>
 
       
     </div>
@@ -917,7 +1013,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概念"><span class="nav-text">概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-工作流入门"><span class="nav-text">1. 工作流入门</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-工作流介绍"><span class="nav-text">1.1 工作流介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-1-出差流程"><span class="nav-text">1.1.1 出差流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-2-电商购物流程"><span class="nav-text">1.1.2 电商购物流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-3-工作流是什么"><span class="nav-text">1.1.3 工作流是什么</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#工作流"><span class="nav-text">工作流:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#工作流建模"><span class="nav-text">工作流建模:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#要解决的问题"><span class="nav-text">要解决的问题:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-4-为什么需要工作流"><span class="nav-text">1.1.4 为什么需要工作流</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#日常开发中经常遇到的问题"><span class="nav-text">日常开发中经常遇到的问题:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用工作流能够带来的改变"><span class="nav-text">使用工作流能够带来的改变:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用工作流对团队的作用"><span class="nav-text">使用工作流对团队的作用:</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-工作流技术选型"><span class="nav-text">1.2 工作流技术选型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-Activiti6-0-快速体验"><span class="nav-text">1.3 Activiti6.0 快速体验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-1-准备物料"><span class="nav-text">1.3.1 准备物料</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装-sdkman"><span class="nav-text">安装 sdkman</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装-JDK"><span class="nav-text">安装 JDK</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装-Tomcat"><span class="nav-text">安装 Tomcat</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#部署-Activiti"><span class="nav-text">部署 Activiti</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2-设计一个审批流程"><span class="nav-text">1.3.2 设计一个审批流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#流程参与者"><span class="nav-text">流程参与者</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概念"><span class="nav-text">概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-工作流入门"><span class="nav-text">1. 工作流入门</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-工作流介绍"><span class="nav-text">1.1 工作流介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-1-出差流程"><span class="nav-text">1.1.1 出差流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-2-电商购物流程"><span class="nav-text">1.1.2 电商购物流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-3-工作流是什么"><span class="nav-text">1.1.3 工作流是什么</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#工作流"><span class="nav-text">工作流:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#工作流建模"><span class="nav-text">工作流建模:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#要解决的问题"><span class="nav-text">要解决的问题:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-4-为什么需要工作流"><span class="nav-text">1.1.4 为什么需要工作流</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#日常开发中经常遇到的问题"><span class="nav-text">日常开发中经常遇到的问题:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用工作流能够带来的改变"><span class="nav-text">使用工作流能够带来的改变:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用工作流对团队的作用"><span class="nav-text">使用工作流对团队的作用:</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-工作流技术选型"><span class="nav-text">1.2 工作流技术选型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-Activiti6-0-快速体验"><span class="nav-text">1.3 Activiti6.0 快速体验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-1-准备物料"><span class="nav-text">1.3.1 准备物料</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装-sdkman"><span class="nav-text">安装 sdkman</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装-JDK"><span class="nav-text">安装 JDK</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装-Tomcat"><span class="nav-text">安装 Tomcat</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#部署-Activiti"><span class="nav-text">部署 Activiti</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2-设计一个审批流程"><span class="nav-text">1.3.2 设计一个审批流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#流程参与者"><span class="nav-text">流程参与者</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-源码概述"><span class="nav-text">2. 源码概述</span></a></li></ol></div>
             
 
           </div>
