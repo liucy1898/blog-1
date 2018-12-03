@@ -129,7 +129,7 @@
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/49380552-f4b6dc80-f74c-11e8-88b1-dd29cba005e1.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/49381205-5cb9f280-f74e-11e8-8a49-e2ced833c6b2.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/49381360-aa365f80-f74e-11e8-8e61-c70b2fa462ea.png">
-<meta property="og:updated_time" content="2018-12-03T15:20:42.609Z">
+<meta property="og:updated_time" content="2018-12-03T16:01:10.835Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Activiti工作流引擎">
 <meta name="twitter:description" content="前段时间入职字节跳动, 目前负责 Lark 工作流审批功能的开发, 选用工作流引擎 Activiti 进行开发, 因此在此记录下对 Activiti 的学习过程.  概念 工作流引擎是用来驱动业务, 按照流程图次逐步流转的核心框架, 在复杂多变的场景下采用工作流引擎可以大大降低业务部署成本. 通过标准的业务流程模型作为业务与开发工作的桥梁, 有效减少业务团队与技术交流的障碍.  工作流引擎最早用">
@@ -1993,7 +1993,7 @@ Caused by: java.lang.ArrayStoreException: sun.reflect.annotation.TypeNotPresentE
 [ERROR] For more information about the errors and possible solutions, please read the following articles:
 [ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/DependencyResolutionException
 </code></pre><blockquote>
-<p>错误原因: activiti-spring-boot-starter-basic 的版本号被修改为 6.0.0-boot2, 但安装的时候, 对应的 <code>activiti-engine</code> 版本只有 6.0.0, 并没有 <code>6.0.0-boot2</code><br>可以将所有需要找 <code>6.0.0-boot2</code> 的版本修改为去找 <code>6.0.0</code> <code>activiti-engine</code></p>
+<p>错误原因: activiti-spring-boot-starter-basic 的版本号被修改为 6.0.0-boot2, 但安装的时候, 对应的 <code>activiti-engine</code> 版本只有 6.0.0, 并没有 <code>6.0.0-boot2</code><br>可以将所有需要找 <code>6.0.0-boot2</code> 的版本修改为去找 <code>6.0.0</code></p>
 </blockquote>
 <p>将根 pom 中所有的 <code>${project.version}</code> 修改为 <code>6.0.0</code></p>
 
