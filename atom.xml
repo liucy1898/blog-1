@@ -6,7 +6,7 @@
   <link href="/blog/atom.xml" rel="self"/>
   
   <link href="https://destinywang.github.io/blog/"/>
-  <updated>2018-12-03T16:01:10.835Z</updated>
+  <updated>2018-12-05T14:21:31.611Z</updated>
   <id>https://destinywang.github.io/blog/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Activiti6.0用户指引中文版</title>
+    <link href="https://destinywang.github.io/blog/2018/12/05/Activiti6-0%E7%94%A8%E6%88%B7%E6%8C%87%E5%BC%95%E4%B8%AD%E6%96%87%E7%89%88/"/>
+    <id>https://destinywang.github.io/blog/2018/12/05/Activiti6-0用户指引中文版/</id>
+    <published>2018-12-05T14:20:30.000Z</published>
+    <updated>2018-12-05T14:21:31.611Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="Activiti" scheme="https://destinywang.github.io/blog/categories/Activiti/"/>
+    
+      <category term="工作流" scheme="https://destinywang.github.io/blog/categories/Activiti/%E5%B7%A5%E4%BD%9C%E6%B5%81/"/>
+    
+      <category term="翻译" scheme="https://destinywang.github.io/blog/categories/Activiti/%E5%B7%A5%E4%BD%9C%E6%B5%81/%E7%BF%BB%E8%AF%91/"/>
+    
+    
+      <category term="Activiti" scheme="https://destinywang.github.io/blog/tags/Activiti/"/>
+    
+  </entry>
   
   <entry>
     <title>Activiti工作流引擎</title>
@@ -523,33 +545,6 @@
 &lt;li&gt;命令行启动参数示例&lt;ul&gt;
 &lt;li&gt;&lt;code&gt;activemq start&lt;/code&gt;：默认使用&lt;code&gt;acitvemq.xml来启动&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;a
-      
-    
-    </summary>
-    
-      <category term="ActiveMQ" scheme="https://destinywang.github.io/blog/categories/ActiveMQ/"/>
-    
-    
-      <category term="ActiveMQ" scheme="https://destinywang.github.io/blog/tags/ActiveMQ/"/>
-    
-      <category term="JMS" scheme="https://destinywang.github.io/blog/tags/JMS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ActiveMQ(3)——JMS可靠性机制</title>
-    <link href="https://destinywang.github.io/blog/2018/04/12/ActiveMQ-3-%E2%80%94%E2%80%94JMS%E5%8F%AF%E9%9D%A0%E6%80%A7%E6%9C%BA%E5%88%B6/"/>
-    <id>https://destinywang.github.io/blog/2018/04/12/ActiveMQ-3-——JMS可靠性机制/</id>
-    <published>2018-04-11T16:20:25.000Z</published>
-    <updated>2018-04-11T16:24:44.984Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="消息接受确认"><a href="#消息接受确认" class="headerlink" title="消息接受确认"></a>消息接受确认</h1><p>JMS消息只有在被确认之后，才认为已经被成功地消费了。<br>消费的成功通常包含三个阶段：客户端接受消息、客户端处理消息和消息被确认。<br>在事务性会话中，当一个事务被提交的时候，确认自动发生。在非事务性会话中，消息何时被确认取决于创建会话时的应答模式。该参数有三个可选方案：</p><h2 id="Session-AUTO-ACKNOWLEDGE"><a href="#Session-AUTO-ACKNOWLEDGE" class="headerlink" title="Session.AUTO_ACKNOWLEDGE"></a><code>Session.AUTO_ACKNOWLEDGE</code></h2><p>当客户成功的从<code>receive()</code>方法返回的时候，或者从<code>MessageListener.onMessage()</code>方法成功返回的时候，会话自动确认客户端收到的消息。</p><h2 id="Session-CLIENT-ACKNOWLEDGE"><a href="#Session-CLIENT-ACKNOWLEDGE" class="headerlink" title="Session.CLIENT_ACKNOWLEDGE"></a><code>Session.CLIENT_ACKNOWLEDGE</code></h2><p>客户端通过调用消息的<code>acknowledge()</code>方法确认消息。在这种模式中，确认是在会话层上进行，确认一个被消费的消息将自动确认所有已被会话消费的消息。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Session session = connection.createSession(<span class="keyword">false</span>, Session.CLIENT_ACKNOWLEDGE);</span><br></pre></td></tr></table></figure><h2 id="Session-DUPS-ACKNOWLEDGE"><a href="#Session-DUPS-ACKNOWLEDGE" class="headerlink" title="Session.DUPS_ACKNOWLEDGE"></a><code>Session.DUPS_ACKNOWLEDGE</code></h2><p>只是会话迟钝的确认消息的提交。如果JMS Provider失败，那么可能会导致一些重复的消息。如果是重复的消息，那么JMS Provider必须把消息头的JMSRedelivered字段设置为true</p><h1 id="消息的持久性，JMS支持两种消息提交模式"><a href="#消息的持久性，JMS支持两种消息提交模式" class="headerlink" title="消息的持久性，JMS支持两种消息提交模式"></a>消息的持久性，JMS支持两种消息提交模式</h1><h2 id="PERSISTENT"><a href="#PERSISTENT" class="headerlink" title="PERSISTENT"></a>PERSISTENT</h2><p>JMS Provider永久保存消息，以保证消息不会因为JMS Provider的失败而丢失。</p><h2 id="NON-PERSISTENT"><a href="#NON-PERSISTENT" class="headerlink" title="NON_PERSISTENT"></a>NON_PERSISTENT</h2><p>不要求JMS Provider持久保存消息</p><h1 id="消息的临时目的地"><a href="#消息的临时目的地" class="headerlink" title="消息的临时目的地"></a>消息的临时目的地</h1><p>可以通过Session的<code>createTemporaryQueue()</code>和<code>createTemporaryTopic()</code>方法来创建临时目的地。他们的存在时间只限于创建他们的连接所保持的时间，只有创建该临时目的地的连接上的消息消费者才能够从临时目的地中提取消息。</p><h1 id="本地事务"><a href="#本地事务" class="headerlink" title="本地事务"></a>本地事务</h1><p>在一个JMS客户端，可以使用本地事务来组合消息的发送和签收。Session接口提供了<code>commit()</code>和<code>rollback()</code>方法。</p><ul><li>事务提交意味着生产的所有消息被发送，消费的所有消息被确认。</li><li>事务回滚意味着生产的所有消息被销毁，消费的所有消息被恢复并重新提交，除非他们已过期。</li></ul><h1 id="PTP模型"><a href="#PTP模型" class="headerlink" title="PTP模型"></a>PTP模型</h1><pre><code>该模型定义了客户端如何向队列发送消息，从队列接受消息。</code></pre><p>PTP模型是基于队列的，生产者发消息到队列，消费者从队列接受消息，队列使得消息的异步传输成为可能。</p><h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ol><li>Session在关闭时，如果有消息已经被接受，但还没有确认，那么当消费者下次连接到相同的队列时，这些消息还会被再次接受。</li><li>如果用户在<code>receive()</code>方法中设定了消息选择条件，那么不符合条件的消息会留在队列中。</li><li>队列可以长久地保存消息直到消费者收到消息，消费者不需要因为担心消息丢失而时刻与队列保持激活的连接状态。</li></ol><h1 id="Pub-Sub模型"><a href="#Pub-Sub模型" class="headerlink" title="Pub/Sub模型"></a>Pub/Sub模型</h1><pre><code>该模型定义了如何向一个内容节点发布和订阅消息。</code></pre><p>主题可以被认为是消息的传输中介，发布者发布消息到主题，订阅者从主题订阅消息，二者相互独立，不需要接触。</p><h2 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h2><ol><li>消息订阅分为非持久订阅和持久订阅<ol><li>非持久订阅时，只有当客户端处于激活状态才能收到某个主题的消息；离线时发布到主题的消息将会丢失。</li><li>持久订阅时，客户端向JMS Provider注册一个自己身份的ID，当客户端处于离线状态时，Provider会为这个ID保存所有发送到主题的消息。</li></ol></li><li>如果用户在<code>receive()</code>方法中设定了消息选择条件，那么不符合条件的消息不会被接收。</li><li>非持久订阅状态下，不能恢复或重新派送一个未签收的消息。</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;消息接受确认&quot;&gt;&lt;a href=&quot;#消息接受确认&quot; class=&quot;headerlink&quot; title=&quot;消息接受确认&quot;&gt;&lt;/a&gt;消息接受确认&lt;/h1&gt;&lt;p&gt;JMS消息只有在被确认之后，才认为已经被成功地消费了。&lt;br&gt;消费的成功通常包含三个阶段：客户端接受消息、客
       
     
     </summary>
