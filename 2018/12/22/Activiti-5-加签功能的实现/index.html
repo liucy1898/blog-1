@@ -110,7 +110,7 @@
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/50369657-2bf20e00-05d4-11e9-9af3-9416a020adae.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/50369682-6a87c880-05d4-11e9-8b4e-232ab3e708c5.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/50369997-a5402f80-05d9-11e9-9ef3-a8549723f74b.png">
-<meta property="og:updated_time" content="2018-12-22T03:15:15.438Z">
+<meta property="og:updated_time" content="2018-12-22T08:00:52.639Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Activiti(5)--加签功能的实现">
 <meta name="twitter:description" content="1. 概述假设有如下流程:  我们在流程进行的时候, 需要在申请和经理审批之间临时新增一个节点, 达到如下的效果:  该行为我们称之为加签. 加签的两种思路  直接修改模板, 在模板中添加节点以及连线, 并修改实例的走向; 直接修改流程定义对应的缓存数据, 不修改模板, 新增的节点与当前需要加签的实例挂钩.  2. 实现方式2.1. 修改模板步骤:  找到当前实例对象对应的模板数据; 在模板数据的">
@@ -507,7 +507,12 @@
 <li>缓存丢失, 新的路线图丢失;</li>
 <li>流程实例结束, 当前加签的节点以及连线已经不需要应该如何删除;</li>
 </ol>
-
+<p>修改流程定义缓存后, 由于缓存失效, 依然会报错</p>
+<p>此时就需要先添加缓存, 然后完成任务</p>
+<h1 id="3-加签原理代码讲解"><a href="#3-加签原理代码讲解" class="headerlink" title="3. 加签原理代码讲解"></a>3. 加签原理代码讲解</h1><h1 id="4-加签节点存储表设计"><a href="#4-加签节点存储表设计" class="headerlink" title="4. 加签节点存储表设计"></a>4. 加签节点存储表设计</h1><blockquote>
+<p>Activiti 继承了 MyBatis 框架, 因此可以让我们注入配置文件或者注解类使用 MyBatis.</p>
+</blockquote>
+<h2 id="4-1-表结构"><a href="#4-1-表结构" class="headerlink" title="4.1. 表结构"></a>4.1. 表结构</h2><h2 id="4-2-实体类"><a href="#4-2-实体类" class="headerlink" title="4.2. 实体类"></a>4.2. 实体类</h2><h2 id="4-3-Mapper-类"><a href="#4-3-Mapper-类" class="headerlink" title="4.3. Mapper 类"></a>4.3. Mapper 类</h2><h2 id="4-4-注入流程引擎"><a href="#4-4-注入流程引擎" class="headerlink" title="4.4. 注入流程引擎"></a>4.4. 注入流程引擎</h2>
       
     </div>
 
@@ -789,7 +794,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-概述"><span class="nav-text">1. 概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-实现方式"><span class="nav-text">2. 实现方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-修改模板"><span class="nav-text">2.1. 修改模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-修改流程定义缓存"><span class="nav-text">2.2 修改流程定义缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-步骤"><span class="nav-text">2.2.1 步骤</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-概述"><span class="nav-text">1. 概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-实现方式"><span class="nav-text">2. 实现方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-修改模板"><span class="nav-text">2.1. 修改模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-修改流程定义缓存"><span class="nav-text">2.2 修改流程定义缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-步骤"><span class="nav-text">2.2.1 步骤</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-加签原理代码讲解"><span class="nav-text">3. 加签原理代码讲解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-加签节点存储表设计"><span class="nav-text">4. 加签节点存储表设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-表结构"><span class="nav-text">4.1. 表结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-实体类"><span class="nav-text">4.2. 实体类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-Mapper-类"><span class="nav-text">4.3. Mapper 类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-注入流程引擎"><span class="nav-text">4.4. 注入流程引擎</span></a></li></ol></li></ol></div>
             
 
           </div>
