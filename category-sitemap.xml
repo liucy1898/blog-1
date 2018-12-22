@@ -119,22 +119,8 @@
     </url>
 
     <url>
-        <loc>https://destinywang.github.io/blog/categories/Activiti/%E5%B7%A5%E4%BD%9C%E6%B5%81/</loc>
-        <lastmod>2018-12-08T10:30:53.174Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://destinywang.github.io/blog/categories/Activiti/%E5%B7%A5%E4%BD%9C%E6%B5%81/Java/</loc>
         <lastmod>2018-12-08T10:30:53.174Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://destinywang.github.io/blog/categories/Activiti/</loc>
-        <lastmod>2018-12-18T14:37:36.251Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -149,6 +135,20 @@
     <url>
         <loc>https://destinywang.github.io/blog/categories/Activiti/Java/%E5%B7%A5%E4%BD%9C%E6%B5%81/</loc>
         <lastmod>2018-12-18T14:37:36.251Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://destinywang.github.io/blog/categories/Activiti/</loc>
+        <lastmod>2018-12-22T03:15:15.438Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://destinywang.github.io/blog/categories/Activiti/%E5%B7%A5%E4%BD%9C%E6%B5%81/</loc>
+        <lastmod>2018-12-22T03:15:15.438Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

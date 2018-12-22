@@ -101,7 +101,7 @@
 
   <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://destinywang.github.io/blog/tags/Golang/index.html">
+<meta property="og:url" content="https://destinywang.github.io/blog/tags/golang/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
@@ -114,7 +114,7 @@
 
 
 
-  <link rel="canonical" href="https://destinywang.github.io/blog/tags/Golang/"/>
+  <link rel="canonical" href="https://destinywang.github.io/blog/tags/golang/"/>
 
 
 
@@ -124,7 +124,7 @@
   };
 </script>
 
-  <title>标签: Golang | Hexo</title>
+  <title>标签: golang | Hexo</title>
   
 
 
@@ -381,7 +381,7 @@
 
     <div id="posts" class="posts-collapse">
       <div class="collection-title">
-        <h1>Golang<small>标签</small>
+        <h1>golang<small>标签</small>
         </h1>
       </div>
 
@@ -393,9 +393,9 @@
 
       <h2 class="post-title">
         
-            <a class="post-title-link" href="/blog/2018/11/24/Golang快速入门/" itemprop="url">
+            <a class="post-title-link" href="/blog/2018/11/18/Go语言入门-3-面向接口/" itemprop="url">
               
-                <span itemprop="name">Golang快速入门</span>
+                <span itemprop="name">Go语言入门(3)--面向接口</span>
               
             </a>
         
@@ -403,9 +403,65 @@
 
       <div class="post-meta">
         <time class="post-time" itemprop="dateCreated"
-              datetime="2018-11-24T10:56:30+08:00"
-              content="2018-11-24" >
-          11-24
+              datetime="2018-11-18T10:53:18+08:00"
+              content="2018-11-18" >
+          11-18
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+      
+        
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h2 class="post-title">
+        
+            <a class="post-title-link" href="/blog/2018/11/06/Go语言入门-2-面向接口/" itemprop="url">
+              
+                <span itemprop="name">Go语言入门(2)--面向接口</span>
+              
+            </a>
+        
+      </h2>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2018-11-06T20:14:18+08:00"
+              content="2018-11-06" >
+          11-06
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+      
+        
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h2 class="post-title">
+        
+            <a class="post-title-link" href="/blog/2018/11/04/Go语言入门-1-基本语法/" itemprop="url">
+              
+                <span itemprop="name">Go语言入门(1)--基本语法</span>
+              
+            </a>
+        
+      </h2>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2018-11-04T11:12:52+08:00"
+              content="2018-11-04" >
+          11-04
         </time>
       </div>
 
@@ -466,7 +522,7 @@
                 
                   <a href="/blog/archives">
                 
-                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-count">32</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1070,79 +1126,6 @@
               })
               searchResultList += "</ul>";
               resultContent.innerHTML = searchResultList;
-            }
-          }
-
-          if ('auto' === 'auto') {
-            input.addEventListener('input', inputEventFunction);
-          } else {
-            $('.search-icon').click(inputEventFunction);
-            input.addEventListener('keypress', function (event) {
-              if (event.keyCode === 13) {
-                inputEventFunction();
-              }
-            });
-          }
-
-          // remove loading animation
-          $(".local-search-pop-overlay").remove();
-          $('body').css('overflow', '');
-
-          proceedsearch();
-        }
-      });
-    }
-
-    // handle and trigger popup window;
-    $('.popup-trigger').click(function(e) {
-      e.stopPropagation();
-      if (isfetched === false) {
-        searchFunc(path, 'local-search-input', 'local-search-result');
-      } else {
-        proceedsearch();
-      };
-    });
-
-    $('.popup-btn-close').click(onPopupClose);
-    $('.popup').click(function(e){
-      e.stopPropagation();
-    });
-    $(document).on('keyup', function (event) {
-      var shouldDismissSearchPopup = event.which === 27 &&
-        $('.search-popup').is(':visible');
-      if (shouldDismissSearchPopup) {
-        onPopupClose();
-      }
-    });
-  </script>
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-</body>
-</html>
-
-<script type="text/javascript" src="/js/src/love.js"></script>>              resultContent.innerHTML = searchResultList;
             }
           }
 
