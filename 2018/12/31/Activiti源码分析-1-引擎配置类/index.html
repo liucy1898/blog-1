@@ -99,18 +99,18 @@
 
 
 
-  <meta name="description" content="1. Activiti 流程引擎配置类源码分析 ProcessEngine 是一个典型的门面模式, 用户不需要关心各个复杂的 Service 的构建过程, 只需要完成 ProcessEngine 的构建, 就可以通过 ProcessEngine 快速完成各个 Service 服务对象的获取, 简化客户端的操作.  123456789101112131415161718192021222324252">
+  <meta name="description" content="Activiti 配置风格获取引擎源码分析:  流程引擎管理类 ProcessEngines 1234567891011121314151617181920212223242526272829@Testpublic void testProcessEngine() &amp;#123;    ProcessEngine processEngine = ProcessEngines.getDefaultPr">
 <meta name="keywords" content="activiti">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Activiti源码分析(1)--引擎配置类">
+<meta property="og:title" content="Activiti源码分析(1)--流程引擎配置类">
 <meta property="og:url" content="https://destinywang.github.io/blog/2018/12/31/Activiti源码分析-1-引擎配置类/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1. Activiti 流程引擎配置类源码分析 ProcessEngine 是一个典型的门面模式, 用户不需要关心各个复杂的 Service 的构建过程, 只需要完成 ProcessEngine 的构建, 就可以通过 ProcessEngine 快速完成各个 Service 服务对象的获取, 简化客户端的操作.  123456789101112131415161718192021222324252">
+<meta property="og:description" content="Activiti 配置风格获取引擎源码分析:  流程引擎管理类 ProcessEngines 1234567891011121314151617181920212223242526272829@Testpublic void testProcessEngine() &amp;#123;    ProcessEngine processEngine = ProcessEngines.getDefaultPr">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-02T15:23:16.820Z">
+<meta property="og:updated_time" content="2019-01-04T15:49:43.077Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Activiti源码分析(1)--引擎配置类">
-<meta name="twitter:description" content="1. Activiti 流程引擎配置类源码分析 ProcessEngine 是一个典型的门面模式, 用户不需要关心各个复杂的 Service 的构建过程, 只需要完成 ProcessEngine 的构建, 就可以通过 ProcessEngine 快速完成各个 Service 服务对象的获取, 简化客户端的操作.  123456789101112131415161718192021222324252">
+<meta name="twitter:title" content="Activiti源码分析(1)--流程引擎配置类">
+<meta name="twitter:description" content="Activiti 配置风格获取引擎源码分析:  流程引擎管理类 ProcessEngines 1234567891011121314151617181920212223242526272829@Testpublic void testProcessEngine() &amp;#123;    ProcessEngine processEngine = ProcessEngines.getDefaultPr">
 
 
 
@@ -129,7 +129,7 @@
   };
 </script>
 
-  <title>Activiti源码分析(1)--引擎配置类 | Hexo</title>
+  <title>Activiti源码分析(1)--流程引擎配置类 | Hexo</title>
   
 
 
@@ -381,7 +381,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Activiti源码分析(1)--引擎配置类</h1>
+          <h1 class="post-title" itemprop="name headline">Activiti源码分析(1)--流程引擎配置类</h1>
         
 
         <div class="post-meta">
@@ -455,124 +455,16 @@
       
 
       
-        <h1 id="1-Activiti-流程引擎配置类源码分析"><a href="#1-Activiti-流程引擎配置类源码分析" class="headerlink" title="1. Activiti 流程引擎配置类源码分析"></a>1. Activiti 流程引擎配置类源码分析</h1><blockquote>
-<p>ProcessEngine 是一个典型的门面模式, 用户不需要关心各个复杂的 Service 的构建过程, 只需要完成 ProcessEngine 的构建, 就可以通过 ProcessEngine 快速完成各个 Service 服务对象的获取, 简化客户端的操作.</p>
-</blockquote>
+        <p>Activiti 配置风格获取引擎源码分析: </p>
+<p>流程引擎管理类 ProcessEngines</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testProcessEngine</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();</span><br><span class="line">    log.info(<span class="string">"processEngine: &#123;&#125;"</span>, processEngine);   <span class="comment">// org.activiti.engine.impl.ProcessEngineImpl@66ea1466</span></span><br><span class="line">    Class&lt;? extends ProcessEngine&gt; processEngineClass = processEngine.getClass();</span><br><span class="line">    log.info(<span class="string">"class: &#123;&#125;"</span>, processEngineClass);      <span class="comment">// org.activiti.engine.impl.ProcessEngineImpl</span></span><br><span class="line">    DynamicBpmnService dynamicBpmnService = processEngine.getDynamicBpmnService();</span><br><span class="line">    FormService formEngineFormService = processEngine.getFormEngineFormService();</span><br><span class="line">    FormRepositoryService formEngineRepositoryService = processEngine.getFormEngineRepositoryService();</span><br><span class="line">    org.activiti.engine.FormService formService = processEngine.getFormService();</span><br><span class="line">    HistoryService historyService = processEngine.getHistoryService();</span><br><span class="line">    IdentityService identityService = processEngine.getIdentityService();</span><br><span class="line">    ManagementService managementService = processEngine.getManagementService();</span><br><span class="line">    ProcessEngineConfiguration processEngineConfiguration = processEngine.getProcessEngineConfiguration();  <span class="comment">// 流程引擎配置类</span></span><br><span class="line">    RepositoryService repositoryService = processEngine.getRepositoryService();</span><br><span class="line">    RuntimeService runtimeService = processEngine.getRuntimeService();                                      <span class="comment">// 运行时</span></span><br><span class="line">    TaskService taskService = processEngine.getTaskService();                                               <span class="comment">// 任务相关</span></span><br><span class="line">    log.info(<span class="string">"dynamicBpmnService: &#123;&#125;"</span>, dynamicBpmnService);                     <span class="comment">// org.activiti.engine.impl.DynamicBpmnServiceImpl@1601e47</span></span><br><span class="line">    log.info(<span class="string">"formEngineFormService: &#123;&#125;"</span>, formEngineFormService);               <span class="comment">// null</span></span><br><span class="line">    log.info(<span class="string">"formEngineRepositoryService: &#123;&#125;"</span>, formEngineRepositoryService);   <span class="comment">// null</span></span><br><span class="line">    log.info(<span class="string">"formService: &#123;&#125;"</span>, formService);                                   <span class="comment">// org.activiti.engine.impl.FormServiceImpl@3bffddff</span></span><br><span class="line">    log.info(<span class="string">"historyService: &#123;&#125;"</span>, historyService);                             <span class="comment">// org.activiti.engine.impl.HistoryServiceImpl@66971f6b</span></span><br><span class="line">    log.info(<span class="string">"identityService: &#123;&#125;"</span>, identityService);                           <span class="comment">// org.activiti.engine.impl.IdentityServiceImpl@50687efb</span></span><br><span class="line">    log.info(<span class="string">"managementService: &#123;&#125;"</span>, managementService);                       <span class="comment">// org.activiti.engine.impl.ManagementServiceImpl@517bd097</span></span><br><span class="line">    log.info(<span class="string">"processEngineConfiguration: &#123;&#125;"</span>, processEngineConfiguration);     <span class="comment">// org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration@142eef62</span></span><br><span class="line">    log.info(<span class="string">"repositoryService: &#123;&#125;"</span>, repositoryService);                       <span class="comment">// org.activiti.engine.impl.RepositoryServiceImpl@4a9cc6cb</span></span><br><span class="line">    log.info(<span class="string">"runtimeService: &#123;&#125;"</span>, runtimeService);                             <span class="comment">// org.activiti.engine.impl.RuntimeServiceImpl@5990e6c5</span></span><br><span class="line">    log.info(<span class="string">"taskService: &#123;&#125;"</span>, taskService);                                   <span class="comment">// org.activiti.engine.impl.TaskServiceImpl@56e07a08</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="1-1-各个职责类整体介绍"><a href="#1-1-各个职责类整体介绍" class="headerlink" title="1.1. 各个职责类整体介绍"></a>1.1. 各个职责类整体介绍</h2><table>
-<thead>
-<tr>
-<th>职责类</th>
-<th>具体职责</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>RepositoryService</td>
-<td>操作流程定义</td>
-</tr>
-<tr>
-<td>RuntimeService</td>
-<td>操作流程实例</td>
-</tr>
-<tr>
-<td>TaskService</td>
-<td>操作任务</td>
-</tr>
-<tr>
-<td>IdentityService</td>
-<td>操作用户和用户组</td>
-</tr>
-<tr>
-<td>HistoryService</td>
-<td>查询历史表数据</td>
-</tr>
-<tr>
-<td>DynamicBpmnService</td>
-<td>动态 Bpmn 服务</td>
-</tr>
-<tr>
-<td>ManagementService</td>
-<td>执行命令或者定时器</td>
-</tr>
-<tr>
-<td>FormService</td>
-<td>操作流程表单</td>
-</tr>
-</tbody>
-</table>
-<p><code>org.activiti.engine.ProcessEngines</code> 类有如下属性:</p>
-<table>
-<thead>
-<tr>
-<th>属性名称</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>processEngines: <code>Map&lt;String, ProcessEngine&gt;</code></td>
-<td>key: 流程引擎名称<br>value: 流程引擎实例对象</td>
-</tr>
-<tr>
-<td>processEngineInfosByName: <code>Map&lt;String, ProcessEngineInfo&gt;</code></td>
-<td>key: 流程引擎名称<br>value: 流程引擎信息类实例对象</td>
-</tr>
-<tr>
-<td>processEngineInfosByResourceUrl: <code>Map&lt;String, ProcessEngineInfo&gt;</code></td>
-<td>key: 构造流程引擎的资源名称<br>value: 流程引擎信息类</td>
-</tr>
-<tr>
-<td>processEngineInfos: <code>List&lt;ProcessEngineInfo&gt;</code></td>
-<td>存储流程引擎信息类实例对象</td>
-</tr>
-</tbody>
-</table>
-<p>默认构造函数会调用带参构造:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ProcessEngine <span class="title">getDefaultProcessEngine</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// NAME_DEFAULT 是静态常量 "default"</span></span><br><span class="line">    <span class="keyword">return</span> getProcessEngine(NAME_DEFAULT);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ProcessEngine <span class="title">getProcessEngine</span><span class="params">(String processEngineName)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 判断是否已经被初始化, 如果没有, 执行 init 初始化逻辑</span></span><br><span class="line">    <span class="keyword">if</span> (!isInitialized()) &#123;</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> processEngines.get(processEngineName);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>init 方法的逻辑:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!isInitialized()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (processEngines == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">// Create new map to store process-engines if current map is</span></span><br><span class="line">            <span class="comment">// null</span></span><br><span class="line">            processEngines = <span class="keyword">new</span> HashMap&lt;String, ProcessEngine&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        ClassLoader classLoader = ReflectUtil.getClassLoader();</span><br><span class="line">        Enumeration&lt;URL&gt; resources = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            resources = classLoader.getResources(<span class="string">"activiti.cfg.xml"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ActivitiIllegalArgumentException(<span class="string">"problem retrieving activiti.cfg.xml resources on the classpath: "</span> + System.getProperty(<span class="string">"java.class.path"</span>), e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Remove duplicated configuration URL's using set. Some</span></span><br><span class="line">        <span class="comment">// classloaders may return identical URL's twice, causing duplicate</span></span><br><span class="line">        <span class="comment">// startups</span></span><br><span class="line">        Set&lt;URL&gt; configUrls = <span class="keyword">new</span> HashSet&lt;URL&gt;();</span><br><span class="line">        <span class="keyword">while</span> (resources.hasMoreElements()) &#123;</span><br><span class="line">            configUrls.add(resources.nextElement());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (Iterator&lt;URL&gt; iterator = configUrls.iterator(); iterator.hasNext();) &#123;</span><br><span class="line">            URL resource = iterator.next();</span><br><span class="line">            log.info(<span class="string">"Initializing process engine using configuration '&#123;&#125;'"</span>, resource.toString());</span><br><span class="line">            initProcessEngineFromResource(resource);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            resources = classLoader.getResources(<span class="string">"activiti-context.xml"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ActivitiIllegalArgumentException(<span class="string">"problem retrieving activiti-context.xml resources on the classpath: "</span> + System.getProperty(<span class="string">"java.class.path"</span>), e);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (resources.hasMoreElements()) &#123;</span><br><span class="line">            URL resource = resources.nextElement();</span><br><span class="line">            log.info(<span class="string">"Initializing process engine using Spring configuration '&#123;&#125;'"</span>, resource.toString());</span><br><span class="line">            initProcessEngineFromSpringResource(resource);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        setInitialized(<span class="keyword">true</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        log.info(<span class="string">"Process engines already initialized"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<ol>
-<li>如果 <code>processEngines</code> 为空, 先创建一个空 map;</li>
-<li>获取类加载器, 默认加载 classpath 下的 <code>activiti.cfg.xml</code>;</li>
-<li>从指定路径初始化 ProcessEngine: (&gt; <code>initProcessEngineFromResource(resource)</code>)<ol>
-<li>尝试从 <code>processEngineInfosByResourceUrl</code> map 中进行获取;</li>
-<li>如果存在首先将原有 ProcessEngine 删除;</li>
-<li>构建新的 ProcessEngine: (&gt; <code>buildProcessEngine(resourceUrl)</code>)<ol>
-<li>根据 <code>activiti.cfg.xml</code> 文件中的 <code>processEngineConfiguration</code> 配置构造 ProcessEngineConfiguration 对象, 底层采用 Spring 去完成 bean 的管理, 同时初始化核心职责服务类;</li>
-<li>用该对象构建 ProcessEngine 并返回;</li>
-</ol>
-</li>
-<li>构建新的 ProcessEngineInfo 对象;</li>
-<li>分别添加到集合 <code>processEngines</code> 和 <code>processEngineInfosByName</code> 中</li>
-</ol>
-</li>
-<li>再尝试加载 Spring 风格的默认配置文件 <code>activiti-context.xml</code>;</li>
-</ol>
-<h1 id="2-流程引擎类源码分析"><a href="#2-流程引擎类源码分析" class="headerlink" title="2. 流程引擎类源码分析"></a>2. 流程引擎类源码分析</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> ProcessEngine <span class="title">buildProcessEngine</span><span class="params">(URL resource)</span> </span>&#123;</span><br><span class="line">    InputStream inputStream = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        inputStream = resource.openStream();</span><br><span class="line">        ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration.createProcessEngineConfigurationFromInputStream(inputStream);</span><br><span class="line">        <span class="comment">// 在此处获取流程引擎类</span></span><br><span class="line">        <span class="keyword">return</span> processEngineConfiguration.buildProcessEngine();</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> ActivitiIllegalArgumentException(<span class="string">"couldn't open resource stream: "</span> + e.getMessage(), e);</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        IoUtil.closeSilently(inputStream);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>进入 <code>processEngineConfiguration.buildProcessEngine()</code> 方法:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ProcessEngine <span class="title">buildProcessEngine</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    init();</span><br><span class="line">    ProcessEngineImpl processEngine = <span class="keyword">new</span> ProcessEngineImpl(<span class="keyword">this</span>);</span><br><span class="line">    <span class="comment">// trigger build of Activiti 5 Engine</span></span><br><span class="line">    <span class="keyword">if</span> (isActiviti5CompatibilityEnabled &amp;&amp; activiti5CompatibilityHandler != <span class="keyword">null</span>) &#123;</span><br><span class="line">        Context.setProcessEngineConfiguration(processEngine.getProcessEngineConfiguration());</span><br><span class="line">        activiti5CompatibilityHandler.getRawProcessEngine();</span><br><span class="line">    &#125;</span><br><span class="line">    postProcessEngineInitialisation();</span><br><span class="line">    <span class="keyword">return</span> processEngine;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol>
-<li><p>初始化( -&gt;<code>init()</code>)</p>
-<ol>
-<li>配置器</li>
-<li>流程图片生成器</li>
-<li>历史级别</li>
-<li>表达式管理器</li>
-<li><p>关系型数据库数据源( -&gt; <code>initDataSource()</code>)</p>
-<ol>
-<li>如果没有 dataSource, 使用默认的 h2 数据库</li>
-<li>初始化数据库类型( -&gt; <code>initDatabaseType()</code>)<ol>
-<li>打开数据库连接</li>
-<li>获取数据库<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">connection = dataSource.getConnection();</span><br><span class="line">DatabaseMetaData databaseMetaData = connection.getMetaData();</span><br><span class="line">String databaseProductName = databaseMetaData.getDatabaseProductName();</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-<li></li>
-</ol>
-</li>
-</ol>
+<p>通过 <code>ProcessEngines.getDefaultProcessEngine()</code> 构造流程引擎:</p>
+<h1 id="1-默认调用"><a href="#1-默认调用" class="headerlink" title="1. 默认调用"></a>1. 默认调用</h1><p>首先 <code>ProcessEngines.getDefaultProcessEngine()</code> 会调用无参的 <code>getDefaultProcessEngine()</code> 方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ProcessEngine <span class="title">getDefaultProcessEngine</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> getProcessEngine(NAME_DEFAULT);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而该方法会通过静态常量 <code>NAME_DEFAULT</code> </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String NAME_DEFAULT = <span class="string">"default"</span>;</span><br></pre></td></tr></table></figure>
+<p>调用有参静态方法 <code>getProcessEngine(String processEngineName)</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ProcessEngine <span class="title">getProcessEngine</span><span class="params">(String processEngineName)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!isInitialized()) &#123;</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> processEngines.get(processEngineName);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -861,7 +753,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Activiti-流程引擎配置类源码分析"><span class="nav-text">1. Activiti 流程引擎配置类源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-各个职责类整体介绍"><span class="nav-text">1.1. 各个职责类整体介绍</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-流程引擎类源码分析"><span class="nav-text">2. 流程引擎类源码分析</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-默认调用"><span class="nav-text">1. 默认调用</span></a></li></ol></div>
             
 
           </div>
