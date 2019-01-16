@@ -107,7 +107,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="Activiti 配置风格获取引擎源码分析:  流程引擎管理类 ProcessEngines 1234567891011121314151617181920212223242526272829@Testpublic void testProcessEngine() &amp;#123;    ProcessEngine processEngine = ProcessEngines.getDefaultPr">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-04T16:00:29.133Z">
+<meta property="og:updated_time" content="2019-01-16T14:31:13.290Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Activiti源码分析(1)--流程引擎配置类">
 <meta name="twitter:description" content="Activiti 配置风格获取引擎源码分析:  流程引擎管理类 ProcessEngines 1234567891011121314151617181920212223242526272829@Testpublic void testProcessEngine() &amp;#123;    ProcessEngine processEngine = ProcessEngines.getDefaultPr">
@@ -465,6 +465,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String NAME_DEFAULT = <span class="string">"default"</span>;</span><br></pre></td></tr></table></figure>
 <p>调用有参静态方法 <code>getProcessEngine(String processEngineName)</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ProcessEngine <span class="title">getProcessEngine</span><span class="params">(String processEngineName)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!isInitialized()) &#123;</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> processEngines.get(processEngineName);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>###</p>
 
       
     </div>
