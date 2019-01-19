@@ -99,14 +99,18 @@
 
 
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="1. 数据库的分类数据库大致可以分为两部分:  传统的关系型数据库, 如: MySQL, Oracle, SQLServer 以及 PostgreSQL; MySQL 是国内使用最广泛的数据库, Oracle 在传统行业应用最为广泛, PostgreSQL 性能和功能都比较完善, 但目前文档和社区还有待成长. 非关系型数据库, 如 HBase(列式数据库), MongoDB(文档型数据库), Re">
+<meta name="keywords" content="关系型数据库">
+<meta property="og:type" content="article">
 <meta property="og:title" content="关系型数据库的瓶颈与优化">
 <meta property="og:url" content="https://destinywang.github.io/blog/2019/01/19/关系型数据库的瓶颈与优化/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1. 数据库的分类数据库大致可以分为两部分:  传统的关系型数据库, 如: MySQL, Oracle, SQLServer 以及 PostgreSQL; MySQL 是国内使用最广泛的数据库, Oracle 在传统行业应用最为广泛, PostgreSQL 性能和功能都比较完善, 但目前文档和社区还有待成长. 非关系型数据库, 如 HBase(列式数据库), MongoDB(文档型数据库), Re">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-19T13:42:46.949Z">
+<meta property="og:updated_time" content="2019-01-19T14:18:57.866Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关系型数据库的瓶颈与优化">
+<meta name="twitter:description" content="1. 数据库的分类数据库大致可以分为两部分:  传统的关系型数据库, 如: MySQL, Oracle, SQLServer 以及 PostgreSQL; MySQL 是国内使用最广泛的数据库, Oracle 在传统行业应用最为广泛, PostgreSQL 性能和功能都比较完善, 但目前文档和社区还有待成长. 非关系型数据库, 如 HBase(列式数据库), MongoDB(文档型数据库), Re">
 
 
 
@@ -399,6 +403,24 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/blog/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -426,7 +448,12 @@
       
 
       
-        
+        <h1 id="1-数据库的分类"><a href="#1-数据库的分类" class="headerlink" title="1. 数据库的分类"></a>1. 数据库的分类</h1><p>数据库大致可以分为两部分:</p>
+<ol>
+<li>传统的关系型数据库, 如: MySQL, Oracle, SQLServer 以及 PostgreSQL; MySQL 是国内使用最广泛的数据库, Oracle 在传统行业应用最为广泛, PostgreSQL 性能和功能都比较完善, 但目前文档和社区还有待成长.</li>
+<li>非关系型数据库, 如 HBase(列式数据库), MongoDB(文档型数据库), Redis(高性能 KV 存储), Lucene(搜索引擎) 等等.</li>
+</ol>
+<h1 id="2-关系型数据库的瓶颈与优化"><a href="#2-关系型数据库的瓶颈与优化" class="headerlink" title="2. 关系型数据库的瓶颈与优化"></a>2. 关系型数据库的瓶颈与优化</h1><h1 id="3-不同业务场景的存储选型"><a href="#3-不同业务场景的存储选型" class="headerlink" title="3. 不同业务场景的存储选型"></a>3. 不同业务场景的存储选型</h1><h1 id="4-数据库的模块化拆分"><a href="#4-数据库的模块化拆分" class="headerlink" title="4. 数据库的模块化拆分"></a>4. 数据库的模块化拆分</h1><h1 id="5-NoSQL-的性能神话"><a href="#5-NoSQL-的性能神话" class="headerlink" title="5. NoSQL 的性能神话"></a>5. NoSQL 的性能神话</h1>
       
     </div>
 
@@ -443,6 +470,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/关系型数据库/" rel="tag"># 关系型数据库</a>
+          
+        </div>
       
 
       
@@ -510,8 +543,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -587,7 +629,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">22</span>
+                      
+                    
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -652,7 +696,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">26</span>
+                      
+                    
+                    <span class="site-state-item-count">27</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -685,6 +731,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-数据库的分类"><span class="nav-text">1. 数据库的分类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-关系型数据库的瓶颈与优化"><span class="nav-text">2. 关系型数据库的瓶颈与优化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-不同业务场景的存储选型"><span class="nav-text">3. 不同业务场景的存储选型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-数据库的模块化拆分"><span class="nav-text">4. 数据库的模块化拆分</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-NoSQL-的性能神话"><span class="nav-text">5. NoSQL 的性能神话</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
