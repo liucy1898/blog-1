@@ -110,7 +110,9 @@
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/51440848-276d6200-1d06-11e9-8a4e-27a280b1a538.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/51441235-71f0dd80-1d0a-11e9-95ef-24b2c481a4f0.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/51441306-2ab71c80-1d0b-11e9-9b86-cf7aa0957787.png">
-<meta property="og:updated_time" content="2019-01-20T15:37:07.936Z">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/51544585-3a656b00-1e9b-11e9-9610-28431f9b1b09.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/51545929-02135c00-1e9e-11e9-94ac-d755610749d5.png">
+<meta property="og:updated_time" content="2019-01-22T15:36:04.266Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关系型数据库的瓶颈与优化">
 <meta name="twitter:description" content="1. 数据库的分类数据库大致可以分为两部分:  传统的关系型数据库, 如: MySQL, Oracle, SQLServer 以及 PostgreSQL; MySQL 是国内使用最广泛的数据库, Oracle 在传统行业应用最为广泛, PostgreSQL 性能和功能都比较完善, 但目前文档和社区还有待成长. 非关系型数据库, 如 HBase(列式数据库), MongoDB(文档型数据库), Re">
@@ -500,6 +502,36 @@
 <li>设计表结构时, 并没有考虑过主键问题.</li>
 </ul>
 <p>SQL 语句允许开发人员用各种方式从表中获取数据, 但 DBA 却不会希望我们这么做.</p>
+<h3 id="3-2-3-数据库的大字段"><a href="#3-2-3-数据库的大字段" class="headerlink" title="3.2.3 数据库的大字段"></a>3.2.3 数据库的大字段</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">content varchar(2046) NOT NULL <span class="keyword">COMMENT</span> <span class="string">'原始消息'</span>;</span><br></pre></td></tr></table></figure>
+<p>以 InnoDB 存储引擎为例:</p>
+<ul>
+<li>TinyText/Text/Mediumtext</li>
+<li>varchar(256)/varchar(500)/varchar(20000)</li>
+<li>tinyBlob/blob/mediumBlob </li>
+</ul>
+<p>text 类型本质上和 varchar 类型没有区别.</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/51544585-3a656b00-1e9b-11e9-9610-28431f9b1b09.png" alt="image"></p>
+<p>MySQL 中, 数据是以页的方式来组织的, 每个数据页默认大小 16 KB, 其中包括页头, 页尾, 中间是一行一行的记录.</p>
+<p>图中的每条记录包括 ID, NAME, AGE 和 DETAIL. 假设 DETAIL 是一个大字段, 达到超过了单页的大小, 此时 DB 会新开一个数据页, 当前页通过指针指向该页. 如果一页依然不够, MySQL 就会不断新加数据页直到能够存下为止.</p>
+<p>一旦存在这样的大字段, 会带来如下问题:</p>
+<ol>
+<li>查询开销大;</li>
+<li>查询影响大, 严重时会触发热页换出, 引起系统抖动. MySQL 将记录从磁盘读取出来的时候, 可能会有很多数据页, MySQL 自带缓存时非常宝贵的, 会导致真正使用频率高的数据页被替换成大字段的数据页. 此外, 对 MySQL 来说, 即便只查记录中的某几个字段, 数据库依然会把整条记录取出, 读进内存, 再进行指定字段的筛选</li>
+</ol>
+<p>对于大字段场景可以尝试的优化方案:</p>
+<ol>
+<li>是否适合存储关系型数据库;</li>
+<li>是否所有数据都需要存数据库;</li>
+<li>是否可以新建一张表存储大字段.</li>
+</ol>
+<h3 id="3-2-4-数据库缓存利用率"><a href="#3-2-4-数据库缓存利用率" class="headerlink" title="3.2.4 数据库缓存利用率"></a>3.2.4 数据库缓存利用率</h3><p>以 InnoDB 存储引擎为例:</p>
+<ol>
+<li>MySQL 默认数据页为 <code>16KB</code>, 哪怕只读一行记录, 也需要从磁盘中取出 <code>16KB</code> 数据取出;</li>
+<li>MySQL 是以页为最小的缓存单位;</li>
+<li>如果每行数据 1kb, 256kb 内存空间能缓存多少行有效数据, 最好的情况是每条数据整齐排列在一个数据页中, 那么可以缓存256条记录, 最坏的情况下每一页只存在一条数据, 那么就只能缓存16条;</li>
+<li>在 256KB 的 Buffer Pool 中, 并不是所有空间都用来做数据页缓存, 有很大的一块在 Write Buffer(MySQL 为了优化写操作, 会将一段时间内的写操作先放在 Write Buffer, 再由后台线程定时异步刷新到磁盘上). 然而剩下的 <code>128KB</code> 中还存在一部分脏页.</li>
+</ol>
+<p><img src="https://user-images.githubusercontent.com/17758731/51545929-02135c00-1e9e-11e9-94ac-d755610749d5.png" alt="image"></p>
 <h1 id="4-数据库的模块化拆分"><a href="#4-数据库的模块化拆分" class="headerlink" title="4. 数据库的模块化拆分"></a>4. 数据库的模块化拆分</h1><h1 id="5-NoSQL-的性能神话"><a href="#5-NoSQL-的性能神话" class="headerlink" title="5. NoSQL 的性能神话"></a>5. NoSQL 的性能神话</h1>
       
     </div>
@@ -788,7 +820,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-数据库的分类"><span class="nav-text">1. 数据库的分类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-关系型数据库的瓶颈与优化"><span class="nav-text">2. 关系型数据库的瓶颈与优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-为什么数据库的架构需要调整"><span class="nav-text">2.1 为什么数据库的架构需要调整</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-数据库会遇到什么问题"><span class="nav-text">2.2 数据库会遇到什么问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-性能"><span class="nav-text">2.2.1 性能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-功能"><span class="nav-text">2.2.2 功能</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-不同业务场景的存储选型"><span class="nav-text">3. 不同业务场景的存储选型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-一个简单的问题"><span class="nav-text">3.1 一个简单的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL-已经有-cache-了-为何还需要加一层-Redis"><span class="nav-text">MySQL 已经有 cache 了, 为何还需要加一层 Redis</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-数据库查询开销"><span class="nav-text">3.2 数据库查询开销</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-SQL-解析"><span class="nav-text">3.2.1 SQL 解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-以-MySQL-的-InnoDB-存储引擎主键查询为例"><span class="nav-text">3.2.2 以 MySQL 的 InnoDB 存储引擎主键查询为例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-3-如果查询条件不是主键"><span class="nav-text">3.2.3 如果查询条件不是主键</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-数据库的模块化拆分"><span class="nav-text">4. 数据库的模块化拆分</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-NoSQL-的性能神话"><span class="nav-text">5. NoSQL 的性能神话</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-数据库的分类"><span class="nav-text">1. 数据库的分类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-关系型数据库的瓶颈与优化"><span class="nav-text">2. 关系型数据库的瓶颈与优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-为什么数据库的架构需要调整"><span class="nav-text">2.1 为什么数据库的架构需要调整</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-数据库会遇到什么问题"><span class="nav-text">2.2 数据库会遇到什么问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-性能"><span class="nav-text">2.2.1 性能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-功能"><span class="nav-text">2.2.2 功能</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-不同业务场景的存储选型"><span class="nav-text">3. 不同业务场景的存储选型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-一个简单的问题"><span class="nav-text">3.1 一个简单的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL-已经有-cache-了-为何还需要加一层-Redis"><span class="nav-text">MySQL 已经有 cache 了, 为何还需要加一层 Redis</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-数据库查询开销"><span class="nav-text">3.2 数据库查询开销</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-SQL-解析"><span class="nav-text">3.2.1 SQL 解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-以-MySQL-的-InnoDB-存储引擎主键查询为例"><span class="nav-text">3.2.2 以 MySQL 的 InnoDB 存储引擎主键查询为例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-3-如果查询条件不是主键"><span class="nav-text">3.2.3 如果查询条件不是主键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-3-数据库的大字段"><span class="nav-text">3.2.3 数据库的大字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-4-数据库缓存利用率"><span class="nav-text">3.2.4 数据库缓存利用率</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-数据库的模块化拆分"><span class="nav-text">4. 数据库的模块化拆分</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-NoSQL-的性能神话"><span class="nav-text">5. NoSQL 的性能神话</span></a></li></ol></div>
             
 
           </div>
