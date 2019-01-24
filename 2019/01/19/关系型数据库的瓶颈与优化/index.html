@@ -117,7 +117,7 @@
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/51614096-f0928880-1f5f-11e9-8c2d-bc625ffb2eb1.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/51615980-191c8180-1f64-11e9-95db-355d532b58d5.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/51684703-a1178f80-2027-11e9-94ef-6f320b852c29.png">
-<meta property="og:updated_time" content="2019-01-24T14:44:43.097Z">
+<meta property="og:updated_time" content="2019-01-24T14:49:32.425Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关系型数据库的瓶颈与优化">
 <meta name="twitter:description" content="1. 数据库的分类数据库大致可以分为两部分:  传统的关系型数据库, 如: MySQL, Oracle, SQLServer 以及 PostgreSQL; MySQL 是国内使用最广泛的数据库, Oracle 在传统行业应用最为广泛, PostgreSQL 性能和功能都比较完善, 但目前文档和社区还有待成长. 非关系型数据库, 如 HBase(列式数据库), MongoDB(文档型数据库), Re">
@@ -647,7 +647,19 @@ possible_keys: id_name
 </ul>
 <p>悲观锁实现:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">count</span> <span class="keyword">FROM</span> tb <span class="keyword">WHERE</span> <span class="keyword">id</span> = ? <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;</span><br><span class="line"><span class="comment">-- do sth</span></span><br><span class="line"><span class="keyword">UPDATE</span> tb <span class="keyword">SET</span> <span class="keyword">count</span> = <span class="keyword">count</span> - ? <span class="keyword">WHERE</span> <span class="keyword">id</span> = ?;</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure></p>
 <p>乐观锁实现:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">count</span> <span class="keyword">FROM</span> tb <span class="keyword">WHERE</span> <span class="keyword">id</span> = ?;</span><br><span class="line"><span class="keyword">UPDATE</span> tb <span class="keyword">SET</span> <span class="keyword">count</span> = <span class="keyword">count</span> - ? <span class="keyword">WHERE</span> <span class="keyword">id</span> = ? <span class="keyword">AND</span> <span class="keyword">count</span> = :<span class="keyword">count</span>;</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br><span class="line"><span class="comment">-- do sth</span></span><br></pre></td></tr></table></figure></p>
-<h1 id="4-数据库的模块化拆分"><a href="#4-数据库的模块化拆分" class="headerlink" title="4. 数据库的模块化拆分"></a>4. 数据库的模块化拆分</h1><h2 id="4-1-单机服务器的局限"><a href="#4-1-单机服务器的局限" class="headerlink" title="4.1 单机服务器的局限"></a>4.1 单机服务器的局限</h2><h2 id="4-2-常见拆分方案"><a href="#4-2-常见拆分方案" class="headerlink" title="4.2 常见拆分方案"></a>4.2 常见拆分方案</h2><h1 id="5-NoSQL-的性能神话"><a href="#5-NoSQL-的性能神话" class="headerlink" title="5. NoSQL 的性能神话"></a>5. NoSQL 的性能神话</h1><h2 id="5-1-性能对比"><a href="#5-1-性能对比" class="headerlink" title="5.1 性能对比"></a>5.1 性能对比</h2>
+<h1 id="4-数据库的模块化拆分"><a href="#4-数据库的模块化拆分" class="headerlink" title="4. 数据库的模块化拆分"></a>4. 数据库的模块化拆分</h1><h2 id="4-1-单机服务器的局限"><a href="#4-1-单机服务器的局限" class="headerlink" title="4.1 单机服务器的局限"></a>4.1 单机服务器的局限</h2><ul>
+<li>虽然硬件配置越来越高, 但是总有瓶颈(e.g. CPU/内存/网络/IO/容量)</li>
+<li>为了后续业务的可扩展性</li>
+<li>单机系统崩溃风险较高</li>
+<li>优化性能<ul>
+<li>读写分离</li>
+<li>冷热分离, 创建归档库</li>
+<li>关键链路和非关键链路隔离</li>
+<li>系统层面做好降级</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-2-常见拆分方案"><a href="#4-2-常见拆分方案" class="headerlink" title="4.2 常见拆分方案"></a>4.2 常见拆分方案</h2><h1 id="5-NoSQL-的性能神话"><a href="#5-NoSQL-的性能神话" class="headerlink" title="5. NoSQL 的性能神话"></a>5. NoSQL 的性能神话</h1><h2 id="5-1-性能对比"><a href="#5-1-性能对比" class="headerlink" title="5.1 性能对比"></a>5.1 性能对比</h2>
       
     </div>
 
