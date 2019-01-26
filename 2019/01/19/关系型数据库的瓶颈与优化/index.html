@@ -118,7 +118,10 @@
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/51615980-191c8180-1f64-11e9-95db-355d532b58d5.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/51684703-a1178f80-2027-11e9-94ef-6f320b852c29.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/51689739-3586ef80-2032-11e9-8d0a-3bfcb7ac34d3.png">
-<meta property="og:updated_time" content="2019-01-26T13:10:43.845Z">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/51787744-9c321780-21b0-11e9-864b-933a0bde94e3.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/51787885-19aa5780-21b2-11e9-8df2-cba6fb8fcc3e.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/51788030-3051ae00-21b4-11e9-99ca-cdd067495813.png">
+<meta property="og:updated_time" content="2019-01-26T14:01:03.905Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关系型数据库的瓶颈与优化">
 <meta name="twitter:description" content="1. 数据库的分类数据库大致可以分为两部分:  传统的关系型数据库, 如: MySQL, Oracle, SQLServer 以及 PostgreSQL; MySQL 是国内使用最广泛的数据库, Oracle 在传统行业应用最为广泛, PostgreSQL 性能和功能都比较完善, 但目前文档和社区还有待成长. 非关系型数据库, 如 HBase(列式数据库), MongoDB(文档型数据库), Re">
@@ -674,25 +677,44 @@ possible_keys: id_name
 <li>主从复制延迟</li>
 <li>分配机制</li>
 </ol>
-<h4 id="4-2-1-1-复制延迟"><a href="#4-2-1-1-复制延迟" class="headerlink" title="4.2.1.1 复制延迟"></a>4.2.1.1 复制延迟</h4><p>主从复制的延迟可能达到秒级</p>
-<h3 id="4-2-2-分布式"><a href="#4-2-2-分布式" class="headerlink" title="4.2.2 分布式"></a>4.2.2 分布式</h3><ul>
-<li>垂直拆分<ol>
-<li>原有的功能表现良好.</li>
-<li>加上新功能后, 数据库出现明显负载.</li>
-<li>把新功能逻辑放到独立的新库中去.</li>
-</ol>
-</li>
-</ul>
+<h4 id="4-2-1-1-复制延迟"><a href="#4-2-1-1-复制延迟" class="headerlink" title="4.2.1.1 复制延迟"></a>4.2.1.1 复制延迟</h4><p>主从复制的延迟可能达到秒级, 如果有大量数据短时间需要完成同步, 延迟甚至可能达到分钟.</p>
+<p>主从复制所带来的问题: </p>
 <blockquote>
-<p>业务单元化, 去耦合<br>独立业务部署独立的数据库环境</p>
+<p>如果业务服务器将数据写入到主库后进行读取, 此时读操作访问从库, 而主库的数据没有完全复制过来, 从库是无法读取到最新数据的.</p>
 </blockquote>
-<ul>
-<li>水平拆分<ol>
-<li>用户规模10W 的时候数据库表现良好.</li>
-<li>用户规模100W 的时候单机出现瓶颈.</li>
-<li>分布式, 拆分成10个库, 系统回到稳定的状态.</li>
+<p>解决方案:</p>
+<ol>
+<li>写操作后的读操作指定发给主库, 逻辑会和业务强绑定, 对业务侵入较大.</li>
+<li>读从库失败后再读一次主库, 如果有大量没有命中从库的读请求, 会给主库带来较大压力.</li>
+<li>关键业务读写操作全部走主库, 非关键业务采用读写分离.</li>
 </ol>
-</li>
+<h4 id="4-2-1-2-分配机制"><a href="#4-2-1-2-分配机制" class="headerlink" title="4.2.1.2 分配机制"></a>4.2.1.2 分配机制</h4><p>将读写操作区分开来, 然后访问不同的数据库服务器, 一般有两种方式: 程序代码封装和中间件封装</p>
+<h5 id="1-程序代码封装"><a href="#1-程序代码封装" class="headerlink" title="1. 程序代码封装"></a>1. 程序代码封装</h5><p>在代码中抽象一个数据访问层, 实现读写操作分离和数据库服务器连接的管理.</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/51787744-9c321780-21b0-11e9-864b-933a0bde94e3.png" alt="image"></p>
+<p>特点:</p>
+<ol>
+<li>实现简单, 可以根据业务定制化;</li>
+<li>无法做到多语言通用, 容易重复开发;</li>
+<li>故障情况下, 如果主从发生切换, 需要将系统配置手动修改.</li>
+</ol>
+<h5 id="2-中间件封装"><a href="#2-中间件封装" class="headerlink" title="2. 中间件封装"></a>2. 中间件封装</h5><p>独立一套系统出来, 实现读写分离和数据库服务器连接的管理, 中间件对业务服务器提供 SQL 兼容的协议, 业务服务器无需自己进行读写分离, 对于业务服务器来说, 访问中间件和访问数据库没有区别</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/51787885-19aa5780-21b2-11e9-8df2-cba6fb8fcc3e.png" alt="image"></p>
+<p>特点:</p>
+<ol>
+<li>能够支持多种编程语言, 因为数据库中间件对业务提供的是标准的 SQL 接口.</li>
+<li>实现较为复杂, 需要完整支持 SQL 语法和数据库服务器的协议.</li>
+<li>性能要求很高, 容易成为瓶颈.</li>
+<li>数据库主从切换对业务服务器无感知, 数据库中间件可以探测数据库服务器的主从状态(e.g. 向某个测试库写入一条数据, 成功的是主机, 失败的是从机)</li>
+</ol>
+<h3 id="4-2-2-分布式"><a href="#4-2-2-分布式" class="headerlink" title="4.2.2 分布式"></a>4.2.2 分布式</h3><p>读写分离分散了读写操作的压力, 但没有分散存储的压力, 当数据量达到千万级以上的时候, 单台数据库服务器的存储能力就会成为瓶颈:</p>
+<ol>
+<li>数据量太大, 读写的性能会大幅下降.</li>
+<li>数据文件备份和恢复都会很困难.</li>
+</ol>
+<p><img src="https://user-images.githubusercontent.com/17758731/51788030-3051ae00-21b4-11e9-99ca-cdd067495813.png" alt="image"></p>
+<ul>
+<li>垂直分表: 适合将某些表中不常用且占用大量空间的列拆分出去. 代价是操作表的数量增加.</li>
+<li>水平拆分: 适合行数较大的表, 会引入更多的复杂度: <code>路由</code>, <code>join 操作</code>, <code>count 操作</code> 等</li>
 </ul>
 <h1 id="5-NoSQL-的性能神话"><a href="#5-NoSQL-的性能神话" class="headerlink" title="5. NoSQL 的性能神话"></a>5. NoSQL 的性能神话</h1><h2 id="5-1-性能对比"><a href="#5-1-性能对比" class="headerlink" title="5.1 性能对比"></a>5.1 性能对比</h2>
       
@@ -982,7 +1004,7 @@ possible_keys: id_name
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-数据库的分类"><span class="nav-text">1. 数据库的分类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-关系型数据库的瓶颈与优化"><span class="nav-text">2. 关系型数据库的瓶颈与优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-为什么数据库的架构需要调整"><span class="nav-text">2.1 为什么数据库的架构需要调整</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-数据库会遇到什么问题"><span class="nav-text">2.2 数据库会遇到什么问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-性能"><span class="nav-text">2.2.1 性能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-功能"><span class="nav-text">2.2.2 功能</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-不同业务场景的存储选型"><span class="nav-text">3. 不同业务场景的存储选型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-一个简单的问题"><span class="nav-text">3.1 一个简单的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL-已经有-cache-了-为何还需要加一层-Redis"><span class="nav-text">MySQL 已经有 cache 了, 为何还需要加一层 Redis</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-数据库查询开销"><span class="nav-text">3.2 数据库查询开销</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-SQL-解析"><span class="nav-text">3.2.1 SQL 解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-以-MySQL-的-InnoDB-存储引擎主键查询为例"><span class="nav-text">3.2.2 以 MySQL 的 InnoDB 存储引擎主键查询为例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-3-如果查询条件不是主键"><span class="nav-text">3.2.3 如果查询条件不是主键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-3-数据库的大字段"><span class="nav-text">3.2.3 数据库的大字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-4-数据库缓存利用率"><span class="nav-text">3.2.4 数据库缓存利用率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-5-缓存带来的问题"><span class="nav-text">3.2.5 缓存带来的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-6-选择正确的索引"><span class="nav-text">3.2.6 选择正确的索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-7-索引的使用"><span class="nav-text">3.2.7 索引的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-7-1-索引字段过长-超过索引支持"><span class="nav-text">3.2.7.1 索引字段过长, 超过索引支持</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-7-2"><span class="nav-text">3.2.7.2</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-数据库写开销"><span class="nav-text">3.3 数据库写开销</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-业务场景触发的高并发写入"><span class="nav-text">3.4 业务场景触发的高并发写入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-1-秒杀"><span class="nav-text">3.4.1 秒杀</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-2-私信-站内信消息推送"><span class="nav-text">3.4.2 私信/站内信消息推送</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-3-听歌量"><span class="nav-text">3.4.3 听歌量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-死锁和超时"><span class="nav-text">3.5 死锁和超时</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-6-数据库并发事务-锁"><span class="nav-text">3.6 数据库并发事务, 锁</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-数据库的模块化拆分"><span class="nav-text">4. 数据库的模块化拆分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-单机服务器的局限"><span class="nav-text">4.1 单机服务器的局限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-常见拆分方案"><span class="nav-text">4.2 常见拆分方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-1-读写分离"><span class="nav-text">4.2.1 读写分离</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-1-1-复制延迟"><span class="nav-text">4.2.1.1 复制延迟</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-2-分布式"><span class="nav-text">4.2.2 分布式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-NoSQL-的性能神话"><span class="nav-text">5. NoSQL 的性能神话</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-性能对比"><span class="nav-text">5.1 性能对比</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-数据库的分类"><span class="nav-text">1. 数据库的分类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-关系型数据库的瓶颈与优化"><span class="nav-text">2. 关系型数据库的瓶颈与优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-为什么数据库的架构需要调整"><span class="nav-text">2.1 为什么数据库的架构需要调整</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-数据库会遇到什么问题"><span class="nav-text">2.2 数据库会遇到什么问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-性能"><span class="nav-text">2.2.1 性能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-功能"><span class="nav-text">2.2.2 功能</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-不同业务场景的存储选型"><span class="nav-text">3. 不同业务场景的存储选型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-一个简单的问题"><span class="nav-text">3.1 一个简单的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL-已经有-cache-了-为何还需要加一层-Redis"><span class="nav-text">MySQL 已经有 cache 了, 为何还需要加一层 Redis</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-数据库查询开销"><span class="nav-text">3.2 数据库查询开销</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-SQL-解析"><span class="nav-text">3.2.1 SQL 解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-以-MySQL-的-InnoDB-存储引擎主键查询为例"><span class="nav-text">3.2.2 以 MySQL 的 InnoDB 存储引擎主键查询为例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-3-如果查询条件不是主键"><span class="nav-text">3.2.3 如果查询条件不是主键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-3-数据库的大字段"><span class="nav-text">3.2.3 数据库的大字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-4-数据库缓存利用率"><span class="nav-text">3.2.4 数据库缓存利用率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-5-缓存带来的问题"><span class="nav-text">3.2.5 缓存带来的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-6-选择正确的索引"><span class="nav-text">3.2.6 选择正确的索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-7-索引的使用"><span class="nav-text">3.2.7 索引的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-7-1-索引字段过长-超过索引支持"><span class="nav-text">3.2.7.1 索引字段过长, 超过索引支持</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-7-2"><span class="nav-text">3.2.7.2</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-数据库写开销"><span class="nav-text">3.3 数据库写开销</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-业务场景触发的高并发写入"><span class="nav-text">3.4 业务场景触发的高并发写入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-1-秒杀"><span class="nav-text">3.4.1 秒杀</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-2-私信-站内信消息推送"><span class="nav-text">3.4.2 私信/站内信消息推送</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-3-听歌量"><span class="nav-text">3.4.3 听歌量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-死锁和超时"><span class="nav-text">3.5 死锁和超时</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-6-数据库并发事务-锁"><span class="nav-text">3.6 数据库并发事务, 锁</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-数据库的模块化拆分"><span class="nav-text">4. 数据库的模块化拆分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-单机服务器的局限"><span class="nav-text">4.1 单机服务器的局限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-常见拆分方案"><span class="nav-text">4.2 常见拆分方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-1-读写分离"><span class="nav-text">4.2.1 读写分离</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-1-1-复制延迟"><span class="nav-text">4.2.1.1 复制延迟</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-1-2-分配机制"><span class="nav-text">4.2.1.2 分配机制</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-程序代码封装"><span class="nav-text">1. 程序代码封装</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-中间件封装"><span class="nav-text">2. 中间件封装</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-2-分布式"><span class="nav-text">4.2.2 分布式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-NoSQL-的性能神话"><span class="nav-text">5. NoSQL 的性能神话</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-性能对比"><span class="nav-text">5.1 性能对比</span></a></li></ol></li></ol></div>
             
 
           </div>
