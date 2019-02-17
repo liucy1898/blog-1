@@ -147,22 +147,22 @@
     </url>
 
     <url>
+        <loc>https://destinywang.github.io/blog/categories/MySQL/</loc>
+        <lastmod>2019-01-26T14:03:29.735Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://destinywang.github.io/blog/categories/activiti/</loc>
-        <lastmod>2019-01-16T14:31:13.290Z</lastmod>
+        <lastmod>2019-02-17T15:36:35.736Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://destinywang.github.io/blog/categories/activiti/%E6%BA%90%E7%A0%81/</loc>
-        <lastmod>2019-01-16T14:31:13.290Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://destinywang.github.io/blog/categories/MySQL/</loc>
-        <lastmod>2019-01-26T14:03:29.735Z</lastmod>
+        <lastmod>2019-02-17T15:36:35.736Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
