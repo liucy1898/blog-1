@@ -106,12 +106,13 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="在上一篇文章中, 我们跟踪了流程引擎配置类对象的创建过程, 今天紧接着来看 Activiti 在获取到流程引擎配置类之后, 如何完成流程引擎的初始化. 1. ProcessEngineConfiguration 类1.1. buildProcessEngine(URL resource) 方法123456789101112private static ProcessEngine buildProc">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/53029162-3bda8100-34a3-11e9-927c-0a9a2450c11d.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/53028730-65df7380-34a2-11e9-9221-124d145046d8.png">
-<meta property="og:updated_time" content="2019-02-19T16:00:49.484Z">
+<meta property="og:updated_time" content="2019-02-19T16:06:20.572Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Activiti源码分析(2)--流程引擎类">
 <meta name="twitter:description" content="在上一篇文章中, 我们跟踪了流程引擎配置类对象的创建过程, 今天紧接着来看 Activiti 在获取到流程引擎配置类之后, 如何完成流程引擎的初始化. 1. ProcessEngineConfiguration 类1.1. buildProcessEngine(URL resource) 方法123456789101112private static ProcessEngine buildProc">
-<meta name="twitter:image" content="https://user-images.githubusercontent.com/17758731/53028730-65df7380-34a2-11e9-9221-124d145046d8.png">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/17758731/53029162-3bda8100-34a3-11e9-927c-0a9a2450c11d.png">
 
 
 
@@ -485,6 +486,8 @@
 </ul>
 </li>
 </ul>
+<p>最终初始化代码执行完成后, 会在 DB 中存在这样一条记录</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/53029162-3bda8100-34a3-11e9-927c-0a9a2450c11d.png" alt="image"></p>
 <hr>
 <p>执行完毕后, 此时 ProcessEngine 对象已经初始化完成.</p>
 <p>调用关系如下:</p>
