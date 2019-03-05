@@ -6,10 +6,10 @@
 
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -23,8 +23,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -47,9 +47,9 @@
 
 
 
-<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/blog/css/main.css?v=6.1.0" rel="stylesheet" type="text/css" />
+<link href="/blog/css/main.css?v=6.1.0" rel="stylesheet" type="text/css">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=6.1.0">
@@ -99,28 +99,29 @@
 
 
 
-  <meta name="description" content="1. 任意节点跳转以及原理 常规节点跳转 跳转到目标节点 跳转到目标节点的入线 跳转到目标节点的上一个节点并触发连线的条件计算   多实例节点的跳转 普通节点跳转到多实例节点 多实例节点跳转到普通节点    比如总经理审批节点跳转到请假申请节点:  思路一:  可以获取总经理审批节点对应的任务 ID, 实例 ID, 执行实例 ID 可以通过 planContiuneProcessInCompens">
+  <meta name="description" content="1. 任意节点跳转以及原理 常规节点跳转 跳转到目标节点 跳转到目标节点的入线 跳转到目标节点的上一个节点并触发连线的条件计算   多实例节点的跳转 普通节点跳转到多实例节点 多实例节点跳转到普通节点    比如总经理审批节点跳转到请假申请节点:  思路:  可以获取总经理审批节点对应的任务 ID, 实例 ID, 执行实例 ID 可以通过 planContiuneProcessInCompensa">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Activiti(5)--任意节点跳转">
 <meta property="og:url" content="https://destinywang.github.io/blog/2018/12/22/Activiti-5-任意节点跳转/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1. 任意节点跳转以及原理 常规节点跳转 跳转到目标节点 跳转到目标节点的入线 跳转到目标节点的上一个节点并触发连线的条件计算   多实例节点的跳转 普通节点跳转到多实例节点 多实例节点跳转到普通节点    比如总经理审批节点跳转到请假申请节点:  思路一:  可以获取总经理审批节点对应的任务 ID, 实例 ID, 执行实例 ID 可以通过 planContiuneProcessInCompens">
+<meta property="og:description" content="1. 任意节点跳转以及原理 常规节点跳转 跳转到目标节点 跳转到目标节点的入线 跳转到目标节点的上一个节点并触发连线的条件计算   多实例节点的跳转 普通节点跳转到多实例节点 多实例节点跳转到普通节点    比如总经理审批节点跳转到请假申请节点:  思路:  可以获取总经理审批节点对应的任务 ID, 实例 ID, 执行实例 ID 可以通过 planContiuneProcessInCompensa">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/50369657-2bf20e00-05d4-11e9-9af3-9416a020adae.png">
-<meta property="og:updated_time" content="2019-03-03T14:34:29.100Z">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/53717197-598beb00-3e92-11e9-884e-67d2c77fe042.png">
+<meta property="og:updated_time" content="2019-03-04T08:18:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Activiti(5)--任意节点跳转">
-<meta name="twitter:description" content="1. 任意节点跳转以及原理 常规节点跳转 跳转到目标节点 跳转到目标节点的入线 跳转到目标节点的上一个节点并触发连线的条件计算   多实例节点的跳转 普通节点跳转到多实例节点 多实例节点跳转到普通节点    比如总经理审批节点跳转到请假申请节点:  思路一:  可以获取总经理审批节点对应的任务 ID, 实例 ID, 执行实例 ID 可以通过 planContiuneProcessInCompens">
+<meta name="twitter:description" content="1. 任意节点跳转以及原理 常规节点跳转 跳转到目标节点 跳转到目标节点的入线 跳转到目标节点的上一个节点并触发连线的条件计算   多实例节点的跳转 普通节点跳转到多实例节点 多实例节点跳转到普通节点    比如总经理审批节点跳转到请假申请节点:  思路:  可以获取总经理审批节点对应的任务 ID, 实例 ID, 执行实例 ID 可以通过 planContiuneProcessInCompensa">
 <meta name="twitter:image" content="https://user-images.githubusercontent.com/17758731/50369657-2bf20e00-05d4-11e9-9af3-9416a020adae.png">
 
 
 
-  <link rel="alternate" href="/blog/atom.xml" title="Hexo" type="application/atom+xml" />
+  <link rel="alternate" href="/blog/atom.xml" title="Hexo" type="application/atom+xml">
 
 
 
 
-  <link rel="canonical" href="https://destinywang.github.io/blog/2018/12/22/Activiti-5-任意节点跳转/"/>
+  <link rel="canonical" href="https://destinywang.github.io/blog/2018/12/22/Activiti-5-任意节点跳转/">
 
 
 
@@ -220,7 +221,7 @@
           
   <li class="menu-item menu-item-home">
     <a href="/blog/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />首页</a>
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>首页</a>
 </li>
 
       
@@ -229,7 +230,7 @@
           
   <li class="menu-item menu-item-archives">
     <a href="/blog/archives" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />归档</a>
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>归档</a>
 </li>
 
       
@@ -238,7 +239,7 @@
           
   <li class="menu-item menu-item-categories">
     <a href="/blog/categories" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />分类</a>
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>分类</a>
 </li>
 
       
@@ -247,7 +248,7 @@
           
   <li class="menu-item menu-item-tags">
     <a href="/blog/tags" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />标签</a>
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>标签</a>
 </li>
 
       
@@ -256,7 +257,7 @@
           
   <li class="menu-item menu-item-about">
     <a href="/blog/about" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />关于</a>
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>关于</a>
 </li>
 
       
@@ -265,7 +266,7 @@
           
   <li class="menu-item menu-item-search">
     <a href="/blog/search" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />搜索</a>
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>搜索</a>
 </li>
 
       
@@ -274,7 +275,7 @@
           
   <li class="menu-item menu-item-commonweal">
     <a href="/blog/404.html" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />公益 404</a>
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>公益 404</a>
 </li>
 
       
@@ -283,7 +284,7 @@
           
   <li class="menu-item menu-item-something">
     <a href="/blog/something" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />something</a>
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>something</a>
 </li>
 
       
@@ -294,7 +295,7 @@
             <a href="javascript:;" class="popup-trigger">
           
             
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
         </li>
       
     </ul>
@@ -314,9 +315,7 @@
       <i class="fa fa-times-circle"></i>
     </span>
     <div class="local-search-input-wrapper">
-      <input autocomplete="off"
-             placeholder="搜索..." spellcheck="false"
-             type="text" id="local-search-input">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
     </div>
   </div>
   <div id="local-search-result"></div>
@@ -369,7 +368,7 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="destiny">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content>
       <meta itemprop="image" content="/blog/images/blog-logo.jpeg">
     </span>
 
@@ -446,18 +445,15 @@
 </ul>
 <p>比如总经理审批节点跳转到请假申请节点:</p>
 <p><img src="https://user-images.githubusercontent.com/17758731/50369657-2bf20e00-05d4-11e9-9af3-9416a020adae.png" alt="image"></p>
-<p>思路一:</p>
+<p>思路:</p>
 <ol>
 <li>可以获取总经理审批节点对应的任务 ID, 实例 ID, 执行实例 ID</li>
 <li>可以通过 <code>planContiuneProcessInCompensation</code> 方法让当前执行的实例按照我们预期的效果流转</li>
-</ol>
-<p>思路二:</p>
-<ol>
 <li>我们可以将当前执行实例中的 <code>currentFlowElement</code> 字段设置为 <code>请假申请</code> 节点 XML 中的 id 值;</li>
 <li>因为执行实例运转之后, 当前的任务节点并没有被删除, 所以需要手工删除;</li>
 <li>历史表跳转之前的任务节点也不会被完成, 需要手工进行完成.</li>
 </ol>
-<h2 id="1-1-思路一的实现"><a href="#1-1-思路一的实现" class="headerlink" title="1.1. 思路一的实现"></a>1.1. 思路一的实现</h2><ul>
+<h2 id="1-1-实现方案"><a href="#1-1-实现方案" class="headerlink" title="1.1. 实现方案"></a>1.1. 实现方案</h2><ul>
 <li>获取 <code>ActivitiEngineAgenda</code></li>
 <li><code>commandContext.getExecutionEntityManager()</code> 获取 ExecutionEntityManager</li>
 <li><code>commandContext.getTaskEntityManager()</code> 获取 TaskEntityManager</li>
@@ -466,7 +462,158 @@
 <li>设置删除当前的任务节点</li>
 <li>更新历史实例表以及历史任务表, 当前的任务节点为完成状态</li>
 </ul>
-
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JumpCmd</span> <span class="keyword">implements</span> <span class="title">Command</span>&lt;<span class="title">Void</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String taskId;</span><br><span class="line">    <span class="keyword">private</span> String targetNodeId;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Void <span class="title">execute</span><span class="params">(CommandContext commandContext)</span> </span>&#123;</span><br><span class="line">        ActivitiEngineAgenda agenda = commandContext.getAgenda();</span><br><span class="line">        TaskEntityManager taskEntityManager = commandContext.getTaskEntityManager();</span><br><span class="line">        TaskEntity taskEntity = taskEntityManager.findById(taskId);</span><br><span class="line">        <span class="comment">// 执行实例 id</span></span><br><span class="line">        String executionId = taskEntity.getExecutionId();</span><br><span class="line">        String processDefinitionId = taskEntity.getProcessDefinitionId();</span><br><span class="line">        ExecutionEntityManager executionEntityManager = commandContext.getExecutionEntityManager();</span><br><span class="line">        HistoryManager historyManager = commandContext.getHistoryManager();</span><br><span class="line">        <span class="comment">// 执行实例对象</span></span><br><span class="line">        ExecutionEntity executionEntity = executionEntityManager.findById(executionId);</span><br><span class="line">        Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);</span><br><span class="line">        FlowElement flowElement = process.getFlowElement(targetNodeId);</span><br><span class="line">        <span class="keyword">if</span> (flowElement == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"目标节点不存在"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 将历史活动表更新</span></span><br><span class="line">        historyManager.recordActivityEnd(executionEntity, <span class="string">"jump"</span>);</span><br><span class="line">        <span class="comment">// 设置当前流程</span></span><br><span class="line">        executionEntity.setCurrentFlowElement(flowElement);</span><br><span class="line">        <span class="comment">// 跳转, 触发执行实例运转</span></span><br><span class="line">        agenda.planContinueProcessInCompensation(executionEntity);</span><br><span class="line">        <span class="comment">// 从runtime 表中删除当前任务</span></span><br><span class="line">        taskEntityManager.delete(taskId);</span><br><span class="line">        <span class="comment">// 将历史任务表更新, 历史任务标记为完成</span></span><br><span class="line">        historyManager.recordTaskEnd(taskId, <span class="string">"jump"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="1-2-测试场景"><a href="#1-2-测试场景" class="headerlink" title="1.2. 测试场景"></a>1.2. 测试场景</h2><p>假设有如下流程定义:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">definitions</span> <span class="attr">xmlns</span>=<span class="string">"http://www.omg.org/spec/BPMN/20100524/MODEL"</span></span></span><br><span class="line"><span class="tag">             <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns:activiti</span>=<span class="string">"http://activiti.org/bpmn"</span></span></span><br><span class="line"><span class="tag">             <span class="attr">xmlns:bpmndi</span>=<span class="string">"http://www.omg.org/spec/BPMN/20100524/DI"</span></span></span><br><span class="line"><span class="tag">             <span class="attr">xmlns:omgdc</span>=<span class="string">"http://www.omg.org/spec/DD/20100524/DC"</span></span></span><br><span class="line"><span class="tag">             <span class="attr">xmlns:omgdi</span>=<span class="string">"http://www.omg.org/spec/DD/20100524/DI"</span> <span class="attr">typeLanguage</span>=<span class="string">"http://www.w3.org/2001/XMLSchema"</span></span></span><br><span class="line"><span class="tag">             <span class="attr">expressionLanguage</span>=<span class="string">"http://www.w3.org/1999/XPath"</span> <span class="attr">targetNamespace</span>=<span class="string">"http://www.activiti.org/test"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">process</span> <span class="attr">id</span>=<span class="string">"my-process"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">startEvent</span> <span class="attr">id</span>=<span class="string">"start"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">sequenceFlow</span> <span class="attr">id</span>=<span class="string">"flow1"</span> <span class="attr">sourceRef</span>=<span class="string">"start"</span> <span class="attr">targetRef</span>=<span class="string">"userTask1"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">userTask</span> <span class="attr">id</span>=<span class="string">"userTask1"</span> <span class="attr">name</span>=<span class="string">"userTask1"</span> <span class="attr">activiti:assignee</span>=<span class="string">"destiny1"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">sequenceFlow</span> <span class="attr">id</span>=<span class="string">"flow2"</span> <span class="attr">sourceRef</span>=<span class="string">"userTask1"</span> <span class="attr">targetRef</span>=<span class="string">"userTask2"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">userTask</span> <span class="attr">id</span>=<span class="string">"userTask2"</span> <span class="attr">name</span>=<span class="string">"userTask2"</span> <span class="attr">activiti:assignee</span>=<span class="string">"destiny2"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">sequenceFlow</span> <span class="attr">id</span>=<span class="string">"flow3"</span> <span class="attr">sourceRef</span>=<span class="string">"userTask2"</span> <span class="attr">targetRef</span>=<span class="string">"end"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">endEvent</span> <span class="attr">id</span>=<span class="string">"end"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">process</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">definitions</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>结构如下:</p>
+<pre><code>start -&gt; userTask1 -&gt; userTask2 -&gt; end
+</code></pre><p>使用如下的执行顺序:</p>
+<ol>
+<li>startProcessInstance</li>
+<li>complete 任务 userTask1</li>
+<li>执行 <code>ManagementService().executeCommand(new JumpCmd(&quot;7502&quot;, &quot;userTask1&quot;))</code></li>
+<li>complete 任务 userTask1</li>
+<li>执行 <code>ManagementService().executeCommand(new JumpCmd(&quot;7502&quot;, &quot;userTask1&quot;))</code></li>
+</ol>
+<p>然后查询 <code>ACT_HI_ACTINST</code> 表, 能够看到如下执行轨迹:</p>
+<table>
+<thead>
+<tr>
+<th>ID_</th>
+<th>PROC_DEF_ID_</th>
+<th>PROC_INST_ID_</th>
+<th>EXECUTION_ID_</th>
+<th>ACT_ID_</th>
+<th>TASK_ID_</th>
+<th>CALL_PROC_INST_ID_</th>
+<th>ACT_NAME_</th>
+<th>ACT_NAME_</th>
+<th>ASSIGNEE_</th>
+<th>START_TIME_</th>
+<th>END_TIME_</th>
+<th>DURATION_</th>
+<th>DELETE_REASON_</th>
+<th>TENANT_ID_</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>6</td>
+<td>my-process:1:3</td>
+<td>4</td>
+<td>5</td>
+<td>start</td>
+<td></td>
+<td></td>
+<td>startEvent</td>
+<td></td>
+<td>2019-03-04 00:37:54.328</td>
+<td>2019-03-04 00:37:54.330</td>
+<td>2</td>
+<td>“”</td>
+</tr>
+<tr>
+<td>7</td>
+<td>my-process:1:3</td>
+<td>4</td>
+<td>5</td>
+<td>userTask1</td>
+<td>8</td>
+<td></td>
+<td>userTask1</td>
+<td>userTask</td>
+<td>destiny1</td>
+<td>2019-03-04 00:37:54.331</td>
+<td>2019-03-04 00:38:19.920</td>
+<td>25589</td>
+<td></td>
+<td>“”</td>
+</tr>
+<tr>
+<td>2501</td>
+<td>my-process:1:3</td>
+<td>4</td>
+<td>5</td>
+<td>userTask2</td>
+<td>2502</td>
+<td></td>
+<td>userTask2</td>
+<td>userTask</td>
+<td>destiny2</td>
+<td>2019-03-04 00:38:19.933</td>
+<td>2019-03-04 00:38:44.834</td>
+<td>24901</td>
+<td>jump</td>
+<td>“”</td>
+</tr>
+<tr>
+<td>5001</td>
+<td>my-process:1:3</td>
+<td>4</td>
+<td>5</td>
+<td>userTask1</td>
+<td>5002</td>
+<td></td>
+<td>userTask1</td>
+<td>userTask</td>
+<td>destiny1</td>
+<td>2019-03-04 00:38:44.848</td>
+<td>2019-03-04 00:39:02.232</td>
+<td>17384</td>
+<td></td>
+<td>“”</td>
+</tr>
+<tr>
+<td>7501</td>
+<td>my-process:1:3</td>
+<td>4</td>
+<td>5</td>
+<td>userTask2</td>
+<td>7502</td>
+<td></td>
+<td>userTask2</td>
+<td>userTask</td>
+<td>destiny2</td>
+<td>2019-03-04 00:39:02.245</td>
+<td>2019-03-04 00:39:19.718</td>
+<td>17473</td>
+<td>jump</td>
+<td>“”</td>
+</tr>
+<tr>
+<td>10001</td>
+<td>my-process:1:3</td>
+<td>4</td>
+<td>5</td>
+<td>userTask1</td>
+<td>10002</td>
+<td>userTask1</td>
+<td>userTask</td>
+<td>destiny1</td>
+<td>2019-03-04 00:39:19.743</td>
+<td></td>
+<td></td>
+<td></td>
+<td>“”</td>
+</tr>
+</tbody>
+</table>
+<p>可以看到我们已经完成了简单条件下的跳转</p>
+<h2 id="1-3-关于自由跳转时历史活动不更新问题的解决"><a href="#1-3-关于自由跳转时历史活动不更新问题的解决" class="headerlink" title="1.3. 关于自由跳转时历史活动不更新问题的解决"></a>1.3. 关于自由跳转时历史活动不更新问题的解决</h2><p>之前遇到一个错误的写法: </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JumpCmd</span> <span class="keyword">implements</span> <span class="title">Command</span>&lt;<span class="title">Void</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String taskId;</span><br><span class="line">    <span class="keyword">private</span> String targetNodeId;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Void <span class="title">execute</span><span class="params">(CommandContext commandContext)</span> </span>&#123;</span><br><span class="line">        ActivitiEngineAgenda agenda = commandContext.getAgenda();</span><br><span class="line">        TaskEntityManager taskEntityManager = commandContext.getTaskEntityManager();</span><br><span class="line">        TaskEntity taskEntity = taskEntityManager.findById(taskId);</span><br><span class="line">        <span class="comment">// 执行实例 id</span></span><br><span class="line">        String executionId = taskEntity.getExecutionId();</span><br><span class="line">        String processDefinitionId = taskEntity.getProcessDefinitionId();</span><br><span class="line">        ExecutionEntityManager executionEntityManager = commandContext.getExecutionEntityManager();</span><br><span class="line">        HistoryManager historyManager = commandContext.getHistoryManager();</span><br><span class="line">        <span class="comment">// 执行实例对象</span></span><br><span class="line">        ExecutionEntity executionEntity = executionEntityManager.findById(executionId);</span><br><span class="line">        Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);</span><br><span class="line">        FlowElement flowElement = process.getFlowElement(targetNodeId);</span><br><span class="line">        <span class="keyword">if</span> (flowElement == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"目标节点不存在"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 设置当前流程</span></span><br><span class="line">        executionEntity.setCurrentFlowElement(flowElement);</span><br><span class="line">        <span class="comment">// 跳转, 触发执行实例运转</span></span><br><span class="line">        agenda.planContinueProcessInCompensation(executionEntity);</span><br><span class="line">        <span class="comment">// 从runtime 表中删除当前任务</span></span><br><span class="line">        taskEntityManager.delete(taskId);</span><br><span class="line">        <span class="comment">// 将历史活动表更新</span></span><br><span class="line">        historyManager.recordActivityEnd(executionEntity, <span class="string">"jump"</span>);</span><br><span class="line">        <span class="comment">// 将历史任务表更新, 历史任务标记为完成</span></span><br><span class="line">        historyManager.recordTaskEnd(taskId, <span class="string">"jump"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>与上文中正确写法的不同之处在于数据库更新操作的顺序. 但仅仅更换顺序也会到导致历史表中数据无法正确结束.</p>
+<p>问题的原因在于第 25 行的时候已经为执行实例执行了 <code>setCurrentFlowElement()</code> 操作, 设置了最新的流程元素, 所以如果在后面再执行对 <code>ACT_HI_ACTINST</code> 的更新, 就无法找到正确的 FlowElement. 所以需要将 <code>historyManager.recordActivityEnd(executionEntity, &quot;jump&quot;);</code> 放在第 25 行之前</p>
+<h1 id="2-跳转到目标节点的入线"><a href="#2-跳转到目标节点的入线" class="headerlink" title="2. 跳转到目标节点的入线"></a>2. 跳转到目标节点的入线</h1><p>假设有如下流程定义:</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/53717197-598beb00-3e92-11e9-884e-67d2c77fe042.png" alt="image"></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">definitions</span> <span class="attr">xmlns</span>=<span class="string">"http://www.omg.org/spec/BPMN/20100524/MODEL"</span></span></span><br><span class="line"><span class="tag">             <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns:activiti</span>=<span class="string">"http://activiti.org/bpmn"</span></span></span><br><span class="line"><span class="tag">             <span class="attr">xmlns:bpmndi</span>=<span class="string">"http://www.omg.org/spec/BPMN/20100524/DI"</span></span></span><br><span class="line"><span class="tag">             <span class="attr">xmlns:omgdc</span>=<span class="string">"http://www.omg.org/spec/DD/20100524/DC"</span></span></span><br><span class="line"><span class="tag">             <span class="attr">xmlns:omgdi</span>=<span class="string">"http://www.omg.org/spec/DD/20100524/DI"</span> <span class="attr">typeLanguage</span>=<span class="string">"http://www.w3.org/2001/XMLSchema"</span></span></span><br><span class="line"><span class="tag">             <span class="attr">expressionLanguage</span>=<span class="string">"http://www.w3.org/1999/XPath"</span> <span class="attr">targetNamespace</span>=<span class="string">"http://www.activiti.org/test"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">process</span> <span class="attr">id</span>=<span class="string">"my-process"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">startEvent</span> <span class="attr">id</span>=<span class="string">"start"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">userTask</span> <span class="attr">id</span>=<span class="string">"userTask1"</span> <span class="attr">name</span>=<span class="string">"userTask1"</span> <span class="attr">activiti:assignee</span>=<span class="string">"destiny1"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">userTask</span> <span class="attr">id</span>=<span class="string">"userTask2"</span> <span class="attr">name</span>=<span class="string">"userTask2"</span> <span class="attr">activiti:assignee</span>=<span class="string">"destiny2"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">userTask</span> <span class="attr">id</span>=<span class="string">"userTask3"</span> <span class="attr">name</span>=<span class="string">"userTask3"</span> <span class="attr">activiti:assignee</span>=<span class="string">"destiny3"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">endEvent</span> <span class="attr">id</span>=<span class="string">"end1"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">endEvent</span> <span class="attr">id</span>=<span class="string">"end2"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">sequenceFlow</span> <span class="attr">sourceRef</span>=<span class="string">"start"</span> <span class="attr">targetRef</span>=<span class="string">"userTask1"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">sequenceFlow</span> <span class="attr">sourceRef</span>=<span class="string">"userTask1"</span> <span class="attr">targetRef</span>=<span class="string">"userTask2"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">conditionExpression</span>&gt;</span>$&#123;condition==1&#125;<span class="tag">&lt;/<span class="name">conditionExpression</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">sequenceFlow</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">sequenceFlow</span> <span class="attr">sourceRef</span>=<span class="string">"userTask1"</span> <span class="attr">targetRef</span>=<span class="string">"userTask3"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">conditionExpression</span>&gt;</span>$&#123;condition==2&#125;<span class="tag">&lt;/<span class="name">conditionExpression</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">sequenceFlow</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">sequenceFlow</span> <span class="attr">sourceRef</span>=<span class="string">"userTask2"</span> <span class="attr">targetRef</span>=<span class="string">"end1"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">sequenceFlow</span> <span class="attr">sourceRef</span>=<span class="string">"userTask3"</span> <span class="attr">targetRef</span>=<span class="string">"end2"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">process</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">definitions</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>将原先的跳转命令类稍作修改:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SequenceFlowJumpCmd</span> <span class="keyword">implements</span> <span class="title">Command</span>&lt;<span class="title">Void</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String taskId;</span><br><span class="line">    <span class="keyword">private</span> String targetNodeId;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Void <span class="title">execute</span><span class="params">(CommandContext commandContext)</span> </span>&#123;</span><br><span class="line">        ActivitiEngineAgenda agenda = commandContext.getAgenda();</span><br><span class="line">        TaskEntityManager taskEntityManager = commandContext.getTaskEntityManager();</span><br><span class="line">        TaskEntity taskEntity = taskEntityManager.findById(taskId);</span><br><span class="line">        <span class="comment">// 执行实例 id</span></span><br><span class="line">        String executionId = taskEntity.getExecutionId();</span><br><span class="line">        String processDefinitionId = taskEntity.getProcessDefinitionId();</span><br><span class="line">        ExecutionEntityManager executionEntityManager = commandContext.getExecutionEntityManager();</span><br><span class="line">        HistoryManager historyManager = commandContext.getHistoryManager();</span><br><span class="line">        <span class="comment">// 执行实例对象</span></span><br><span class="line">        ExecutionEntity executionEntity = executionEntityManager.findById(executionId);</span><br><span class="line">        Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);</span><br><span class="line">        FlowElement flowElement = process.getFlowElement(targetNodeId);</span><br><span class="line">        <span class="keyword">if</span> (flowElement == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"目标节点不存在"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        SequenceFlow sequenceFlow = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (flowElement <span class="keyword">instanceof</span> FlowNode) &#123;</span><br><span class="line">            FlowNode flowNode = (FlowNode) flowElement;</span><br><span class="line">            <span class="comment">// 找到所有的入线, 并取其中唯一的一条</span></span><br><span class="line">            List&lt;SequenceFlow&gt; incomingFlows = flowNode.getIncomingFlows();</span><br><span class="line">            sequenceFlow = incomingFlows.get(<span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (sequenceFlow == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"目标连线不存在"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 将历史活动表更新</span></span><br><span class="line">        historyManager.recordActivityEnd(executionEntity, <span class="string">"jump"</span>);</span><br><span class="line">        <span class="comment">// 设置当前流程</span></span><br><span class="line">        executionEntity.setCurrentFlowElement(sequenceFlow);</span><br><span class="line">        <span class="comment">// 触发执行实例运转, 第二个参数为是否参与计算</span></span><br><span class="line">        agenda.planTakeOutgoingSequenceFlowsOperation(executionEntity, <span class="keyword">true</span>);</span><br><span class="line">        <span class="comment">// 从runtime 表中删除当前任务</span></span><br><span class="line">        taskEntityManager.delete(taskId);</span><br><span class="line">        <span class="comment">// 将历史任务表更新, 历史任务标记为完成</span></span><br><span class="line">        historyManager.recordTaskEnd(taskId, <span class="string">"jump"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>通过连线触发实例的时候, 连线上的条件不会参与计算</li>
+<li>只有实例经过节点, 网关的时候, 连线上的条件才会经过计算</li>
+</ul>
+<h1 id="3-跳转到目标节点入线连接的节点"><a href="#3-跳转到目标节点入线连接的节点" class="headerlink" title="3. 跳转到目标节点入线连接的节点"></a>3. 跳转到目标节点入线连接的节点</h1><p>因为实例是从节点离开, 因此后面的连线是可以参与运算的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SequenceFlowSourceJumpCmd</span> <span class="keyword">implements</span> <span class="title">Command</span>&lt;<span class="title">Void</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String taskId;</span><br><span class="line">    <span class="keyword">private</span> String targetNodeId;</span><br><span class="line">    <span class="keyword">private</span> Map&lt;String, Object&gt; condition;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Void <span class="title">execute</span><span class="params">(CommandContext commandContext)</span> </span>&#123;</span><br><span class="line">        ActivitiEngineAgenda agenda = commandContext.getAgenda();</span><br><span class="line">        TaskEntityManager taskEntityManager = commandContext.getTaskEntityManager();</span><br><span class="line">        TaskEntity taskEntity = taskEntityManager.findById(taskId);</span><br><span class="line">        <span class="comment">// 执行实例 id</span></span><br><span class="line">        String executionId = taskEntity.getExecutionId();</span><br><span class="line">        String processDefinitionId = taskEntity.getProcessDefinitionId();</span><br><span class="line">        ExecutionEntityManager executionEntityManager = commandContext.getExecutionEntityManager();</span><br><span class="line">        HistoryManager historyManager = commandContext.getHistoryManager();</span><br><span class="line">        <span class="comment">// 执行实例对象</span></span><br><span class="line">        ExecutionEntity executionEntity = executionEntityManager.findById(executionId);</span><br><span class="line">        Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);</span><br><span class="line">        FlowElement flowElement = process.getFlowElement(targetNodeId);</span><br><span class="line">        <span class="keyword">if</span> (flowElement == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"目标节点不存在"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        SequenceFlow sequenceFlow = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (flowElement <span class="keyword">instanceof</span> FlowNode) &#123;</span><br><span class="line">            FlowNode flowNode = (FlowNode) flowElement;</span><br><span class="line">            <span class="comment">// 找到所有的入线, 并取其中唯一的一条</span></span><br><span class="line">            List&lt;SequenceFlow&gt; incomingFlows = flowNode.getIncomingFlows();</span><br><span class="line">            sequenceFlow = incomingFlows.get(<span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (sequenceFlow == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"目标连线不存在"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        FlowElement sourceFlowElement = sequenceFlow.getSourceFlowElement();</span><br><span class="line">        executionEntity.setVariables(condition);</span><br><span class="line">        <span class="comment">// 将历史活动表更新</span></span><br><span class="line">        historyManager.recordActivityEnd(executionEntity, <span class="string">"jump"</span>);</span><br><span class="line">        <span class="comment">// 设置当前流程</span></span><br><span class="line">        executionEntity.setCurrentFlowElement(sourceFlowElement);</span><br><span class="line">        <span class="comment">// 触发执行实例运转, 第二个参数为是否参与计算</span></span><br><span class="line">        agenda.planTakeOutgoingSequenceFlowsOperation(executionEntity, <span class="keyword">true</span>);</span><br><span class="line">        <span class="comment">// 从runtime 表中删除当前任务</span></span><br><span class="line">        taskEntityManager.delete(taskId);</span><br><span class="line">        <span class="comment">// 将历史任务表更新, 历史任务标记为完成</span></span><br><span class="line">        historyManager.recordTaskEnd(taskId, <span class="string">"jump"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -568,9 +715,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image"
-                src="/blog/images/blog-logo.jpeg"
-                alt="destiny" />
+              <img class="site-author-image" itemprop="image" src="/blog/images/blog-logo.jpeg" alt="destiny">
             
               <p class="site-author-name" itemprop="name">destiny</p>
               <p class="site-description motion-element" itemprop="description"></p>
@@ -595,14 +740,6 @@
                 <div class="site-state-item site-state-categories">
                   <a href="/blog/categories/index.html">
                     
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
                     
                       
                     
@@ -697,18 +834,6 @@
                     
                       
                     
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
                     <span class="site-state-item-count">21</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
@@ -752,7 +877,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-任意节点跳转以及原理"><span class="nav-text">1. 任意节点跳转以及原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-思路一的实现"><span class="nav-text">1.1. 思路一的实现</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-任意节点跳转以及原理"><span class="nav-text">1. 任意节点跳转以及原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-实现方案"><span class="nav-text">1.1. 实现方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-测试场景"><span class="nav-text">1.2. 测试场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-关于自由跳转时历史活动不更新问题的解决"><span class="nav-text">1.3. 关于自由跳转时历史活动不更新问题的解决</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-跳转到目标节点的入线"><span class="nav-text">2. 跳转到目标节点的入线</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-跳转到目标节点入线连接的节点"><span class="nav-text">3. 跳转到目标节点入线连接的节点</span></a></li></ol></div>
             
 
           </div>
