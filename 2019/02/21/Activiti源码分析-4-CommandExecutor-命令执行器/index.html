@@ -107,12 +107,12 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="1. commandExecutor 对象的构造1.1. ProcessEngineConfigurationImpl#ProcessEngineConfigurationImpl()1234567public void initCommandExecutors() &amp;#123;    initDefaultCommandConfig();    initSchemaCommandConfig()">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/54065116-da623280-4256-11e9-9573-ec2794712a3d.png">
-<meta property="og:updated_time" content="2019-03-09T02:37:55.927Z">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/54065183-e995b000-4257-11e9-9005-4a4f5f6ae568.png">
+<meta property="og:updated_time" content="2019-03-09T02:44:39.404Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Activiti源码分析(4)--CommandExecutor(命令执行器)">
 <meta name="twitter:description" content="1. commandExecutor 对象的构造1.1. ProcessEngineConfigurationImpl#ProcessEngineConfigurationImpl()1234567public void initCommandExecutors() &amp;#123;    initDefaultCommandConfig();    initSchemaCommandConfig()">
-<meta name="twitter:image" content="https://user-images.githubusercontent.com/17758731/54065116-da623280-4256-11e9-9573-ec2794712a3d.png">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/17758731/54065183-e995b000-4257-11e9-9005-4a4f5f6ae568.png">
 
 
 
@@ -483,7 +483,7 @@
 </ul>
 <h2 id="1-2-1-ProcessEngineConfigurationImpl-initInterceptorChain-List-chain"><a href="#1-2-1-ProcessEngineConfigurationImpl-initInterceptorChain-List-chain" class="headerlink" title="1.2.1 ProcessEngineConfigurationImpl#initInterceptorChain(List chain)"></a>1.2.1 ProcessEngineConfigurationImpl#initInterceptorChain(List<commandinterceptor> chain)</commandinterceptor></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> CommandInterceptor <span class="title">initInterceptorChain</span><span class="params">(List&lt;CommandInterceptor&gt; chain)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (chain == <span class="keyword">null</span> || chain.isEmpty()) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> ActivitiException(<span class="string">"invalid command interceptor chain configuration: "</span> + chain);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; chain.size() - <span class="number">1</span>; i++) &#123;</span><br><span class="line">        chain.get(i).setNext(chain.get(i + <span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> chain.get(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>初始化命令拦截器链, 并返回其中的第一个拦截器</p>
-<p><img src="https://user-images.githubusercontent.com/17758731/54065116-da623280-4256-11e9-9573-ec2794712a3d.png" alt="image"></p>
+<p><img src="https://user-images.githubusercontent.com/17758731/54065183-e995b000-4257-11e9-9005-4a4f5f6ae568.png" alt="image"></p>
 <h1 id="2-ProcessEngineConfigurationImpl-initService-Object-service"><a href="#2-ProcessEngineConfigurationImpl-initService-Object-service" class="headerlink" title="2. ProcessEngineConfigurationImpl#initService(Object service)"></a>2. ProcessEngineConfigurationImpl#initService(Object service)</h1><p>在各个服务对象(如 <code>RuntimeService</code>, <code>RepositoryService</code>等)中, 都可以直接使用 CommandExecutor 来执行命令<br>commandExecutor 对象由 RepositoryServiceImpl 的基类 <code>ServiceImpl</code> 声明</p>
 <p>在 ProcessEngineConfigurationImpl 类的 initService(Object service) 方法中完成各个服务类的属性注入</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initService</span><span class="params">(Object service)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (service <span class="keyword">instanceof</span> ServiceImpl) &#123;</span><br><span class="line">        ((ServiceImpl) service).setCommandExecutor(commandExecutor);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -529,6 +529,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2019/03/09/Activiti源码分析-5-RepositoryService-仓库服务类-资源部署/" rel="prev" title="Activiti源码分析(5)--RepositoryService(仓库服务类)资源部署">
+                Activiti源码分析(5)--RepositoryService(仓库服务类)资源部署 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -604,7 +608,7 @@
                 
                   <a href="/blog/archives">
                 
-                    <span class="site-state-item-count">32</span>
+                    <span class="site-state-item-count">33</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
