@@ -358,7 +358,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://destinywang.github.io/blog/blog/2019/02/21/Activiti源码分析-4-RepositoryService-仓库服务类/">
+    <link itemprop="mainEntityOfPage" href="https://destinywang.github.io/blog/blog/2019/02/21/Activiti源码分析-4-CommandExecutor-命令执行器/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="destiny">
@@ -377,7 +377,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/blog/2019/02/21/Activiti源码分析-4-RepositoryService-仓库服务类/" itemprop="url">Activiti源码分析(4)--RepositoryService(仓库服务类)</a></h1>
+                <a class="post-title-link" href="/blog/2019/02/21/Activiti源码分析-4-CommandExecutor-命令执行器/" itemprop="url">Activiti源码分析(4)--CommandExecutor(命令执行器)</a></h1>
         
 
         <div class="post-meta">
@@ -453,13 +453,11 @@
       
         
           
-          RepositoryService 是 Activiti 的仓库服务类, 仓库指的是流程定义文档的两个文件: BPMN 文件和流程图片
-获得方式:
-1RepositoryService repositoryService = processEngine.getRepositoryService();
+          1. commandExecutor 对象的构造1.1. ProcessEngineConfigurationImpl#ProcessEngineConfigurationImpl()1234567public void initCommandExecutors() &#123;    initDe
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/blog/2019/02/21/Activiti源码分析-4-RepositoryService-仓库服务类/#more" rel="contents">
+            <a class="btn" href="/blog/2019/02/21/Activiti源码分析-4-CommandExecutor-命令执行器/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
