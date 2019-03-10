@@ -99,19 +99,20 @@
 
 
 
-  <meta name="description" content="1. 概念1.1. 流程实例 代表流程定义的执行实例 一个流程实例包括了所有的运行节点 流程实例表示一个流程从开始到结束的最大流程分支 流程实例也被称为执行实例根节点  在 Activiti 对应的接口为: 123public interface ProcessInstance extends Execution &amp;#123;    // ...&amp;#125; 可以看出 ProcessInstanc">
+  <meta name="description" content="1. 概念1.1. 启动流程 操作数据库的 ACT_RU_EXECUTION 表, 如果是用户任务节点, 同时也会在 ACT_RU_TASK 表添加一条记录;   1.2. 流程实例 代表流程定义的执行实例 一个流程实例包括了所有的运行节点 流程实例表示一个流程从开始到结束的最大流程分支 流程实例也被称为执行实例根节点  在 Activiti 对应的接口为: 123public interface">
+<meta name="keywords" content="Activiti">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Activiti源码分析(8)-流程实例和执行实例">
-<meta property="og:url" content="https://destinywang.github.io/blog/2019/03/09/Activiti源码分析-8-流程实例和执行实例/index.html">
+<meta property="og:title" content="Activiti源码分析(8)-发起流程实例">
+<meta property="og:url" content="https://destinywang.github.io/blog/2019/03/09/Activiti源码分析-8-发起流程实例/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1. 概念1.1. 流程实例 代表流程定义的执行实例 一个流程实例包括了所有的运行节点 流程实例表示一个流程从开始到结束的最大流程分支 流程实例也被称为执行实例根节点  在 Activiti 对应的接口为: 123public interface ProcessInstance extends Execution &amp;#123;    // ...&amp;#125; 可以看出 ProcessInstanc">
+<meta property="og:description" content="1. 概念1.1. 启动流程 操作数据库的 ACT_RU_EXECUTION 表, 如果是用户任务节点, 同时也会在 ACT_RU_TASK 表添加一条记录;   1.2. 流程实例 代表流程定义的执行实例 一个流程实例包括了所有的运行节点 流程实例表示一个流程从开始到结束的最大流程分支 流程实例也被称为执行实例根节点  在 Activiti 对应的接口为: 123public interface">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/54070715-5d5aab80-429e-11e9-815e-bfc25e01843c.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/54070799-bf67e080-429f-11e9-9264-556b380bc5cc.png">
-<meta property="og:updated_time" content="2019-03-10T04:57:56.494Z">
+<meta property="og:updated_time" content="2019-03-10T05:03:49.070Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Activiti源码分析(8)-流程实例和执行实例">
-<meta name="twitter:description" content="1. 概念1.1. 流程实例 代表流程定义的执行实例 一个流程实例包括了所有的运行节点 流程实例表示一个流程从开始到结束的最大流程分支 流程实例也被称为执行实例根节点  在 Activiti 对应的接口为: 123public interface ProcessInstance extends Execution &amp;#123;    // ...&amp;#125; 可以看出 ProcessInstanc">
+<meta name="twitter:title" content="Activiti源码分析(8)-发起流程实例">
+<meta name="twitter:description" content="1. 概念1.1. 启动流程 操作数据库的 ACT_RU_EXECUTION 表, 如果是用户任务节点, 同时也会在 ACT_RU_TASK 表添加一条记录;   1.2. 流程实例 代表流程定义的执行实例 一个流程实例包括了所有的运行节点 流程实例表示一个流程从开始到结束的最大流程分支 流程实例也被称为执行实例根节点  在 Activiti 对应的接口为: 123public interface">
 <meta name="twitter:image" content="https://user-images.githubusercontent.com/17758731/54070715-5d5aab80-429e-11e9-815e-bfc25e01843c.png">
 
 
@@ -121,7 +122,7 @@
 
 
 
-  <link rel="canonical" href="https://destinywang.github.io/blog/2019/03/09/Activiti源码分析-8-流程实例和执行实例/">
+  <link rel="canonical" href="https://destinywang.github.io/blog/2019/03/09/Activiti源码分析-8-发起流程实例/">
 
 
 
@@ -131,7 +132,7 @@
   };
 </script>
 
-  <title>Activiti源码分析(8)-流程实例和执行实例 | Hexo</title>
+  <title>Activiti源码分析(8)-发起流程实例 | Hexo</title>
   
 
 
@@ -364,7 +365,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://destinywang.github.io/blog/blog/2019/03/09/Activiti源码分析-8-流程实例和执行实例/">
+    <link itemprop="mainEntityOfPage" href="https://destinywang.github.io/blog/blog/2019/03/09/Activiti源码分析-8-发起流程实例/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="destiny">
@@ -381,7 +382,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Activiti源码分析(8)-流程实例和执行实例</h1>
+          <h1 class="post-title" itemprop="name headline">Activiti源码分析(8)-发起流程实例</h1>
         
 
         <div class="post-meta">
@@ -402,6 +403,31 @@
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/blog/categories/Activiti/" itemprop="url" rel="index"><span itemprop="name">Activiti</span></a></span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/blog/categories/Activiti/源码/" itemprop="url" rel="index"><span itemprop="name">源码</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -430,7 +456,11 @@
       
 
       
-        <h1 id="1-概念"><a href="#1-概念" class="headerlink" title="1. 概念"></a>1. 概念</h1><h2 id="1-1-流程实例"><a href="#1-1-流程实例" class="headerlink" title="1.1. 流程实例"></a>1.1. 流程实例</h2><ol>
+        <h1 id="1-概念"><a href="#1-概念" class="headerlink" title="1. 概念"></a>1. 概念</h1><h2 id="1-1-启动流程"><a href="#1-1-启动流程" class="headerlink" title="1.1. 启动流程"></a>1.1. 启动流程</h2><ol>
+<li>操作数据库的 ACT_RU_EXECUTION 表, 如果是用户任务节点, 同时也会在 ACT_RU_TASK 表添加一条记录;</li>
+<li></li>
+</ol>
+<h2 id="1-2-流程实例"><a href="#1-2-流程实例" class="headerlink" title="1.2. 流程实例"></a>1.2. 流程实例</h2><ol>
 <li>代表流程定义的执行实例</li>
 <li>一个流程实例包括了所有的运行节点</li>
 <li>流程实例表示一个流程从开始到结束的最大流程分支</li>
@@ -439,7 +469,7 @@
 <p>在 Activiti 对应的接口为:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ProcessInstance</span> <span class="keyword">extends</span> <span class="title">Execution</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>可以看出 ProcessInstance 就是 Execution</p>
-<h2 id="1-2-执行实例"><a href="#1-2-执行实例" class="headerlink" title="1.2. 执行实例"></a>1.2. 执行实例</h2><ol>
+<h2 id="1-3-执行实例"><a href="#1-3-执行实例" class="headerlink" title="1.3. 执行实例"></a>1.3. 执行实例</h2><ol>
 <li>启动流程的时候会首先创建流程实例, 然后创建执行实例</li>
 <li>流程运转的过程中永远执行的是自己对应的执行实例</li>
 <li>当所有的执行实例按照规则完毕之后, 对应的流程随之结束</li>
@@ -448,13 +478,13 @@
 <li>一个流程中, 执行对象可以存在多个, 但流程实例只能有一个</li>
 <li>执行实例的父级 / 父级的父级为流程实例</li>
 </ol>
-<h2 id="1-3-概念演示"><a href="#1-3-概念演示" class="headerlink" title="1.3. 概念演示"></a>1.3. 概念演示</h2><h3 id="1-3-1-简单流程实例"><a href="#1-3-1-简单流程实例" class="headerlink" title="1.3.1. 简单流程实例"></a>1.3.1. 简单流程实例</h3><p><img src="https://user-images.githubusercontent.com/17758731/54070715-5d5aab80-429e-11e9-815e-bfc25e01843c.png" alt="image"></p>
+<h2 id="1-4-概念演示"><a href="#1-4-概念演示" class="headerlink" title="1.4. 概念演示"></a>1.4. 概念演示</h2><h3 id="1-4-1-简单流程实例"><a href="#1-4-1-简单流程实例" class="headerlink" title="1.4.1. 简单流程实例"></a>1.4.1. 简单流程实例</h3><p><img src="https://user-images.githubusercontent.com/17758731/54070715-5d5aab80-429e-11e9-815e-bfc25e01843c.png" alt="image"></p>
 <ol>
 <li>发起流程的时候, 会先创建一个流程实例, 然后创建执行实例;</li>
 <li>随着流程的运转, 执行实例会不断更新;</li>
 <li>直到流程执行完毕(走到结束节点), 对应执行实例会结束, 此时流程实例也结束.</li>
 </ol>
-<h3 id="1-3-2-有分支的流程实例"><a href="#1-3-2-有分支的流程实例" class="headerlink" title="1.3.2. 有分支的流程实例"></a>1.3.2. 有分支的流程实例</h3><p><img src="https://user-images.githubusercontent.com/17758731/54070799-bf67e080-429f-11e9-9264-556b380bc5cc.png" alt="image"></p>
+<h3 id="1-4-2-有分支的流程实例"><a href="#1-4-2-有分支的流程实例" class="headerlink" title="1.4.2. 有分支的流程实例"></a>1.4.2. 有分支的流程实例</h3><p><img src="https://user-images.githubusercontent.com/17758731/54070799-bf67e080-429f-11e9-9264-556b380bc5cc.png" alt="image"></p>
 <ol>
 <li>当流程进入并行网关之后, 会创建两个执行实例</li>
 <li>当两个执行实例都结束之后, 再创建第三个执行实例</li>
@@ -570,6 +600,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/Activiti/" rel="tag"># Activiti</a>
+          
+        </div>
       
 
       
@@ -715,7 +751,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">19</span>
+                      
+                    
+                    <span class="site-state-item-count">20</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -813,7 +851,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-概念"><span class="nav-text">1. 概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-流程实例"><span class="nav-text">1.1. 流程实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-执行实例"><span class="nav-text">1.2. 执行实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-概念演示"><span class="nav-text">1.3. 概念演示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-1-简单流程实例"><span class="nav-text">1.3.1. 简单流程实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2-有分支的流程实例"><span class="nav-text">1.3.2. 有分支的流程实例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-RuntimeServiceImpl-startProcessInstanceByKey-String-processDefinitionKey"><span class="nav-text">2. RuntimeServiceImpl#startProcessInstanceByKey(String processDefinitionKey)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-StartProcessInstanceCmd-execution-CommandContext-commandContext"><span class="nav-text">2.1. StartProcessInstanceCmd#execution(CommandContext commandContext)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-StartProcessInstanceCmd-createAndStartProcessInstance-ProcessDefinition-processDefinition-String-businessKey-String-processInstanceName-Map-lt-String-Object-gt-variables-Map-lt-String-Object-gt-transientVariables"><span class="nav-text">2.2. StartProcessInstanceCmd#createAndStartProcessInstance(ProcessDefinition processDefinition, String businessKey, String processInstanceName, Map&lt;String,Object&gt; variables, Map&lt;String, Object&gt; transientVariables)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-ProcessInstanceHelper-createAndStartProcessInstance-ProcessDefinition-processDefinition-String-businessKey-String-processInstanceName-Map-lt-String-Object-gt-variables-Map-lt-String-Object-gt-transientVariables-boolean-startProcessInstance"><span class="nav-text">2.3. ProcessInstanceHelper#createAndStartProcessInstance(ProcessDefinition processDefinition, String businessKey, String processInstanceName, Map&lt;String, Object&gt; variables, Map&lt;String, Object&gt; transientVariables, boolean startProcessInstance)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-1-ProcessDefinitionUtil-getProcess-String-processDefinitionId"><span class="nav-text">2.3.1. ProcessDefinitionUtil#getProcess(String processDefinitionId)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-2-DeploymentManager-findDeployedProcessDefinitionById-String-processDefinitionId"><span class="nav-text">2.3.2. DeploymentManager#findDeployedProcessDefinitionById(String processDefinitionId)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-3-DeploymentManager-resolveProcessDefinition-ProcessDefinition-processDefinition"><span class="nav-text">2.3.3. DeploymentManager#resolveProcessDefinition(ProcessDefinition processDefinition)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-ProcessInstanceHelper-createAndStartProcessInstanceWithInitialFlowElement-ProcessDefinition-processDefinition-String-businessKey-String-processInstanceName-FlowElement-initialFlowElement-Process-process-Map-lt-String-Object-gt-variables-Map-lt-String-Object-gt-transientVariables-boolean-startProcessInstance"><span class="nav-text">2.4. ProcessInstanceHelper#createAndStartProcessInstanceWithInitialFlowElement(ProcessDefinition processDefinition, String businessKey, String processInstanceName, FlowElement initialFlowElement, Process process, Map&lt;String, Object&gt; variables, Map&lt;String, Object&gt; transientVariables, boolean startProcessInstance)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-1-ExecutionEntityManagerImpl-createProcessInstanceExecution-ProcessDefinition-processDefinition-String-businessKey-String-tenantId-String-initiatorVariableName"><span class="nav-text">2.4.1. ExecutionEntityManagerImpl#createProcessInstanceExecution(ProcessDefinition processDefinition, String businessKey, String tenantId, String initiatorVariableName)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-2-DefaultHistoryManager-recordProcessInstanceStart-ExecutionEntity-processInstance-FlowElement-startElement"><span class="nav-text">2.4.2. DefaultHistoryManager#recordProcessInstanceStart(ExecutionEntity processInstance, FlowElement startElement)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-3-ExecutionEntityManagerImpl-createChildExecution-ExecutionEntity-parentExecutionEntity"><span class="nav-text">2.4.3. ExecutionEntityManagerImpl#createChildExecution(ExecutionEntity parentExecutionEntity)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-4-ExecutionEntityManagerImpl-startProcessInstance-ExecutionEntity-processInstance-CommandContext-commandContext-Map-lt-String-Object-gt-variables"><span class="nav-text">2.4.4. ExecutionEntityManagerImpl#startProcessInstance(ExecutionEntity processInstance, CommandContext commandContext, Map&lt;String, Object&gt; variables)</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-概念"><span class="nav-text">1. 概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-启动流程"><span class="nav-text">1.1. 启动流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-流程实例"><span class="nav-text">1.2. 流程实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-执行实例"><span class="nav-text">1.3. 执行实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-概念演示"><span class="nav-text">1.4. 概念演示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-1-简单流程实例"><span class="nav-text">1.4.1. 简单流程实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-2-有分支的流程实例"><span class="nav-text">1.4.2. 有分支的流程实例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-RuntimeServiceImpl-startProcessInstanceByKey-String-processDefinitionKey"><span class="nav-text">2. RuntimeServiceImpl#startProcessInstanceByKey(String processDefinitionKey)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-StartProcessInstanceCmd-execution-CommandContext-commandContext"><span class="nav-text">2.1. StartProcessInstanceCmd#execution(CommandContext commandContext)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-StartProcessInstanceCmd-createAndStartProcessInstance-ProcessDefinition-processDefinition-String-businessKey-String-processInstanceName-Map-lt-String-Object-gt-variables-Map-lt-String-Object-gt-transientVariables"><span class="nav-text">2.2. StartProcessInstanceCmd#createAndStartProcessInstance(ProcessDefinition processDefinition, String businessKey, String processInstanceName, Map&lt;String,Object&gt; variables, Map&lt;String, Object&gt; transientVariables)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-ProcessInstanceHelper-createAndStartProcessInstance-ProcessDefinition-processDefinition-String-businessKey-String-processInstanceName-Map-lt-String-Object-gt-variables-Map-lt-String-Object-gt-transientVariables-boolean-startProcessInstance"><span class="nav-text">2.3. ProcessInstanceHelper#createAndStartProcessInstance(ProcessDefinition processDefinition, String businessKey, String processInstanceName, Map&lt;String, Object&gt; variables, Map&lt;String, Object&gt; transientVariables, boolean startProcessInstance)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-1-ProcessDefinitionUtil-getProcess-String-processDefinitionId"><span class="nav-text">2.3.1. ProcessDefinitionUtil#getProcess(String processDefinitionId)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-2-DeploymentManager-findDeployedProcessDefinitionById-String-processDefinitionId"><span class="nav-text">2.3.2. DeploymentManager#findDeployedProcessDefinitionById(String processDefinitionId)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-3-DeploymentManager-resolveProcessDefinition-ProcessDefinition-processDefinition"><span class="nav-text">2.3.3. DeploymentManager#resolveProcessDefinition(ProcessDefinition processDefinition)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-ProcessInstanceHelper-createAndStartProcessInstanceWithInitialFlowElement-ProcessDefinition-processDefinition-String-businessKey-String-processInstanceName-FlowElement-initialFlowElement-Process-process-Map-lt-String-Object-gt-variables-Map-lt-String-Object-gt-transientVariables-boolean-startProcessInstance"><span class="nav-text">2.4. ProcessInstanceHelper#createAndStartProcessInstanceWithInitialFlowElement(ProcessDefinition processDefinition, String businessKey, String processInstanceName, FlowElement initialFlowElement, Process process, Map&lt;String, Object&gt; variables, Map&lt;String, Object&gt; transientVariables, boolean startProcessInstance)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-1-ExecutionEntityManagerImpl-createProcessInstanceExecution-ProcessDefinition-processDefinition-String-businessKey-String-tenantId-String-initiatorVariableName"><span class="nav-text">2.4.1. ExecutionEntityManagerImpl#createProcessInstanceExecution(ProcessDefinition processDefinition, String businessKey, String tenantId, String initiatorVariableName)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-2-DefaultHistoryManager-recordProcessInstanceStart-ExecutionEntity-processInstance-FlowElement-startElement"><span class="nav-text">2.4.2. DefaultHistoryManager#recordProcessInstanceStart(ExecutionEntity processInstance, FlowElement startElement)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-3-ExecutionEntityManagerImpl-createChildExecution-ExecutionEntity-parentExecutionEntity"><span class="nav-text">2.4.3. ExecutionEntityManagerImpl#createChildExecution(ExecutionEntity parentExecutionEntity)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-4-ExecutionEntityManagerImpl-startProcessInstance-ExecutionEntity-processInstance-CommandContext-commandContext-Map-lt-String-Object-gt-variables"><span class="nav-text">2.4.4. ExecutionEntityManagerImpl#startProcessInstance(ExecutionEntity processInstance, CommandContext commandContext, Map&lt;String, Object&gt; variables)</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

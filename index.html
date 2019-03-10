@@ -358,7 +358,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://destinywang.github.io/blog/blog/2019/03/09/Activiti源码分析-8-流程实例和执行实例/">
+    <link itemprop="mainEntityOfPage" href="https://destinywang.github.io/blog/blog/2019/03/09/Activiti源码分析-8-发起流程实例/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="destiny">
@@ -377,7 +377,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/blog/2019/03/09/Activiti源码分析-8-流程实例和执行实例/" itemprop="url">Activiti源码分析(8)-流程实例和执行实例</a></h1>
+                <a class="post-title-link" href="/blog/2019/03/09/Activiti源码分析-8-发起流程实例/" itemprop="url">Activiti源码分析(8)-发起流程实例</a></h1>
         
 
         <div class="post-meta">
@@ -398,6 +398,31 @@
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/blog/categories/Activiti/" itemprop="url" rel="index"><span itemprop="name">Activiti</span></a></span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/blog/categories/Activiti/源码/" itemprop="url" rel="index"><span itemprop="name">源码</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -428,18 +453,19 @@
       
         
           
-          1. 概念1.1. 流程实例
+          1. 概念1.1. 启动流程
+操作数据库的 ACT_RU_EXECUTION 表, 如果是用户任务节点, 同时也会在 ACT_RU_TASK 表添加一条记录;
+
+
+1.2. 流程实例
 代表流程定义的执行实例
 一个流程实例包括了所有的运行节点
 流程实例表示一个流程从开始到结束的最大流程分支
-流程实例也被称为执行实例根节点
-
-在 Activiti 对应的接口为:
-123public interface ProcessInstance extends Ex
+流程实例也
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/blog/2019/03/09/Activiti源码分析-8-流程实例和执行实例/#more" rel="contents">
+            <a class="btn" href="/blog/2019/03/09/Activiti源码分析-8-发起流程实例/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1863,7 +1889,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">19</span>
+                      
+                    
+                    <span class="site-state-item-count">20</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
