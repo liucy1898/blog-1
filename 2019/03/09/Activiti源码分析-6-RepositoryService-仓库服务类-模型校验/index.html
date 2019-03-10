@@ -99,13 +99,17 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://destinywang.github.io/blog/categories/Activiti/Java/index.html">
+  <meta name="description" content="测试代码123456789101112131415161718192021222324252627282930313233343536373839404142434445    @Test    public void testBpmnModel() throws UnsupportedEncodingException &amp;#123;        BpmnModel bpmnModel = ne">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Activiti源码分析(6)--RepositoryService(仓库服务类)模型校验">
+<meta property="og:url" content="https://destinywang.github.io/blog/2019/03/09/Activiti源码分析-6-RepositoryService-仓库服务类-模型校验/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="测试代码123456789101112131415161718192021222324252627282930313233343536373839404142434445    @Test    public void testBpmnModel() throws UnsupportedEncodingException &amp;#123;        BpmnModel bpmnModel = ne">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-09T06:31:00.160Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="Activiti源码分析(6)--RepositoryService(仓库服务类)模型校验">
+<meta name="twitter:description" content="测试代码123456789101112131415161718192021222324252627282930313233343536373839404142434445    @Test    public void testBpmnModel() throws UnsupportedEncodingException &amp;#123;        BpmnModel bpmnModel = ne">
 
 
 
@@ -114,7 +118,7 @@
 
 
 
-  <link rel="canonical" href="https://destinywang.github.io/blog/categories/Activiti/Java/">
+  <link rel="canonical" href="https://destinywang.github.io/blog/2019/03/09/Activiti源码分析-6-RepositoryService-仓库服务类-模型校验/">
 
 
 
@@ -124,7 +128,7 @@
   };
 </script>
 
-  <title>分类: Java | Hexo</title>
+  <title>Activiti源码分析(6)--RepositoryService(仓库服务类)模型校验 | Hexo</title>
   
 
 
@@ -171,7 +175,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
     <a href="https://github.com/destinywang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
 
@@ -337,144 +341,165 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block category">
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>Java<small>分类</small>
-        </h1>
-      </div>
-
-      
-        
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://destinywang.github.io/blog/blog/2019/03/09/Activiti源码分析-6-RepositoryService-仓库服务类-模型校验/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="destiny">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/blog/images/blog-logo.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/blog/2018/12/16/Activiti-4-多实例实现会签功能/" itemprop="url">
-              
-                <span itemprop="name">Activiti(4)--多实例实现会签功能</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Activiti源码分析(6)--RepositoryService(仓库服务类)模型校验</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-16T11:19:58+08:00" content="2018-12-16">
-          12-16
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-09T13:38:16+08:00">2019-03-09</time>
+            
 
-    </header>
-  </article>
+            
+            
 
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/blog/2018/12/11/Activiti-3-数据模型设计/" itemprop="url">
-              
-                <span itemprop="name">Activiti(3)--数据模型设计</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-11T22:24:27+08:00" content="2018-12-11">
-          12-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/blog/2018/11/26/Activiti工作流引擎/" itemprop="url">
-              
-                <span itemprop="name">Activiti工作流引擎</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-11-26T22:25:27+08:00" content="2018-11-26">
-          11-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+        <h4 id="测试代码"><a href="#测试代码" class="headerlink" title="测试代码"></a>测试代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testBpmnModel</span><span class="params">()</span> <span class="keyword">throws</span> UnsupportedEncodingException </span>&#123;</span><br><span class="line">        BpmnModel bpmnModel = <span class="keyword">new</span> BpmnModel();</span><br><span class="line">        Process process = <span class="keyword">new</span> Process();</span><br><span class="line">        process.setId(<span class="string">"my-process"</span>);</span><br><span class="line"></span><br><span class="line">        StartEvent startEvent = <span class="keyword">new</span> StartEvent();</span><br><span class="line">        startEvent.setId(<span class="string">"startEvent"</span>);</span><br><span class="line"></span><br><span class="line">        UserTask someTask = <span class="keyword">new</span> UserTask();</span><br><span class="line">        someTask.setId(<span class="string">"someTask"</span>);</span><br><span class="line">        someTask.setName(<span class="string">"Activiti is awesome!"</span>);</span><br><span class="line">        someTask.setAssignee(<span class="string">"$&#123;user&#125;"</span>);</span><br><span class="line">        MultiInstanceLoopCharacteristics multiInstanceLoopCharacteristics = <span class="keyword">new</span> MultiInstanceLoopCharacteristics();</span><br><span class="line">        multiInstanceLoopCharacteristics.setSequential(<span class="keyword">false</span>);</span><br><span class="line">        multiInstanceLoopCharacteristics.setInputDataItem(<span class="string">"$&#123;usersBean.getUsers(name)&#125;"</span>);</span><br><span class="line">        multiInstanceLoopCharacteristics.setElementVariable(<span class="string">"user"</span>);</span><br><span class="line">        multiInstanceLoopCharacteristics.setCompletionCondition(<span class="string">"$&#123;nrOfCompletedInstances &gt; 0&#125;"</span>);</span><br><span class="line"></span><br><span class="line">        someTask.setLoopCharacteristics(multiInstanceLoopCharacteristics);</span><br><span class="line"></span><br><span class="line">        EndEvent endEvent = <span class="keyword">new</span> EndEvent();</span><br><span class="line">        endEvent.setId(<span class="string">"endEvent"</span>);</span><br><span class="line"></span><br><span class="line">        SequenceFlow flow1 = createSequence(<span class="string">"startEvent"</span>, <span class="string">"someTask"</span>, <span class="string">"flow1"</span>, <span class="string">"flow1"</span>, <span class="keyword">null</span>);</span><br><span class="line">        SequenceFlow flow2 = createSequence(<span class="string">"someTask"</span>, <span class="string">"endEvent"</span>, <span class="string">"flow2"</span>, <span class="string">"flow2"</span>, <span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">        process.addFlowElement(startEvent);</span><br><span class="line">        process.addFlowElement(someTask);</span><br><span class="line">        process.addFlowElement(endEvent);</span><br><span class="line">        process.addFlowElement(flow1);</span><br><span class="line">        process.addFlowElement(flow2);</span><br><span class="line"></span><br><span class="line">        bpmnModel.addProcess(process);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">byte</span>[] bytes = <span class="keyword">new</span> BpmnXMLConverter().convertToXML(bpmnModel);</span><br><span class="line">        String s = <span class="keyword">new</span> String(bytes, <span class="string">"utf-8"</span>);</span><br><span class="line">        log.info(s);</span><br><span class="line"></span><br><span class="line">        ProcessValidatorFactory processValidatorFactory = <span class="keyword">new</span> ProcessValidatorFactory();</span><br><span class="line">        ProcessValidator defaultProcessValidator = processValidatorFactory.createDefaultProcessValidator();</span><br><span class="line">        List&lt;ValidationError&gt; validate = defaultProcessValidator.validate(bpmnModel);</span><br><span class="line">        log.info(<span class="string">"validate: &#123;&#125;"</span>, validate);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="生成的-XMl-文件"><a href="#生成的-XMl-文件" class="headerlink" title="生成的 XMl 文件:"></a>生成的 XMl 文件:</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">definitions</span> <span class="attr">xmlns</span>=<span class="string">"http://www.omg.org/spec/BPMN/20100524/MODEL"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns:xsd</span>=<span class="string">"http://www.w3.org/2001/XMLSchema"</span> <span class="attr">xmlns:activiti</span>=<span class="string">"http://activiti.org/bpmn"</span> <span class="attr">xmlns:bpmndi</span>=<span class="string">"http://www.omg.org/spec/BPMN/20100524/DI"</span> <span class="attr">xmlns:omgdc</span>=<span class="string">"http://www.omg.org/spec/DD/20100524/DC"</span> <span class="attr">xmlns:omgdi</span>=<span class="string">"http://www.omg.org/spec/DD/20100524/DI"</span> <span class="attr">typeLanguage</span>=<span class="string">"http://www.w3.org/2001/XMLSchema"</span> <span class="attr">expressionLanguage</span>=<span class="string">"http://www.w3.org/1999/XPath"</span> <span class="attr">targetNamespace</span>=<span class="string">"http://www.activiti.org/test"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">process</span> <span class="attr">id</span>=<span class="string">"my-process"</span> <span class="attr">isExecutable</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">startEvent</span> <span class="attr">id</span>=<span class="string">"startEvent"</span>&gt;</span><span class="tag">&lt;/<span class="name">startEvent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">userTask</span> <span class="attr">id</span>=<span class="string">"someTask"</span> <span class="attr">name</span>=<span class="string">"Activiti is awesome!"</span> <span class="attr">activiti:assignee</span>=<span class="string">"$&#123;user&#125;"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">multiInstanceLoopCharacteristics</span> <span class="attr">isSequential</span>=<span class="string">"false"</span> <span class="attr">activiti:collection</span>=<span class="string">"$&#123;usersBean.getUsers(name)&#125;"</span> <span class="attr">activiti:elementVariable</span>=<span class="string">"user"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">completionCondition</span>&gt;</span>$&#123;nrOfCompletedInstances &amp;gt; 0&#125;<span class="tag">&lt;/<span class="name">completionCondition</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">multiInstanceLoopCharacteristics</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">userTask</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">endEvent</span> <span class="attr">id</span>=<span class="string">"endEvent"</span>&gt;</span><span class="tag">&lt;/<span class="name">endEvent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">sequenceFlow</span> <span class="attr">id</span>=<span class="string">"flow1"</span> <span class="attr">name</span>=<span class="string">"flow1"</span> <span class="attr">sourceRef</span>=<span class="string">"startEvent"</span> <span class="attr">targetRef</span>=<span class="string">"someTask"</span>&gt;</span><span class="tag">&lt;/<span class="name">sequenceFlow</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">sequenceFlow</span> <span class="attr">id</span>=<span class="string">"flow2"</span> <span class="attr">name</span>=<span class="string">"flow2"</span> <span class="attr">sourceRef</span>=<span class="string">"someTask"</span> <span class="attr">targetRef</span>=<span class="string">"endEvent"</span>&gt;</span><span class="tag">&lt;/<span class="name">sequenceFlow</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">process</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">bpmndi:BPMNDiagram</span> <span class="attr">id</span>=<span class="string">"BPMNDiagram_my-process"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bpmndi:BPMNPlane</span> <span class="attr">bpmnElement</span>=<span class="string">"my-process"</span> <span class="attr">id</span>=<span class="string">"BPMNPlane_my-process"</span>&gt;</span><span class="tag">&lt;/<span class="name">bpmndi:BPMNPlane</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">bpmndi:BPMNDiagram</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">definitions</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="validate-的结果"><a href="#validate-的结果" class="headerlink" title="validate 的结果"></a>validate 的结果</h4><pre><code>validate: []
+</code></pre><p>代表当前流程正常, 没有错误</p>
+<h1 id="1-ProcessValidatorFactory-createDefaultProcessValidator"><a href="#1-ProcessValidatorFactory-createDefaultProcessValidator" class="headerlink" title="1. ProcessValidatorFactory#createDefaultProcessValidator()"></a>1. ProcessValidatorFactory#createDefaultProcessValidator()</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ProcessValidator <span class="title">createDefaultProcessValidator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ProcessValidatorImpl processValidator = <span class="keyword">new</span> ProcessValidatorImpl();</span><br><span class="line">    processValidator.addValidatorSet(<span class="keyword">new</span> ValidatorSetFactory().createActivitiExecutableProcessValidatorSet());</span><br><span class="line">    <span class="keyword">return</span> processValidator;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
 
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2019/03/09/Activiti源码分析-5-RepositoryService-仓库服务类-classpath资源部署/" rel="next" title="Activiti源码分析(5)--RepositoryService(仓库服务类)classpath资源部署">
+                <i class="fa fa-chevron-left"></i> Activiti源码分析(5)--RepositoryService(仓库服务类)classpath资源部署
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2019/03/09/Activiti源码分析-8-流程实例和执行实例/" rel="prev" title="Activiti源码分析(8)-流程实例和执行实例">
+                Activiti源码分析(8)-流程实例和执行实例 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -495,8 +520,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -653,6 +687,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#测试代码"><span class="nav-text">测试代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生成的-XMl-文件"><span class="nav-text">生成的 XMl 文件:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#validate-的结果"><span class="nav-text">validate 的结果</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#1-ProcessValidatorFactory-createDefaultProcessValidator"><span class="nav-text">1. ProcessValidatorFactory#createDefaultProcessValidator()</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -792,6 +842,10 @@
 
 
   
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=6.1.0"></script>
+
+
 
   
 
