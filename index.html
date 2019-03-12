@@ -1637,7 +1637,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://destinywang.github.io/blog/blog/2018/12/23/Activiti-7-多实例加签/">
+    <link itemprop="mainEntityOfPage" href="https://destinywang.github.io/blog/blog/2018/12/23/Activiti-7-加签功能的实现/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="destiny">
@@ -1656,7 +1656,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/blog/2018/12/23/Activiti-7-多实例加签/" itemprop="url">Activiti(7)--多实例加签</a></h1>
+                <a class="post-title-link" href="/blog/2018/12/23/Activiti-7-加签功能的实现/" itemprop="url">Activiti(7)--加签功能的实现</a></h1>
         
 
         <div class="post-meta">
@@ -1732,23 +1732,20 @@
       
         
           
-          
-加入多实例任务节点定义了三个人, 现在需要临时添加一个
-
+          加签的概念
 思路:
 
-根据一级流程实例查找二级流程执行实例.
-判断二级执行实例是否是多实例任务节点的父级实例
-通过二级执行实例创建三级执行实例;
-通过二级执行实例获取 nrOfInstance 并 +1
+直接需改模板, 在模板中添加节点以及连线, 并修改实例的走向;
+直接修改路程定义对应的缓存数据, 不修改模板, 新增节点与当前需要加签的实例挂钩.
 
-
-通知新的实例开始执行, 并创建相应的数据.
+1. 方案一1.1. 实现方式
+找到当前实例对象的模板数据
+在模板数据的基础上添加新节点以及修改连线, 并更新数据库中的模板.
 
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/blog/2018/12/23/Activiti-7-多实例加签/#more" rel="contents">
+            <a class="btn" href="/blog/2018/12/23/Activiti-7-加签功能的实现/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
