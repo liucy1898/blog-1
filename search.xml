@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Activiti源码分析(9)-XML解析]]></title>
+    <url>%2Fblog%2F2019%2F04%2F08%2FActiviti%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-9-XML%E8%A7%A3%E6%9E%90%2F</url>
+    <content type="text"><![CDATA[1. XML 解析1.1. DOM 模型 优点: 文档解析的时候允许客户端编辑和更新 XML 文档的内容, 并可以随机访问文档中定义的元素数据. 缺点: 文档解析的时候需要将 XML 一次性加载到内存, 进而映射成 Document 对象中的树形结构, 在解析大文件的时候内存占用大, 元素遍历查找慢, 性能容易成为瓶颈. 1.2. SAX 模型 优点: 该方式解析文档的时候, 每一次操作只会将解析的节点放置到内存中, 从头部开始, 读取一段处理一段, 内存占用小. 缺点: 解析文档的时候文档是只读的, 不能编辑, 并且文件流只能前进不能后退]]></content>
+      <categories>
+        <category>Activiti</category>
+        <category>源码</category>
+      </categories>
+      <tags>
+        <tag>Activiti</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Activiti源码分析(7)-ID生成器]]></title>
     <url>%2Fblog%2F2019%2F03%2F26%2FActiviti%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-7-ID%E7%94%9F%E6%88%90%E5%99%A8%2F</url>
     <content type="text"><![CDATA[1. DbIdGenerator Activiti 默认采用数据库来实现强一致的发号器 DbIdGenerator 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647public class DbIdGenerator implements IdGenerator &#123; protected int idBlockSize; protected long nextId; protected long lastId = -1; protected CommandExecutor commandExecutor; protected CommandConfig commandConfig; public synchronized String getNextId() &#123; if (lastId &lt; nextId) &#123; getNewBlock(); &#125; long _nextId = nextId++; return Long.toString(_nextId); &#125; protected synchronized void getNewBlock() &#123; IdBlock idBlock = commandExecutor.execute(commandConfig, new GetNextIdBlockCmd(idBlockSize)); this.nextId = idBlock.getNextId(); this.lastId = idBlock.getLastId(); &#125; public int getIdBlockSize() &#123; return idBlockSize; &#125; public void setIdBlockSize(int idBlockSize) &#123; this.idBlockSize = idBlockSize; &#125; public CommandExecutor getCommandExecutor() &#123; return commandExecutor; &#125; public void setCommandExecutor(CommandExecutor commandExecutor) &#123; this.commandExecutor = commandExecutor; &#125; public CommandConfig getCommandConfig() &#123; return commandConfig; &#125; public void setCommandConfig(CommandConfig commandConfig) &#123; this.commandConfig = commandConfig; &#125;&#125; DbIdGenerator 实现了 getNextId 方法, 用于对应用范围内所有的实体对象分配 id, 我们就以这个方法为起点, 分析默认的发号器逻辑. 1.1. DbIdGenerator#getNextId()1234567public synchronized String getNextId() &#123; if (lastId &lt; nextId) &#123; getNewBlock(); &#125; long _nextId = nextId++; return Long.toString(_nextId);&#125; 比较内部持有的两个布局变量 lastId 和 nextId 如果 lastId 已经小于 nextId 获取一个新的 Block 获得当前的 _nextId, 并转换成字符串, 同时持有的局部变量 nextId 自增 1.2. DbIdGenerator#getNewBlock()12345protected synchronized void getNewBlock() &#123; IdBlock idBlock = commandExecutor.execute(commandConfig, new GetNextIdBlockCmd(idBlockSize)); this.nextId = idBlock.getNextId(); this.lastId = idBlock.getLastId();&#125; 获取一个新的 IdBlock 对象 分别将该对象的 nextId 和 lastId 赋值给自身持有的同名字段 1.3. GetNextIdBlockCmd#execute(CommandContext commandContext)1234567public IdBlock execute(CommandContext commandContext) &#123; PropertyEntity property = (PropertyEntity) commandContext.getPropertyEntityManager().findById("next.dbid"); long oldValue = Long.parseLong(property.getValue()); long newValue = oldValue + idBlockSize; property.setValue(Long.toString(newValue)); return new IdBlock(oldValue, newValue - 1);&#125; 调用 PropertyEntityManager, 从 ACT_GE_PROPERTY 表中获取 next.dbid 字段的值 将旧值转换成 long 类型并增加 idBlockSize 长度得到新值, 其中 idBlockSize 通过调用链追踪到在 ProcessEngineConfiguration 将其设置为 2500, 并调用命令类的初始化 将新值设置进查询到的 property 对象 返回新的 IdBlock 对象]]></content>
