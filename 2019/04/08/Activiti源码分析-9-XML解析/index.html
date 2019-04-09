@@ -107,7 +107,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="1. XML 解析1.1. DOM 模型 优点: 文档解析的时候允许客户端编辑和更新 XML 文档的内容, 并可以随机访问文档中定义的元素数据. 缺点: 文档解析的时候需要将 XML 一次性加载到内存, 进而映射成 Document 对象中的树形结构, 在解析大文件的时候内存占用大, 元素遍历查找慢, 性能容易成为瓶颈.  1.2. SAX 模型 优点: 该方式解析文档的时候, 每一次操作只会将解">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-08T14:38:59.164Z">
+<meta property="og:updated_time" content="2019-04-08T15:53:19.622Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Activiti源码分析(9)-XML解析">
 <meta name="twitter:description" content="1. XML 解析1.1. DOM 模型 优点: 文档解析的时候允许客户端编辑和更新 XML 文档的内容, 并可以随机访问文档中定义的元素数据. 缺点: 文档解析的时候需要将 XML 一次性加载到内存, 进而映射成 Document 对象中的树形结构, 在解析大文件的时候内存占用大, 元素遍历查找慢, 性能容易成为瓶颈.  1.2. SAX 模型 优点: 该方式解析文档的时候, 每一次操作只会将解">
@@ -461,6 +461,15 @@
 <li>优点: 该方式解析文档的时候, 每一次操作只会将解析的节点放置到内存中, 从头部开始, 读取一段处理一段, 内存占用小.</li>
 <li>缺点: 解析文档的时候文档是只读的, 不能编辑, 并且文件流只能前进不能后退</li>
 </ul>
+<p>在 Activiti 中, 由于 XML 完全由用户的输入决定, 无法控制器大小, 因此选用 SAX 模型</p>
+<h1 id="2-文档转换器"><a href="#2-文档转换器" class="headerlink" title="2. 文档转换器"></a>2. 文档转换器</h1><p>文档转换器可以将文档转换为 BpmnModel, 也可以将 BpmnModel 转换为文档</p>
+<p>文档解析器: BpmnXMLConverter</p>
+<p>解析器内部持有所有 <code>元素解析器</code></p>
+<ul>
+<li>元素解析器与元素之间一一对应</li>
+<li>任务节点的元素名称是 UserTask, 因此对应的解析器为 <code>UserTaskXMLConverter</code></li>
+<li>连线的元素名称是 SequenceFlow, 对应的解析器为 <code>SequenceFlowXMLConverter</code></li>
+</ul>
 
       
     </div>
@@ -729,7 +738,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-XML-解析"><span class="nav-text">1. XML 解析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-DOM-模型"><span class="nav-text">1.1. DOM 模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-SAX-模型"><span class="nav-text">1.2. SAX 模型</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-XML-解析"><span class="nav-text">1. XML 解析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-DOM-模型"><span class="nav-text">1.1. DOM 模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-SAX-模型"><span class="nav-text">1.2. SAX 模型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-文档转换器"><span class="nav-text">2. 文档转换器</span></a></li></ol></div>
             
 
           </div>
