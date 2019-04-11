@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[MySQL(1)--整体架构]]></title>
+    <url>%2Fblog%2F2019%2F04%2F11%2FMySQL-1-%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%2F</url>
+    <content type="text"><![CDATA[1. MySQL 逻辑架构 最上层是通用的 C/S 架构服务架构, 比如连接处理, 权限校验, 安全等. 第二层架构包含了大多数 MySQL 核心服务, 比如查询解析, 分析, 优化, 缓存以及所有的内置函数, 所有跨存储引擎的功能都在这一层实现: 存储过程, 触发器, 视图等. 第三层包含了存储引擎, 负责MySQL 中数据的存储以及读取, 服务器通过 API 和存储引擎进行通信, API 屏蔽了不同存储引擎的差异. 存储引擎 API 包含十几个底层函数, 可以执行如下操作: 开启一个事务, 根据主键查找一行记录 等操作, 不同存储引擎之间也不会相互通信, 只会简单的响应服务器的请求.]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Activiti源码分析(9)-XML解析]]></title>
     <url>%2Fblog%2F2019%2F04%2F08%2FActiviti%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-9-XML%E8%A7%A3%E6%9E%90%2F</url>
     <content type="text"><![CDATA[1. XML 解析1.1. DOM 模型 优点: 文档解析的时候允许客户端编辑和更新 XML 文档的内容, 并可以随机访问文档中定义的元素数据. 缺点: 文档解析的时候需要将 XML 一次性加载到内存, 进而映射成 Document 对象中的树形结构, 在解析大文件的时候内存占用大, 元素遍历查找慢, 性能容易成为瓶颈. 1.2. SAX 模型 优点: 该方式解析文档的时候, 每一次操作只会将解析的节点放置到内存中, 从头部开始, 读取一段处理一段, 内存占用小. 缺点: 解析文档的时候文档是只读的, 不能编辑, 并且文件流只能前进不能后退 在 Activiti 中, 由于 XML 完全由用户的输入决定, 无法控制器大小, 因此选用 SAX 模型 2. 文档转换器文档转换器可以将文档转换为 BpmnModel, 也可以将 BpmnModel 转换为文档 文档解析器: BpmnXMLConverter 解析器内部持有所有 元素解析器 元素解析器与元素之间一一对应 任务节点的元素名称是 UserTask, 因此对应的解析器为 UserTaskXMLConverter 连线的元素名称是 SequenceFlow, 对应的解析器为 SequenceFlowXMLConverter]]></content>
