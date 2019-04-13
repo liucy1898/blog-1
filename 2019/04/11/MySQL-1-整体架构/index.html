@@ -108,7 +108,8 @@
 <meta property="og:description" content="1. MySQL 逻辑架构  最上层是通用的 C/S 架构服务架构, 比如连接处理, 权限校验, 安全等. 第二层架构包含了大多数 MySQL 核心服务, 比如查询解析, 分析, 优化, 缓存以及所有的内置函数, 所有跨存储引擎的功能都在这一层实现: 存储过程, 触发器, 视图等. 第三层包含了存储引擎, 负责MySQL 中数据的存储以及读取, 服务器通过 API 和存储引擎进行通信, API 屏">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/55969691-d475cc00-5cb0-11e9-8a8a-e4ada42a0c7d.png">
-<meta property="og:updated_time" content="2019-04-13T01:31:40.023Z">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/56073599-a5a74500-5dd9-11e9-9596-37afe339c3d2.png">
+<meta property="og:updated_time" content="2019-04-13T03:52:30.459Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL(1)--整体架构">
 <meta name="twitter:description" content="1. MySQL 逻辑架构  最上层是通用的 C/S 架构服务架构, 比如连接处理, 权限校验, 安全等. 第二层架构包含了大多数 MySQL 核心服务, 比如查询解析, 分析, 优化, 缓存以及所有的内置函数, 所有跨存储引擎的功能都在这一层实现: 存储过程, 触发器, 视图等. 第三层包含了存储引擎, 负责MySQL 中数据的存储以及读取, 服务器通过 API 和存储引擎进行通信, API 屏">
@@ -454,8 +455,85 @@
 <li>第二层架构包含了大多数 MySQL 核心服务, 比如查询解析, 分析, 优化, 缓存以及所有的内置函数, 所有跨存储引擎的功能都在这一层实现: 存储过程, 触发器, 视图等.</li>
 <li>第三层包含了存储引擎, 负责MySQL 中数据的存储以及读取, 服务器通过 API 和存储引擎进行通信, API 屏蔽了不同存储引擎的差异. 存储引擎 API 包含十几个底层函数, 可以执行如下操作: <code>开启一个事务</code>, <code>根据主键查找一行记录</code> 等操作, 不同存储引擎之间也不会相互通信, 只会简单的响应服务器的请求.</li>
 </ul>
-<p>每个客户端</p>
-
+<h2 id="1-1-连接-线程的处理和安全性"><a href="#1-1-连接-线程的处理和安全性" class="headerlink" title="1.1. 连接/线程的处理和安全性"></a>1.1. 连接/线程的处理和安全性</h2><p>每个客户端连接都会在服务器进程中拥有一个线程, 完全在这个单独的线程中完成操作. 而服务器通过连接池去对线程对缓存. 一旦客户端连接成功, 服务器会验证该客户端是否具有执行具体某个特定查询的权限.</p>
+<h2 id="1-2-优化和执行"><a href="#1-2-优化和执行" class="headerlink" title="1.2. 优化和执行"></a>1.2. 优化和执行</h2><p>MySQL 会解析查询, 并创建语法解析树以进行优化, 包括重写查询, 决定表的读取顺序, 选择理想的引擎等.</p>
+<p>在执行 <code>SELECT</code> 语句的时候, MySQL 会首先检查缓存, 如果缓存中存在, 就不再执行查询解析, 优化和执行的整个过程, 直接返回查询缓存中的结果集.</p>
+<h1 id="2-事务"><a href="#2-事务" class="headerlink" title="2. 事务"></a>2. 事务</h1><p>事务就是一组原子性的 SQL 查询, 如果数据库引擎能够成功的应用该组查询的全部语句, 那么就全部执行该组操作, 否则如果其中某些语句无法执行, 那么所有的语句就都不执行.</p>
+<ol>
+<li>原子性: 一个事务必须被视为一个不可分割的最小工作单元, 整个事务中的所有操作要么全部提交成功, 要么全部不提交, 永远不能出现一部分成功另一部分失败的情况.</li>
+<li>一致性: 数据库总是从一个一致性的状态转换到另外一个一致性的状态.</li>
+<li>隔离性: 一个事务所做的修改在最终提交之前, 对其他事务都是不可见的, 当然, 这还受隔离级别的影响.</li>
+<li>持久性: 一旦事务提交, 其所做的修改就会永久保存到数据库中, 即使系统崩溃也不会丢失.</li>
+</ol>
+<h2 id="2-1-隔离级别"><a href="#2-1-隔离级别" class="headerlink" title="2.1. 隔离级别"></a>2.1. 隔离级别</h2><p>SQL 标准中定义了四种隔离级别, 每一种级别都规定了一个事务中所做的修改哪些是可见的, 哪些是不可见的.</p>
+<blockquote>
+<p>在我个人的理解中, 用户对数据库的期望其实是自相矛盾的, 一方面人们期望数据库能尽可能快速的完成任务, 另一方面又希望数据库能够尽可能安全的完成任务, 而在目前的数据库模型中, 这是一个本质上无法兼得的情况, 因此诞生了隔离级别, 用于让用户在不同的业务场景下选择最合适的策略去满足需要. 就像机场安全, 机场的安检也有不同级别, 日常情况下安检级别比较低, 吞吐量大; 特殊时期(如遭受恐怖威胁)安检级别更高, 吞吐量较低, 但可以保证安全.</p>
+</blockquote>
+<ol>
+<li>Read Uncommitted(读未提交), 事务中的修改即使没有提交对其他事务而言也是可见的. 事务之间可以读取未提交的数据, 被称为脏读, 这个级别会导致很多问题, 从性能上来说其实不会比其他级别好太多, 但缺乏其他级别的优势, 因此一般情况下不会选择. (读写均不加锁)</li>
+<li>Read Committed(读已提交), 除了 MySQL 外, 大多数数据库的默认隔离级别. 一个事务开始的时候, 只能看到已提交的事务所做的修改, 一个事务从开始到提交之前, 所做的任何修改对其他事务都是不可见的, 这个级别也可以叫不可重复读, 因为两次执行同样的查询, 可能会得到不一样的结果. (读不加锁)</li>
+<li>Repeatable Read(可重复读), 该级别保证了同一个事务中多次读取同样记录的结果是一致的. 但理论上, 可重复读依然无法解决另一个问题: 幻读. 当某个事务在读取一定范围内的记录时, 另一个事务再该范围内插入了新的记录, 当之前的事务再次读取该范围的记录时, 就会产生幻行. InnoDB 通过 MVCC(多版本并发控制) 解决了幻读问题.</li>
+<li>Serializable(可串行化), 通过强制事务串行执行, 避免前面提到的所有问题, 包括幻读.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>隔离级别</th>
+<th style="text-align:center">脏读</th>
+<th style="text-align:center">不可重复读</th>
+<th style="text-align:center">幻读</th>
+<th style="text-align:center">加锁读</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Read Uncommitted</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">×</td>
+</tr>
+<tr>
+<td>Read Committed</td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">×</td>
+</tr>
+<tr>
+<td>Repeatable Read</td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">×</td>
+</tr>
+<tr>
+<td>Serializable</td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">√</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-2-死锁"><a href="#2-2-死锁" class="headerlink" title="2.2. 死锁"></a>2.2. 死锁</h2><p>当 <code>多个事务</code> 以 <code>不同的顺序</code> 去访问 <code>相同资源</code> 的时候, 就可能产生死锁, 我高亮的部分就是死锁产生的条件.</p>
+<p>假设有以下两个语句:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 事务1</span></span><br><span class="line"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</span><br><span class="line"><span class="keyword">UPDATE</span> tb_account <span class="keyword">set</span> <span class="keyword">sum</span> = <span class="number">1000</span> <span class="keyword">where</span> user_id = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">UPDATE</span> tb_account <span class="keyword">set</span> <span class="keyword">sum</span> = <span class="number">2000</span> <span class="keyword">where</span> user_id = <span class="number">4</span>;</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 事务2</span></span><br><span class="line"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</span><br><span class="line"><span class="keyword">UPDATE</span> tb_account <span class="keyword">set</span> <span class="keyword">sum</span> = <span class="number">3000</span> <span class="keyword">where</span> user_id = <span class="number">4</span>;</span><br><span class="line"><span class="keyword">UPDATE</span> tb_account <span class="keyword">set</span> <span class="keyword">sum</span> = <span class="number">4000</span> <span class="keyword">where</span> user_id = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
+<p>如果在某个时间点上, 两个事务都执行了第一条 UPDATE 语句, 同时也锁定了各自的第一条语句, 然后开始尝试锁定第二条语句的时候, 却发现已经被其他事务锁定, 此时就会等待释放. 两个事务都等待对方释放锁, 同时又持有对象所需要的锁, 就会陷入一个死循环. 此时就需要由外部检测并介入, 才能够消除死锁.</p>
+<p>死锁的消除非常简单, 任意选择一个事务回滚即可, 此时另一个事务获取资源, 就会继续执行下面的操作, InnoDB 目前处理死锁的方法是将持有最少行级排他锁的事务进行回滚. 但相比消除, 如何检测死锁是一个相对更棘手的问题. </p>
+<h3 id="2-2-1-被动检测"><a href="#2-2-1-被动检测" class="headerlink" title="2.2.1. 被动检测"></a>2.2.1. 被动检测</h3><p>最简单的方式是设定一个阈值: 比如如果有事务的锁定时间超过1分钟, 那么就检测并将其回滚. 但会出现下面两个问题:</p>
+<ol>
+<li>假设当前事务确实由于死锁超过阈值, 那从死锁开始到结束必须等到超时才会被处理, 会严重影响数据库的吞吐量.</li>
+<li>如果问题更严重一些, 当前事务确实由一系列的复杂操作组成, 没有发生死锁, 但依然超过了我们定义的阈值, 这样的话可能该事务永远得不到执行.</li>
+</ol>
+<p>因此设定阈值的方式可能比较简单, 但无法成为一个高效且通用的解决方式.</p>
+<h3 id="2-2-2-主动检测"><a href="#2-2-2-主动检测" class="headerlink" title="2.2.2. 主动检测"></a>2.2.2. 主动检测</h3><p>InnoDB 使用了一种更为巧妙的方式 <code>wait-for-graph</code>, 通过 <code>等待获取的锁</code> 和 <code>等待获取该锁的事务</code>, 构造出一张有向图, 如果图中存在回路, 就代表存在死锁.</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/56073599-a5a74500-5dd9-11e9-9596-37afe339c3d2.png" alt="image"></p>
+<p>InnoDB 将各个事务看成一个个节点, 资源就是各个事务占用的锁, 当事务1需要等待事务2的锁时, 就生成一条有向边从1指向2, 最终形成一个有向图.</p>
+<p>InnoDB 会定时遍历该图, 一旦发现回路, 就将其中一个回滚, 另一个事务就得以继续执行. 被回滚的事务会返回 “dead lock”</p>
+<h2 id="2-3-事务日志"><a href="#2-3-事务日志" class="headerlink" title="2.3. 事务日志"></a>2.3. 事务日志</h2><p>事务日志可以帮助提高事务的效率, 使用事务日志, 存储引擎在修改表的时候只需要先在内存中完成, 然后再将修改行为记录到硬盘上的事务日志中, 而不需要每次豆浆修改的数据本身持久化到磁盘. 事务日志采用追加的方式, 在磁盘上的体现就是顺序 IO, 而将数据持久化到磁盘是一个随机 IO 的操作. 因此追加事务日志会更加迅速. 事务日志持久化之后, 内存中被修改的数据可以在后台慢慢刷新回磁盘.</p>
+<p>对于事务来说, 为了提高性能, 当修改本身被持久化到事务日志后, 就会返回成功. 如果在持久化修改数据之前系统崩溃, 一般来说数据库在重启的时候会重新检测事务日志有没有被完全消费, 如果没有就会先将未消费的事务日志处理, 以保障事务的持久性.</p>
+<h1 id="3-多版本并发控制"><a href="#3-多版本并发控制" class="headerlink" title="3. 多版本并发控制"></a>3. 多版本并发控制</h1>
       
     </div>
 
@@ -572,7 +650,7 @@
                 
                   <a href="/blog/archives">
                 
-                    <span class="site-state-item-count">38</span>
+                    <span class="site-state-item-count">37</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -625,7 +703,7 @@
                     
                       
                     
-                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -725,7 +803,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-MySQL-逻辑架构"><span class="nav-text">1. MySQL 逻辑架构</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-MySQL-逻辑架构"><span class="nav-text">1. MySQL 逻辑架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-连接-线程的处理和安全性"><span class="nav-text">1.1. 连接/线程的处理和安全性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-优化和执行"><span class="nav-text">1.2. 优化和执行</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-事务"><span class="nav-text">2. 事务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-隔离级别"><span class="nav-text">2.1. 隔离级别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-死锁"><span class="nav-text">2.2. 死锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-被动检测"><span class="nav-text">2.2.1. 被动检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-主动检测"><span class="nav-text">2.2.2. 主动检测</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-事务日志"><span class="nav-text">2.3. 事务日志</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-多版本并发控制"><span class="nav-text">3. 多版本并发控制</span></a></li></ol></div>
             
 
           </div>
