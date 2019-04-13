@@ -99,20 +99,21 @@
 
 
 
-  <meta name="description" content="1. MySQL 逻辑架构  最上层是通用的 C/S 架构服务架构, 比如连接处理, 权限校验, 安全等. 第二层架构包含了大多数 MySQL 核心服务, 比如查询解析, 分析, 优化, 缓存以及所有的内置函数, 所有跨存储引擎的功能都在这一层实现: 存储过程, 触发器, 视图等. 第三层包含了存储引擎, 负责MySQL 中数据的存储以及读取, 服务器通过 API 和存储引擎进行通信, API 屏">
+  <meta name="description" content="1. MySQL 整体架构1.1. MySQL 逻辑架构  最上层是通用的 C/S 架构服务架构, 比如连接处理, 权限校验, 安全等. 第二层架构包含了大多数 MySQL 核心服务, 比如查询解析, 分析, 优化, 缓存以及所有的内置函数, 所有跨存储引擎的功能都在这一层实现: 存储过程, 触发器, 视图等. 第三层包含了存储引擎, 负责MySQL 中数据的存储以及读取, 服务器通过 API 和">
 <meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL(1)--整体架构">
 <meta property="og:url" content="https://destinywang.github.io/blog/2019/04/11/MySQL-1-整体架构/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1. MySQL 逻辑架构  最上层是通用的 C/S 架构服务架构, 比如连接处理, 权限校验, 安全等. 第二层架构包含了大多数 MySQL 核心服务, 比如查询解析, 分析, 优化, 缓存以及所有的内置函数, 所有跨存储引擎的功能都在这一层实现: 存储过程, 触发器, 视图等. 第三层包含了存储引擎, 负责MySQL 中数据的存储以及读取, 服务器通过 API 和存储引擎进行通信, API 屏">
+<meta property="og:description" content="1. MySQL 整体架构1.1. MySQL 逻辑架构  最上层是通用的 C/S 架构服务架构, 比如连接处理, 权限校验, 安全等. 第二层架构包含了大多数 MySQL 核心服务, 比如查询解析, 分析, 优化, 缓存以及所有的内置函数, 所有跨存储引擎的功能都在这一层实现: 存储过程, 触发器, 视图等. 第三层包含了存储引擎, 负责MySQL 中数据的存储以及读取, 服务器通过 API 和">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/55969691-d475cc00-5cb0-11e9-8a8a-e4ada42a0c7d.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/56073599-a5a74500-5dd9-11e9-9596-37afe339c3d2.png">
-<meta property="og:updated_time" content="2019-04-13T03:52:30.459Z">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/56079855-93a2c200-5e2c-11e9-8d29-da88d7dad4a8.png">
+<meta property="og:updated_time" content="2019-04-13T12:45:55.550Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL(1)--整体架构">
-<meta name="twitter:description" content="1. MySQL 逻辑架构  最上层是通用的 C/S 架构服务架构, 比如连接处理, 权限校验, 安全等. 第二层架构包含了大多数 MySQL 核心服务, 比如查询解析, 分析, 优化, 缓存以及所有的内置函数, 所有跨存储引擎的功能都在这一层实现: 存储过程, 触发器, 视图等. 第三层包含了存储引擎, 负责MySQL 中数据的存储以及读取, 服务器通过 API 和存储引擎进行通信, API 屏">
+<meta name="twitter:description" content="1. MySQL 整体架构1.1. MySQL 逻辑架构  最上层是通用的 C/S 架构服务架构, 比如连接处理, 权限校验, 安全等. 第二层架构包含了大多数 MySQL 核心服务, 比如查询解析, 分析, 优化, 缓存以及所有的内置函数, 所有跨存储引擎的功能都在这一层实现: 存储过程, 触发器, 视图等. 第三层包含了存储引擎, 负责MySQL 中数据的存储以及读取, 服务器通过 API 和">
 <meta name="twitter:image" content="https://user-images.githubusercontent.com/17758731/55969691-d475cc00-5cb0-11e9-8a8a-e4ada42a0c7d.png">
 
 
@@ -449,23 +450,23 @@
       
 
       
-        <h1 id="1-MySQL-逻辑架构"><a href="#1-MySQL-逻辑架构" class="headerlink" title="1. MySQL 逻辑架构"></a>1. MySQL 逻辑架构</h1><p><img src="https://user-images.githubusercontent.com/17758731/55969691-d475cc00-5cb0-11e9-8a8a-e4ada42a0c7d.png" alt="image"></p>
+        <h1 id="1-MySQL-整体架构"><a href="#1-MySQL-整体架构" class="headerlink" title="1. MySQL 整体架构"></a>1. MySQL 整体架构</h1><h2 id="1-1-MySQL-逻辑架构"><a href="#1-1-MySQL-逻辑架构" class="headerlink" title="1.1. MySQL 逻辑架构"></a>1.1. MySQL 逻辑架构</h2><p><img src="https://user-images.githubusercontent.com/17758731/55969691-d475cc00-5cb0-11e9-8a8a-e4ada42a0c7d.png" alt="image"></p>
 <ul>
 <li>最上层是通用的 C/S 架构服务架构, 比如连接处理, 权限校验, 安全等.</li>
 <li>第二层架构包含了大多数 MySQL 核心服务, 比如查询解析, 分析, 优化, 缓存以及所有的内置函数, 所有跨存储引擎的功能都在这一层实现: 存储过程, 触发器, 视图等.</li>
 <li>第三层包含了存储引擎, 负责MySQL 中数据的存储以及读取, 服务器通过 API 和存储引擎进行通信, API 屏蔽了不同存储引擎的差异. 存储引擎 API 包含十几个底层函数, 可以执行如下操作: <code>开启一个事务</code>, <code>根据主键查找一行记录</code> 等操作, 不同存储引擎之间也不会相互通信, 只会简单的响应服务器的请求.</li>
 </ul>
-<h2 id="1-1-连接-线程的处理和安全性"><a href="#1-1-连接-线程的处理和安全性" class="headerlink" title="1.1. 连接/线程的处理和安全性"></a>1.1. 连接/线程的处理和安全性</h2><p>每个客户端连接都会在服务器进程中拥有一个线程, 完全在这个单独的线程中完成操作. 而服务器通过连接池去对线程对缓存. 一旦客户端连接成功, 服务器会验证该客户端是否具有执行具体某个特定查询的权限.</p>
-<h2 id="1-2-优化和执行"><a href="#1-2-优化和执行" class="headerlink" title="1.2. 优化和执行"></a>1.2. 优化和执行</h2><p>MySQL 会解析查询, 并创建语法解析树以进行优化, 包括重写查询, 决定表的读取顺序, 选择理想的引擎等.</p>
+<h3 id="1-1-1-连接-线程的处理和安全性"><a href="#1-1-1-连接-线程的处理和安全性" class="headerlink" title="1.1.1. 连接/线程的处理和安全性"></a>1.1.1. 连接/线程的处理和安全性</h3><p>每个客户端连接都会在服务器进程中拥有一个线程, 完全在这个单独的线程中完成操作. 而服务器通过连接池去对线程对缓存. 一旦客户端连接成功, 服务器会验证该客户端是否具有执行具体某个特定查询的权限.</p>
+<h3 id="1-1-2-优化和执行"><a href="#1-1-2-优化和执行" class="headerlink" title="1.1.2. 优化和执行"></a>1.1.2. 优化和执行</h3><p>MySQL 会解析查询, 并创建语法解析树以进行优化, 包括重写查询, 决定表的读取顺序, 选择理想的引擎等.</p>
 <p>在执行 <code>SELECT</code> 语句的时候, MySQL 会首先检查缓存, 如果缓存中存在, 就不再执行查询解析, 优化和执行的整个过程, 直接返回查询缓存中的结果集.</p>
-<h1 id="2-事务"><a href="#2-事务" class="headerlink" title="2. 事务"></a>2. 事务</h1><p>事务就是一组原子性的 SQL 查询, 如果数据库引擎能够成功的应用该组查询的全部语句, 那么就全部执行该组操作, 否则如果其中某些语句无法执行, 那么所有的语句就都不执行.</p>
+<h2 id="1-2-事务"><a href="#1-2-事务" class="headerlink" title="1.2. 事务"></a>1.2. 事务</h2><p>事务就是一组原子性的 SQL 查询, 如果数据库引擎能够成功的应用该组查询的全部语句, 那么就全部执行该组操作, 否则如果其中某些语句无法执行, 那么所有的语句就都不执行.</p>
 <ol>
 <li>原子性: 一个事务必须被视为一个不可分割的最小工作单元, 整个事务中的所有操作要么全部提交成功, 要么全部不提交, 永远不能出现一部分成功另一部分失败的情况.</li>
 <li>一致性: 数据库总是从一个一致性的状态转换到另外一个一致性的状态.</li>
 <li>隔离性: 一个事务所做的修改在最终提交之前, 对其他事务都是不可见的, 当然, 这还受隔离级别的影响.</li>
 <li>持久性: 一旦事务提交, 其所做的修改就会永久保存到数据库中, 即使系统崩溃也不会丢失.</li>
 </ol>
-<h2 id="2-1-隔离级别"><a href="#2-1-隔离级别" class="headerlink" title="2.1. 隔离级别"></a>2.1. 隔离级别</h2><p>SQL 标准中定义了四种隔离级别, 每一种级别都规定了一个事务中所做的修改哪些是可见的, 哪些是不可见的.</p>
+<h3 id="1-2-1-隔离级别"><a href="#1-2-1-隔离级别" class="headerlink" title="1.2.1. 隔离级别"></a>1.2.1. 隔离级别</h3><p>SQL 标准中定义了四种隔离级别, 每一种级别都规定了一个事务中所做的修改哪些是可见的, 哪些是不可见的.</p>
 <blockquote>
 <p>在我个人的理解中, 用户对数据库的期望其实是自相矛盾的, 一方面人们期望数据库能尽可能快速的完成任务, 另一方面又希望数据库能够尽可能安全的完成任务, 而在目前的数据库模型中, 这是一个本质上无法兼得的情况, 因此诞生了隔离级别, 用于让用户在不同的业务场景下选择最合适的策略去满足需要. 就像机场安全, 机场的安检也有不同级别, 日常情况下安检级别比较低, 吞吐量大; 特殊时期(如遭受恐怖威胁)安检级别更高, 吞吐量较低, 但可以保证安全.</p>
 </blockquote>
@@ -516,24 +517,161 @@
 </tr>
 </tbody>
 </table>
-<h2 id="2-2-死锁"><a href="#2-2-死锁" class="headerlink" title="2.2. 死锁"></a>2.2. 死锁</h2><p>当 <code>多个事务</code> 以 <code>不同的顺序</code> 去访问 <code>相同资源</code> 的时候, 就可能产生死锁, 我高亮的部分就是死锁产生的条件.</p>
+<h3 id="1-2-2-死锁"><a href="#1-2-2-死锁" class="headerlink" title="1.2.2. 死锁"></a>1.2.2. 死锁</h3><p>当 <code>多个事务</code> 以 <code>不同的顺序</code> 去访问 <code>相同资源</code> 的时候, 就可能产生死锁, 我高亮的部分就是死锁产生的条件.</p>
 <p>假设有以下两个语句:</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 事务1</span></span><br><span class="line"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</span><br><span class="line"><span class="keyword">UPDATE</span> tb_account <span class="keyword">set</span> <span class="keyword">sum</span> = <span class="number">1000</span> <span class="keyword">where</span> user_id = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">UPDATE</span> tb_account <span class="keyword">set</span> <span class="keyword">sum</span> = <span class="number">2000</span> <span class="keyword">where</span> user_id = <span class="number">4</span>;</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 事务2</span></span><br><span class="line"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</span><br><span class="line"><span class="keyword">UPDATE</span> tb_account <span class="keyword">set</span> <span class="keyword">sum</span> = <span class="number">3000</span> <span class="keyword">where</span> user_id = <span class="number">4</span>;</span><br><span class="line"><span class="keyword">UPDATE</span> tb_account <span class="keyword">set</span> <span class="keyword">sum</span> = <span class="number">4000</span> <span class="keyword">where</span> user_id = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
 <p>如果在某个时间点上, 两个事务都执行了第一条 UPDATE 语句, 同时也锁定了各自的第一条语句, 然后开始尝试锁定第二条语句的时候, 却发现已经被其他事务锁定, 此时就会等待释放. 两个事务都等待对方释放锁, 同时又持有对象所需要的锁, 就会陷入一个死循环. 此时就需要由外部检测并介入, 才能够消除死锁.</p>
 <p>死锁的消除非常简单, 任意选择一个事务回滚即可, 此时另一个事务获取资源, 就会继续执行下面的操作, InnoDB 目前处理死锁的方法是将持有最少行级排他锁的事务进行回滚. 但相比消除, 如何检测死锁是一个相对更棘手的问题. </p>
-<h3 id="2-2-1-被动检测"><a href="#2-2-1-被动检测" class="headerlink" title="2.2.1. 被动检测"></a>2.2.1. 被动检测</h3><p>最简单的方式是设定一个阈值: 比如如果有事务的锁定时间超过1分钟, 那么就检测并将其回滚. 但会出现下面两个问题:</p>
+<h4 id="1-2-2-1-被动检测"><a href="#1-2-2-1-被动检测" class="headerlink" title="1.2.2.1. 被动检测"></a>1.2.2.1. 被动检测</h4><p>最简单的方式是设定一个阈值: 比如如果有事务的锁定时间超过1分钟, 那么就检测并将其回滚. 但会出现下面两个问题:</p>
 <ol>
 <li>假设当前事务确实由于死锁超过阈值, 那从死锁开始到结束必须等到超时才会被处理, 会严重影响数据库的吞吐量.</li>
 <li>如果问题更严重一些, 当前事务确实由一系列的复杂操作组成, 没有发生死锁, 但依然超过了我们定义的阈值, 这样的话可能该事务永远得不到执行.</li>
 </ol>
 <p>因此设定阈值的方式可能比较简单, 但无法成为一个高效且通用的解决方式.</p>
-<h3 id="2-2-2-主动检测"><a href="#2-2-2-主动检测" class="headerlink" title="2.2.2. 主动检测"></a>2.2.2. 主动检测</h3><p>InnoDB 使用了一种更为巧妙的方式 <code>wait-for-graph</code>, 通过 <code>等待获取的锁</code> 和 <code>等待获取该锁的事务</code>, 构造出一张有向图, 如果图中存在回路, 就代表存在死锁.</p>
+<h4 id="1-2-2-2-主动检测"><a href="#1-2-2-2-主动检测" class="headerlink" title="1.2.2.2. 主动检测"></a>1.2.2.2. 主动检测</h4><p>InnoDB 使用了一种更为巧妙的方式 <code>wait-for-graph</code>, 通过 <code>等待获取的锁</code> 和 <code>等待获取该锁的事务</code>, 构造出一张有向图, 如果图中存在回路, 就代表存在死锁.</p>
 <p><img src="https://user-images.githubusercontent.com/17758731/56073599-a5a74500-5dd9-11e9-9596-37afe339c3d2.png" alt="image"></p>
 <p>InnoDB 将各个事务看成一个个节点, 资源就是各个事务占用的锁, 当事务1需要等待事务2的锁时, 就生成一条有向边从1指向2, 最终形成一个有向图.</p>
 <p>InnoDB 会定时遍历该图, 一旦发现回路, 就将其中一个回滚, 另一个事务就得以继续执行. 被回滚的事务会返回 “dead lock”</p>
-<h2 id="2-3-事务日志"><a href="#2-3-事务日志" class="headerlink" title="2.3. 事务日志"></a>2.3. 事务日志</h2><p>事务日志可以帮助提高事务的效率, 使用事务日志, 存储引擎在修改表的时候只需要先在内存中完成, 然后再将修改行为记录到硬盘上的事务日志中, 而不需要每次豆浆修改的数据本身持久化到磁盘. 事务日志采用追加的方式, 在磁盘上的体现就是顺序 IO, 而将数据持久化到磁盘是一个随机 IO 的操作. 因此追加事务日志会更加迅速. 事务日志持久化之后, 内存中被修改的数据可以在后台慢慢刷新回磁盘.</p>
+<h3 id="1-2-3-事务日志"><a href="#1-2-3-事务日志" class="headerlink" title="1.2.3. 事务日志"></a>1.2.3. 事务日志</h3><p>事务日志可以帮助提高事务的效率, 使用事务日志, 存储引擎在修改表的时候只需要先在内存中完成, 然后再将修改行为记录到硬盘上的事务日志中, 而不需要每次豆浆修改的数据本身持久化到磁盘. 事务日志采用追加的方式, 在磁盘上的体现就是顺序 IO, 而将数据持久化到磁盘是一个随机 IO 的操作. 因此追加事务日志会更加迅速. 事务日志持久化之后, 内存中被修改的数据可以在后台慢慢刷新回磁盘.</p>
 <p>对于事务来说, 为了提高性能, 当修改本身被持久化到事务日志后, 就会返回成功. 如果在持久化修改数据之前系统崩溃, 一般来说数据库在重启的时候会重新检测事务日志有没有被完全消费, 如果没有就会先将未消费的事务日志处理, 以保障事务的持久性.</p>
-<h1 id="3-多版本并发控制"><a href="#3-多版本并发控制" class="headerlink" title="3. 多版本并发控制"></a>3. 多版本并发控制</h1>
+<h2 id="1-3-多版本并发控制"><a href="#1-3-多版本并发控制" class="headerlink" title="1.3. 多版本并发控制"></a>1.3. 多版本并发控制</h2><p>一般来说, 可以认为 MVCC 是行锁的一个变种, 但在很多情况下避免了加锁操作, 因此开销更低, 大多数都实现了非阻塞的读操作, 写操作也只锁定必要的行. MVCC 的实现时通过保存数据在某个时间点的快照来实现的, 不管需要执行多长时间, 每个事务看到的数据都是一致的, 根据事务开始的时间不同, 每个事务对同一张表同一时刻看到的数据可能是不一样的.</p>
+<p>InnoDB 的 MVCC, 是通过在每行记录后面保存两个隐藏的字段来实现的, 一个保存了行的创建时间, 另一个保存过期时间. 这个时间指的不是实际时间, 而是系统版本号. 每开始一个新的事务, 系统版本号都会自动递增, 事务开始时刻的系统版本号会作为事务的版本号, 用来和目标行记录的版本号进行比较.</p>
+<p>在 Repeatable Read 隔离级别下, MVCC 具体的行为:</p>
+<ol>
+<li><code>SELECT</code>: InnoDB 会根据以下两个条件检查每行记录<ol>
+<li>InnoDB 只查找版本小于等于当前事务版本的数据行, 这样可以确保事务读取的行要么是在事务开始前已经存在的, 要么是事务自身插入或者修改过的.</li>
+<li>行的删除版本要么未定义, 要么大于当前事务版本号, 这样可以确保事务读取到的行在事务开始前没有被删除.</li>
+</ol>
+</li>
+<li><code>INSERT</code>: InnoDB 为新插入的每一行保存当前系统版本号作为行版本号.</li>
+<li><code>DELETE</code>: InnoDB 为删除的每一行记录保存当前的系统版本号作为行删除标识.</li>
+<li><code>UPDATE</code>: InnoDB 为插入一行新记录, 保存当前系统版本号作为行版本号, 同时保存当前系统版本号作为行删除标识.</li>
+</ol>
+<blockquote>
+<p>假设我们定义如下结构: row(n,m)<br>n 为创建时间, m 为过期时间</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">系统版本号</th>
+<th style="text-align:center">t1</th>
+<th style="text-align:center">t2</th>
+<th style="text-align:center">t3</th>
+<th style="text-align:center">t4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">INSERT</td>
+<td style="text-align:center">row(1,nil)</td>
+</tr>
+<tr>
+<td style="text-align:center">UPDATE</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">row(2,nil)<br>row(1,2)</td>
+</tr>
+<tr>
+<td style="text-align:center">SELECT</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">搜索条件: n&lt;=3 &amp;&amp; (m==nil \</td>
+<td style="text-align:center">\</td>
+<td>m&gt;3)</td>
+</tr>
+<tr>
+<td style="text-align:center">DELETE</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">row(2,4)<br>row(1,2)</td>
+</tr>
+</tbody>
+</table>
+<p>通过保存这两个额外的系统版本号, 使得大多数读操作都不需要加锁, 但系统的复杂度有所上升, 并且需要额外的存储空间.</p>
+<h1 id="2-MySQL-数据库设计"><a href="#2-MySQL-数据库设计" class="headerlink" title="2. MySQL 数据库设计"></a>2. MySQL 数据库设计</h1><h2 id="2-1-选择合适的数据类型"><a href="#2-1-选择合适的数据类型" class="headerlink" title="2.1. 选择合适的数据类型"></a>2.1. 选择合适的数据类型</h2><p>在如何选择合适的数据类型上, 有以下几个普遍适用的原则</p>
+<ol>
+<li>更小通常更好, 一般情况下尽量使用可以正确存储数据的最小数据类型, 更小的数据类型通常占用空间更少, 操作起来更加迅速.</li>
+<li>越简单越好, 简单数据类型的操作通常需要更少的 CPU 周期, 比如整型比字符串操作代价更低, 因此字符集的排序规则更加复杂</li>
+<li>尽量避免 NULL, 对于可能为 NULL 的列, 对 MySQL 来说更加难以优化, 因为这样的列使得索引的建立, 统计都更为复杂, 索引需要为每个记录单独设计一个额外的字节.</li>
+</ol>
+<h3 id="2-1-1-整型"><a href="#2-1-1-整型" class="headerlink" title="2.1.1. 整型"></a>2.1.1. 整型</h3><p>常见的整型类型:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">占用空间(bit)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">TINYINT</td>
+<td style="text-align:center">8</td>
+</tr>
+<tr>
+<td style="text-align:center">SMALLINT</td>
+<td style="text-align:center">16</td>
+</tr>
+<tr>
+<td style="text-align:center">MEDIUMINT</td>
+<td style="text-align:center">24</td>
+</tr>
+<tr>
+<td style="text-align:center">INT</td>
+<td style="text-align:center">32</td>
+</tr>
+<tr>
+<td style="text-align:center">BIGINT</td>
+<td style="text-align:center">64</td>
+</tr>
+</tbody>
+</table>
+<p>此外, 整数类型还可以选择 <code>UNSIGNED</code>, 用于表示该列不允许负数, 可以使对应的正数范围提升一倍, 原理与 c/c++ 基本相同.</p>
+<p>MySQL 可以为整型指定宽度, 如 <code>INT(11)</code>, 对大多数应用来说都没有意义, 不会限制真正的合法范围, 只是规定了某些客户端用来显示字符的个数. 对于存储和计算来说, <code>INT(1)</code> 和 <code>INT(20)</code> 是完全相同的.</p>
+<h3 id="2-1-2-实数类型"><a href="#2-1-2-实数类型" class="headerlink" title="2.1.2. 实数类型"></a>2.1.2. 实数类型</h3><p>实数是带有浮点的数字, 但对于 MySQL, 也可以使用 <code>DECIMAL</code> 存储比 <code>BIGINT</code> 更大的数字. </p>
+<p>DECIMAL 用于存储精确的小数, 由于 CPU 不支持直接对 DECIMAL 的直接计算, 因此 MySQL 自身实现了 DECIMAL 的高精度计算. CPU 原生支持浮点计算, 因此浮点数 <code>DOUBLE</code> 和 <code>FLOAT</code> 的运算速度更快.</p>
+<h3 id="2-1-3-字符串类型"><a href="#2-1-3-字符串类型" class="headerlink" title="2.1.3. 字符串类型"></a>2.1.3. 字符串类型</h3><h4 id="2-1-3-1-VARCHAR-和-CHAR-类型"><a href="#2-1-3-1-VARCHAR-和-CHAR-类型" class="headerlink" title="2.1.3.1. VARCHAR 和 CHAR 类型"></a>2.1.3.1. VARCHAR 和 CHAR 类型</h4><p>这是两种最主要的字符串类型</p>
+<ul>
+<li>VARCHAR: 用于存储变长字符串, 是最常见的字符串类型, 比定长字符串更节省空间, 需要使用 1 或 2 个额外字节来记录字符串的长度, 如果列的长度小于或等于 255 个字节, 就只需要 1 个字节, 否则需要 2 个字节. VARCHAR 节省了空间, 但由于 UPDATE 的时候可能使得对应行记录变得更长, 就需要额外的工作, 如果在页内没有更多空间的情况下发生, 在 InnoDB 中需要分裂页来使记录可以放进页内.</li>
+<li>CHAR: 定长类型, 适合存储很短的字符串, 或者所有的值都近乎一个长度, 定长的 CHAR 不容易产生碎片.</li>
+</ul>
+<blockquote>
+<p>对于 ‘hello’ 的存储, VARCHAR(5) 相比 VARCHAR(200) 更有优势, 因为 MySQL 通常会分配固定大小的内存块来保存内部值, 尤其是使用内存临时表进行排序或操作时会特别糟糕.</p>
+</blockquote>
+<h4 id="2-1-3-2-BLOB-和-TEXT-类型"><a href="#2-1-3-2-BLOB-和-TEXT-类型" class="headerlink" title="2.1.3.2 BLOB 和 TEXT 类型"></a>2.1.3.2 BLOB 和 TEXT 类型</h4><p>二者都是为存储很大类型数据而设计的字符串数据类型, 分别采用二进制和字符方式存储.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">字符串系列</th>
+<th style="text-align:center">二进制系列</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">TINYTEXT</td>
+<td style="text-align:center">TINYBLOB</td>
+</tr>
+<tr>
+<td style="text-align:center">SMALLTEXT</td>
+<td style="text-align:center">SMALLBLOB</td>
+</tr>
+<tr>
+<td style="text-align:center">TEXT</td>
+<td style="text-align:center">BLOB</td>
+</tr>
+<tr>
+<td style="text-align:center">MEDIUMTEXT</td>
+<td style="text-align:center">MEDIUMBLOB</td>
+</tr>
+<tr>
+<td style="text-align:center">LONGTEXT</td>
+<td style="text-align:center">LONGBLOB</td>
+</tr>
+</tbody>
+</table>
+<p>MySQL 把每个 BLOB 和 TEXT 当做一个独立的对象处理, 存储引擎在存储时通常会做特殊处理, 如果值过大, InnoDB 会使用专门的 “外部” 存储区域来进行存储, 此时每个值在行内需要 1~4个字节存储一个指针, 然后再外部存储区域存储实际的值.</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/56079855-93a2c200-5e2c-11e9-8d29-da88d7dad4a8.png" alt="image"></p>
+<p>此外, 在排序上, MySQL 对于这两种类型只能对最前 max_sort_length 字节而不是整个字符串进行排序.</p>
+<h3 id="2-1-4-日期是时间类型"><a href="#2-1-4-日期是时间类型" class="headerlink" title="2.1.4. 日期是时间类型"></a>2.1.4. 日期是时间类型</h3><h1 id="3-高性能索引"><a href="#3-高性能索引" class="headerlink" title="3. 高性能索引"></a>3. 高性能索引</h1>
       
     </div>
 
@@ -803,7 +941,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-MySQL-逻辑架构"><span class="nav-text">1. MySQL 逻辑架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-连接-线程的处理和安全性"><span class="nav-text">1.1. 连接/线程的处理和安全性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-优化和执行"><span class="nav-text">1.2. 优化和执行</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-事务"><span class="nav-text">2. 事务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-隔离级别"><span class="nav-text">2.1. 隔离级别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-死锁"><span class="nav-text">2.2. 死锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-被动检测"><span class="nav-text">2.2.1. 被动检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-主动检测"><span class="nav-text">2.2.2. 主动检测</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-事务日志"><span class="nav-text">2.3. 事务日志</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-多版本并发控制"><span class="nav-text">3. 多版本并发控制</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-MySQL-整体架构"><span class="nav-text">1. MySQL 整体架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-MySQL-逻辑架构"><span class="nav-text">1.1. MySQL 逻辑架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-1-连接-线程的处理和安全性"><span class="nav-text">1.1.1. 连接/线程的处理和安全性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-2-优化和执行"><span class="nav-text">1.1.2. 优化和执行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-事务"><span class="nav-text">1.2. 事务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-1-隔离级别"><span class="nav-text">1.2.1. 隔离级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-2-死锁"><span class="nav-text">1.2.2. 死锁</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-1-被动检测"><span class="nav-text">1.2.2.1. 被动检测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-2-主动检测"><span class="nav-text">1.2.2.2. 主动检测</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-3-事务日志"><span class="nav-text">1.2.3. 事务日志</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-多版本并发控制"><span class="nav-text">1.3. 多版本并发控制</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-MySQL-数据库设计"><span class="nav-text">2. MySQL 数据库设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-选择合适的数据类型"><span class="nav-text">2.1. 选择合适的数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-整型"><span class="nav-text">2.1.1. 整型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2-实数类型"><span class="nav-text">2.1.2. 实数类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-3-字符串类型"><span class="nav-text">2.1.3. 字符串类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-1-VARCHAR-和-CHAR-类型"><span class="nav-text">2.1.3.1. VARCHAR 和 CHAR 类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-2-BLOB-和-TEXT-类型"><span class="nav-text">2.1.3.2 BLOB 和 TEXT 类型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-4-日期是时间类型"><span class="nav-text">2.1.4. 日期是时间类型</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-高性能索引"><span class="nav-text">3. 高性能索引</span></a></li></ol></div>
             
 
           </div>
