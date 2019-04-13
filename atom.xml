@@ -6,7 +6,7 @@
   <link href="/blog/atom.xml" rel="self"/>
   
   <link href="https://destinywang.github.io/blog/"/>
-  <updated>2019-04-11T15:32:18.094Z</updated>
+  <updated>2019-04-13T01:31:40.023Z</updated>
   <id>https://destinywang.github.io/blog/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://destinywang.github.io/blog/2019/04/11/MySQL-1-%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/"/>
     <id>https://destinywang.github.io/blog/2019/04/11/MySQL-1-整体架构/</id>
     <published>2019-04-11T15:13:36.000Z</published>
-    <updated>2019-04-11T15:32:18.094Z</updated>
+    <updated>2019-04-13T01:31:40.023Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="1-MySQL-逻辑架构"><a href="#1-MySQL-逻辑架构" class="headerlink" title="1. MySQL 逻辑架构"></a>1. MySQL 逻辑架构</h1><p><img src="https://user-images.githubusercontent.com/17758731/55969691-d475cc00-5cb0-11e9-8a8a-e4ada42a0c7d.png" alt="image"></p><ul><li>最上层是通用的 C/S 架构服务架构, 比如连接处理, 权限校验, 安全等.</li><li>第二层架构包含了大多数 MySQL 核心服务, 比如查询解析, 分析, 优化, 缓存以及所有的内置函数, 所有跨存储引擎的功能都在这一层实现: 存储过程, 触发器, 视图等.</li><li>第三层包含了存储引擎, 负责MySQL 中数据的存储以及读取, 服务器通过 API 和存储引擎进行通信, API 屏蔽了不同存储引擎的差异. 存储引擎 API 包含十几个底层函数, 可以执行如下操作: <code>开启一个事务</code>, <code>根据主键查找一行记录</code> 等操作, 不同存储引擎之间也不会相互通信, 只会简单的响应服务器的请求.</li></ul>]]></content>
+    <content type="html"><![CDATA[<h1 id="1-MySQL-逻辑架构"><a href="#1-MySQL-逻辑架构" class="headerlink" title="1. MySQL 逻辑架构"></a>1. MySQL 逻辑架构</h1><p><img src="https://user-images.githubusercontent.com/17758731/55969691-d475cc00-5cb0-11e9-8a8a-e4ada42a0c7d.png" alt="image"></p><ul><li>最上层是通用的 C/S 架构服务架构, 比如连接处理, 权限校验, 安全等.</li><li>第二层架构包含了大多数 MySQL 核心服务, 比如查询解析, 分析, 优化, 缓存以及所有的内置函数, 所有跨存储引擎的功能都在这一层实现: 存储过程, 触发器, 视图等.</li><li>第三层包含了存储引擎, 负责MySQL 中数据的存储以及读取, 服务器通过 API 和存储引擎进行通信, API 屏蔽了不同存储引擎的差异. 存储引擎 API 包含十几个底层函数, 可以执行如下操作: <code>开启一个事务</code>, <code>根据主键查找一行记录</code> 等操作, 不同存储引擎之间也不会相互通信, 只会简单的响应服务器的请求.</li></ul><p>每个客户端</p>]]></content>
     
     <summary type="html">
     
