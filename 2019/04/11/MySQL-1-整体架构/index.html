@@ -110,7 +110,7 @@
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/55969691-d475cc00-5cb0-11e9-8a8a-e4ada42a0c7d.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/56073599-a5a74500-5dd9-11e9-9596-37afe339c3d2.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/56079855-93a2c200-5e2c-11e9-8d29-da88d7dad4a8.png">
-<meta property="og:updated_time" content="2019-04-13T12:45:55.550Z">
+<meta property="og:updated_time" content="2019-04-21T02:37:57.608Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL(1)--整体架构">
 <meta name="twitter:description" content="1. MySQL 整体架构1.1. MySQL 逻辑架构  最上层是通用的 C/S 架构服务架构, 比如连接处理, 权限校验, 安全等. 第二层架构包含了大多数 MySQL 核心服务, 比如查询解析, 分析, 优化, 缓存以及所有的内置函数, 所有跨存储引擎的功能都在这一层实现: 存储过程, 触发器, 视图等. 第三层包含了存储引擎, 负责MySQL 中数据的存储以及读取, 服务器通过 API 和">
@@ -671,7 +671,13 @@
 <p>MySQL 把每个 BLOB 和 TEXT 当做一个独立的对象处理, 存储引擎在存储时通常会做特殊处理, 如果值过大, InnoDB 会使用专门的 “外部” 存储区域来进行存储, 此时每个值在行内需要 1~4个字节存储一个指针, 然后再外部存储区域存储实际的值.</p>
 <p><img src="https://user-images.githubusercontent.com/17758731/56079855-93a2c200-5e2c-11e9-8d29-da88d7dad4a8.png" alt="image"></p>
 <p>此外, 在排序上, MySQL 对于这两种类型只能对最前 max_sort_length 字节而不是整个字符串进行排序.</p>
-<h3 id="2-1-4-日期是时间类型"><a href="#2-1-4-日期是时间类型" class="headerlink" title="2.1.4. 日期是时间类型"></a>2.1.4. 日期是时间类型</h3><h1 id="3-高性能索引"><a href="#3-高性能索引" class="headerlink" title="3. 高性能索引"></a>3. 高性能索引</h1>
+<h3 id="2-1-4-日期是时间类型"><a href="#2-1-4-日期是时间类型" class="headerlink" title="2.1.4. 日期是时间类型"></a>2.1.4. 日期是时间类型</h3><h1 id="3-高性能索引"><a href="#3-高性能索引" class="headerlink" title="3. 高性能索引"></a>3. 高性能索引</h1><p>索引是存储引擎用于快速查找记录的一种数据结构, 当表中的数据越来越大的时候, 索引对性能的影响非常重要.</p>
+<h2 id="3-1-索引类型"><a href="#3-1-索引类型" class="headerlink" title="3.1. 索引类型"></a>3.1. 索引类型</h2><h3 id="3-1-1-B-树索引"><a href="#3-1-1-B-树索引" class="headerlink" title="3.1.1. B 树索引"></a>3.1.1. B 树索引</h3><p>在 MySQL 中, 索引是在存储层实现的, 而大多数 MySQL 存储引擎都支持 B 树(B+树)索引.</p>
+<blockquote>
+<p>对于大部分存储引擎来说, 索引的实现方式都是 B+树</p>
+</blockquote>
+<p>B 树是一个有序的数据结构, 因此使用该结构实现的索引也是有序的, 并且每一个叶子页到根的距离相同.</p>
+
       
     </div>
 
@@ -792,7 +798,7 @@
                 
                   <a href="/blog/archives">
                 
-                    <span class="site-state-item-count">38</span>
+                    <span class="site-state-item-count">39</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -845,7 +851,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">20</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">22</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -904,7 +914,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">23</span>
+                      
+                    
+                    <span class="site-state-item-count">24</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -947,7 +959,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-MySQL-整体架构"><span class="nav-text">1. MySQL 整体架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-MySQL-逻辑架构"><span class="nav-text">1.1. MySQL 逻辑架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-1-连接-线程的处理和安全性"><span class="nav-text">1.1.1. 连接/线程的处理和安全性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-2-优化和执行"><span class="nav-text">1.1.2. 优化和执行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-事务"><span class="nav-text">1.2. 事务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-1-隔离级别"><span class="nav-text">1.2.1. 隔离级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-2-死锁"><span class="nav-text">1.2.2. 死锁</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-1-被动检测"><span class="nav-text">1.2.2.1. 被动检测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-2-主动检测"><span class="nav-text">1.2.2.2. 主动检测</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-3-事务日志"><span class="nav-text">1.2.3. 事务日志</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-多版本并发控制"><span class="nav-text">1.3. 多版本并发控制</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-MySQL-数据库设计"><span class="nav-text">2. MySQL 数据库设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-选择合适的数据类型"><span class="nav-text">2.1. 选择合适的数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-整型"><span class="nav-text">2.1.1. 整型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2-实数类型"><span class="nav-text">2.1.2. 实数类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-3-字符串类型"><span class="nav-text">2.1.3. 字符串类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-1-VARCHAR-和-CHAR-类型"><span class="nav-text">2.1.3.1. VARCHAR 和 CHAR 类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-2-BLOB-和-TEXT-类型"><span class="nav-text">2.1.3.2 BLOB 和 TEXT 类型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-4-日期是时间类型"><span class="nav-text">2.1.4. 日期是时间类型</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-高性能索引"><span class="nav-text">3. 高性能索引</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-MySQL-整体架构"><span class="nav-text">1. MySQL 整体架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-MySQL-逻辑架构"><span class="nav-text">1.1. MySQL 逻辑架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-1-连接-线程的处理和安全性"><span class="nav-text">1.1.1. 连接/线程的处理和安全性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-2-优化和执行"><span class="nav-text">1.1.2. 优化和执行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-事务"><span class="nav-text">1.2. 事务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-1-隔离级别"><span class="nav-text">1.2.1. 隔离级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-2-死锁"><span class="nav-text">1.2.2. 死锁</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-1-被动检测"><span class="nav-text">1.2.2.1. 被动检测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-2-主动检测"><span class="nav-text">1.2.2.2. 主动检测</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-3-事务日志"><span class="nav-text">1.2.3. 事务日志</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-多版本并发控制"><span class="nav-text">1.3. 多版本并发控制</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-MySQL-数据库设计"><span class="nav-text">2. MySQL 数据库设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-选择合适的数据类型"><span class="nav-text">2.1. 选择合适的数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-整型"><span class="nav-text">2.1.1. 整型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2-实数类型"><span class="nav-text">2.1.2. 实数类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-3-字符串类型"><span class="nav-text">2.1.3. 字符串类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-1-VARCHAR-和-CHAR-类型"><span class="nav-text">2.1.3.1. VARCHAR 和 CHAR 类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-2-BLOB-和-TEXT-类型"><span class="nav-text">2.1.3.2 BLOB 和 TEXT 类型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-4-日期是时间类型"><span class="nav-text">2.1.4. 日期是时间类型</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-高性能索引"><span class="nav-text">3. 高性能索引</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-索引类型"><span class="nav-text">3.1. 索引类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-1-B-树索引"><span class="nav-text">3.1.1. B 树索引</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
