@@ -99,18 +99,23 @@
 
 
 
-  <meta name="description" content="1. 简介">
+  <meta name="description" content="1. 简介2. Hadoop 安装2.1 JDK 安装配置可以在 Oracle 官网或者直接使用 wget 命令下载 1wget --no-check-certificate --no-cookies --header &quot;Cookie: oraclelicense=accept-securebackup-cookie&quot; http://download.oracle.com/otn-pub/java">
 <meta name="keywords" content="Hadoop">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hadoop基础">
 <meta property="og:url" content="https://destinywang.github.io/blog/2019/04/21/Hadoop基础/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1. 简介">
+<meta property="og:description" content="1. 简介2. Hadoop 安装2.1 JDK 安装配置可以在 Oracle 官网或者直接使用 wget 命令下载 1wget --no-check-certificate --no-cookies --header &quot;Cookie: oraclelicense=accept-securebackup-cookie&quot; http://download.oracle.com/otn-pub/java">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-27T10:23:53.850Z">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/56851599-89f87e80-6943-11e9-8b32-2453360ffef9.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/56851719-ef993a80-6944-11e9-93ab-bc181fe1c5ee.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/56866098-2b490880-6a08-11e9-8e16-29f651ccc7a3.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/56866210-4c5e2900-6a09-11e9-8587-949e514572eb.png">
+<meta property="og:updated_time" content="2019-04-28T15:13:31.428Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop基础">
-<meta name="twitter:description" content="1. 简介">
+<meta name="twitter:description" content="1. 简介2. Hadoop 安装2.1 JDK 安装配置可以在 Oracle 官网或者直接使用 wget 命令下载 1wget --no-check-certificate --no-cookies --header &quot;Cookie: oraclelicense=accept-securebackup-cookie&quot; http://download.oracle.com/otn-pub/java">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/17758731/56851599-89f87e80-6943-11e9-8b32-2453360ffef9.png">
 
 
 
@@ -453,7 +458,40 @@
       
 
       
-        <h1 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h1>
+        <h1 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h1><h1 id="2-Hadoop-安装"><a href="#2-Hadoop-安装" class="headerlink" title="2. Hadoop 安装"></a>2. Hadoop 安装</h1><h2 id="2-1-JDK-安装配置"><a href="#2-1-JDK-安装配置" class="headerlink" title="2.1 JDK 安装配置"></a>2.1 JDK 安装配置</h2><p>可以在 Oracle 官网或者直接使用 wget 命令下载</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate --no-cookies --header <span class="string">"Cookie: oraclelicense=accept-securebackup-cookie"</span> http://download.oracle.com/otn-pub/java/jdk/8u65-b17/jdk-8u65-linux-x64.tar.gz</span><br></pre></td></tr></table></figure>
+<p>使用 <code>tar -zxvf</code> 完成解压</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/56851599-89f87e80-6943-11e9-8b32-2453360ffef9.png" alt="image"></p>
+<p>再将路径 (<code>/usr/soft/jdk1.8.0_65</code>) 配置到 <code>etc/enviroment</code> 路径下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 给 path 新增 JDK 的 bin 路径</span><br><span class="line">PATH=&quot;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/soft/jdk1.8.0_65/bin&quot;</span><br><span class="line"></span><br><span class="line"># jdk 路径</span><br><span class="line">JAVA_HOME=/usr/soft/jdk1.8.0_65</span><br></pre></td></tr></table></figure>
+<p><img src="https://user-images.githubusercontent.com/17758731/56851719-ef993a80-6944-11e9-93ab-bc181fe1c5ee.png" alt="image"></p>
+<p>经此验证, 已经成功安装并配置 JDK</p>
+<h2 id="2-2-Hadoop-安装配置"><a href="#2-2-Hadoop-安装配置" class="headerlink" title="2.2 Hadoop 安装配置"></a>2.2 Hadoop 安装配置</h2><p>在 Apache 官网下载压缩包并解压:</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/56866098-2b490880-6a08-11e9-8e16-29f651ccc7a3.png" alt="image"></p>
+<p>在 <code>/etc/enviroment</code> 文件中配置环境变量</p>
+<pre><code>PATH=&quot;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/soft/jdk1.8.0_65/bin:/usr/soft/hadoop-2.7.7/bin:/usr/soft/hadoop-2.7.7/sbin&quot;
+JAVA_HOME=/usr/soft/jdk1.8.0_65
+HADOOP_INSTALL=/usr/soft/hadoop-2.7.7
+</code></pre><p>在输入 <code>hadoop version</code> 即可看到输出:</p>
+<pre><code>destiny@destiny-Parallels-Virtual-Platform:/etc$ hadoop version
+Hadoop 2.7.7
+Subversion Unknown -r c1aad84bd27cd79c3d1a7dd58202a8c3ee1ed3ac
+Compiled by stevel on 2018-07-18T22:47Z
+Compiled with protoc 2.5.0
+From source with checksum 792e15d20b12c74bd6f19a1fb886490
+This command was run using /usr/soft/hadoop-2.7.7/share/hadoop/common/hadoop-common-2.7.7.jar
+destiny@destiny-Parallels-Virtual-Platform:/etc$ 
+</code></pre><p><img src="https://user-images.githubusercontent.com/17758731/56866210-4c5e2900-6a09-11e9-8587-949e514572eb.png" alt="image"></p>
+<h1 id="3-Hadoop-配置"><a href="#3-Hadoop-配置" class="headerlink" title="3. Hadoop 配置"></a>3. Hadoop 配置</h1><p>Hadoop 的配置都是 XML 文件的方式完成, 通用配置都在 <code>core-site.xml</code> 中, HDFS, MapReduce 和 YARN 都有对应的 <code>hdfs-site.xml</code>, <code>mapred-site.xml</code> 以及 <code>yarn-site.xml</code>.</p>
+<p>Hadoop 的设计的目的在于处理海量数据, 其主要内容包括数据的存储以及运算, 存储使用 HDFS 实现, 运算使用 MapReduce 编程模型实现.</p>
+<p>Hadoop 有三种配置方式:</p>
+<ol>
+<li>独立模式: 没有守护程序, 所有程序都运行在一个单独的 JVM 之上, 独立模式适合在开发期间运行 MapReduce 程序, 方便调试和测试.</li>
+<li>伪分布式: Hadoop 守护程序运行在本地机器上, 会模拟一个小规模的集群.</li>
+<li>完全分布式: 运行在集群的不同机器上.</li>
+</ol>
+<h2 id="3-1-独立模式"><a href="#3-1-独立模式" class="headerlink" title="3.1 独立模式"></a>3.1 独立模式</h2><p>在独立模式下不需要进行额外的配置, 所有默认的属性都是针对独立模式的, 也没有守护程序运行, 独立模式下使用的文件系统是 <code>Local File System</code> 和 <code>Local MR job runner</code>.</p>
+
       
     </div>
 
@@ -731,7 +769,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-简介"><span class="nav-text">1. 简介</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-简介"><span class="nav-text">1. 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Hadoop-安装"><span class="nav-text">2. Hadoop 安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-JDK-安装配置"><span class="nav-text">2.1 JDK 安装配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Hadoop-安装配置"><span class="nav-text">2.2 Hadoop 安装配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Hadoop-配置"><span class="nav-text">3. Hadoop 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-独立模式"><span class="nav-text">3.1 独立模式</span></a></li></ol></li></ol></div>
             
 
           </div>
