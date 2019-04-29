@@ -111,7 +111,10 @@
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/56851719-ef993a80-6944-11e9-93ab-bc181fe1c5ee.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/56866098-2b490880-6a08-11e9-8e16-29f651ccc7a3.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/56866210-4c5e2900-6a09-11e9-8587-949e514572eb.png">
-<meta property="og:updated_time" content="2019-04-28T15:13:31.428Z">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/56866418-6d277e00-6a0b-11e9-9e87-832ec82a11f6.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/56905677-3cab1700-6ad3-11e9-93bf-b7274eca76ca.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/56906117-2baed580-6ad4-11e9-98b3-f0b1a8b24d94.png">
+<meta property="og:updated_time" content="2019-04-29T15:26:04.852Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop基础">
 <meta name="twitter:description" content="1. 简介2. Hadoop 安装2.1 JDK 安装配置可以在 Oracle 官网或者直接使用 wget 命令下载 1wget --no-check-certificate --no-cookies --header &quot;Cookie: oraclelicense=accept-securebackup-cookie&quot; http://download.oracle.com/otn-pub/java">
@@ -490,7 +493,78 @@ destiny@destiny-Parallels-Virtual-Platform:/etc$
 <li>伪分布式: Hadoop 守护程序运行在本地机器上, 会模拟一个小规模的集群.</li>
 <li>完全分布式: 运行在集群的不同机器上.</li>
 </ol>
+<p>当需要运行某个模式的 Hadoop 时, 需要设置适当的配置, 以及启动守护进程(独立模式除外), 不同模式见的配置如下:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">配置文件</th>
+<th style="text-align:center">属性</th>
+<th style="text-align:center">独立模式值</th>
+<th style="text-align:center">伪分布式值</th>
+<th style="text-align:center">完全分布式值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">core</td>
+<td style="text-align:center">fs.defaultFS</td>
+<td style="text-align:center">file:///(默认值)</td>
+<td style="text-align:center">hdfs://localhost/</td>
+<td style="text-align:center">hdfs://namenode</td>
+</tr>
+<tr>
+<td style="text-align:center">HDFS</td>
+<td style="text-align:center">dfs.replication</td>
+<td style="text-align:center">N/A</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">3(默认值)</td>
+</tr>
+<tr>
+<td style="text-align:center">MapReduce</td>
+<td style="text-align:center">mapreduce.framework.name</td>
+<td style="text-align:center">local(默认值)</td>
+<td style="text-align:center">yarn</td>
+<td style="text-align:center">yarn</td>
+</tr>
+<tr>
+<td style="text-align:center">yarn</td>
+<td style="text-align:center">yarn.resourcemanager.hostname<br>yarn.nodemanager.aux-services</td>
+<td style="text-align:center">N/A<br>N/A</td>
+<td style="text-align:center">localhost <br> mapreduce_shuffle</td>
+<td style="text-align:center">resourcemanager <br> mapreduce_shuffle</td>
+</tr>
+</tbody>
+</table>
+<p>此外, Hadoop 的不同配置模式见可以共存, 只需用不同的目录存放配置文件即可, 启动的时候可以通过如下两种方式来指定配置文件:</p>
+<ol>
+<li>设置 <code>HADOOP_CONF_DIR</code> 环境变量</li>
+<li>通过 <code>--config</code> 选项来指定</li>
+</ol>
 <h2 id="3-1-独立模式"><a href="#3-1-独立模式" class="headerlink" title="3.1 独立模式"></a>3.1 独立模式</h2><p>在独立模式下不需要进行额外的配置, 所有默认的属性都是针对独立模式的, 也没有守护程序运行, 独立模式下使用的文件系统是 <code>Local File System</code> 和 <code>Local MR job runner</code>.</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/56866418-6d277e00-6a0b-11e9-9e87-832ec82a11f6.png" alt="image"></p>
+<p>可以看到, 独立模式下使用 <code>hadoop fs -ls</code> 显示的就是本机的根路径文件</p>
+<h2 id="3-2-伪分布式"><a href="#3-2-伪分布式" class="headerlink" title="3.2 伪分布式"></a>3.2 伪分布式</h2><h3 id="3-2-1-配置文件"><a href="#3-2-1-配置文件" class="headerlink" title="3.2.1 配置文件"></a>3.2.1 配置文件</h3><p>在伪分布式环境下, 需要配置如下文件:</p>
+<ol>
+<li><p>core-site.xml(核心站点)</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.defaultFS<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://localhost/<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>hdfs-site.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.replication<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>1<span class="tag">&lt;/<span class="name">value</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>mapred-site.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.framework.name<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- yarn 是一个 MapReduce 框架, 2.0 版本以上开始引入 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>yarn<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>yarn-site.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>localhost<span class="tag">&lt;/<span class="name">value</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.aux-services<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>mapreduce_shuffle<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>初始状态下, 这些配置文件中都是空值, 需要根据使用者的自身情况去配置以完成不同环境的搭建.</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/56905677-3cab1700-6ad3-11e9-93bf-b7274eca76ca.png" alt="image"></p>
+<p>我们将 <code>$HADOOP_INSTALL/etc/hadoop</code> 文件夹拷贝一份, 用作伪分布式的配置</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/56906117-2baed580-6ad4-11e9-98b3-f0b1a8b24d94.png" alt="image"></p>
+<p>然后依次将上文提到的四个配置文件修改成指定的配置方式</p>
+<h3 id="3-2-2-配置-SSH"><a href="#3-2-2-配置-SSH" class="headerlink" title="3.2.2 配置 SSH"></a>3.2.2 配置 SSH</h3><p>在伪分布式下, 必须要启动守护进程, 启动守护进程就需要使用提供的启动脚本, Hadoop 并不严格区分伪分布式和完全分布式, 只是在目标主机上启动守护进程, 通过 SSH 命令让主机之间相互通信, 而且要启动守护进程. </p>
+<p>伪分布式只是完全分布式的一个特例, 是一个在单个主机上运行 Hadoop 完全分布式的场景, 因此我们需要确保能够通过 SSH 命令登录本机, 而不需要通过输入密码.</p>
 
       
     </div>
@@ -769,7 +843,7 @@ destiny@destiny-Parallels-Virtual-Platform:/etc$
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-简介"><span class="nav-text">1. 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Hadoop-安装"><span class="nav-text">2. Hadoop 安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-JDK-安装配置"><span class="nav-text">2.1 JDK 安装配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Hadoop-安装配置"><span class="nav-text">2.2 Hadoop 安装配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Hadoop-配置"><span class="nav-text">3. Hadoop 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-独立模式"><span class="nav-text">3.1 独立模式</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-简介"><span class="nav-text">1. 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Hadoop-安装"><span class="nav-text">2. Hadoop 安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-JDK-安装配置"><span class="nav-text">2.1 JDK 安装配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Hadoop-安装配置"><span class="nav-text">2.2 Hadoop 安装配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Hadoop-配置"><span class="nav-text">3. Hadoop 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-独立模式"><span class="nav-text">3.1 独立模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-伪分布式"><span class="nav-text">3.2 伪分布式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-配置文件"><span class="nav-text">3.2.1 配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-配置-SSH"><span class="nav-text">3.2.2 配置 SSH</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
