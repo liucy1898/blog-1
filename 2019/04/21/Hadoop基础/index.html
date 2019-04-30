@@ -114,7 +114,12 @@
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/56866418-6d277e00-6a0b-11e9-9e87-832ec82a11f6.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/56905677-3cab1700-6ad3-11e9-93bf-b7274eca76ca.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/56906117-2baed580-6ad4-11e9-98b3-f0b1a8b24d94.png">
-<meta property="og:updated_time" content="2019-04-29T15:26:04.852Z">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/56973756-0f786a80-6ba0-11e9-852e-47688237b2be.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/56974348-426f2e00-6ba1-11e9-9de9-8927285be487.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/56974786-1a33ff00-6ba2-11e9-9575-a52c554de287.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/56975718-f83b7c00-6ba3-11e9-8880-1c968d4d8dbd.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/56976335-50bf4900-6ba5-11e9-9f11-61b04f473601.png">
+<meta property="og:updated_time" content="2019-04-30T17:50:38.388Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop基础">
 <meta name="twitter:description" content="1. 简介2. Hadoop 安装2.1 JDK 安装配置可以在 Oracle 官网或者直接使用 wget 命令下载 1wget --no-check-certificate --no-cookies --header &quot;Cookie: oraclelicense=accept-securebackup-cookie&quot; http://download.oracle.com/otn-pub/java">
@@ -565,6 +570,34 @@ destiny@destiny-Parallels-Virtual-Platform:/etc$
 <p>然后依次将上文提到的四个配置文件修改成指定的配置方式</p>
 <h3 id="3-2-2-配置-SSH"><a href="#3-2-2-配置-SSH" class="headerlink" title="3.2.2 配置 SSH"></a>3.2.2 配置 SSH</h3><p>在伪分布式下, 必须要启动守护进程, 启动守护进程就需要使用提供的启动脚本, Hadoop 并不严格区分伪分布式和完全分布式, 只是在目标主机上启动守护进程, 通过 SSH 命令让主机之间相互通信, 而且要启动守护进程. </p>
 <p>伪分布式只是完全分布式的一个特例, 是一个在单个主机上运行 Hadoop 完全分布式的场景, 因此我们需要确保能够通过 SSH 命令登录本机, 而不需要通过输入密码.</p>
+<p>在 ubuntu 上可以通过 <code>sudo apt-get install ssh</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install ssh                  <span class="comment"># 安装 ssh</span></span><br><span class="line">$ ssh-keygen -t rsa -P <span class="string">''</span> -f ~/.ssh/id_rsa  <span class="comment"># 生成公钥和私钥, -P '' 代表指定密码为空</span></span><br><span class="line">$ cat id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys  <span class="comment"># 将公钥配置给 authorized_keys, 用来实现免密登陆</span></span><br><span class="line">$ ssh localhost                             <span class="comment"># 第一次yes</span></span><br><span class="line">$ yes</span><br><span class="line">$ ssh localhost                             <span class="comment"># 第二次不需要口令</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://user-images.githubusercontent.com/17758731/56973756-0f786a80-6ba0-11e9-852e-47688237b2be.png" alt="image"></p>
+<h3 id="3-2-3-使用-HDFS"><a href="#3-2-3-使用-HDFS" class="headerlink" title="3.2.3 使用 HDFS"></a>3.2.3 使用 HDFS</h3><p>首先需要对文件系统进行格式化</p>
+<pre><code>hdfs namenode -format
+</code></pre><p>然后就可以启动守护进程</p>
+<h4 id="3-2-3-1-启动"><a href="#3-2-3-1-启动" class="headerlink" title="3.2.3.1 启动"></a>3.2.3.1 启动</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># </span></span><br><span class="line">start-dfs.sh --config <span class="variable">$HADOOP_INSTALL</span>/etc/hadoop_pseudo</span><br></pre></td></tr></table></figure>
+<p><img src="https://user-images.githubusercontent.com/17758731/56974348-426f2e00-6ba1-11e9-9de9-8927285be487.png" alt="image"></p>
+<h4 id="3-2-3-2-启动-yarn"><a href="#3-2-3-2-启动-yarn" class="headerlink" title="3.2.3.2 启动 yarn"></a>3.2.3.2 启动 yarn</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># </span></span><br><span class="line">start-yarn.sh --config <span class="variable">$HADOOP_INSTALL</span>/etc/hadoop_pseudo</span><br></pre></td></tr></table></figure>
+<p><img src="https://user-images.githubusercontent.com/17758731/56974786-1a33ff00-6ba2-11e9-9575-a52c554de287.png" alt="image"></p>
+<p>此时可以通过 jps 查看:</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/56975718-f83b7c00-6ba3-11e9-8880-1c968d4d8dbd.png" alt="image"></p>
+<ul>
+<li>其中 ResourceManager 和 NodeManager 由 Yarn 提供</li>
+<li>NameNode, DataNode, SecondaryNameNode 由 HDFS 提供</li>
+</ul>
+<p>可以使用如下命令停止 Hadoop<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">stop-yarn.sh</span><br><span class="line">stop-dfs.sh</span><br></pre></td></tr></table></figure></p>
+<p>通过设置环境变量, 可以不再需要借助 –config</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> HADOOP_CONF_DIR=/usr/soft/hadoop-2.7.7/etc/hadoop_pseudo</span><br></pre></td></tr></table></figure>
+<p>此时再使用 <code>hadoop fs -ls /</code> 就已经没有结果显示</p>
+<p>我们可以像使用 Linux 系统类似的命令去操作 HDFS, 下图展示一个创建文件夹的操作</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/56976335-50bf4900-6ba5-11e9-9f11-61b04f473601.png" alt="image"></p>
+<h2 id="3-3-完全分布式"><a href="#3-3-完全分布式" class="headerlink" title="3.3 完全分布式"></a>3.3 完全分布式</h2><ol>
+<li><p>在 /etc/passwd 修改登录提示消息</p>
+</li>
+<li><p>在 /etc/hostname 中修改主机名</p>
+</li>
+</ol>
 
       
     </div>
@@ -843,7 +876,7 @@ destiny@destiny-Parallels-Virtual-Platform:/etc$
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-简介"><span class="nav-text">1. 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Hadoop-安装"><span class="nav-text">2. Hadoop 安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-JDK-安装配置"><span class="nav-text">2.1 JDK 安装配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Hadoop-安装配置"><span class="nav-text">2.2 Hadoop 安装配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Hadoop-配置"><span class="nav-text">3. Hadoop 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-独立模式"><span class="nav-text">3.1 独立模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-伪分布式"><span class="nav-text">3.2 伪分布式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-配置文件"><span class="nav-text">3.2.1 配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-配置-SSH"><span class="nav-text">3.2.2 配置 SSH</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-简介"><span class="nav-text">1. 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Hadoop-安装"><span class="nav-text">2. Hadoop 安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-JDK-安装配置"><span class="nav-text">2.1 JDK 安装配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Hadoop-安装配置"><span class="nav-text">2.2 Hadoop 安装配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Hadoop-配置"><span class="nav-text">3. Hadoop 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-独立模式"><span class="nav-text">3.1 独立模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-伪分布式"><span class="nav-text">3.2 伪分布式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-配置文件"><span class="nav-text">3.2.1 配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-配置-SSH"><span class="nav-text">3.2.2 配置 SSH</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-3-使用-HDFS"><span class="nav-text">3.2.3 使用 HDFS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-3-1-启动"><span class="nav-text">3.2.3.1 启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-3-2-启动-yarn"><span class="nav-text">3.2.3.2 启动 yarn</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-完全分布式"><span class="nav-text">3.3 完全分布式</span></a></li></ol></li></ol></div>
             
 
           </div>
