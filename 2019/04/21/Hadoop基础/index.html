@@ -126,7 +126,8 @@
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/57019091-021eb700-6c58-11e9-903b-4aa941551f75.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/57019992-9be76380-6c5a-11e9-8048-d55108068731.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/57020332-8aeb2200-6c5b-11e9-8075-2ffaebfd3096.png">
-<meta property="og:updated_time" content="2019-05-02T01:29:08.148Z">
+<meta property="og:image" content="http://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/images/hdfsarchitecture.png">
+<meta property="og:updated_time" content="2019-05-02T01:55:28.674Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop基础">
 <meta name="twitter:description" content="1. 简介2. Hadoop 安装2.1 JDK 安装配置可以在 Oracle 官网或者直接使用 wget 命令下载 1wget --no-check-certificate --no-cookies --header &quot;Cookie: oraclelicense=accept-securebackup-cookie&quot; http://download.oracle.com/otn-pub/java">
@@ -675,6 +676,25 @@ destiny@destiny-Parallels-Virtual-Platform:/etc$
 <p>可以看一下此时集群上所有节点的 Java 进程状态</p>
 <p><img src="https://user-images.githubusercontent.com/17758731/57020332-8aeb2200-6c5b-11e9-8075-2ffaebfd3096.png" alt="image"></p>
 <p>此时我们已经完成了 Hadoop 完全分布式配置.</p>
+<h1 id="4-架构分析"><a href="#4-架构分析" class="headerlink" title="4. 架构分析"></a>4. 架构分析</h1><h2 id="4-1-HDFS-架构分析"><a href="#4-1-HDFS-架构分析" class="headerlink" title="4.1 HDFS 架构分析"></a>4.1 HDFS 架构分析</h2><p>Hadoop 分布式文件系统</p>
+<ul>
+<li>按需定制 MapReduce(Map + Reduce 处理大量纯文本)</li>
+<li>目标在于多次的文件流读取(适用于一次写入多次读取)</li>
+<li>写入成本高</li>
+<li>高度数据冗余(副本数量默认为 3)</li>
+<li>每个节点不需要 RAID(独立磁盘冗余阵列, 将读写分散在多个硬盘中, 提高吞吐量. 常见等级有 RAID-0, RAID-1, RAID-5, RAID-10)</li>
+<li>BlockSize 比较大(默认 128M)</li>
+<li>定制节点的位置感知</li>
+</ul>
+<p>对 Hadoop 文件系统来说, 首先会将文件切割成 128M 的 BlockSize, 然后再将每个 Block 冗余三份, 存放在不同的 DataNode 之上.</p>
+<p><img src="http://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/images/hdfsarchitecture.png" alt="image"></p>
+<h2 id="4-2-NameNode-amp-DataNode"><a href="#4-2-NameNode-amp-DataNode" class="headerlink" title="4.2 NameNode &amp; DataNode"></a>4.2 NameNode &amp; DataNode</h2><p>NameNode</p>
+<ul>
+<li>存储文件元数据, 比如目录结构</li>
+<li>运行 NameNode 的服务器至关重要, 只有 1 个</li>
+<li>只对元首的增删改查做日志记录, 不对 Block 和文件流做记录</li>
+<li>DataNode 故障时, 负责创建更多的副本 Block</li>
+</ul>
 
       
     </div>
@@ -953,7 +973,7 @@ destiny@destiny-Parallels-Virtual-Platform:/etc$
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-简介"><span class="nav-text">1. 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Hadoop-安装"><span class="nav-text">2. Hadoop 安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-JDK-安装配置"><span class="nav-text">2.1 JDK 安装配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Hadoop-安装配置"><span class="nav-text">2.2 Hadoop 安装配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Hadoop-配置"><span class="nav-text">3. Hadoop 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-独立模式"><span class="nav-text">3.1 独立模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-伪分布式"><span class="nav-text">3.2 伪分布式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-配置文件"><span class="nav-text">3.2.1 配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-配置-SSH"><span class="nav-text">3.2.2 配置 SSH</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-3-使用-HDFS"><span class="nav-text">3.2.3 使用 HDFS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-3-1-启动"><span class="nav-text">3.2.3.1 启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-3-2-启动-yarn"><span class="nav-text">3.2.3.2 启动 yarn</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-完全分布式"><span class="nav-text">3.3 完全分布式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-1-准备工作"><span class="nav-text">3.3.1 准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-2-集群模式配置"><span class="nav-text">3.3.2 集群模式配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-1-core-site-xml"><span class="nav-text">3.3.2.1 core-site.xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-2-hdfs-site-xml"><span class="nav-text">3.3.2.2 hdfs-site.xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-4-yarn-site-xml"><span class="nav-text">3.3.2.4 yarn-site.xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-5-slaves"><span class="nav-text">3.3.2.5 slaves</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-简介"><span class="nav-text">1. 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Hadoop-安装"><span class="nav-text">2. Hadoop 安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-JDK-安装配置"><span class="nav-text">2.1 JDK 安装配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Hadoop-安装配置"><span class="nav-text">2.2 Hadoop 安装配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Hadoop-配置"><span class="nav-text">3. Hadoop 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-独立模式"><span class="nav-text">3.1 独立模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-伪分布式"><span class="nav-text">3.2 伪分布式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-配置文件"><span class="nav-text">3.2.1 配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-配置-SSH"><span class="nav-text">3.2.2 配置 SSH</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-3-使用-HDFS"><span class="nav-text">3.2.3 使用 HDFS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-3-1-启动"><span class="nav-text">3.2.3.1 启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-3-2-启动-yarn"><span class="nav-text">3.2.3.2 启动 yarn</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-完全分布式"><span class="nav-text">3.3 完全分布式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-1-准备工作"><span class="nav-text">3.3.1 准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-2-集群模式配置"><span class="nav-text">3.3.2 集群模式配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-1-core-site-xml"><span class="nav-text">3.3.2.1 core-site.xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-2-hdfs-site-xml"><span class="nav-text">3.3.2.2 hdfs-site.xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-4-yarn-site-xml"><span class="nav-text">3.3.2.4 yarn-site.xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-5-slaves"><span class="nav-text">3.3.2.5 slaves</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-架构分析"><span class="nav-text">4. 架构分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-HDFS-架构分析"><span class="nav-text">4.1 HDFS 架构分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-NameNode-amp-DataNode"><span class="nav-text">4.2 NameNode &amp; DataNode</span></a></li></ol></li></ol></div>
             
 
           </div>
