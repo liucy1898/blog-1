@@ -127,7 +127,7 @@
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/57019992-9be76380-6c5a-11e9-8048-d55108068731.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/57020332-8aeb2200-6c5b-11e9-8075-2ffaebfd3096.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/57053421-7c832180-6cc0-11e9-9ac0-cad53ca1ae99.png">
-<meta property="og:updated_time" content="2019-05-02T15:40:44.952Z">
+<meta property="og:updated_time" content="2019-05-04T15:25:01.168Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop基础">
 <meta name="twitter:description" content="1. 简介2. Hadoop 安装2.1 JDK 安装配置可以在 Oracle 官网或者直接使用 wget 命令下载 1wget --no-check-certificate --no-cookies --header &quot;Cookie: oraclelicense=accept-securebackup-cookie&quot; http://download.oracle.com/otn-pub/java">
@@ -688,14 +688,27 @@ destiny@destiny-Parallels-Virtual-Platform:/etc$
 </ul>
 <p>对 Hadoop 文件系统来说, 首先会将文件切割成 128M 的 BlockSize, 然后再将每个 Block 冗余三份, 存放在不同的 DataNode 之上.</p>
 <p><img src="https://user-images.githubusercontent.com/17758731/57053421-7c832180-6cc0-11e9-9ac0-cad53ca1ae99.png" alt="image"></p>
-<h2 id="4-2-NameNode-amp-DataNode"><a href="#4-2-NameNode-amp-DataNode" class="headerlink" title="4.2 NameNode &amp; DataNode"></a>4.2 NameNode &amp; DataNode</h2><p>NameNode</p>
+<h3 id="4-1-1-特点"><a href="#4-1-1-特点" class="headerlink" title="4.1.1 特点"></a>4.1.1 特点</h3><ol>
+<li>Hadoop 能够存储超大规格的文件(PB 级别)</li>
+<li>一次写入, 多次读取的模式是最高效的, 一个数据集通常由数据源生成或复制.</li>
+<li>Hadoop 不需要运行在昂贵并且高可靠的机器上, 普通的商用硬件即可满足需求.</li>
+</ol>
+<p>同时, Hadoop 依然存在不适用的场景:</p>
+<ol>
+<li>低延迟数据访问: 往往 HDFS 无法满足毫秒级的数据访问延迟, HDFS 主要是为高吞吐量而设计和优化. 低延迟的访问场景下, 往往 HBase 是更好的选择.</li>
+<li>大量小文件: NameNode 存储着文件系统的元数据, 因此文件数量的限制也由 NameNode 内存量决定. 每个文件的索引目录通常占 150 个字节.</li>
+<li>随机写: HDFS 中的文件只有一个写入者, 并且写操作总是作用在文件的末尾(追加).</li>
+</ol>
+<h2 id="4-2-NameNode"><a href="#4-2-NameNode" class="headerlink" title="4.2 NameNode"></a>4.2 NameNode</h2><p>客户端通过 NameNode 和 DataNode 交互来访问整个文件系统, 客户端提供一个类似 POSIX(可移植操作系统界面) 的文件系统接口, 用户在编程时不需要知道名称节点和数据节点及其功能.</p>
+<p>NameNode 管理文件系统的命名空间, 维护着这个文件系统数内所有的文件和索引信息. 这些信息以<code>命名空间镜像</code>和<code>编辑日志</code>的形式永久保存在磁盘. NameNode 也记录着每个文件的每个块所在的数据节点, 但它并不永久保存块的位置, 因为这些信息会在系统启动的时候有 DataNode 重建.</p>
 <ul>
 <li>存储文件元数据, 比如目录结构</li>
 <li>运行 NameNode 的服务器至关重要, 只有 1 个</li>
-<li>只对元首的增删改查做日志记录, 不对 Block 和文件流做记录</li>
+<li>只对元数据的增删改查做日志记录, 不对 Block 和文件流做记录</li>
 <li>DataNode 故障时, 负责创建更多的副本 Block</li>
 </ul>
-
+<h2 id="4-3-DataNode"><a href="#4-3-DataNode" class="headerlink" title="4.3 DataNode"></a>4.3 DataNode</h2><p>数据节点时文件系统的工作者, 它们存储并提供定位块的服务, 并且定时向NameNode 发送他们存储的快的列表.</p>
+<h2 id="4-4-start-all-sh-启动分析"><a href="#4-4-start-all-sh-启动分析" class="headerlink" title="4.4 start-all.sh 启动分析"></a>4.4 start-all.sh 启动分析</h2>
       
     </div>
 
@@ -973,7 +986,7 @@ destiny@destiny-Parallels-Virtual-Platform:/etc$
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-简介"><span class="nav-text">1. 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Hadoop-安装"><span class="nav-text">2. Hadoop 安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-JDK-安装配置"><span class="nav-text">2.1 JDK 安装配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Hadoop-安装配置"><span class="nav-text">2.2 Hadoop 安装配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Hadoop-配置"><span class="nav-text">3. Hadoop 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-独立模式"><span class="nav-text">3.1 独立模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-伪分布式"><span class="nav-text">3.2 伪分布式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-配置文件"><span class="nav-text">3.2.1 配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-配置-SSH"><span class="nav-text">3.2.2 配置 SSH</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-3-使用-HDFS"><span class="nav-text">3.2.3 使用 HDFS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-3-1-启动"><span class="nav-text">3.2.3.1 启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-3-2-启动-yarn"><span class="nav-text">3.2.3.2 启动 yarn</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-完全分布式"><span class="nav-text">3.3 完全分布式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-1-准备工作"><span class="nav-text">3.3.1 准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-2-集群模式配置"><span class="nav-text">3.3.2 集群模式配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-1-core-site-xml"><span class="nav-text">3.3.2.1 core-site.xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-2-hdfs-site-xml"><span class="nav-text">3.3.2.2 hdfs-site.xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-4-yarn-site-xml"><span class="nav-text">3.3.2.4 yarn-site.xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-5-slaves"><span class="nav-text">3.3.2.5 slaves</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-架构分析"><span class="nav-text">4. 架构分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-HDFS-架构分析"><span class="nav-text">4.1 HDFS 架构分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-NameNode-amp-DataNode"><span class="nav-text">4.2 NameNode &amp; DataNode</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-简介"><span class="nav-text">1. 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Hadoop-安装"><span class="nav-text">2. Hadoop 安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-JDK-安装配置"><span class="nav-text">2.1 JDK 安装配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Hadoop-安装配置"><span class="nav-text">2.2 Hadoop 安装配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Hadoop-配置"><span class="nav-text">3. Hadoop 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-独立模式"><span class="nav-text">3.1 独立模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-伪分布式"><span class="nav-text">3.2 伪分布式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-配置文件"><span class="nav-text">3.2.1 配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-配置-SSH"><span class="nav-text">3.2.2 配置 SSH</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-3-使用-HDFS"><span class="nav-text">3.2.3 使用 HDFS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-3-1-启动"><span class="nav-text">3.2.3.1 启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-3-2-启动-yarn"><span class="nav-text">3.2.3.2 启动 yarn</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-完全分布式"><span class="nav-text">3.3 完全分布式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-1-准备工作"><span class="nav-text">3.3.1 准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-2-集群模式配置"><span class="nav-text">3.3.2 集群模式配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-1-core-site-xml"><span class="nav-text">3.3.2.1 core-site.xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-2-hdfs-site-xml"><span class="nav-text">3.3.2.2 hdfs-site.xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-4-yarn-site-xml"><span class="nav-text">3.3.2.4 yarn-site.xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-5-slaves"><span class="nav-text">3.3.2.5 slaves</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-架构分析"><span class="nav-text">4. 架构分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-HDFS-架构分析"><span class="nav-text">4.1 HDFS 架构分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-1-特点"><span class="nav-text">4.1.1 特点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-NameNode"><span class="nav-text">4.2 NameNode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-DataNode"><span class="nav-text">4.3 DataNode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-start-all-sh-启动分析"><span class="nav-text">4.4 start-all.sh 启动分析</span></a></li></ol></li></ol></div>
             
 
           </div>
