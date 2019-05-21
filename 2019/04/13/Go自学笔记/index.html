@@ -99,19 +99,19 @@
 
 
 
-  <meta name="description" content="新开的坑, 记录自学过程, 按照自己的学习顺序会一点一点补上 1. 变量1.1 指针 基本数据类型, 变量存储的是值类型 通过 &amp;amp; 获取变量的地址 指针类型中变量存储的是一个地址, 这个地址指向的空间才是真正的值  12num := 8ptr *int := &amp;amp;num 2. 函数2.1 闭包闭包就是一个函数和与其相关的引用环境组合的一个整体 1234567891011121314f">
+  <meta name="description" content="新开的坑, 记录自学过程, 按照自己的学习顺序会一点一点补上 1. golang 工具链1.1 go 工具/命令go 自带一系列强大的命令, 其通用格式是 go command [arguments] 具体命令有:    命令 功能 备注     build compile packages and dependencies 最常用的命令之一, 编译 go 文件   isntall compile">
 <meta name="keywords" content="Go">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Go自学笔记">
 <meta property="og:url" content="https://destinywang.github.io/blog/2019/04/13/Go自学笔记/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="新开的坑, 记录自学过程, 按照自己的学习顺序会一点一点补上 1. 变量1.1 指针 基本数据类型, 变量存储的是值类型 通过 &amp;amp; 获取变量的地址 指针类型中变量存储的是一个地址, 这个地址指向的空间才是真正的值  12num := 8ptr *int := &amp;amp;num 2. 函数2.1 闭包闭包就是一个函数和与其相关的引用环境组合的一个整体 1234567891011121314f">
+<meta property="og:description" content="新开的坑, 记录自学过程, 按照自己的学习顺序会一点一点补上 1. golang 工具链1.1 go 工具/命令go 自带一系列强大的命令, 其通用格式是 go command [arguments] 具体命令有:    命令 功能 备注     build compile packages and dependencies 最常用的命令之一, 编译 go 文件   isntall compile">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/56094557-0b91ea80-5f08-11e9-92cd-894f0975477e.png">
-<meta property="og:updated_time" content="2019-04-21T02:45:18.596Z">
+<meta property="og:updated_time" content="2019-05-21T15:35:33.770Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Go自学笔记">
-<meta name="twitter:description" content="新开的坑, 记录自学过程, 按照自己的学习顺序会一点一点补上 1. 变量1.1 指针 基本数据类型, 变量存储的是值类型 通过 &amp;amp; 获取变量的地址 指针类型中变量存储的是一个地址, 这个地址指向的空间才是真正的值  12num := 8ptr *int := &amp;amp;num 2. 函数2.1 闭包闭包就是一个函数和与其相关的引用环境组合的一个整体 1234567891011121314f">
+<meta name="twitter:description" content="新开的坑, 记录自学过程, 按照自己的学习顺序会一点一点补上 1. golang 工具链1.1 go 工具/命令go 自带一系列强大的命令, 其通用格式是 go command [arguments] 具体命令有:    命令 功能 备注     build compile packages and dependencies 最常用的命令之一, 编译 go 文件   isntall compile">
 <meta name="twitter:image" content="https://user-images.githubusercontent.com/17758731/56094557-0b91ea80-5f08-11e9-92cd-894f0975477e.png">
 
 
@@ -449,13 +449,62 @@
 
       
         <p>新开的坑, 记录自学过程, 按照自己的学习顺序会一点一点补上</p>
-<h1 id="1-变量"><a href="#1-变量" class="headerlink" title="1. 变量"></a>1. 变量</h1><h2 id="1-1-指针"><a href="#1-1-指针" class="headerlink" title="1.1 指针"></a>1.1 指针</h2><ol>
+<h1 id="1-golang-工具链"><a href="#1-golang-工具链" class="headerlink" title="1. golang 工具链"></a>1. golang 工具链</h1><h2 id="1-1-go-工具-命令"><a href="#1-1-go-工具-命令" class="headerlink" title="1.1 go 工具/命令"></a>1.1 go 工具/命令</h2><p>go 自带一系列强大的命令, 其通用格式是</p>
+<pre><code>go command [arguments]
+</code></pre><p>具体命令有:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">命令</th>
+<th style="text-align:center">功能</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">build</td>
+<td style="text-align:center">compile packages and dependencies</td>
+<td style="text-align:center">最常用的命令之一, 编译 go 文件</td>
+</tr>
+<tr>
+<td style="text-align:center">isntall</td>
+<td style="text-align:center">compile and install packages and dependencies</td>
+<td style="text-align:center">与 build 最大的区别是编译后会将输出文件打包成库放在 pkg 下</td>
+</tr>
+<tr>
+<td style="text-align:center">get</td>
+<td style="text-align:center">download and install packages and dependencies</td>
+<td style="text-align:center">获取 go 的第三方包, 通常默认从 git repo 上 pull 最新的版本</td>
+</tr>
+<tr>
+<td style="text-align:center">fmt</td>
+<td style="text-align:center">gofmt(reformat) package sources</td>
+<td style="text-align:center">统一代码风格和排版</td>
+</tr>
+<tr>
+<td style="text-align:center">test</td>
+<td style="text-align:center">test packages</td>
+<td style="text-align:center">运行当前包目录下的 tests, golang 中 test 文件的命名为: <code>main_test.go</code>, 一般以 <code>xxx_test.go</code> 命名</td>
+</tr>
+</tbody>
+</table>
+<h2 id="1-2-Test-写法"><a href="#1-2-Test-写法" class="headerlink" title="1.2 Test 写法"></a>1.2 Test 写法</h2><p>假设有 main.go<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Add</span><span class="params">(a <span class="keyword">int</span>, b <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>以及它的测试类 main_test.go<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">	<span class="string">"testing"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TestMain</span><span class="params">(m *testing.M)</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">"test main"</span>)</span><br><span class="line">	m.Run()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TestAdd</span><span class="params">(t *testing.T)</span></span> &#123;</span><br><span class="line">	res := Add(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">	<span class="keyword">if</span> res != <span class="number">3</span> &#123;</span><br><span class="line">		t.Errorf(<span class="string">"return value not valid"</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>每个 test 文件必须 import 一个 testing 包;</li>
+<li>test 文件下的每一个 test case 必须以 <code>Test</code> 开头并且符合 <code>TestXxx</code> 形式, 否则 go test 会直接跳过不执行. 其中 <code>Xxx</code> 一般约定为被测试的函数名;</li>
+<li><code>t.Errorf</code> 为打印错误信息, 并且当前 test case 会被跳过;</li>
+<li><code>t.SkipNow()</code> 为跳过当前 test, 并且直接按 PASS 处理下一个 test;</li>
+<li>Go 不会严格保证多个 Test 是顺序执行, 可以用 <code>t.Run</code> 来执行 subtests 可以做到控制test 输出以及 test 的顺序</li>
+<li>使用 <code>TestMain</code> 作为初始化 test, 并且使用 <code>m.Run()</code> 来调用其他 test 可以完成一些需要初始化操作的 testing, 比如数据库连接, 文件等, 反之则除了 <code>TestMain</code> 以外的其他 tests 都不会被执行</li>
+</ul>
+<h1 id="2-变量"><a href="#2-变量" class="headerlink" title="2. 变量"></a>2. 变量</h1><h2 id="2-1-指针"><a href="#2-1-指针" class="headerlink" title="2.1 指针"></a>2.1 指针</h2><ol>
 <li>基本数据类型, 变量存储的是值类型</li>
 <li>通过 <code>&amp;</code> 获取变量的地址</li>
 <li>指针类型中变量存储的是一个地址, 这个地址指向的空间才是真正的值</li>
 </ol>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">num := <span class="number">8</span></span><br><span class="line">ptr *<span class="keyword">int</span> := &amp;num</span><br></pre></td></tr></table></figure>
-<h1 id="2-函数"><a href="#2-函数" class="headerlink" title="2. 函数"></a>2. 函数</h1><h2 id="2-1-闭包"><a href="#2-1-闭包" class="headerlink" title="2.1 闭包"></a>2.1 闭包</h2><p>闭包就是一个函数和与其相关的引用环境组合的一个整体</p>
+<h1 id="3-函数"><a href="#3-函数" class="headerlink" title="3. 函数"></a>3. 函数</h1><h2 id="3-1-闭包"><a href="#3-1-闭包" class="headerlink" title="3.1 闭包"></a>3.1 闭包</h2><p>闭包就是一个函数和与其相关的引用环境组合的一个整体</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">AddUpper</span><span class="params">()</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    n := <span class="number">10</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">(x <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">        n = n + x</span><br><span class="line">        <span class="keyword">return</span> n</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    f := AddUpper()</span><br><span class="line">    fmt.Println(f(<span class="number">1</span>))   <span class="comment">// 11</span></span><br><span class="line">    fmt.Println(f(<span class="number">2</span>))   <span class="comment">// 13</span></span><br><span class="line">    fmt.Println(f(<span class="number">3</span>))   <span class="comment">// 16</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ol>
 <li>AddUpper 是一个函数, 返回的数据类型是 <code>func(int) int</code></li>
@@ -464,7 +513,7 @@
 <li>当闭包被反复调用的时候, 由于 n 只会初始化一次, 因此每调用一次就会被累加</li>
 </ol>
 <p>闭包的功能更类似与面向对象中的类, 属性和方法, 闭包在多次调用中可以复用逻辑和一部分字段.</p>
-<h2 id="2-2-defer"><a href="#2-2-defer" class="headerlink" title="2.2 defer"></a>2.2 defer</h2><p>在函数中, 经常需要创建资源(数据库连接, 文件句柄, 锁等), 为了在函数执行完毕后及时释放资源, Go 提供了 defer 的延时执行机制.</p>
+<h2 id="3-2-defer"><a href="#3-2-defer" class="headerlink" title="3.2 defer"></a>3.2 defer</h2><p>在函数中, 经常需要创建资源(数据库连接, 文件句柄, 锁等), 为了在函数执行完毕后及时释放资源, Go 提供了 defer 的延时执行机制.</p>
 <h1 id="15-单元测试"><a href="#15-单元测试" class="headerlink" title="15. 单元测试"></a>15. 单元测试</h1><p>Go 语言中自带一个轻量级测试框架 testing 和自带的 go test 命令来实现单元测试和性能测试, testing 框架和其他语言中的测试框架类似, 可以基于这个框架写针对相应函数的测试用例, 也可以基于该框架写相应的压力测试用例</p>
 <h1 id="16-goroutine-协程-和-channel-管道"><a href="#16-goroutine-协程-和-channel-管道" class="headerlink" title="16. goroutine(协程) 和 channel(管道)"></a>16. goroutine(协程) 和 channel(管道)</h1><p>假设有如下需求:</p>
 <pre><code>统计 1 到 1000000000 中所有的质数
@@ -831,7 +880,7 @@ num in channel: 20
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-变量"><span class="nav-text">1. 变量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-指针"><span class="nav-text">1.1 指针</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-函数"><span class="nav-text">2. 函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-闭包"><span class="nav-text">2.1 闭包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-defer"><span class="nav-text">2.2 defer</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#15-单元测试"><span class="nav-text">15. 单元测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#16-goroutine-协程-和-channel-管道"><span class="nav-text">16. goroutine(协程) 和 channel(管道)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#16-1-goroutine-基本介绍"><span class="nav-text">16.1 goroutine 基本介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-2-简单案例"><span class="nav-text">16.2 简单案例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-3-MPG-模式"><span class="nav-text">16.3 MPG 模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-4-channel-管道"><span class="nav-text">16.4 channel(管道)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#16-5-使用全局变量加锁同步改进程序"><span class="nav-text">16.5 使用全局变量加锁同步改进程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-6-channel-管道"><span class="nav-text">16.6 channel(管道)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-7-管道的基本用法"><span class="nav-text">16.7 管道的基本用法</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-golang-工具链"><span class="nav-text">1. golang 工具链</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-go-工具-命令"><span class="nav-text">1.1 go 工具/命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-Test-写法"><span class="nav-text">1.2 Test 写法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-变量"><span class="nav-text">2. 变量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-指针"><span class="nav-text">2.1 指针</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-函数"><span class="nav-text">3. 函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-闭包"><span class="nav-text">3.1 闭包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-defer"><span class="nav-text">3.2 defer</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#15-单元测试"><span class="nav-text">15. 单元测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#16-goroutine-协程-和-channel-管道"><span class="nav-text">16. goroutine(协程) 和 channel(管道)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#16-1-goroutine-基本介绍"><span class="nav-text">16.1 goroutine 基本介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-2-简单案例"><span class="nav-text">16.2 简单案例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-3-MPG-模式"><span class="nav-text">16.3 MPG 模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-4-channel-管道"><span class="nav-text">16.4 channel(管道)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#16-5-使用全局变量加锁同步改进程序"><span class="nav-text">16.5 使用全局变量加锁同步改进程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-6-channel-管道"><span class="nav-text">16.6 channel(管道)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-7-管道的基本用法"><span class="nav-text">16.7 管道的基本用法</span></a></li></ol></li></ol></div>
             
 
           </div>
