@@ -106,10 +106,14 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="1. 简介2. 基本使用方式2.1 vim 的模式当我们使用 vim, 或在后面加文件名的时候, 就可以进入 vim 的界面 12$ cd ~/Desktop$ vim demo.txt 该命令就会在 ~/Desktop 路径下打开(如果有)或编辑(如果没有) demo.txt 文件 最初进入 vim 时是普通模式, vim 的特点之一就是可以通过不同的操作快速进入多种模式:  普通模式: 进入">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-19T15:42:50.796Z">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/59780134-1db74d00-92ec-11e9-8132-b0faf511498b.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/59780278-5a834400-92ec-11e9-9b6b-92e9657ce20d.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/59780689-fa40d200-92ec-11e9-96f5-da33eb7cf952.png">
+<meta property="og:updated_time" content="2019-06-20T14:35:21.774Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何高效使用Vim">
 <meta name="twitter:description" content="1. 简介2. 基本使用方式2.1 vim 的模式当我们使用 vim, 或在后面加文件名的时候, 就可以进入 vim 的界面 12$ cd ~/Desktop$ vim demo.txt 该命令就会在 ~/Desktop 路径下打开(如果有)或编辑(如果没有) demo.txt 文件 最初进入 vim 时是普通模式, vim 的特点之一就是可以通过不同的操作快速进入多种模式:  普通模式: 进入">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/17758731/59780134-1db74d00-92ec-11e9-8132-b0faf511498b.png">
 
 
 
@@ -512,6 +516,10 @@ e.g. noremap a b
 </code></pre><p>我们需要替换的键位<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">map s &lt;nop&gt;     <span class="comment"># 禁用 s 键</span></span><br><span class="line">map S :w&lt;CR&gt;    <span class="comment"># 用 S 替换 vim 中的 `:+w+回车` 的保存功能</span></span><br><span class="line">map Q :q&lt;CR&gt;    <span class="comment"># 用 Q 替换 vim 中的 `:+q+回车` 的退出功能</span></span><br><span class="line">map R :<span class="built_in">source</span> <span class="variable">$MYVIMRC</span>&lt;CR&gt; <span class="comment"># 用 R 键替换 source 当前 vimrc 文件</span></span><br></pre></td></tr></table></figure></p>
 <h2 id="3-1-配置-vim-的编辑器"><a href="#3-1-配置-vim-的编辑器" class="headerlink" title="3.1 配置 vim 的编辑器"></a>3.1 配置 vim 的编辑器</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">syntax on       <span class="comment"># 开启语法高亮</span></span><br><span class="line"><span class="built_in">set</span> nu          <span class="comment"># 开启行号</span></span><br></pre></td></tr></table></figure>
 <h4 id="set-relativenumber-开启真实行号"><a href="#set-relativenumber-开启真实行号" class="headerlink" title="set relativenumber 开启真实行号"></a>set relativenumber 开启真实行号</h4><p>该配置生效之后, 行号会分两列展示, 第一列用于展示真正的行号, 第二列用于展示其他行相对当前行的距离</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/59780134-1db74d00-92ec-11e9-8132-b0faf511498b.png" alt="image"></p>
+<h4 id="set-cursorline-开启当前行高亮线"><a href="#set-cursorline-开启当前行高亮线" class="headerlink" title="set cursorline 开启当前行高亮线"></a>set cursorline 开启当前行高亮线</h4><p><img src="https://user-images.githubusercontent.com/17758731/59780278-5a834400-92ec-11e9-9b6b-92e9657ce20d.png" alt="image"></p>
+<h4 id="set-wrap-开启自动换行"><a href="#set-wrap-开启自动换行" class="headerlink" title="set wrap 开启自动换行"></a>set wrap 开启自动换行</h4><h4 id="set-showcmd-右下角显示执行的命令"><a href="#set-showcmd-右下角显示执行的命令" class="headerlink" title="set showcmd 右下角显示执行的命令"></a>set showcmd 右下角显示执行的命令</h4><h4 id="set-wildmenu-命令模式下的提示"><a href="#set-wildmenu-命令模式下的提示" class="headerlink" title="set wildmenu 命令模式下的提示"></a>set wildmenu 命令模式下的提示</h4><p>使用 <code>:</code> 进入命令模式, 输入 so 时, 敲 tab 会给出提示: <code>sort</code> 和 <code>source</code></p>
+<p><img src="https://user-images.githubusercontent.com/17758731/59780689-fa40d200-92ec-11e9-96f5-da33eb7cf952.png" alt="image"></p>
 
       
     </div>
@@ -784,7 +792,7 @@ e.g. noremap a b
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-简介"><span class="nav-text">1. 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-基本使用方式"><span class="nav-text">2. 基本使用方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-vim-的模式"><span class="nav-text">2.1 vim 的模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-vim-光标移动"><span class="nav-text">2.2 vim 光标移动</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-vim-配置文件"><span class="nav-text">3. vim 配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-配置-vim-的编辑器"><span class="nav-text">3.1 配置 vim 的编辑器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#set-relativenumber-开启真实行号"><span class="nav-text">set relativenumber 开启真实行号</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-简介"><span class="nav-text">1. 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-基本使用方式"><span class="nav-text">2. 基本使用方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-vim-的模式"><span class="nav-text">2.1 vim 的模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-vim-光标移动"><span class="nav-text">2.2 vim 光标移动</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-vim-配置文件"><span class="nav-text">3. vim 配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-配置-vim-的编辑器"><span class="nav-text">3.1 配置 vim 的编辑器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#set-relativenumber-开启真实行号"><span class="nav-text">set relativenumber 开启真实行号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-cursorline-开启当前行高亮线"><span class="nav-text">set cursorline 开启当前行高亮线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-wrap-开启自动换行"><span class="nav-text">set wrap 开启自动换行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-showcmd-右下角显示执行的命令"><span class="nav-text">set showcmd 右下角显示执行的命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-wildmenu-命令模式下的提示"><span class="nav-text">set wildmenu 命令模式下的提示</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
