@@ -109,7 +109,7 @@
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/59780134-1db74d00-92ec-11e9-8132-b0faf511498b.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/59780278-5a834400-92ec-11e9-9b6b-92e9657ce20d.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/59780689-fa40d200-92ec-11e9-96f5-da33eb7cf952.png">
-<meta property="og:updated_time" content="2019-06-20T14:35:21.774Z">
+<meta property="og:updated_time" content="2019-06-20T15:52:33.038Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何高效使用Vim">
 <meta name="twitter:description" content="1. 简介2. 基本使用方式2.1 vim 的模式当我们使用 vim, 或在后面加文件名的时候, 就可以进入 vim 的界面 12$ cd ~/Desktop$ vim demo.txt 该命令就会在 ~/Desktop 路径下打开(如果有)或编辑(如果没有) demo.txt 文件 最初进入 vim 时是普通模式, vim 的特点之一就是可以通过不同的操作快速进入多种模式:  普通模式: 进入">
@@ -520,6 +520,48 @@ e.g. noremap a b
 <h4 id="set-cursorline-开启当前行高亮线"><a href="#set-cursorline-开启当前行高亮线" class="headerlink" title="set cursorline 开启当前行高亮线"></a>set cursorline 开启当前行高亮线</h4><p><img src="https://user-images.githubusercontent.com/17758731/59780278-5a834400-92ec-11e9-9b6b-92e9657ce20d.png" alt="image"></p>
 <h4 id="set-wrap-开启自动换行"><a href="#set-wrap-开启自动换行" class="headerlink" title="set wrap 开启自动换行"></a>set wrap 开启自动换行</h4><h4 id="set-showcmd-右下角显示执行的命令"><a href="#set-showcmd-右下角显示执行的命令" class="headerlink" title="set showcmd 右下角显示执行的命令"></a>set showcmd 右下角显示执行的命令</h4><h4 id="set-wildmenu-命令模式下的提示"><a href="#set-wildmenu-命令模式下的提示" class="headerlink" title="set wildmenu 命令模式下的提示"></a>set wildmenu 命令模式下的提示</h4><p>使用 <code>:</code> 进入命令模式, 输入 so 时, 敲 tab 会给出提示: <code>sort</code> 和 <code>source</code></p>
 <p><img src="https://user-images.githubusercontent.com/17758731/59780689-fa40d200-92ec-11e9-96f5-da33eb7cf952.png" alt="image"></p>
+<h2 id="3-2-vim-的编辑操作"><a href="#3-2-vim-的编辑操作" class="headerlink" title="3.2 vim 的编辑操作"></a>3.2 vim 的编辑操作</h2><p>vim 下的编辑操作通常由 <code>操作</code> 和 <code>动作</code> 组成</p>
+<h3 id="3-2-1-常见操作"><a href="#3-2-1-常见操作" class="headerlink" title="3.2.1 常见操作"></a>3.2.1 常见操作</h3><h4 id="3-2-1-1-删除"><a href="#3-2-1-1-删除" class="headerlink" title="3.2.1.1 删除"></a>3.2.1.1 删除</h4><p>假设有如下内容, 我们需要删除中间的空格, 有如下几种方式</p>
+<pre><code>&lt;optration&gt; &lt;motion&gt;
+</code></pre><p>总的来说, 编辑指令的语法类似于动宾短语, 操作一般是动词, 如复制, 删除等, 动作一般为宾语, 代表执行操作的字符.</p>
+<p>下面来分别介绍一下常见的操作和动作</p>
+<ol>
+<li>在普通模式下将光标移动到空格后的 <code>&lt;</code> 然后输入 <code>x</code> 将光标的前一个字符删除.</li>
+<li>在普通模式下输入 <code>d</code>, <code>d</code> 代表 delete, 提供了多种选项:<ol>
+<li><code>d</code> + <code>←</code>(方向键左), 代表向左删除一个字符</li>
+<li><code>d</code> + <code>3</code> + <code>→</code>(方向键右), 代表向右删除三个字符</li>
+<li><code>d</code> + <code>d</code>, 代表对整行执行删除操作(实际上大多数操作都遵循双击代表针对行的规律)</li>
+</ol>
+</li>
+</ol>
+<h4 id="3-2-1-2-粘贴"><a href="#3-2-1-2-粘贴" class="headerlink" title="3.2.1.2 粘贴"></a>3.2.1.2 粘贴</h4><p><code>p</code>, 代表 paste, 可以用来粘贴被复制或剪切的字符</p>
+<h4 id="3-2-1-4-复制"><a href="#3-2-1-4-复制" class="headerlink" title="3.2.1.4 复制"></a>3.2.1.4 复制</h4><p><code>y</code>, 代表 copy, 可以用来复制选中的字符</p>
+<ol>
+<li><code>y</code> + <code>→</code>, 代表向右复制一个字符</li>
+<li><code>y</code> + <code>3</code> + <code>→</code>, 代表向右复制三个字符</li>
+</ol>
+<h4 id="3-2-1-5-改变-c"><a href="#3-2-1-5-改变-c" class="headerlink" title="3.2.1.5 改变(c)"></a>3.2.1.5 改变(c)</h4><p><code>c</code>, 代表 change, 与 <code>d</code> 操作相似, 不同的是完成了删除操作之后, 会自动进入编辑模式</p>
+<ol>
+<li><code>c</code> + <code>→</code> + <code>6</code>, 代表删除光标右边的 6 个字符, 并进入编辑模式</li>
+</ol>
+<h3 id="3-2-2-常见动作"><a href="#3-2-2-常见动作" class="headerlink" title="3.2.2 常见动作"></a>3.2.2 常见动作</h3><p>最常见的动作就是上下左右, 除此之外还有一些快捷动作.</p>
+<h4 id="3-2-2-1-移动到下个单词-w"><a href="#3-2-2-1-移动到下个单词-w" class="headerlink" title="3.2.2.1 移动到下个单词(w)"></a>3.2.2.1 移动到下个单词(w)</h4><p>假设有如下字符</p>
+<pre><code>I am Happy Today.
+^
+</code></pre><p>此时光标在 I 上, 如果在普通模式下按 <code>w</code>, 光标会移动到 <code>am</code> 的首字母 <code>a</code>, 以此类推, 每次都会让光标移动到下一个单词的首字母</p>
+<p>假设我们想将上例中的 <code>Happy</code> 修改为 <code>excited</code>, 可以进行如下操作:</p>
+<blockquote>
+<p>将光标移动到 <code>Happy</code> 的首字母 h, 然后使用 <code>c</code> + <code>w</code>, 就可以将该词删除, 并且进入编辑模式, 然后输入 excited 即可.</p>
+</blockquote>
+<h4 id="3-2-2-2-移动到当前单词的首字母-b"><a href="#3-2-2-2-移动到当前单词的首字母-b" class="headerlink" title="3.2.2.2 移动到当前单词的首字母(b)"></a>3.2.2.2 移动到当前单词的首字母(b)</h4><p><code>b</code>, 代表 back, 可以将光标移动到当前单词的首字母位置</p>
+<p>同样, 通过该动作就可以在 happy 的任意一个字符快速移动到首字母, 并完成删除操作</p>
+<h4 id="3-2-2-3-范围-i"><a href="#3-2-2-3-范围-i" class="headerlink" title="3.2.2.3 范围(i)"></a>3.2.2.3 范围(i)</h4><p><code>i</code>, 代表 in, 表示选中在某个范围内的全部字符</p>
+<blockquote>
+<ol>
+<li><code>c</code> + <code>i</code> + <code>w</code> 表示将当前光标所在单词范围内的全部字符替换  </li>
+<li><code>y</code> + <code>i</code> + <code>w</code> 表示将当前光标所在单词范围内的全部字符复制</li>
+</ol>
+</blockquote>
 
       
     </div>
@@ -792,7 +834,7 @@ e.g. noremap a b
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-简介"><span class="nav-text">1. 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-基本使用方式"><span class="nav-text">2. 基本使用方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-vim-的模式"><span class="nav-text">2.1 vim 的模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-vim-光标移动"><span class="nav-text">2.2 vim 光标移动</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-vim-配置文件"><span class="nav-text">3. vim 配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-配置-vim-的编辑器"><span class="nav-text">3.1 配置 vim 的编辑器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#set-relativenumber-开启真实行号"><span class="nav-text">set relativenumber 开启真实行号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-cursorline-开启当前行高亮线"><span class="nav-text">set cursorline 开启当前行高亮线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-wrap-开启自动换行"><span class="nav-text">set wrap 开启自动换行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-showcmd-右下角显示执行的命令"><span class="nav-text">set showcmd 右下角显示执行的命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-wildmenu-命令模式下的提示"><span class="nav-text">set wildmenu 命令模式下的提示</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-简介"><span class="nav-text">1. 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-基本使用方式"><span class="nav-text">2. 基本使用方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-vim-的模式"><span class="nav-text">2.1 vim 的模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-vim-光标移动"><span class="nav-text">2.2 vim 光标移动</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-vim-配置文件"><span class="nav-text">3. vim 配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-配置-vim-的编辑器"><span class="nav-text">3.1 配置 vim 的编辑器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#set-relativenumber-开启真实行号"><span class="nav-text">set relativenumber 开启真实行号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-cursorline-开启当前行高亮线"><span class="nav-text">set cursorline 开启当前行高亮线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-wrap-开启自动换行"><span class="nav-text">set wrap 开启自动换行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-showcmd-右下角显示执行的命令"><span class="nav-text">set showcmd 右下角显示执行的命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-wildmenu-命令模式下的提示"><span class="nav-text">set wildmenu 命令模式下的提示</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-vim-的编辑操作"><span class="nav-text">3.2 vim 的编辑操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-常见操作"><span class="nav-text">3.2.1 常见操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1-1-删除"><span class="nav-text">3.2.1.1 删除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1-2-粘贴"><span class="nav-text">3.2.1.2 粘贴</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1-4-复制"><span class="nav-text">3.2.1.4 复制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1-5-改变-c"><span class="nav-text">3.2.1.5 改变(c)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-常见动作"><span class="nav-text">3.2.2 常见动作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-2-1-移动到下个单词-w"><span class="nav-text">3.2.2.1 移动到下个单词(w)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-2-2-移动到当前单词的首字母-b"><span class="nav-text">3.2.2.2 移动到当前单词的首字母(b)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-2-3-范围-i"><span class="nav-text">3.2.2.3 范围(i)</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
