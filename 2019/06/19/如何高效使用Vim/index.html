@@ -109,7 +109,10 @@
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/59780134-1db74d00-92ec-11e9-8132-b0faf511498b.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/59780278-5a834400-92ec-11e9-9b6b-92e9657ce20d.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/59780689-fa40d200-92ec-11e9-96f5-da33eb7cf952.png">
-<meta property="og:updated_time" content="2019-06-20T15:52:33.038Z">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/59963846-5133ea80-952b-11e9-892f-82dcfca165ec.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/59964057-11bacd80-952e-11e9-98c9-93129ba662d7.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/59964076-66f6df00-952e-11e9-82ea-553f6be1517b.png">
+<meta property="og:updated_time" content="2019-06-22T13:14:17.713Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何高效使用Vim">
 <meta name="twitter:description" content="1. 简介2. 基本使用方式2.1 vim 的模式当我们使用 vim, 或在后面加文件名的时候, 就可以进入 vim 的界面 12$ cd ~/Desktop$ vim demo.txt 该命令就会在 ~/Desktop 路径下打开(如果有)或编辑(如果没有) demo.txt 文件 最初进入 vim 时是普通模式, vim 的特点之一就是可以通过不同的操作快速进入多种模式:  普通模式: 进入">
@@ -536,14 +539,18 @@ e.g. noremap a b
 </ol>
 <h4 id="3-2-1-2-粘贴"><a href="#3-2-1-2-粘贴" class="headerlink" title="3.2.1.2 粘贴"></a>3.2.1.2 粘贴</h4><p><code>p</code>, 代表 paste, 可以用来粘贴被复制或剪切的字符</p>
 <h4 id="3-2-1-4-复制"><a href="#3-2-1-4-复制" class="headerlink" title="3.2.1.4 复制"></a>3.2.1.4 复制</h4><p><code>y</code>, 代表 copy, 可以用来复制选中的字符</p>
+<blockquote>
 <ol>
 <li><code>y</code> + <code>→</code>, 代表向右复制一个字符</li>
 <li><code>y</code> + <code>3</code> + <code>→</code>, 代表向右复制三个字符</li>
 </ol>
+</blockquote>
 <h4 id="3-2-1-5-改变-c"><a href="#3-2-1-5-改变-c" class="headerlink" title="3.2.1.5 改变(c)"></a>3.2.1.5 改变(c)</h4><p><code>c</code>, 代表 change, 与 <code>d</code> 操作相似, 不同的是完成了删除操作之后, 会自动进入编辑模式</p>
+<blockquote>
 <ol>
 <li><code>c</code> + <code>→</code> + <code>6</code>, 代表删除光标右边的 6 个字符, 并进入编辑模式</li>
 </ol>
+</blockquote>
 <h3 id="3-2-2-常见动作"><a href="#3-2-2-常见动作" class="headerlink" title="3.2.2 常见动作"></a>3.2.2 常见动作</h3><p>最常见的动作就是上下左右, 除此之外还有一些快捷动作.</p>
 <h4 id="3-2-2-1-移动到下个单词-w"><a href="#3-2-2-1-移动到下个单词-w" class="headerlink" title="3.2.2.1 移动到下个单词(w)"></a>3.2.2.1 移动到下个单词(w)</h4><p>假设有如下字符</p>
 <pre><code>I am Happy Today.
@@ -560,8 +567,45 @@ e.g. noremap a b
 <ol>
 <li><code>c</code> + <code>i</code> + <code>w</code> 表示将当前光标所在单词范围内的全部字符替换  </li>
 <li><code>y</code> + <code>i</code> + <code>w</code> 表示将当前光标所在单词范围内的全部字符复制</li>
+<li><code>c</code> + <code>i</code> + <code>&quot;</code> 表示将当前光标所在引号范围的全部字符替换</li>
 </ol>
 </blockquote>
+<h4 id="3-2-2-4-查找-f"><a href="#3-2-2-4-查找-f" class="headerlink" title="3.2.2.4 查找 (f)"></a>3.2.2.4 查找 (f)</h4><p><code>f</code>, 代表 find, 会将光标移动到第一个相同的字符</p>
+<blockquote>
+<ol>
+<li><code>f</code> + <code>v</code>, 代表将光标向后移动到第一个 v 所在的位置s</li>
+<li><code>d</code> + <code>f</code> + <code>:</code>, 代表 <code>删除+寻找+:</code> 从光标所在字符开始, 一直删除到其后的第一个 <code>:</code></li>
+</ol>
+</blockquote>
+<h1 id="4-搜索"><a href="#4-搜索" class="headerlink" title="4. 搜索"></a>4. 搜索</h1><p>vim 下的搜索主要分为两种方式:</p>
+<ol>
+<li>从上向下搜索(快捷键 <code>/</code>)</li>
+<li>从下向上搜索(快捷键 <code>?</code>)</li>
+</ol>
+<p>两种操作的相同之处都是会以光标作为查询的起点, 向上/向下进行搜索</p>
+<p>将搜索内容高亮的设置:</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> hlsearch        # 将搜索结果高亮</span><br><span class="line"><span class="keyword">set</span> incsearch       # 将搜索内容即时高亮</span><br><span class="line"><span class="keyword">set</span> ignorecase      # 忽略大小写</span><br><span class="line"><span class="keyword">set</span> smartcase       # 开启智能拼写</span><br><span class="line">exec <span class="string">"nohlsearch"</span>   # 搜索结果的高亮会在下次进入 <span class="keyword">vim</span> 是继续保留, 因此可以先执行该命令清除</span><br><span class="line"><span class="keyword">noremap</span> <span class="symbol">&lt;LEADER&gt;</span><span class="symbol">&lt;CR&gt;</span> :<span class="keyword">nohlsearch</span><span class="symbol">&lt;CR&gt;</span>    # 执行完搜索之后, 高亮会一直保留, 比较影响视线, 因此使用 `LEADER`(默认为 \ 键) + 回车执行 <span class="keyword">nohlsearch</span> 命令, 取消高亮</span><br></pre></td></tr></table></figure>
+<p>在 vim 的搜索模式下, 模式使用 <code>n</code> 进行下一项的搜索, <code>N</code> 进行上一项的搜索, 可以配合 <code>zz</code> (将光标所在行移动到屏幕中间)</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">noremap</span> n nzz</span><br><span class="line"><span class="keyword">noremap</span> <span class="keyword">N</span> Nzz</span><br></pre></td></tr></table></figure>
+<h1 id="5-美化-vim-界面"><a href="#5-美化-vim-界面" class="headerlink" title="5. 美化 vim 界面"></a>5. 美化 vim 界面</h1><h2 id="5-1-使用自带美化方案"><a href="#5-1-使用自带美化方案" class="headerlink" title="5.1 使用自带美化方案"></a>5.1 使用自带美化方案</h2><p>方式是在命令模式下输入 <code>color</code> + <code>空格</code> + <code>tab</code> 键, 接下来就会提示可以用的美化方案</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/59963846-5133ea80-952b-11e9-892f-82dcfca165ec.png" alt="image"></p>
+<h2 id="5-2-自定义美化方案"><a href="#5-2-自定义美化方案" class="headerlink" title="5.2 自定义美化方案"></a>5.2 自定义美化方案</h2><p>但如果系统自带的美化方案不能满足需求, 就可以下载其他美化方案</p>
+<p><a href="https://github.com/junegunn/vim-plug" target="_blank" rel="noopener">vim 插件管理</a></p>
+<h3 id="5-2-1-下载"><a href="#5-2-1-下载" class="headerlink" title="5.2.1 下载"></a>5.2.1 下载</h3><p>使用下面的命令进行下载<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -fLo ~/.vim/<span class="built_in">autoload</span>/plug.vim --create-dirs \</span><br><span class="line">    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim</span><br></pre></td></tr></table></figure></p>
+<h3 id="5-2-2-安装插件"><a href="#5-2-2-安装插件" class="headerlink" title="5.2.2 安装插件"></a>5.2.2 安装插件</h3><p>在 <code>~/.vimrc</code> 中, 以下文开头</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">call</span> plug#begin(<span class="string">'~/.vim/plugged'</span>)</span><br></pre></td></tr></table></figure>
+<p>然后安装的语法格式为:</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plug <span class="string">''</span>     # 引号内为想装的插件</span><br></pre></td></tr></table></figure>
+<p>最后使用下文结束安装</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">call</span> plug#end()</span><br></pre></td></tr></table></figure>
+<p>将 <code>~/.vimrc</code> source 之后, <code>:</code> 进入命令模式, 输入 PlugInstall 命令开始安装指定插件</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/59964057-11bacd80-952e-11e9-98c9-93129ba662d7.png" alt="image"></p>
+<h3 id="5-2-3-推荐的插件"><a href="#5-2-3-推荐的插件" class="headerlink" title="5.2.3 推荐的插件"></a>5.2.3 推荐的插件</h3><h4 id="5-2-3-1-vim-airline"><a href="#5-2-3-1-vim-airline" class="headerlink" title="5.2.3.1 vim-airline"></a>5.2.3.1 vim-airline</h4><p>会在 vim 底部展示状态栏</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/59964076-66f6df00-952e-11e9-82ea-553f6be1517b.png" alt="image"></p>
+<p>包括文件路径, 编码格式以及进度条等.</p>
+<h4 id="5-2-3-2-connorholyday-vim-snazzy"><a href="#5-2-3-2-connorholyday-vim-snazzy" class="headerlink" title="5.2.3.2 connorholyday/vim-snazzy"></a>5.2.3.2 connorholyday/vim-snazzy</h4><p>加入 <code>connorholyday/vim-snazzy</code> 并 PlugInstall 之后, 在配置文件之后再添加如下配置</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">colorscheme</span> snazzy</span><br></pre></td></tr></table></figure>
+<p>最后 source 即可生效</p>
 
       
     </div>
@@ -834,7 +878,7 @@ e.g. noremap a b
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-简介"><span class="nav-text">1. 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-基本使用方式"><span class="nav-text">2. 基本使用方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-vim-的模式"><span class="nav-text">2.1 vim 的模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-vim-光标移动"><span class="nav-text">2.2 vim 光标移动</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-vim-配置文件"><span class="nav-text">3. vim 配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-配置-vim-的编辑器"><span class="nav-text">3.1 配置 vim 的编辑器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#set-relativenumber-开启真实行号"><span class="nav-text">set relativenumber 开启真实行号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-cursorline-开启当前行高亮线"><span class="nav-text">set cursorline 开启当前行高亮线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-wrap-开启自动换行"><span class="nav-text">set wrap 开启自动换行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-showcmd-右下角显示执行的命令"><span class="nav-text">set showcmd 右下角显示执行的命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-wildmenu-命令模式下的提示"><span class="nav-text">set wildmenu 命令模式下的提示</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-vim-的编辑操作"><span class="nav-text">3.2 vim 的编辑操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-常见操作"><span class="nav-text">3.2.1 常见操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1-1-删除"><span class="nav-text">3.2.1.1 删除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1-2-粘贴"><span class="nav-text">3.2.1.2 粘贴</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1-4-复制"><span class="nav-text">3.2.1.4 复制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1-5-改变-c"><span class="nav-text">3.2.1.5 改变(c)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-常见动作"><span class="nav-text">3.2.2 常见动作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-2-1-移动到下个单词-w"><span class="nav-text">3.2.2.1 移动到下个单词(w)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-2-2-移动到当前单词的首字母-b"><span class="nav-text">3.2.2.2 移动到当前单词的首字母(b)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-2-3-范围-i"><span class="nav-text">3.2.2.3 范围(i)</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-简介"><span class="nav-text">1. 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-基本使用方式"><span class="nav-text">2. 基本使用方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-vim-的模式"><span class="nav-text">2.1 vim 的模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-vim-光标移动"><span class="nav-text">2.2 vim 光标移动</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-vim-配置文件"><span class="nav-text">3. vim 配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-配置-vim-的编辑器"><span class="nav-text">3.1 配置 vim 的编辑器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#set-relativenumber-开启真实行号"><span class="nav-text">set relativenumber 开启真实行号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-cursorline-开启当前行高亮线"><span class="nav-text">set cursorline 开启当前行高亮线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-wrap-开启自动换行"><span class="nav-text">set wrap 开启自动换行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-showcmd-右下角显示执行的命令"><span class="nav-text">set showcmd 右下角显示执行的命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-wildmenu-命令模式下的提示"><span class="nav-text">set wildmenu 命令模式下的提示</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-vim-的编辑操作"><span class="nav-text">3.2 vim 的编辑操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-常见操作"><span class="nav-text">3.2.1 常见操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1-1-删除"><span class="nav-text">3.2.1.1 删除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1-2-粘贴"><span class="nav-text">3.2.1.2 粘贴</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1-4-复制"><span class="nav-text">3.2.1.4 复制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1-5-改变-c"><span class="nav-text">3.2.1.5 改变(c)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-常见动作"><span class="nav-text">3.2.2 常见动作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-2-1-移动到下个单词-w"><span class="nav-text">3.2.2.1 移动到下个单词(w)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-2-2-移动到当前单词的首字母-b"><span class="nav-text">3.2.2.2 移动到当前单词的首字母(b)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-2-3-范围-i"><span class="nav-text">3.2.2.3 范围(i)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-2-4-查找-f"><span class="nav-text">3.2.2.4 查找 (f)</span></a></li></ol></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#4-搜索"><span class="nav-text">4. 搜索</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-美化-vim-界面"><span class="nav-text">5. 美化 vim 界面</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-使用自带美化方案"><span class="nav-text">5.1 使用自带美化方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-自定义美化方案"><span class="nav-text">5.2 自定义美化方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-1-下载"><span class="nav-text">5.2.1 下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-2-安装插件"><span class="nav-text">5.2.2 安装插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-3-推荐的插件"><span class="nav-text">5.2.3 推荐的插件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-3-1-vim-airline"><span class="nav-text">5.2.3.1 vim-airline</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-3-2-connorholyday-vim-snazzy"><span class="nav-text">5.2.3.2 connorholyday/vim-snazzy</span></a></li></ol></li></ol></li></ol></li></div>
             
 
           </div>
