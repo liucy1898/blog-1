@@ -109,7 +109,8 @@
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/61991484-39e4a180-b083-11e9-9977-25ff3a9fe8a4.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/61991556-664ced80-b084-11e9-8a10-2ea979e3c10b.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/61991793-0b1cfa00-b088-11e9-8165-e26df6112249.png">
-<meta property="og:updated_time" content="2019-07-27T08:04:33.078Z">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/61992950-af5a6d00-b097-11e9-9347-2529d7c2e685.png">
+<meta property="og:updated_time" content="2019-07-27T10:00:09.786Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kafka简介">
 <meta name="twitter:description" content="1. 概述Kafka 是一种分布式, 基于发布/订阅的消息系统, 具备高性能, 高可用, 可扩展, 可持久化的特点. 在设计上具有以下特点  面对海量消息时也能高效读写, 以顺序的方式读写磁盘, 从而避免随机读写的性能瓶颈, 与此同时还支持批量读写和批量压缩 支持消息分区, 在每个分区内保证顺序, 不同分区间可以并发操作 每个分区可以创建多个副本, 只有 Leader 副本负责读写, 其他副本只负">
@@ -471,6 +472,49 @@
 </ul>
 <p><img src="https://user-images.githubusercontent.com/17758731/61991793-0b1cfa00-b088-11e9-8165-e26df6112249.png" alt="image"></p>
 <p>一般情况下, 每个 Partition 的多个副本会被分配到不同的 Broker 上.</p>
+<h3 id="1-2-5-ISR-集合"><a href="#1-2-5-ISR-集合" class="headerlink" title="1.2.5 ISR 集合"></a>1.2.5 ISR 集合</h3><p>ISR(In-Sync Replica) 表示目前可用, 并且消息量与 Leader 相差不多的副本集合, 是整个副本集合的一个子集, 条件:</p>
+<ol>
+<li>副本所在节点必须维持与 zk 的连接</li>
+<li>副本最后一条消息的 offset 与 leader 副本的最后一条消息的 offset 之间差值不能超过指定阈值</li>
+</ol>
+<p>每个 Partition 的 leader 副本都会维护当前 Partition 的 ISR 集合, 并且在不断处理请求的过程中, 这个集合是在不断变化的, 有的 Follower 会因为跟不上掉队, 有的 Follower 会重新回到 ISR 集合中.</p>
+<h3 id="1-2-6-HW-amp-LEO"><a href="#1-2-6-HW-amp-LEO" class="headerlink" title="1.2.6 HW &amp; LEO"></a>1.2.6 HW &amp; LEO</h3><p>HW(HighWatermark) 和 LEO 与上面的 ISR 集合紧密相关, HW 标记了一个特殊的 offset, 当消费者处理消息的时候, 只能拉取到 HW 之前的消息, HW 之后消息对 Consumer 来说是不可见的. HW 由 Leader 维护, 当 ISR 集合中全部的 Follower 都拉取 HW 指定消息进行同步后, Leader 会递增 HW 的值, Kafka 将 HW 之前消息的状态定义为 <code>commit</code>, 代表已 commit 的消息即使 leader 宕机也不会丢失</p>
+<p>LEO(Log End Offset) 是所有副本都会维护的 offset 标记, 它指向追加到当前副本的最后一个消息的 offset.</p>
+<ul>
+<li>当 Producer 向 Leader 副本追加消息的时候 Leader 副本的 LEO 会递增</li>
+<li>当 Follower 从 Leader 副本拉取消息成功时, Follower 副本的 LEO 就递增</li>
+</ul>
+<blockquote>
+<p>以一个例子总结下 HW 和 LEO 的关系</p>
+<ol>
+<li>Producer 向 Partition 推送消息</li>
+<li>Leader 将消息成功追加到 Log 中, 并递增其 LEO</li>
+<li>Follower 成功从 Leader 同步该消息</li>
+<li>Follower 将该消息追加到本地 Log 中, 并递增其 LEO</li>
+<li>当 ISR 集合中所有的副本都完成了对该消息的同步, Leader 会递增 HW, 此时该消息对消费者可见</li>
+</ol>
+</blockquote>
+<p>Kafka 这样设计的目的是为了权衡同步和异步复制, 如果 Follower 延迟过高, 会被踢出 ISR 集合以保证性能; 当 Leader 宕机, 会优先将 ISR 中的 Follower 副本选举为新 Leader, 新 Leader 同样包含了 HW 之前的全部消息</p>
+<h3 id="1-2-7-Cluster-amp-Controller"><a href="#1-2-7-Cluster-amp-Controller" class="headerlink" title="1.2.7 Cluster &amp; Controller"></a>1.2.7 Cluster &amp; Controller</h3><p>多个 Broker 可以组成一个 Cluster 对外提供服务, 每个 Cluster 会选举出一个 Broker 来担任 Controller 作为集群的指挥中心, 而其他的 Broker 则听从 Controller 指挥实现相应功能. Controller 负责管理分区的状态, 管理每个分区的副本状态, 监听 zk 中数据变化等. Controller 宕机会从剩下的 Broker 中进行重新选举.</p>
+<h3 id="1-2-8-Produce-amp-Consumer"><a href="#1-2-8-Produce-amp-Consumer" class="headerlink" title="1.2.8 Produce &amp; Consumer"></a>1.2.8 Produce &amp; Consumer</h3><ul>
+<li>生产者主要负责生产消息, 并将消息按照一定的规则推送到 Topic 的分区中, 其中规则可以是根据消息 key 的 hash 值选择, 或者轮询</li>
+<li>消费者主要负责拉取消息, 并对消息进行消费, 每个消费者消费到 Partition 哪个 offset 的相关信息是由自己来维护的, 不同消费者管理各自的消费位置.</li>
+</ul>
+<h3 id="1-2-9-Consumer-Group"><a href="#1-2-9-Consumer-Group" class="headerlink" title="1.2.9 Consumer Group"></a>1.2.9 Consumer Group</h3><p>在 Kafka 中, 多个 Consumer 可以组成一个 Group, 一个 Consumer 只能属于一个 Group. Consumer Group 保证其订阅的 Topic 的每个 Partition 只能被分配给一个 Consumer. 一个 Topic 如果同时被多个 Consumer Group 订阅, 不同 Consumer Group 之间不会干扰. 如果想要实现一个消息被多个消费者同时消费的效果, 则每个消费者需要放入单独的 Consumer Group; 如果要实现一个消息只能被一个消费者独占, 则将所有的 Consumer 放入一个 Group 中.</p>
+<p>简单来讲, 对于同一个 Consumer Group 中, 尽管有多个消费者, 但每个消息只会被消费一次.</p>
+<p>此外, Consumer Group 还具有水平扩展和故障转移的功能.</p>
+<p>当我们向一个 Consumer Group 添加新的 Consumer 时, 会触发 Rebalance 重新分配分区与消费者的对应关系. 而如果有 Consumer 故障, 也会触发 Rebalance 进行重新分区.</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/61992950-af5a6d00-b097-11e9-9347-2529d7c2e685.png" alt="image"></p>
+<ol>
+<li>生产者根据业务逻辑产生消息</li>
+<li>生产者根据路由规则将消息发送到指定 Partition 的 Leader 副本所在的 Broker 上</li>
+<li>Leader 将日志追加成功后, 递增 LEO</li>
+<li>Follower 副本从 Leader 同步到消息, 追加成功后, 递增 LEO</li>
+<li>Leader 递增 HW, 使该消息对消费者可见</li>
+<li>消费者加入 Consumer Group 后, 会触发 Rebalance, 将 Partition 分配给不同的消费者消费</li>
+<li>消费者恢复其消费位置, 并向 Kafka 服务端发送拉取消息的请求</li>
+<li>Leader 副本会验证请求的 offset 以及其他相关的信息, 最后返回消息</li>
+</ol>
 
       
     </div>
@@ -743,7 +787,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-概述"><span class="nav-text">1. 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-Kafka-核心概念"><span class="nav-text">1.2 Kafka 核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-1-Topic-amp-Partition-amp-Log"><span class="nav-text">1.2.1 Topic &amp; Partition &amp; Log</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-2-保留策略-amp-日志压缩"><span class="nav-text">1.2.2 保留策略 &amp; 日志压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-3-Broker"><span class="nav-text">1.2.3 Broker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-4-副本"><span class="nav-text">1.2.4 副本</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-概述"><span class="nav-text">1. 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-Kafka-核心概念"><span class="nav-text">1.2 Kafka 核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-1-Topic-amp-Partition-amp-Log"><span class="nav-text">1.2.1 Topic &amp; Partition &amp; Log</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-2-保留策略-amp-日志压缩"><span class="nav-text">1.2.2 保留策略 &amp; 日志压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-3-Broker"><span class="nav-text">1.2.3 Broker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-4-副本"><span class="nav-text">1.2.4 副本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-5-ISR-集合"><span class="nav-text">1.2.5 ISR 集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-6-HW-amp-LEO"><span class="nav-text">1.2.6 HW &amp; LEO</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-7-Cluster-amp-Controller"><span class="nav-text">1.2.7 Cluster &amp; Controller</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-8-Produce-amp-Consumer"><span class="nav-text">1.2.8 Produce &amp; Consumer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-9-Consumer-Group"><span class="nav-text">1.2.9 Consumer Group</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
