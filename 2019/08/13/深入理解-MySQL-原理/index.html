@@ -110,7 +110,10 @@
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/62950141-13ac5900-be1a-11e9-9497-d217c977a872.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/62951975-7b17d800-be1d-11e9-92c6-1c2db4c906f7.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/63212520-4d41d480-c138-11e9-92fc-6417e6d29717.png">
-<meta property="og:updated_time" content="2019-08-17T16:49:51.735Z">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/63221133-1535a280-c1c7-11e9-9a16-eb6ccbf017b9.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/63221460-dd7d2980-c1cb-11e9-8cd8-ed1b13b6eb0b.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/63221796-be34cb00-c1d0-11e9-9478-11a90c6d4682.png">
+<meta property="og:updated_time" content="2019-08-18T08:06:12.333Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解 MySQL 原理">
 <meta name="twitter:description" content="1. MySQL 体系架构MySQL 的架构整体上可以分为服务层和引擎层:  Server 层涵盖了 MySQL 大多数核心服务, 包括请求的接收, 以及绝大多数内置函数(如 DATE()等) Engine 层负责数据的读写   1.1 连接器负责建立与客户端建立连接, 获取权限, 维持和管理连接 通过 TCP 连接, 验证用户身份, 当连接到达时获取用户当前所有权限, 而权限的获取是一次性的,">
@@ -552,14 +555,110 @@
 </blockquote>
 <p>B+ 数每个节点可以存储多个关键字, 它将节点大小设置为磁盘页的大小, 充分利用了磁盘预读的功能, 每次读取磁盘页的时候就会读取整个节点, 也正因为每个节点存储着非常多的关键字(InnoDB 每个双亲结点大概可以存储 1200 个子节点), 会使得树深度很小, 进而要执行的磁盘读取操作次数就会非常少, 更多的是在内存中对读取的数据进行查询操作, 而这部分操作的消耗往往可以忽略不计.</p>
 <p><img src="https://user-images.githubusercontent.com/17758731/63212520-4d41d480-c138-11e9-92fc-6417e6d29717.png" alt="image"></p>
-<h2 id="3-2-InnoDB-索引简介"><a href="#3-2-InnoDB-索引简介" class="headerlink" title="3.2 InnoDB 索引简介"></a>3.2 InnoDB 索引简介</h2><p>InnoDB 支持以下几种索引:</p>
+<h2 id="3-2-InnoDB-索引模型"><a href="#3-2-InnoDB-索引模型" class="headerlink" title="3.2 InnoDB 索引模型"></a>3.2 InnoDB 索引模型</h2><p>InnoDB 支持以下几种索引:</p>
 <ul>
 <li>B+ 树索引</li>
 <li>全文索引</li>
 <li>自适应性哈希索引</li>
 </ul>
-<p>B+ 树索引就是传统意义上的索引, 是目前关系型数据系统中查找数据最为常用和有效的索引. 结构类似于一棵多叉树, 根据键快速找到数据. 自适应性哈希索引, 顾名思义是由 InnoDB 根据实时的查询情况自动为表生成的索引, 不能认为干预.</p>
-<h1 id="4-MySQL-锁"><a href="#4-MySQL-锁" class="headerlink" title="4. MySQL 锁"></a>4. MySQL 锁</h1><h1 id="5-事务"><a href="#5-事务" class="headerlink" title="5. 事务"></a>5. 事务</h1><p>事务是数据库系统区别于文件系统的重要特性之一, 在文件系统中, 如果在写文件的时候进程退出, 这个文件就很有可能被损坏. 还有在顺序写入多个文件的场景, 如果执行到中间某个状态时进程退出, 就会产生复杂的中间状态.</p>
+<p>B+ 树索引就是传统意义上的索引, 是目前关系型数据系统中查找数据最为常用和有效的索引. 结构类似于一棵多叉树, 根据键快速找到数据. 自适应性哈希索引, 顾名思义是由 InnoDB 根据实时的查询情况自动为表生成的索引, 不能人为干预.</p>
+<p>B+ 数索引的本质就是 B+ 树在数据库中的实现. 在 InnoDB 中, 每个 B+ 数的双亲节点大致可以保存 1200 个子节点, 可以近似理解为 1200 叉树, 那么即使在面对亿级数据量时, 也能够做到不超过 4 层, 并且 B+ 数的第二层基本会常驻内存, 因此平均场景下, InnoDB 通过索引查询一条记录最多只需要 2~4 次磁盘 IO, 意味着查询时间大致需要 20~40ms.</p>
+<pre><code>在 InnoDB 中, 表都是根据主键顺序以索引的形式存放的, 这种存储方式称之为索引组织表. 所有的数据都存储在主键的 B+ 树中.
+除了主键以外的其他索引被称为辅助索引, 叶子节点存储着索引字段和主键的映射, 在通过辅助索引查询时, 需要先从辅助索引中找到记录的主键, 再回到主索引查询对应记录.
+</code></pre><p>下面通过一个例子来解释一下 InnoDB 是如何通过索引快速定位数据的.</p>
+<p>假设有以下表:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t (</span><br><span class="line">    <span class="keyword">id</span> <span class="built_in">INT</span> PRIMARY <span class="keyword">KEY</span>,</span><br><span class="line">    k <span class="built_in">int</span> <span class="keyword">not</span> <span class="literal">null</span>,</span><br><span class="line">    <span class="keyword">name</span> <span class="built_in">varchar</span>(<span class="number">16</span>),</span><br><span class="line">    <span class="keyword">index</span>(k)</span><br><span class="line">) <span class="keyword">engine</span>=<span class="keyword">InnoDB</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t <span class="keyword">VALUES</span>(<span class="number">10</span>, <span class="number">1</span>, <span class="string">'Alice'</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t <span class="keyword">VALUES</span>(<span class="number">20</span>, <span class="number">2</span>, <span class="string">'Bob'</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t <span class="keyword">VALUES</span>(<span class="number">30</span>, <span class="number">3</span>, <span class="string">'Carl'</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t <span class="keyword">VALUES</span>(<span class="number">50</span>, <span class="number">5</span>, <span class="string">'David'</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t <span class="keyword">VALUES</span>(<span class="number">60</span>, <span class="number">6</span>, <span class="string">'Eartha'</span>);</span><br></pre></td></tr></table></figure>
+<p>此时表中记录为</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>k</th>
+<th>name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10</td>
+<td>1</td>
+<td>Alice</td>
+</tr>
+<tr>
+<td>20</td>
+<td>2</td>
+<td>Bob</td>
+</tr>
+<tr>
+<td>30</td>
+<td>3</td>
+<td>Carl</td>
+</tr>
+<tr>
+<td>10</td>
+<td>1</td>
+<td>David</td>
+</tr>
+<tr>
+<td>10</td>
+<td>1</td>
+<td>Eartha</td>
+</tr>
+<tr>
+<td>10</td>
+<td>1</td>
+<td>Frank</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://user-images.githubusercontent.com/17758731/63221133-1535a280-c1c7-11e9-9a16-eb6ccbf017b9.png" alt="image"></p>
+<ul>
+<li>如果查询语句是 <code>SELECT * FROM t WHERE id = 10;</code>, 及主键查询, 则只需所搜主索引;</li>
+<li>如果查询语句是 <code>SELECT * FROM t where k = 5;</code>, 即普通索引查询, 则需要先搜索 k 索引树, 得到 id 值为 50, 再去主索引中搜索一次, 这个过程被称为回表.</li>
+</ul>
+<h2 id="3-3-索引维护"><a href="#3-3-索引维护" class="headerlink" title="3.3 索引维护"></a>3.3 索引维护</h2><p>B+ 树是一种相对较为复杂的数据结构, 为了能够最大程度优化磁盘的读写, 引入了很多较为复杂的特性, 这里简单介绍一下 B+ 树节点的分裂与合并</p>
+<p>B+ 树在插入和删除元素的时候, 都需要维护其有序性:</p>
+<ul>
+<li>以上图为例, 加入插入的新行 id 为 70, 则只需要在 R5 后追加一条记录. 如果插入的 id 值为 40, 就相对麻烦一些, 需要将 R4 后的数据在逻辑上向后挪, 并将 id 为 40 的记录插入到 R3 之后, 更糟的情况是, 如果该叶子节点已满, 就需要申请一个新的数据页, 然后挪动一部分数据过去, 这个过程称为页的分裂, 频繁的分裂会对性能造成影响</li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/17758731/63221460-dd7d2980-c1cb-11e9-8cd8-ed1b13b6eb0b.png" alt="image"></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">叶子节点满</th>
+<th style="text-align:center">双亲节点满</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">NO</td>
+<td style="text-align:center">NO</td>
+<td>直接将记录插入到叶子节点</td>
+</tr>
+<tr>
+<td style="text-align:center">YES</td>
+<td style="text-align:center">NO</td>
+<td>1. 拆分叶子节点<br>2. 将中间的节点放入双亲结点<br>3. 小于中间节点的记录放左边<br>4. 大于或等于中间节点的记录放右边</td>
+</tr>
+<tr>
+<td style="text-align:center">YES</td>
+<td style="text-align:center">YES</td>
+<td>1. 拆分叶子节点<br> 2. 小于中间节点的记录放在左边<br> 3. 大于中间节点的记录放在右边<br> 4. 拆分双亲结点<br> 5. 小于中间节点的记录放左边<br> 6. 大于中间节点的记录放右边<br> 7. 中间节点放入上一层双亲结点</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>为什么 InnoDB 的表推荐使用自增主键<br>从上图的插入过程可以发现, 对 B+ 树来说, 效率最高的插入方式就是插入 id 最大的元素(未必需要递增, 只需要保证每次插入最大即可), 这样的插入永远是在最后一个叶子节点中向后最佳元素. 而其他情况下的插入则需考虑节点分裂. 对数据库来说, 实现 <code>永远插入最大值</code> 最简单的方式就是自增</p>
+</blockquote>
+<h2 id="3-4-联合索引"><a href="#3-4-联合索引" class="headerlink" title="3.4 联合索引"></a>3.4 联合索引</h2><p>联合索引指的是对表上的多个列进行索引, 联合索引的创建方法也和单个索引相同, 唯一的不同之处在于有多个索引列. 底层结构也与普通索引基本相同, 不同之处在于联合索引的叶子节点中, key 是由多个值组成的, 并且 key 之间时按照多个列从左到右的顺序排序</p>
+<p>联合索引能够解决相对复杂的查询逻辑, 同时对多个字段进行查询, 但其使用时必须遵循最左匹配原则.</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/63221796-be34cb00-c1d0-11e9-9478-11a90c6d4682.png" alt="image"></p>
+<p>上图是对两个 int 列进行联合索引的示意图, 可以看到, 联合索引中 key 的顺序先按照列 a 排序, 列 a 相同再按照列 b 排序, 这样类似字典序的排序方式.</p>
+<p>由于这种特性, 如果想使用某条联合索引, 筛选条件中列的顺序必须严格符合联合索引的最左匹配, 因为如果跳过了某一列, 索引就不再有序, 假设把上图中的列 a 去掉, 列 b 的索引就变成了 <code>[10, 15, 3, 5, 5]</code> 显然无法发挥索引的功能.</p>
+<blockquote>
+<p>假设现在有一条 a, b, c, d 列组成的联合索引, 那么能匹配该索引的查询语句为:<br>a -&gt; b -&gt; c -&gt; d<br>a -&gt; b -&gt; c<br>a -&gt; b<br>a</p>
+</blockquote>
+<h2 id="3-5-覆盖索引"><a href="#3-5-覆盖索引" class="headerlink" title="3.5 覆盖索引"></a>3.5 覆盖索引</h2><h2 id="3-6-索引的选择"><a href="#3-6-索引的选择" class="headerlink" title="3.6 索引的选择"></a>3.6 索引的选择</h2><h1 id="4-MySQL-锁"><a href="#4-MySQL-锁" class="headerlink" title="4. MySQL 锁"></a>4. MySQL 锁</h1><h1 id="5-事务"><a href="#5-事务" class="headerlink" title="5. 事务"></a>5. 事务</h1><p>事务是数据库系统区别于文件系统的重要特性之一, 在文件系统中, 如果在写文件的时候进程退出, 这个文件就很有可能被损坏. 还有在顺序写入多个文件的场景, 如果执行到中间某个状态时进程退出, 就会产生复杂的中间状态.</p>
 <p>数据库引入了事务, 就是希望能够安全的将数据库从一种一致状态转换到另一种一致的状态上来, 当数据库提交工作时, 可以确保要么所有的修改都已经成功保存, 要么所有的修改都被废弃. 而保证这些功能的关键就在于满足 ACID 特性.</p>
 <table>
 <thead>
@@ -865,7 +964,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-MySQL-体系架构"><span class="nav-text">1. MySQL 体系架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-连接器"><span class="nav-text">1.1 连接器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-查询缓存"><span class="nav-text">1.2 查询缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-分析器"><span class="nav-text">1.3 分析器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-1-词法分析"><span class="nav-text">1.3.1 词法分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2-语法分析"><span class="nav-text">1.3.2 语法分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-3-语义分析"><span class="nav-text">1.3.3 语义分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-优化器"><span class="nav-text">1.4 优化器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-执行器"><span class="nav-text">1.5 执行器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-MySQL-日志系统"><span class="nav-text">2. MySQL 日志系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-慢查询日志"><span class="nav-text">2.1 慢查询日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-binlog"><span class="nav-text">2.2 binlog</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-MySQL-索引"><span class="nav-text">3. MySQL 索引</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-索引概述"><span class="nav-text">3.1 索引概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-InnoDB-索引简介"><span class="nav-text">3.2 InnoDB 索引简介</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-MySQL-锁"><span class="nav-text">4. MySQL 锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-事务"><span class="nav-text">5. 事务</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-MySQL-体系架构"><span class="nav-text">1. MySQL 体系架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-连接器"><span class="nav-text">1.1 连接器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-查询缓存"><span class="nav-text">1.2 查询缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-分析器"><span class="nav-text">1.3 分析器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-1-词法分析"><span class="nav-text">1.3.1 词法分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2-语法分析"><span class="nav-text">1.3.2 语法分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-3-语义分析"><span class="nav-text">1.3.3 语义分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-优化器"><span class="nav-text">1.4 优化器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-执行器"><span class="nav-text">1.5 执行器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-MySQL-日志系统"><span class="nav-text">2. MySQL 日志系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-慢查询日志"><span class="nav-text">2.1 慢查询日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-binlog"><span class="nav-text">2.2 binlog</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-MySQL-索引"><span class="nav-text">3. MySQL 索引</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-索引概述"><span class="nav-text">3.1 索引概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-InnoDB-索引模型"><span class="nav-text">3.2 InnoDB 索引模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-索引维护"><span class="nav-text">3.3 索引维护</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-联合索引"><span class="nav-text">3.4 联合索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-覆盖索引"><span class="nav-text">3.5 覆盖索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-6-索引的选择"><span class="nav-text">3.6 索引的选择</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-MySQL-锁"><span class="nav-text">4. MySQL 锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-事务"><span class="nav-text">5. 事务</span></a></li></ol></div>
             
 
           </div>
