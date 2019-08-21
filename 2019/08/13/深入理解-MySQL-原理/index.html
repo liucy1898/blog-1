@@ -113,7 +113,7 @@
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/63221133-1535a280-c1c7-11e9-9a16-eb6ccbf017b9.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/63221460-dd7d2980-c1cb-11e9-8cd8-ed1b13b6eb0b.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/63221796-be34cb00-c1d0-11e9-9478-11a90c6d4682.png">
-<meta property="og:updated_time" content="2019-08-20T14:25:06.274Z">
+<meta property="og:updated_time" content="2019-08-21T15:55:15.528Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解 MySQL 原理">
 <meta name="twitter:description" content="1. MySQL 体系架构MySQL 的架构整体上可以分为服务层和引擎层:  Server 层涵盖了 MySQL 大多数核心服务, 包括请求的接收, 以及绝大多数内置函数(如 DATE()等) Engine 层负责数据的读写   1.1 连接器负责建立与客户端建立连接, 获取权限, 维持和管理连接 通过 TCP 连接, 验证用户身份, 当连接到达时获取用户当前所有权限, 而权限的获取是一次性的,">
@@ -720,7 +720,100 @@
 <li>由于回表/排序问题导致的误选索引, 在确定该语句绝大部分情况下都会误选的前提下(因为范围查询未必总会出现上述情况), 可以通过 <code>FORCE INDEX(idx_name)</code> 来强制使用某条索引.</li>
 <li>此外对于排序问题, 还可以将其他的索引字段也加入 <code>ORDER BY</code> 子句中, 通过这样的方式让查询优化器明白, 无论选择哪条索引都无法避免排序, 从而强迫它放弃这一筛选条件, 如上述的 SQL 语句改成 <code>SELECT * FROM t WHERE (a BETWEEN 1 AND 1000) AND (b BETWEEN 50000 AND 100000) ORDER BY b, a limit 1;</code> 后, 查询优化器就会根据索引的扫描行数去决定.</li>
 </ol>
-<h1 id="4-MySQL-锁"><a href="#4-MySQL-锁" class="headerlink" title="4. MySQL 锁"></a>4. MySQL 锁</h1><h1 id="5-事务"><a href="#5-事务" class="headerlink" title="5. 事务"></a>5. 事务</h1><p>事务是数据库系统区别于文件系统的重要特性之一, 在文件系统中, 如果在写文件的时候进程退出, 这个文件就很有可能被损坏. 还有在顺序写入多个文件的场景, 如果执行到中间某个状态时进程退出, 就会产生复杂的中间状态.</p>
+<h1 id="4-MySQL-锁"><a href="#4-MySQL-锁" class="headerlink" title="4. MySQL 锁"></a>4. MySQL 锁</h1><p>锁是一个用于管理对共享资源并发访问的数据结构.</p>
+<p>对于写操作, InnoDB 会在行记录上加锁, 使用 lock 功能的对象是事务, 锁定的对象是数据库存储中的对象, 包括表, 页, 行. 并且一般锁会在事务 commit 或 rollback 后释放.</p>
+<p>InnoDB 实现了两种标准的锁:</p>
+<ol>
+<li>共享锁(S 锁), 允许事务读一行数据, 与其他 S 锁兼容, 与 X 锁不兼容</li>
+<li>排他锁(X 锁), 允许事务删除或更新一行数据, 与其他 S 锁或 X 锁均不兼容</li>
+</ol>
+<h2 id="4-1-InnoDB-行锁的实现"><a href="#4-1-InnoDB-行锁的实现" class="headerlink" title="4.1 InnoDB 行锁的实现"></a>4.1 InnoDB 行锁的实现</h2><p>InnoDB 实现了 3 种行锁的算法, 分别是:</p>
+<ol>
+<li>记录锁: 单个记录上的锁, 总是会去锁住索引记录.</li>
+<li>间隙锁: 锁定一个范围, 但不包含记录本身</li>
+<li>临键锁: 实现的方式是记录锁+间隙锁, 锁定一个范围, 并且锁定记录本身.</li>
+</ol>
+<p>行锁在 InnoDB 中是基于索引实现的, 因此一旦某个加锁操作没有使用索引, 那么该锁就会退化为表锁.</p>
+<p>大部分数据库都是通过最高事务隔离级别 <code>SERIALIZABLE</code> 去解决幻读问题, 但 InnoDB 不同, 它是通过 MVCC 和临键锁, 在 <code>REPEATABLE READ</code> 隔离级别下避免幻读. 我们下面就来解释一下原因</p>
+<blockquote>
+<p>幻读: 在同一事务下, 连续执行两次 SQL 语句可能导致不同的结果, 第二次 SQL 语句可能会返回之前不存在的行或者没有返回之前存在的行, 即无法感知当前事务执行期间其他事务的 INSERT 或 DELETE 操作.</p>
+</blockquote>
+<h3 id="4-1-1-记录锁-Record-Locks"><a href="#4-1-1-记录锁-Record-Locks" class="headerlink" title="4.1.1 记录锁(Record Locks)"></a>4.1.1 记录锁(Record Locks)</h3><p>为某行记录加锁, 会封锁该行 的索引记录:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- id 列必须为主键或唯一索引</span></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> t <span class="keyword">WHERE</span> <span class="keyword">id</span> = <span class="number">1</span> <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;</span><br><span class="line"><span class="keyword">UPDATE</span> t <span class="keyword">SET</span> grade = <span class="number">100</span> <span class="keyword">WHERE</span> <span class="keyword">id</span> = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>在使用 <code>SELECT FOR UPDATE</code> 和 <code>UPDATE</code> 时, id 为 1 的记录行会被锁住, 但锁住的索引必须是主索引或者唯一索引, 否则加的锁就是临键锁, 同时, 查询语句必须为精确匹配, 不能为 <code>&lt;</code>, <code>&gt;</code> 或 <code>LIKE</code>, <code>BETWEEN</code> 等, 否则也只会加临键锁</p>
+<h3 id="4-1-2-间隙锁-Gap-Locks"><a href="#4-1-2-间隙锁-Gap-Locks" class="headerlink" title="4.1.2 间隙锁(Gap Locks)"></a>4.1.2 间隙锁(Gap Locks)</h3><p>间隙锁作用域普通索引(非主索引或唯一索引), 间隙锁锁住的是一个区间, 而不仅仅是这个区间中的每一条记录.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> t <span class="keyword">SET</span> grade = grade + <span class="number">10</span> <span class="keyword">WHERE</span> <span class="keyword">id</span> <span class="keyword">BETWEEN</span> <span class="number">10</span> <span class="keyword">AND</span> <span class="number">15</span>;</span><br></pre></td></tr></table></figure>
+<p>即所有在(10, 20)区间范围内的行记录都会被锁住, 即 id 为 <code>11, 12, 13, 14</code> 的记录. 但 10 和 15 两条记录不会被锁住.</p>
+<h3 id="4-1-3-临键锁"><a href="#4-1-3-临键锁" class="headerlink" title="4.1.3 临键锁"></a>4.1.3 临键锁</h3><p>可以理解为特殊的间隙锁. 每个数据行上的普通索引列都会存在一把临键锁, 当某个事务持有该行的临键锁时, 会锁住一段 <code>左开右闭区间</code> 的数据, InnoDB 中的行锁是基于索引实现, 临键锁只与普通索引有关, 在主索引和唯一键索引上不存在临键锁.</p>
+<p>假设有如下数据表:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> t (</span><br><span class="line">    <span class="keyword">id</span> <span class="built_in">bigint</span> primary <span class="keyword">key</span>,</span><br><span class="line">    age <span class="built_in">int</span>,</span><br><span class="line">    <span class="keyword">name</span> <span class="built_in">varchar</span>(<span class="number">64</span>),</span><br><span class="line">    <span class="keyword">index</span>(age),</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>内容如下:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">id</th>
+<th style="text-align:center">age</th>
+<th style="text-align:center">name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">10</td>
+<td style="text-align:center">Lee</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">24</td>
+<td style="text-align:center">soraka</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">32</td>
+<td style="text-align:center">Zed</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">45</td>
+<td style="text-align:center">Talon</td>
+</tr>
+</tbody>
+</table>
+<p>此时, age 索引上潜在的临键锁有:</p>
+<ul>
+<li><code>(-∞, 10]</code></li>
+<li><code>(10, 24]</code></li>
+<li><code>(24, 32]</code></li>
+<li><code>(32, 45]</code></li>
+<li><code>(45, +∞)</code></li>
+</ul>
+<p>此时进行如下操作:</p>
+<table>
+<thead>
+<tr>
+<th>时刻</th>
+<th>事务 A</th>
+<th>事务 B</th>
+<th>情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>t1</td>
+<td><code>SELECT * FROM t WHERE id BETWEEN 10 AND 24 FOR UPDATE</code></td>
+<td>无</td>
+<td>获得间隙锁</td>
+</tr>
+<tr>
+<td>t2</td>
+<td>无</td>
+<td><code>INSERT INTO t(age, name) VALUES(15, &#39;Tom&#39;)</code></td>
+<td>插入操作被阻塞</td>
+</tr>
+</tbody>
+</table>
+<p>使用这样的方式保证事务执行期间不会出现幻读.</p>
+<h1 id="5-事务"><a href="#5-事务" class="headerlink" title="5. 事务"></a>5. 事务</h1><p>事务是数据库系统区别于文件系统的重要特性之一, 在文件系统中, 如果在写文件的时候进程退出, 这个文件就很有可能被损坏. 还有在顺序写入多个文件的场景, 如果执行到中间某个状态时进程退出, 就会产生复杂的中间状态.</p>
 <p>数据库引入了事务, 就是希望能够安全的将数据库从一种一致状态转换到另一种一致的状态上来, 当数据库提交工作时, 可以确保要么所有的修改都已经成功保存, 要么所有的修改都被废弃. 而保证这些功能的关键就在于满足 ACID 特性.</p>
 <table>
 <thead>
@@ -1026,7 +1119,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-MySQL-体系架构"><span class="nav-text">1. MySQL 体系架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-连接器"><span class="nav-text">1.1 连接器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-查询缓存"><span class="nav-text">1.2 查询缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-分析器"><span class="nav-text">1.3 分析器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-1-词法分析"><span class="nav-text">1.3.1 词法分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2-语法分析"><span class="nav-text">1.3.2 语法分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-3-语义分析"><span class="nav-text">1.3.3 语义分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-优化器"><span class="nav-text">1.4 优化器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-执行器"><span class="nav-text">1.5 执行器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-MySQL-日志系统"><span class="nav-text">2. MySQL 日志系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-慢查询日志"><span class="nav-text">2.1 慢查询日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-binlog"><span class="nav-text">2.2 binlog</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-MySQL-索引"><span class="nav-text">3. MySQL 索引</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-索引概述"><span class="nav-text">3.1 索引概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-InnoDB-索引模型"><span class="nav-text">3.2 InnoDB 索引模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-索引维护"><span class="nav-text">3.3 索引维护</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-联合索引"><span class="nav-text">3.4 联合索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-覆盖索引"><span class="nav-text">3.5 覆盖索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-6-索引的选择"><span class="nav-text">3.6 索引的选择</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-1-扫描行数"><span class="nav-text">3.6.1 扫描行数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-2-是否会回表"><span class="nav-text">3.6.2 是否会回表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-3-是否需要排序"><span class="nav-text">3.6.3 是否需要排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-4-如何选择正确的索引"><span class="nav-text">3.6.4 如何选择正确的索引</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-MySQL-锁"><span class="nav-text">4. MySQL 锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-事务"><span class="nav-text">5. 事务</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-MySQL-体系架构"><span class="nav-text">1. MySQL 体系架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-连接器"><span class="nav-text">1.1 连接器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-查询缓存"><span class="nav-text">1.2 查询缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-分析器"><span class="nav-text">1.3 分析器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-1-词法分析"><span class="nav-text">1.3.1 词法分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2-语法分析"><span class="nav-text">1.3.2 语法分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-3-语义分析"><span class="nav-text">1.3.3 语义分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-优化器"><span class="nav-text">1.4 优化器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-执行器"><span class="nav-text">1.5 执行器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-MySQL-日志系统"><span class="nav-text">2. MySQL 日志系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-慢查询日志"><span class="nav-text">2.1 慢查询日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-binlog"><span class="nav-text">2.2 binlog</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-MySQL-索引"><span class="nav-text">3. MySQL 索引</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-索引概述"><span class="nav-text">3.1 索引概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-InnoDB-索引模型"><span class="nav-text">3.2 InnoDB 索引模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-索引维护"><span class="nav-text">3.3 索引维护</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-联合索引"><span class="nav-text">3.4 联合索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-覆盖索引"><span class="nav-text">3.5 覆盖索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-6-索引的选择"><span class="nav-text">3.6 索引的选择</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-1-扫描行数"><span class="nav-text">3.6.1 扫描行数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-2-是否会回表"><span class="nav-text">3.6.2 是否会回表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-3-是否需要排序"><span class="nav-text">3.6.3 是否需要排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-4-如何选择正确的索引"><span class="nav-text">3.6.4 如何选择正确的索引</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-MySQL-锁"><span class="nav-text">4. MySQL 锁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-InnoDB-行锁的实现"><span class="nav-text">4.1 InnoDB 行锁的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-1-记录锁-Record-Locks"><span class="nav-text">4.1.1 记录锁(Record Locks)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-2-间隙锁-Gap-Locks"><span class="nav-text">4.1.2 间隙锁(Gap Locks)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-3-临键锁"><span class="nav-text">4.1.3 临键锁</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-事务"><span class="nav-text">5. 事务</span></a></li></ol></div>
             
 
           </div>
