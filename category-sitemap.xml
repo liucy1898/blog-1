@@ -29,14 +29,7 @@
 
     <url>
         <loc>https://destinywang.github.io/blog/categories/Raft/</loc>
-        <lastmod>2018-04-15T14:55:31.574Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://destinywang.github.io/blog/categories/dubbo/</loc>
-        <lastmod>2018-06-03T05:27:51.725Z</lastmod>
+        <lastmod>2018-04-14T13:48:29.390Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -155,7 +148,7 @@
 
     <url>
         <loc>https://destinywang.github.io/blog/categories/MySQL/</loc>
-        <lastmod>2019-08-22T15:17:16.191Z</lastmod>
+        <lastmod>2019-08-24T07:25:30.017Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
