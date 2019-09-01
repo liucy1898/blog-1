@@ -121,13 +121,6 @@
     </url>
 
     <url>
-        <loc>https://destinywang.github.io/blog/tags/Go/</loc>
-        <lastmod>2019-06-20T14:35:20.593Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://destinywang.github.io/blog/tags/Hadoop/</loc>
         <lastmod>2019-07-27T01:55:57.663Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -136,7 +129,7 @@
 
     <url>
         <loc>https://destinywang.github.io/blog/tags/MySQL/</loc>
-        <lastmod>2019-08-28T16:46:16.022Z</lastmod>
+        <lastmod>2019-08-31T12:08:46.851Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
