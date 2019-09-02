@@ -3,6 +3,27 @@
   
     
     <entry>
+      <title>深入理解 Git</title>
+      <link href="/blog/2019/09/02/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-Git/"/>
+      <url>/blog/2019/09/02/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-Git/</url>
+      <content type="html"><![CDATA[<h1 id="1-Git-数据结构"><a href="#1-Git-数据结构" class="headerlink" title="1. Git 数据结构"></a>1. Git 数据结构</h1><p>当通过 git init 初始化一个 git 项目时, 当前路径上回自动创建一个 <code>.git</code> 文件夹用来保存所有 git 需要用到的数据.</p><p>我们先来简单介绍一下 <code>.git</code> 中的主要内容:</p><h2 id="1-1-HEAD"><a href="#1-1-HEAD" class="headerlink" title="1.1 HEAD"></a>1.1 HEAD</h2><p><img src="https://user-images.githubusercontent.com/17758731/64104177-57094000-cda6-11e9-8f19-e6c37ce646ac.png" alt="image"></p><ul><li>HEAD 是一个文本文件, 保存当前工作区中的当前分支, <code>ref: refs/heads/master</code> 就是代表当前正在工作的分支是 master, 切换分支时 head 的内容会发生改变</li></ul><h2 id="1-2-config"><a href="#1-2-config" class="headerlink" title="1.2 config"></a>1.2 config</h2><p>主要用于记录当前 git 仓库的配置信息, 假设通过 local 设置了其他的用户名和邮箱, 会在此处保存.</p><p><img src="https://user-images.githubusercontent.com/17758731/64104562-06461700-cda7-11e9-8110-3aa3df5ffac3.png" alt="image"></p><h2 id="1-3-refs"><a href="#1-3-refs" class="headerlink" title="1.3 refs"></a>1.3 refs</h2><p>HEAD 中的指向是一个 refs 下的文件</p><p><img src="https://user-images.githubusercontent.com/17758731/64105627-2c6cb680-cda9-11e9-8074-329b428f8a8b.png" alt="image"></p><p>refs 下包含如下几个内容:</p><ul><li>heads: 对应分支, 是一个独立的开发空间, 不同分支间的工作互不影响. 当彼此间需要集成的时候可以进行合并. HEAD 文件的内容是整个仓库当前工作在哪个分支上, 所以内容是一个引用, 指向 <code>refs/head/</code> 下的某个值, 而此处可以看到, master 内是一个 40 位的 16 进制数字(<code>42ba8f37d95fb8847e8b5639d67ad7aff7bfe0d1</code>)</li></ul><p>我们可以使用 git 内置的命令查看这串数字的类型, 发现这是一个 commit 对象, 也就是说 heads 中保存了当前项目的所有分支, 每个分支都指向了一个 commit 对象:</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git cat-file -t 42ba8f37d95fb8847e8b5639d67ad7aff7bfe0d1</span><br><span class="line">commit</span><br></pre></td></tr></table></figure><ul><li>tags: 标签, 当项目开发到一定程度, 是一个关键的里程碑, 或支持了某关键特性, 就可以对特定的 commit 打上一个 tag 做标识.</li></ul><h2 id="1-4-objects"><a href="#1-4-objects" class="headerlink" title="1.4 objects"></a>1.4 objects</h2><p>objects 是 git 中非常重要的路径, 保存了 git 核心数据结构: commit 信息</p><p><img src="https://user-images.githubusercontent.com/17758731/64106125-25927380-cdaa-11e9-8a3f-2131d855bb06.png" alt="image"></p><p>objects 下内容主要分为三部分:</p><ul><li>两位 16 进制数字开头的文件夹, 内部包含一个或多个 38 为 16 进制数字组成的文件名<code>(b98a673367b325d7de6151286d7ceb4aa6c9d3)</code>, 其实 git 内部主要使用 40 位的 16 进制数字, 需要将该名称与文件夹名组合起来, 如上图中我们查看的是 <code>01</code> 下的文件:</li></ul><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git cat-file -t 01b98a673367b325d7de6151286d7ceb4aa6c9d3</span><br><span class="line">tree</span><br></pre></td></tr></table></figure><p>类型为 tree, 此时我们可以再看看它的内容:</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ git cat-file -p 01b98a673367b325d7de6151286d7ceb4aa6c9d3</span><br><span class="line">100644 blob 85aa2fa76396d11d0e3cfc3aa8d31d0d9fdb8da5SparseArray.md</span><br><span class="line">100644 blob 109f7918011338d8f409e965400f4ac2a99088ebsparse-array.go</span><br><span class="line">100644 blob b56a4561bf11b3fe2dfe7014b01eafc175b6b99bsparse-array_test.go</span><br></pre></td></tr></table></figure><p>可以看到这棵树中包含三个元素, blob 表示类型是文件, 而每个文件也包含一个 40 位的 hash 值, 我们再继续通过 hash 值查看其中一个元素的类型和内容:</p><p><img src="https://user-images.githubusercontent.com/17758731/64107005-072d7780-cdac-11e9-9d89-bd80161b05b6.png" alt="image"></p><p>类型是一个文件, 而内容就是一段简单的 go 代码</p><ul><li>info:</li><li>pack: git 会做自我梳理, 如果某个类型 1 的文件过于松散, 会对它进行打包, 并将打包后的文件放在 pack 中.</li></ul><p>commit, tree, blob 就是 git 数据结构中最为核心的三个元素.</p>]]></content>
+      
+      <categories>
+          
+          <category> Git </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Git </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
       <title>Go 高级特性</title>
       <link href="/blog/2019/08/31/Go-%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/"/>
       <url>/blog/2019/08/31/Go-%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/</url>
