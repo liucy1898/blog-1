@@ -7,8 +7,16 @@
     </url>
 
     <url>
+        <loc>https://destinywang.github.io/blog/2019/08/13/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-MySQL-%E5%8E%9F%E7%90%86/</loc>
+        <lastmod>2019-09-04T15:35:19.440Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://destinywang.github.io/blog/2019/09/02/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-Git/</loc>
-        <lastmod>2019-09-02T10:05:57.853Z</lastmod>
+        <lastmod>2019-09-02T13:17:24.649Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -17,14 +25,6 @@
     <url>
         <loc>https://destinywang.github.io/blog/2019/08/31/Go-%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/</loc>
         <lastmod>2019-09-02T07:27:07.633Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://destinywang.github.io/blog/2019/08/13/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-MySQL-%E5%8E%9F%E7%90%86/</loc>
-        <lastmod>2019-08-31T12:08:46.851Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
