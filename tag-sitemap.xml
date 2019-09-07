@@ -136,7 +136,14 @@
 
     <url>
         <loc>https://destinywang.github.io/blog/tags/MySQL/</loc>
-        <lastmod>2019-09-07T08:25:59.654Z</lastmod>
+        <lastmod>2019-09-07T08:32:02.403Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://destinywang.github.io/blog/tags/Viper/</loc>
+        <lastmod>2019-09-07T14:30:01.699Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

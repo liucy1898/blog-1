@@ -148,7 +148,21 @@
 
     <url>
         <loc>https://destinywang.github.io/blog/categories/MySQL/</loc>
-        <lastmod>2019-09-07T08:25:59.654Z</lastmod>
+        <lastmod>2019-09-07T08:32:02.403Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://destinywang.github.io/blog/categories/Go/</loc>
+        <lastmod>2019-09-07T14:30:01.699Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://destinywang.github.io/blog/categories/Go/%E6%BA%90%E7%A0%81/</loc>
+        <lastmod>2019-09-07T14:30:01.699Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
