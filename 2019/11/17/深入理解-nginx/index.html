@@ -108,7 +108,9 @@
 <meta property="og:description" content="1. Nginx 简介1.1 Nginx 的三个主要应用场景 静态资源服务: 通过本地文件系统提供服务 反向代理服务: 缓存, 负载均衡 API 服务: OpenResty   用户请求会首先经过 Nginx, 再导应用服务(如 Tomcat, Apache 等), 应用服务根据自身逻辑再去访问存储服务(如 MySQL, Redis, Elasticsearch 等), 通过这样的方式对外部提供最">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/69009167-cd711380-098d-11ea-8c78-2a5c8d1a713b.png">
-<meta property="og:updated_time" content="2019-11-17T16:57:11.221Z">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/69018029-4bacd480-09e5-11ea-97cd-dc1a361bb794.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/69018388-27ea8e00-09e7-11ea-8bde-77bb8c66c3d8.png">
+<meta property="og:updated_time" content="2019-11-18T01:42:28.361Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解 nginx">
 <meta name="twitter:description" content="1. Nginx 简介1.1 Nginx 的三个主要应用场景 静态资源服务: 通过本地文件系统提供服务 反向代理服务: 缓存, 负载均衡 API 服务: OpenResty   用户请求会首先经过 Nginx, 再导应用服务(如 Tomcat, Apache 等), 应用服务根据自身逻辑再去访问存储服务(如 MySQL, Redis, Elasticsearch 等), 通过这样的方式对外部提供最">
@@ -465,6 +467,68 @@
 <li>热部署: Nginx 可以在不停止服务的情况下升级重启. 服务器可能同时存在百万级的并发连接, 如果简单 kill 掉进程会导致操作系统向所有正在连接状态的 TCP 客户端发送一个 TCP 中的终端响应. 而热部署可以保证 Nginx 重启的同事连接不会中断.</li>
 <li>BSD 许可证: Nginx 不只是开源免费, 而且可以在有定制需要的场景下修改 Nginx 源代码, 并且运行在商业场景下, 这是合法的.</li>
 </ol>
+<h3 id="1-3-Nginx-的组成"><a href="#1-3-Nginx-的组成" class="headerlink" title="1.3 Nginx 的组成"></a>1.3 Nginx 的组成</h3><ol>
+<li>二进制可执行文件: 由各模块源码编译出的一个文件, 由官方模块以及自定义的第三方模块共同组成.</li>
+<li>Nginx.conf 文件: 控制 Nginx 的行为.</li>
+<li>access.log 访问日志: 记录每一条 HTTP 请求信息.</li>
+<li>error.log 错误日志: 用于定位问题.</li>
+</ol>
+<h3 id="1-4-编译-Nginx"><a href="#1-4-编译-Nginx" class="headerlink" title="1.4 编译 Nginx"></a>1.4 编译 Nginx</h3><p>安装 Nginx 的步骤:</p>
+<ol>
+<li>下载 Nginx: 可以从官网下载压缩包, 或者通过 <code>yum</code>, <code>apt-get</code> 等命令完成;</li>
+<li>执行 <code>configure</code> 文件, 会生成很多中间文件;</li>
+<li>执行编译</li>
+<li>安装</li>
+</ol>
+<h4 id="1-4-1-下载"><a href="#1-4-1-下载" class="headerlink" title="1.4.1 下载"></a>1.4.1 下载</h4><p>可以直接在 <a href="http://nginx.org/en/download.html" target="_blank" rel="noopener">http://nginx.org/en/download.html</a> 页面选择合适的版本并下载</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/69018029-4bacd480-09e5-11ea-97cd-dc1a361bb794.png" alt="image"></p>
+<p>Nginx 目录下个各个文件目录的主要功能:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">目录名</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">auto</td>
+<td>用辅助 configure 脚本执行时去判定 Nginx 需要支持的模块, 已经当前操作系统特性等</td>
+</tr>
+<tr>
+<td style="text-align:center">conf</td>
+<td>示例文件的集合, 为了方便运维配置, 可以把示例文件拷贝到安装目录</td>
+</tr>
+<tr>
+<td style="text-align:center">contrib</td>
+<td>提供了两个 peal 脚本和 vim 工具, 由于 vim 默认不支持 Nginx 语法高亮, 我们可以将 contrib/vim 下的所有文件拷贝到本地 vim 配置中 <code>cp -r contrib/vim/* ~/.vim/</code>, 此时 vim 就支持 Nginx 配置文件的语法高亮了 <img src="https://user-images.githubusercontent.com/17758731/69018388-27ea8e00-09e7-11ea-8bde-77bb8c66c3d8.png" alt="image"></td>
+</tr>
+<tr>
+<td style="text-align:center">html</td>
+<td>提供了两个 HTML 文件, 一个是发现 50X 错误时, 可以默认重定向到该页面, 另一个是默认的欢迎界面</td>
+</tr>
+<tr>
+<td style="text-align:center">man</td>
+<td>Linux 对 Nginx 的帮助文件</td>
+</tr>
+<tr>
+<td style="text-align:center">src</td>
+<td>Nginx 的源代码目录</td>
+</tr>
+<tr>
+<td style="text-align:center">CHANGES</td>
+<td>记录了当前 Nginx 版本新增的 feature 以及 bugfix</td>
+</tr>
+<tr>
+<td style="text-align:center">CHANGES.ru</td>
+<td>俄语版 CHANGES文件</td>
+</tr>
+<tr>
+<td style="text-align:center">configure</td>
+<td>用来生成中间文件的脚本, 是执行编译前的一个必备动作</td>
+</tr>
+</tbody>
+</table>
 
       
     </div>
@@ -745,7 +809,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Nginx-简介"><span class="nav-text">1. Nginx 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-Nginx-的三个主要应用场景"><span class="nav-text">1.1 Nginx 的三个主要应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Nginx-的优点"><span class="nav-text">1.2 Nginx 的优点</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Nginx-简介"><span class="nav-text">1. Nginx 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-Nginx-的三个主要应用场景"><span class="nav-text">1.1 Nginx 的三个主要应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Nginx-的优点"><span class="nav-text">1.2 Nginx 的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-Nginx-的组成"><span class="nav-text">1.3 Nginx 的组成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-编译-Nginx"><span class="nav-text">1.4 编译 Nginx</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-1-下载"><span class="nav-text">1.4.1 下载</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
