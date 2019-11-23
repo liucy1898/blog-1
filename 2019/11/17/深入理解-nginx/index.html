@@ -119,7 +119,18 @@
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/69155384-92511a80-0b1c-11ea-8102-6c5b2c0ff529.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/69156437-5d45c780-0b1e-11ea-8163-ca7f04cfe52f.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/69158562-9b90b600-0b21-11ea-9856-339e826d4fd5.png">
-<meta property="og:updated_time" content="2019-11-21T15:30:24.518Z">
+<meta property="og:image" content="https://goaccess.io/images/goaccess-dashboard.png?20190828082924">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/69478057-d0a24e80-0e28-11ea-88c8-de6a57d575a8.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/69478068-edd71d00-0e28-11ea-9c1c-496be9894f99.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/69473898-a8006180-0df4-11ea-8060-7cab57aefdd7.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/69473978-85bb1380-0df5-11ea-9122-86811e3eb0fb.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/69478508-4826ac80-0e2e-11ea-8fe2-e405105bbff5.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/69479146-2a107a80-0e35-11ea-8c83-4e740e310101.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/69479275-54af0300-0e36-11ea-9f06-9152c0e99435.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/69479916-be7edb00-0e3d-11ea-8148-d70007c14a25.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/69479903-a6a75700-0e3d-11ea-80a4-191211392ade.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/69480188-1fa7ae00-0e40-11ea-93d1-65d2db8d155e.png">
+<meta property="og:updated_time" content="2019-11-23T15:35:34.207Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解 nginx">
 <meta name="twitter:description" content="1. Nginx 简介1.1 Nginx 的三个主要应用场景 静态资源服务: 通过本地文件系统提供服务 反向代理服务: 缓存, 负载均衡 API 服务: OpenResty   用户请求会首先经过 Nginx, 再导应用服务(如 Tomcat, Apache 等), 应用服务根据自身逻辑再去访问存储服务(如 MySQL, Redis, Elasticsearch 等), 通过这样的方式对外部提供最">
@@ -741,6 +752,261 @@
 </ol>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#user  nobody;</span></span><br><span class="line"><span class="attribute">worker_processes</span>  <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="section">events</span> &#123;</span><br><span class="line">    <span class="attribute">worker_connections</span>  <span class="number">1024</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 设置缓存文件路径, 文件的命名方式, 文件的 key(关键字需要放在共享内存中)</span></span><br><span class="line">    <span class="attribute">proxy_cache_path</span> /tmp/nginxcache levels=<span class="number">1</span>:<span class="number">2</span> keys_zone=my_cache:<span class="number">10m</span> max_size=<span class="number">10g</span> inactive=<span class="number">60m</span> use_temp_path=<span class="literal">off</span>;</span><br><span class="line"></span><br><span class="line">    <span class="section">server</span> &#123;</span><br><span class="line">        <span class="attribute">listen</span>       <span class="number">9000</span>;</span><br><span class="line">        <span class="attribute">server_name</span>  localhost;</span><br><span class="line"></span><br><span class="line">        <span class="comment">#charset koi8-r;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#access_log  logs/host.access.log  main;</span></span><br><span class="line"></span><br><span class="line">        <span class="attribute">location</span> / &#123;</span><br><span class="line">            <span class="comment"># 将 HTTP 请求添加自定义的 header 发送给上游</span></span><br><span class="line">            <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;</span><br><span class="line">            <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">            <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 指定使用上面声明的共享内存 my_cache</span></span><br><span class="line">            <span class="attribute">proxy_cache</span> my_cache;</span><br><span class="line">            <span class="comment"># 在共享内存中设置的 key, 由于同一个 uri 不同用户的返回可能不同, 此时需要将参数也作为 key</span></span><br><span class="line">            <span class="attribute">proxy_cache_key</span> <span class="variable">$host</span><span class="variable">$uri</span><span class="variable">$is_args</span><span class="variable">$args</span>;</span><br><span class="line">            <span class="comment"># 对于哪些响应开启缓存</span></span><br><span class="line">            <span class="attribute">proxy_cache_valid</span> <span class="number">200</span> <span class="number">304</span> <span class="number">302</span> <span class="number">1d</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 将 location 匹配到的请求代理到下面的路径</span></span><br><span class="line">            <span class="attribute">proxy_pass</span> http://local;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">error_page</span>   <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span>  /50x.html;</span><br><span class="line">        <span class="attribute">location</span> = /50x.html &#123;</span><br><span class="line">            <span class="attribute">root</span>   html;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>该配置生效后, 当 Nginx 反向代理服务器拥有缓存时, 即使停掉应用服务器依然可以正常提供服务.</p>
+<h3 id="1-9-access-日志"><a href="#1-9-access-日志" class="headerlink" title="1.9 access 日志"></a>1.9 access 日志</h3><p>access 日志记录了 Nginx 运行时的访问信息, 我们可以通过 access 日志来分析定位问题以及用户的运营数据, 但大部分都是离线场景, 在线实时分析相对比较困难, 而 GoAccess 可以通过图形化的方式, 通过 websocket 协议实时把 access 日志的内容展示出来, 方便我们分析问题.</p>
+<p>原生的 access 日志内容:</p>
+<pre><code>127.0.0.1 - - [21/Nov/2019:23:04:13 +0800] &quot;GET /css/print.css HTTP/1.0&quot; 200 215 &quot;http://127.0.0.1:9000/&quot; &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36&quot;
+127.0.0.1 - - [21/Nov/2019:23:04:13 +0800] &quot;GET /images/breadcrumbs.jpg HTTP/1.0&quot; 200 349 &quot;http://127.0.0.1:9000/css/maven-theme.css&quot; &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36&quot;
+127.0.0.1 - - [21/Nov/2019:23:04:13 +0800] &quot;GET /images/external.png HTTP/1.0&quot; 200 230 &quot;http://127.0.0.1:9000/css/maven-theme.css&quot; &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36&quot;
+127.0.0.1 - - [21/Nov/2019:23:04:13 +0800] &quot;GET /images/h5.jpg HTTP/1.0&quot; 200 357 &quot;http://127.0.0.1:9000/css/maven-theme.css&quot; &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36&quot;
+127.0.0.1 - - [21/Nov/2019:23:28:32 +0800] &quot;GET / HTTP/1.0&quot; 200 20536 &quot;-&quot; &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36&quot;
+127.0.0.1 - - [21/Nov/2019:23:28:32 +0800] &quot;GET /css/maven-base.css HTTP/1.0&quot; 200 2310 &quot;-&quot; &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36&quot;
+127.0.0.1 - - [21/Nov/2019:23:28:32 +0800] &quot;GET /css/maven-theme.css HTTP/1.0&quot; 200 4624 &quot;http://127.0.0.1:9000/&quot; &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36&quot;
+127.0.0.1 - - [21/Nov/2019:23:28:32 +0800] &quot;GET /css/site.css HTTP/1.0&quot; 200 936 &quot;http://127.0.0.1:9000/&quot; &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36&quot;
+127.0.0.1 - - [21/Nov/2019:23:28:32 +0800] &quot;GET /images/logos/maven-feather.png HTTP/1.0&quot; 200 3330 &quot;http://127.0.0.1:9000/&quot; &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36&quot;
+127.0.0.1 - - [21/Nov/2019:23:28:32 +0800] &quot;GET /css/print.css HTTP/1.0&quot; 200 215 &quot;http://127.0.0.1:9000/&quot; &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36&quot;
+127.0.0.1 - - [21/Nov/2019:23:28:32 +0800] &quot;GET /images/breadcrumbs.jpg HTTP/1.0&quot; 200 349 &quot;http://127.0.0.1:9000/css/maven-theme.css&quot; &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36&quot;
+127.0.0.1 - - [21/Nov/2019:23:28:32 +0800] &quot;GET /images/external.png HTTP/1.0&quot; 200 230 &quot;http://127.0.0.1:9000/css/maven-theme.css&quot; &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36&quot;
+127.0.0.1 - - [21/Nov/2019:23:28:32 +0800] &quot;GET /images/h5.jpg HTTP/1.0&quot; 200 357 &quot;http://127.0.0.1:9000/css/maven-theme.css&quot; &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36&quot;
+</code></pre><p><a href="https://goaccess.io/" target="_blank" rel="noopener">GoAccess官网</a></p>
+<p><img src="https://goaccess.io/images/goaccess-dashboard.png?20190828082924" alt="image"></p>
+<p>GoAccess 以一种友好的图形化方式展示, 当我们使用 Nginx 配置中默认的日志格式时, 可以支持使用 <code>goaccess access.log -o report.html --log-format=COMBINED</code> 命令解析, <code>-o</code> 参数会指定生成一个报表 html, <code>--log-format=COMBINED</code> 指定了解析日志的默认格式, 当我们的 access log 格式发生改变的时候, 需要更换解析格式.</p>
+<p>效果展示:</p>
+<ul>
+<li><p>命令行<br><img src="https://user-images.githubusercontent.com/17758731/69478057-d0a24e80-0e28-11ea-88c8-de6a57d575a8.png" alt="image"></p>
+</li>
+<li><p>网页版<br><img src="https://user-images.githubusercontent.com/17758731/69478068-edd71d00-0e28-11ea-9c1c-496be9894f99.png" alt="image"></p>
+</li>
+</ul>
+<h3 id="1-10-SSL-协议"><a href="#1-10-SSL-协议" class="headerlink" title="1.10 SSL 协议"></a>1.10 SSL 协议</h3><p>大部分站点都通过使用 HTTPS 协议保证网络安全.</p>
+<p>SSL 协议(Secure Sockets Layer), 现在更多使用 TLS(Transport Layer Security), SSL 协议是由网井公司在 1995 年推出的, 1999 年 RETF 把 SSL 更名为 TLS1.0.</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/69473898-a8006180-0df4-11ea-8060-7cab57aefdd7.png" alt="image"></p>
+<p>在七层模型中, HTTP 处在应用层, SSL 协议处在表示层, 通过握手, 交换秘钥, 告警和对称加密的方式, 使 HTTP 层在没有感知的情况下做到数据加密.</p>
+<p>当我们抓包时可以看到类似下图的密码配置</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/69473978-85bb1380-0df5-11ea-9122-86811e3eb0fb.png" alt="image"></p>
+<table>
+<thead>
+<tr>
+<th>TLS</th>
+<th>_</th>
+<th>ECDHC</th>
+<th>_</th>
+<th>RSA</th>
+<th>_</th>
+<th>WITH</th>
+<th>_</th>
+<th>AES</th>
+<th>_</th>
+<th>128</th>
+<th>_</th>
+<th>GCM</th>
+<th>_</th>
+<th>SHA256</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td>秘钥交换</td>
+<td></td>
+<td>身份验证</td>
+<td></td>
+<td></td>
+<td></td>
+<td>算法</td>
+<td></td>
+<td>强度</td>
+<td></td>
+<td>模式</td>
+<td></td>
+<td>MAC 或 PRF</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>椭圆曲线加密算法, 为了解决浏览器和服务器之间如何各自独立生成相同的秘钥</td>
+<td></td>
+<td>身份验证算法 RSA</td>
+<td></td>
+<td></td>
+<td></td>
+<td>对称加密算法名</td>
+<td></td>
+<td>对称加密算法加密强度</td>
+<td></td>
+<td>对称加密算法分组模式</td>
+<td></td>
+<td>摘要算法, 用来将不定长度的字符串生成定长摘要.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="1-10-1-对称加密"><a href="#1-10-1-对称加密" class="headerlink" title="1.10.1 对称加密"></a>1.10.1 对称加密</h4><p>在对称加密的场景中, A 和 B 共同持有同一把秘钥, A 可以把明文通过秘钥加密生成密文, 而 B拿到密文后可以通过同一个秘钥解密出明文. 除此之外的其他人如果没有秘钥, 即使知道了对称加密的具体算法也无法解密.</p>
+<p>具体的工作原理可以以对称加密的典型算法 <code>RC4</code> 来理解:</p>
+<pre><code>假设我们有秘钥序列 1010, 明文内容是 0110, 通过秘钥的加密过程其实就是二者做异或操作:
+1010 ^ 0110 = 1100 此时就通过秘钥将原文加密, 生成密文
+由于异或具有对称的特性, 密文与秘钥做同样的异或操作就可以还原出明文:
+1100 ^ 0110 = 1010
+</code></pre><p>由于以上原理, 对称加密的性能较好, 基本上遍历一次就可以完成加密/解密</p>
+<h4 id="1-10-2-非对称加密"><a href="#1-10-2-非对称加密" class="headerlink" title="1.10.2 非对称加密"></a>1.10.2 非对称加密</h4><p>相比对称加密, 非对称加密的性能就会差很多:</p>
+<ol>
+<li>根据数学原理, 首先会生成一对秘钥, 我们称其中一个为公钥, 另一个为私钥, 其特点是同一份明文文档, 如果用公钥加密, 只有用与其一起生成的私钥才能解密, 反之亦然.</li>
+<li>假设 A 生成了一对公钥和私钥, 并将其公钥发布出去, 此时 B 想和 A 通信, 就需要先将自己的明文用 A 发布的公钥加密, A 接收到之后, 再用自己的私钥解密即可.</li>
+<li>此外公钥和私钥还可以用来做身份严重, 假设有一段信息, A 用自己的私钥完成加密, 将密文发给 B, 只要 B 拿到 A 的公钥, 且可以成功解开这段密文, 就证明这段密文确实是 A 发出的.</li>
+</ol>
+<h4 id="1-10-3-SSL-证书的公信力如何保证"><a href="#1-10-3-SSL-证书的公信力如何保证" class="headerlink" title="1.10.3 SSL 证书的公信力如何保证"></a>1.10.3 SSL 证书的公信力如何保证</h4><p>使用公钥私钥进行加密通信的前提条件是首先需要确定消息的发送发身份, 才能使用发送者提供的公钥进行解密, 在多方通信的场景中为了解决这个问题必须有一个工信机构, 即 CA.</p>
+<ol>
+<li>向登记机构申请证书, 需要等级申请人身份</li>
+<li>登记机构通过 CSR发给 CA, CA 通过之后会生成一对公钥和私钥给订阅人, 其中公钥在 CA 自身保存.</li>
+<li>登记人获得公钥和私钥之后, 将其部署到自己的 web 服务器上.</li>
+<li>当浏览器访问 HTTP 站点的时候, 首先会请求证书, web 服务器会将公钥证书发给浏览器, 浏览器会去验证证书是否合法</li>
+<li>CA 会把过期的证书放在 CRL 或 OCSP 服务器上.</li>
+</ol>
+<p>证书的类型:</p>
+<ol>
+<li>域名验证(domain validated, DV) 证书, 验证域名的归属是否正确;</li>
+<li>组织验证(origanization validated, OV)证书, 申请证书时验证企业名称, 申请较慢, 价格较高.</li>
+<li>扩展验证(extended vaiidation, EV)证书, 会把申请证书时填写的地址名称显示出来.</li>
+</ol>
+<p>证书链:</p>
+<p>目前所有站点的主证书都是由 3 个证书构成:</p>
+<ol>
+<li>根证书</li>
+<li>二级证书</li>
+<li>主证书</li>
+</ol>
+<p>根证书的验证非常谨慎, 操作系统每年只会更新一次根证书库, 因此新的根证书 CA 机构很难快速加入到操作系统认可的证书库. 大部分浏览器使用操作系统的证书库. Nginx 在向浏览器发送证书的时候, 只发送二级证书和主证书, 浏览器会验证二级证书的签发机构根证书是否有效.</p>
+<h4 id="1-10-4-TLS-的通信过程"><a href="#1-10-4-TLS-的通信过程" class="headerlink" title="1.10.4 TLS 的通信过程"></a>1.10.4 TLS 的通信过程</h4><p>通信过程需要完成的任务:</p>
+<ol>
+<li>验证身份</li>
+<li>达成安全套件共识</li>
+<li>传递秘钥</li>
+<li>加密通信</li>
+</ol>
+<p>具体通信步骤:</p>
+<ol>
+<li>由浏览器向服务器发送 client hello 消息, 不同的浏览器所支持的安全套件和加速算法都是不同的.</li>
+<li>服务端维护一套自己支持的加密算法列表以及优先选择的加密算法套件. 发送给客户端. 发送最终选择的安全套件.</li>
+<li>Nginx 将自己的公钥证书(包含证书链)发送给浏览器.</li>
+<li>发送 <code>Server Hello Done</code>.</li>
+<li>客户端根据椭圆曲线的公共参数生成自己的私钥, 再把公钥发送给服务器.</li>
+<li>此时 Nginx 有自己的私钥, 并把公钥发送给客户端, 可以根据自己的私钥和客户端的公钥共同生成双发加密的秘钥; 客户端根据服务器发来的公钥和自己生成的私钥也可以生成秘钥, 服务器和客户端分别生成的秘钥是相同的.</li>
+</ol>
+<p>TLS 的工作:</p>
+<ol>
+<li>交换秘钥</li>
+<li>加密数据</li>
+</ol>
+<p>Nginx 优化方式:</p>
+<h4 id="1-10-5-OpenResty"><a href="#1-10-5-OpenResty" class="headerlink" title="1.10.5 OpenResty"></a>1.10.5 OpenResty</h4><h2 id="2-Nginx-架构基础"><a href="#2-Nginx-架构基础" class="headerlink" title="2. Nginx 架构基础"></a>2. Nginx 架构基础</h2><h3 id="2-1-Nginx-请求处理流程"><a href="#2-1-Nginx-请求处理流程" class="headerlink" title="2.1 Nginx 请求处理流程"></a>2.1 Nginx 请求处理流程</h3><p><img src="https://user-images.githubusercontent.com/17758731/69478508-4826ac80-0e2e-11ea-8fe2-e405105bbff5.png" alt="image"></p>
+<ol>
+<li>大致有三种流量会被 Nginx 接收;</li>
+<li>Nginx 有三个主要的状态机, 分别是 处理 TCP/UDP 的传输层状态机, 处理应用层的 HTTP 状态机, 处理邮件的 Mail 状态机. 被称为状态机是因为Nginx 是通过非阻塞事件驱动处理引擎(epoll), 一旦使用异步处理引擎, 通常都需要通过状态机来把请求正确的识别和处理;</li>
+<li>通过解析如果发现请求需要访问静态资源, 就会走磁盘缓存;</li>
+<li>如果发现请求走反向代理, 反向代理的内容可以做磁盘缓存;</li>
+<li>在处理静态资源的时候, 如果内存不足以完全缓存所有资源的时候, <code>sendfile</code> 和 AIO 会退化成阻塞的磁盘调用, 因此需要线程池来处理;</li>
+<li>对于每一个完成的请求, 需要记录 access 日志和 error 日志;</li>
+<li>Nginx 更多是作为负载均衡/反向代理服务器使用, 因此需要把请求通过协议级传输都上游服务器.</li>
+</ol>
+<h3 id="2-2-Nginx-进程结构"><a href="#2-2-Nginx-进程结构" class="headerlink" title="2.2 Nginx 进程结构"></a>2.2 Nginx 进程结构</h3><ul>
+<li>单进程结构: 不适用于生产环境, 一般仅用于开发调试</li>
+<li>多进程结构: 更加健壮, 使用多核计算机.</li>
+</ul>
+<p>Nginx 进程主要分为如下几个部分:</p>
+<ul>
+<li><p>master, 用来完成 worker 进程的管理, 通常第三方模块不会再此加入自己的代码</p>
+<ul>
+<li>Cache 相关进程: 在多个 worker 进程共享, 此外还要被 CacheManager 和 CacheLoader 进程使用.<ul>
+<li>CacheManager: 开启动态代理时后端发来的动态请求做缓存所使用.</li>
+<li>CacheLoader:</li>
+</ul>
+</li>
+<li>Worker 进程(多个): 处理外部请求, Nginx 采用事件驱动模型, 希望每个 worker 从头到尾占用一颗 CPU, 因此不只要把 worker 进程数与 CPU 核数配置相同, 还需要把每个 Worker 进程与 CPU 核心绑定在一起, 这样可以更好的使用每颗 CPU 核心上的 CPU 缓存.</li>
+</ul>
+</li>
+<li><p>master/workfer 间通过信号通信;</p>
+</li>
+<li>worker 进程间的通信采用共享内存解决.</li>
+</ul>
+<blockquote>
+<p>Nginx 采用多进程而非多线程结构的原因:<br>主要还是考虑到了不同模块之间的隔离, 由于Nginx 需要保证高可靠性, 如果采用多线程模式, 由于线程之间共享同一段地址空间, 如果当某个第三方模块引发了地址空间的段错误, 出现地址越界时, 会导致 Nginx 进程下的全部线程都挂掉; 而如果采用了多进程则不会出现这样的问题.</p>
+</blockquote>
+<p><img src="https://user-images.githubusercontent.com/17758731/69479146-2a107a80-0e35-11ea-8c83-4e740e310101.png" alt="image"></p>
+<p>当我们执行了 <code>nginx -s reload</code> 时, 可以看到 master 进程重新启动了 3 个 worker 进程.</p>
+<p>当我们向 worker 进程发送退出信号时, 该进程退出时会自动向父进程(master)发送一个 <code>SIGCHLD</code> 信号, 这样 master 进程就知道该 worker 进程退出, 会重新再启动一个 worker 进程.</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/69479275-54af0300-0e36-11ea-9f06-9152c0e99435.png" alt="image"></p>
+<h3 id="2-3-使用信号管理-Nginx-进程"><a href="#2-3-使用信号管理-Nginx-进程" class="headerlink" title="2.3 使用信号管理 Nginx 进程"></a>2.3 使用信号管理 Nginx 进程</h3><p>首先列出 Nginx 各个进程可接收的信号:</p>
+<ul>
+<li>master 进程:<ul>
+<li>监控 worker 进程:<ul>
+<li>CHLD: linux 操作系统中规定当子进程退出后, 需要向父进程发送 <code>CHLD</code> 信号</li>
+</ul>
+</li>
+<li>通过接收信号来管理 worker 进程<ul>
+<li>TERM, INT: 立刻停止 Nginx 进程</li>
+<li>QUIT: 优雅停止 Nginx(保证当前连接都完成)</li>
+<li>HUP: 重载配置文件</li>
+<li>USR1: 重新打开日志文件, 用于日志切割</li>
+<li>USR2: 热部署使用</li>
+<li>WINCH</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>worker 进程: (不推荐直接对 worker 进程发送信号, 最好可以向 master 发送信号, 由 master 完成对 worker 的控制)<ul>
+<li>TERM, INT</li>
+<li>QUIT</li>
+<li>USR1</li>
+<li>WINCH</li>
+</ul>
+</li>
+<li>Nginx 命令行: Nginx 在 <code>logs/nginx.pid</code> 文件中记录了当前 master 进程, 下面几个命令的执行方式就是从上面文件中找到 master 的 pid, 向该 pid 发送同样的信号<ul>
+<li>reload: HUP</li>
+<li>reopen: USR1</li>
+<li>stop: TERM</li>
+<li>quit: QUIT</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-4-reload-重载配置文件的实现方式"><a href="#2-4-reload-重载配置文件的实现方式" class="headerlink" title="2.4 reload 重载配置文件的实现方式"></a>2.4 reload 重载配置文件的实现方式</h3><p>reload 命令可以在 Nginx 继续对外提供服务的同时重新加载配置文件:</p>
+<ol>
+<li>向 master 进程发送 HUP 信号(reload 命令触发)</li>
+<li>master 进程校验配置语法是否正确</li>
+<li>master 进程打开新的监听端口</li>
+<li>master 进程用新配置启动新的 worker 子进程</li>
+<li>master 进程向老 worker 子进程发送 <code>QUIT</code> 信号</li>
+<li>老 worker 进程关闭监听句柄, 处理完当前连接后结束进程</li>
+</ol>
+<p>因此, 如果老的 worker 进程由于存在大量连接, 短时间内无法关闭, 在刚执行完 <code>nginx -s reload</code> 时会出现 worker 进程数量增加的情况.</p>
+<h3 id="2-5-热升级的完整流程"><a href="#2-5-热升级的完整流程" class="headerlink" title="2.5 热升级的完整流程"></a>2.5 热升级的完整流程</h3><ol>
+<li>将旧的 nginx 二进制文件替换成新的 nginx 二进制文件(注意备份)</li>
+<li>向旧 master 进程发送 <code>USR2</code> 信号</li>
+<li>旧 master 进程修改 pid 文件名, 加后缀 <code>.oldbin</code></li>
+<li>旧 master 进程用新 Nginx 文件启动新 master 进程(新 master 进程是老 master 的子进程)</li>
+<li>向老 master 进程发送 <code>QUIT</code> 信号, 关闭老 master 进程</li>
+<li>如果需要回滚, 向老 master 发送 <code>HUP</code>, 向新 master 发送 <code>QUIT</code></li>
+</ol>
+<p>所谓优雅的关闭 Nginx, 主要是针对 worker 进程而言, 因为只有 worker 负责处理请求. 所谓优雅关闭就是让 Nginx 的 worker 进程可以识别出当前哪些连接不再处理请求再去关闭. </p>
+<ol>
+<li>设置定时器: worker_shutdown_timeout</li>
+<li>关闭监听句柄</li>
+<li>关闭空闲连接</li>
+<li>在循环中等待全部连接关闭</li>
+<li>退出进程</li>
+</ol>
+<h2 id="2-6-Nginx-网络事件"><a href="#2-6-Nginx-网络事件" class="headerlink" title="2.6 Nginx 网络事件"></a>2.6 Nginx 网络事件</h2><p><img src="https://user-images.githubusercontent.com/17758731/69479916-be7edb00-0e3d-11ea-8148-d70007c14a25.png" alt="image"></p>
+<p>当主机 A 向主机 B 发送 HTTP 请求的时候:</p>
+<ol>
+<li>应用层发送一个 GET 请求</li>
+<li>传输层记录通信双方的端口</li>
+<li>网络层记录双方的公网 IP</li>
+<li>到达链路层后经过以太网, 到达路由器, 路由器记录所在运营商的公网 ip.</li>
+<li>再经过广域网到达主机 B 所在的路由器中</li>
+<li>再经过链路层, 网络层, 传输层, 此时操作系统会将数据流交给对应端口的进程.</li>
+</ol>
+<p>TCP 报文内容:</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/69479903-a6a75700-0e3d-11ea-80a4-191211392ade.png" alt="image"></p>
+<p>TCP 协议会将以此网络传输视上层报文大小, 拆分为多个小的报文, TCP 层会考虑中间每个环节中最大的 MTU 值, 该值被称为 MSS, 因此每收到一个 MSS 大小的报文时, 都是一个网络事件.</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/69480188-1fa7ae00-0e40-11ea-93d1-65d2db8d155e.png" alt="image"></p>
 
       
     </div>
@@ -1021,7 +1287,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Nginx-简介"><span class="nav-text">1. Nginx 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-Nginx-的三个主要应用场景"><span class="nav-text">1.1 Nginx 的三个主要应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Nginx-的优点"><span class="nav-text">1.2 Nginx 的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-Nginx-的组成"><span class="nav-text">1.3 Nginx 的组成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-编译-Nginx"><span class="nav-text">1.4 编译 Nginx</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-1-下载"><span class="nav-text">1.4.1 下载</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-2-configure-命令"><span class="nav-text">1.4.2 configure 命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-Nginx-配置语法"><span class="nav-text">1.5 Nginx 配置语法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-1-配置参数-时间单位"><span class="nav-text">1.5.1 配置参数: 时间单位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-2-配置参数-空间单位"><span class="nav-text">1.5.2 配置参数: 空间单位</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-Nginx-命令行"><span class="nav-text">1.6 Nginx 命令行</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-1-重载配置文件"><span class="nav-text">1.6.1 重载配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-2-热部署"><span class="nav-text">1.6.2 热部署</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-3-日志切割"><span class="nav-text">1.6.3 日志切割</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-7-Nginx-作为静态资源服务器的典型场景"><span class="nav-text">1.7 Nginx 作为静态资源服务器的典型场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-7-1-展示静态页面"><span class="nav-text">1.7.1 展示静态页面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-7-2-压缩响应"><span class="nav-text">1.7.2 压缩响应</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-7-3-目录浏览"><span class="nav-text">1.7.3 目录浏览</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-7-4-响应限流"><span class="nav-text">1.7.4 响应限流</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-7-5-访问日志-access-log"><span class="nav-text">1.7.5 访问日志(access.log)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-8-Nginx-作为具备缓存功能的反向代理服务器应用场景"><span class="nav-text">1.8 Nginx 作为具备缓存功能的反向代理服务器应用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-8-1-反向代理功能"><span class="nav-text">1.8.1 反向代理功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-8-2-缓存"><span class="nav-text">1.8.2 缓存</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Nginx-简介"><span class="nav-text">1. Nginx 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-Nginx-的三个主要应用场景"><span class="nav-text">1.1 Nginx 的三个主要应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Nginx-的优点"><span class="nav-text">1.2 Nginx 的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-Nginx-的组成"><span class="nav-text">1.3 Nginx 的组成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-编译-Nginx"><span class="nav-text">1.4 编译 Nginx</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-1-下载"><span class="nav-text">1.4.1 下载</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-2-configure-命令"><span class="nav-text">1.4.2 configure 命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-Nginx-配置语法"><span class="nav-text">1.5 Nginx 配置语法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-1-配置参数-时间单位"><span class="nav-text">1.5.1 配置参数: 时间单位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-2-配置参数-空间单位"><span class="nav-text">1.5.2 配置参数: 空间单位</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-Nginx-命令行"><span class="nav-text">1.6 Nginx 命令行</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-1-重载配置文件"><span class="nav-text">1.6.1 重载配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-2-热部署"><span class="nav-text">1.6.2 热部署</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-3-日志切割"><span class="nav-text">1.6.3 日志切割</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-7-Nginx-作为静态资源服务器的典型场景"><span class="nav-text">1.7 Nginx 作为静态资源服务器的典型场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-7-1-展示静态页面"><span class="nav-text">1.7.1 展示静态页面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-7-2-压缩响应"><span class="nav-text">1.7.2 压缩响应</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-7-3-目录浏览"><span class="nav-text">1.7.3 目录浏览</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-7-4-响应限流"><span class="nav-text">1.7.4 响应限流</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-7-5-访问日志-access-log"><span class="nav-text">1.7.5 访问日志(access.log)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-8-Nginx-作为具备缓存功能的反向代理服务器应用场景"><span class="nav-text">1.8 Nginx 作为具备缓存功能的反向代理服务器应用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-8-1-反向代理功能"><span class="nav-text">1.8.1 反向代理功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-8-2-缓存"><span class="nav-text">1.8.2 缓存</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-9-access-日志"><span class="nav-text">1.9 access 日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-10-SSL-协议"><span class="nav-text">1.10 SSL 协议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-10-1-对称加密"><span class="nav-text">1.10.1 对称加密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-10-2-非对称加密"><span class="nav-text">1.10.2 非对称加密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-10-3-SSL-证书的公信力如何保证"><span class="nav-text">1.10.3 SSL 证书的公信力如何保证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-10-4-TLS-的通信过程"><span class="nav-text">1.10.4 TLS 的通信过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-10-5-OpenResty"><span class="nav-text">1.10.5 OpenResty</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Nginx-架构基础"><span class="nav-text">2. Nginx 架构基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Nginx-请求处理流程"><span class="nav-text">2.1 Nginx 请求处理流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Nginx-进程结构"><span class="nav-text">2.2 Nginx 进程结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-使用信号管理-Nginx-进程"><span class="nav-text">2.3 使用信号管理 Nginx 进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-reload-重载配置文件的实现方式"><span class="nav-text">2.4 reload 重载配置文件的实现方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-热升级的完整流程"><span class="nav-text">2.5 热升级的完整流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6-Nginx-网络事件"><span class="nav-text">2.6 Nginx 网络事件</span></a></li></ol></div>
             
 
           </div>
