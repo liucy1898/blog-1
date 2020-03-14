@@ -101,7 +101,7 @@
 
   <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://destinywang.github.io/blog/categories/activiti/源码/index.html">
+<meta property="og:url" content="https://destinywang.github.io/blog/categories/Activiti/源码/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
@@ -114,7 +114,7 @@
 
 
 
-  <link rel="canonical" href="https://destinywang.github.io/blog/categories/activiti/源码/">
+  <link rel="canonical" href="https://destinywang.github.io/blog/categories/Activiti/源码/">
 
 
 
@@ -391,17 +391,17 @@
 
       <h2 class="post-title">
         
-            <a class="post-title-link" href="/blog/2019/02/21/Activiti源码分析-4-CommandExecutor-命令执行器/" itemprop="url">
+            <a class="post-title-link" href="/blog/2019/04/08/Activiti源码分析-9-XML解析/" itemprop="url">
               
-                <span itemprop="name">Activiti源码分析(4)--CommandExecutor(命令执行器)</span>
+                <span itemprop="name">Activiti源码分析(9)-XML解析</span>
               
             </a>
         
       </h2>
 
       <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-21T23:01:25+08:00" content="2019-02-21">
-          02-21
+        <time class="post-time" itemprop="dateCreated" datetime="2019-04-08T22:32:21+08:00" content="2019-04-08">
+          04-08
         </time>
       </div>
 
@@ -417,17 +417,43 @@
 
       <h2 class="post-title">
         
-            <a class="post-title-link" href="/blog/2018/12/31/Activiti源码分析-1-引擎配置类/" itemprop="url">
+            <a class="post-title-link" href="/blog/2019/03/26/Activiti源码分析-7-ID生成器/" itemprop="url">
               
-                <span itemprop="name">Activiti源码分析(1)--流程引擎配置类</span>
+                <span itemprop="name">Activiti源码分析(7)-ID生成器</span>
               
             </a>
         
       </h2>
 
       <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-31T23:19:13+08:00" content="2018-12-31">
-          12-31
+        <time class="post-time" itemprop="dateCreated" datetime="2019-03-26T22:52:05+08:00" content="2019-03-26">
+          03-26
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+      
+        
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h2 class="post-title">
+        
+            <a class="post-title-link" href="/blog/2019/03/09/Activiti源码分析-8-发起流程实例/" itemprop="url">
+              
+                <span itemprop="name">Activiti源码分析(8)-发起流程实例</span>
+              
+            </a>
+        
+      </h2>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated" datetime="2019-03-09T18:48:39+08:00" content="2019-03-09">
+          03-09
         </time>
       </div>
 
@@ -487,7 +513,7 @@
                 
                   <a href="/blog/archives">
                 
-                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-count">45</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -550,7 +576,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">25</span>
+                      
+                    
+                    <span class="site-state-item-count">26</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -607,7 +635,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">22</span>
+                      
+                    
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1118,52 +1148,6 @@
     $('.popup-trigger').click(function(e) {
       e.stopPropagation();
       if (isfetched === false) {
-        searchFunc(path, 'local-search-input', 'local-search-result');
-      } else {
-        proceedsearch();
-      };
-    });
-
-    $('.popup-btn-close').click(onPopupClose);
-    $('.popup').click(function(e){
-      e.stopPropagation();
-    });
-    $(document).on('keyup', function (event) {
-      var shouldDismissSearchPopup = event.which === 27 &&
-        $('.search-popup').is(':visible');
-      if (shouldDismissSearchPopup) {
-        onPopupClose();
-      }
-    });
-  </script>
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-</body>
-</html>
-
-<script type="text/javascript" src="/js/src/love.js"></script>>lse) {
         searchFunc(path, 'local-search-input', 'local-search-result');
       } else {
         proceedsearch();
