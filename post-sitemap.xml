@@ -15,14 +15,6 @@
     </url>
 
     <url>
-        <loc>https://destinywang.github.io/blog/2018/04/03/%EF%BC%88%E4%BA%8C%EF%BC%89Nginx%E5%AE%9E%E7%8E%B0%E5%8A%A8%E9%9D%99%E5%88%86%E7%A6%BB/</loc>
-        <lastmod>2020-03-04T15:21:46.157Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
         <loc>https://destinywang.github.io/blog/2019/11/17/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-nginx/</loc>
         <lastmod>2020-01-24T02:10:58.892Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -39,14 +31,6 @@
     </url>
 
     <url>
-        <loc>https://destinywang.github.io/blog/2019/10/13/Go-modules-%E7%AE%80%E4%BB%8B/</loc>
-        <lastmod>2019-10-15T14:35:25.503Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
         <loc>https://destinywang.github.io/blog/2019/09/07/Viper-Go-%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E5%88%A9%E5%99%A8/</loc>
         <lastmod>2019-09-14T07:40:06.458Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -57,14 +41,6 @@
     <url>
         <loc>https://destinywang.github.io/blog/2019/09/13/%E5%9C%A8%E7%B3%BB%E7%BB%9F%E4%B8%AD%E5%A6%82%E4%BD%95%E6%AD%A3%E7%A1%AE%E5%A4%84%E7%90%86%E6%97%B6%E5%8C%BA/</loc>
         <lastmod>2019-09-13T15:28:27.868Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://destinywang.github.io/blog/2019/08/31/Go-%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/</loc>
-        <lastmod>2019-09-10T13:54:49.472Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -113,14 +89,6 @@
     <url>
         <loc>https://destinywang.github.io/blog/2019/03/26/Activiti%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-7-ID%E7%94%9F%E6%88%90%E5%99%A8/</loc>
         <lastmod>2019-04-21T02:45:15.320Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://destinywang.github.io/blog/2018/04/25/quartz-%E5%85%A5%E9%97%A8/</loc>
-        <lastmod>2019-04-13T03:53:29.900Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -295,64 +263,8 @@
     </url>
 
     <url>
-        <loc>https://destinywang.github.io/blog/2018/04/14/Raft%E5%8D%8F%E8%AE%AE-1-%E2%80%94%E2%80%94%E4%B8%80%E8%87%B4%E6%80%A7%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/</loc>
-        <lastmod>2018-04-14T13:48:29.390Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://destinywang.github.io/blog/2018/04/14/ActiveMQ-5-%E2%80%94%E2%80%94ActiveMQ%E7%BB%93%E5%90%88Spring%E5%BC%80%E5%8F%91/</loc>
-        <lastmod>2018-04-14T10:46:00.656Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://destinywang.github.io/blog/2018/04/12/ActiveMQ-3-%E2%80%94%E2%80%94JMS%E5%8F%AF%E9%9D%A0%E6%80%A7%E6%9C%BA%E5%88%B6/</loc>
-        <lastmod>2018-04-11T16:24:44.984Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://destinywang.github.io/blog/2018/04/12/ActiveMQ-4-%E2%80%94%E2%80%94Broker%E7%9A%84%E5%90%AF%E5%8A%A8%E6%96%B9%E5%BC%8F/</loc>
-        <lastmod>2018-04-11T16:23:25.354Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://destinywang.github.io/blog/2018/04/11/ActiveMQ-2-%E2%80%94%E2%80%94JMS%E8%A7%84%E8%8C%83/</loc>
-        <lastmod>2018-04-10T16:10:37.522Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://destinywang.github.io/blog/2018/04/09/ActiveMQ-1-%E2%80%94%E2%80%94%E6%A6%82%E8%A7%88-%E5%85%A5%E9%97%A8/</loc>
-        <lastmod>2018-04-09T15:55:47.152Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
         <loc>https://destinywang.github.io/blog/2018/04/08/%E7%9B%98%E7%82%B9%E5%AE%9E%E9%99%85%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/</loc>
         <lastmod>2018-04-08T14:58:02.926Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://destinywang.github.io/blog/2018/04/01/%EF%BC%88%E4%B8%80%EF%BC%89Nginx%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86/</loc>
-        <lastmod>2018-04-03T15:27:16.272Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
