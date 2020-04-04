@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/blog/css/main.css?v=6.1.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=6.1.0">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=6.1.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Pisces',
+    version: '6.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1. 基础知识1.1 概述Casbin 是一个强大高效的开源访问控制框架, 支持多种访问控制模型. Casbin 能做什么:  支持自定义请求的格式, 默认的请求格式为 {subject, object, action}. 具有访问控制模型 model 和策略 policy 两个核心概念. 支持 RBAC 中的多层角色继承, 不止主体可以有角色, 资源也可以有角色. 支持超级用户, 如 root">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解 Casbin">
+<meta property="og:url" content="https://destinywang.github.io/blog/2020/04/04/深入理解-Casbin/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1. 基础知识1.1 概述Casbin 是一个强大高效的开源访问控制框架, 支持多种访问控制模型. Casbin 能做什么:  支持自定义请求的格式, 默认的请求格式为 {subject, object, action}. 具有访问控制模型 model 和策略 policy 两个核心概念. 支持 RBAC 中的多层角色继承, 不止主体可以有角色, 资源也可以有角色. 支持超级用户, 如 root">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-04-04T09:02:53.261Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入理解 Casbin">
+<meta name="twitter:description" content="1. 基础知识1.1 概述Casbin 是一个强大高效的开源访问控制框架, 支持多种访问控制模型. Casbin 能做什么:  支持自定义请求的格式, 默认的请求格式为 {subject, object, action}. 具有访问控制模型 model 和策略 policy 两个核心概念. 支持 RBAC 中的多层角色继承, 不止主体可以有角色, 资源也可以有角色. 支持超级用户, 如 root">
+
+
+
+  <link rel="alternate" href="/blog/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://destinywang.github.io/blog/2020/04/04/深入理解-Casbin/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>深入理解 Casbin | Hexo</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/destinywang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/blog/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/blog/archives" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>归档</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/blog/categories" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/blog/tags" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/blog/about" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>关于</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-search">
+    <a href="/blog/search" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>搜索</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-commonweal">
+    <a href="/blog/404.html" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>公益 404</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-something">
+    <a href="/blog/something" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>something</a>
+</li>
+
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://destinywang.github.io/blog/blog/2020/04/04/深入理解-Casbin/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="destiny">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/blog/images/blog-logo.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深入理解 Casbin</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-04T11:41:26+08:00">2020-04-04</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-基础知识"><a href="#1-基础知识" class="headerlink" title="1. 基础知识"></a>1. 基础知识</h1><h2 id="1-1-概述"><a href="#1-1-概述" class="headerlink" title="1.1 概述"></a>1.1 概述</h2><p>Casbin 是一个强大高效的开源访问控制框架, 支持多种访问控制模型.</p>
+<p>Casbin 能做什么:</p>
+<ol>
+<li>支持自定义请求的格式, 默认的请求格式为 <code>{subject, object, action}</code>.</li>
+<li>具有访问控制模型 model 和策略 policy 两个核心概念.</li>
+<li>支持 RBAC 中的多层角色继承, 不止主体可以有角色, 资源也可以有角色.</li>
+<li>支持超级用户, 如 <code>root</code> 或 <code>admin</code>, 超级用户可以不受授权策略的约束访问任意资源.</li>
+<li>支持多种内置的操作符, 如 <code>keyMatch</code>, 方便对路径式的资源进行管理, 如 <code>/foo/bar</code> 可以映射到 <code>/foo*</code>.</li>
+</ol>
+<p>Casbin 不能做的:</p>
+<ol>
+<li>身份认证 <code>authentication</code>(验证用户名,密码), casbin 只负责访问控制, 应该有其他专门的组件负责身份认证, 然后由 casbin 进行访问控制, 二者是相互配合的关系.</li>
+<li>管理用户列表或角色列表, casbin 认为应该有项目自身来维护用户和用户列表, 用户通常由他们的密码, 但 casbin 解决的核心问题应该是存储 RBAC 方案中用户和角色之间的映射关系.</li>
+</ol>
+<p>安装方式:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> get github.com/casbin/casbin/v2</span><br></pre></td></tr></table></figure>
+<h2 id="1-2-简单使用"><a href="#1-2-简单使用" class="headerlink" title="1.2 简单使用"></a>1.2 简单使用</h2><p>开发过程分为如下几部:</p>
+<ol>
+<li>编写访问控制文件(model)</li>
+<li>编写策略文件(policy)</li>
+<li>通过 casbin 提供的 API 完成对应的鉴权</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">enforcer, err := casbin.NewEnforcer(<span class="string">"conf/model.conf"</span>, <span class="string">"conf/policy.csv"</span>) <span class="comment">// Casbin 决策器需要有模型文件和策略文件作为参数</span></span><br><span class="line">assert.Nil(t, err)</span><br><span class="line">sub := <span class="string">"alice"</span> <span class="comment">// 需要访问资源的用户</span></span><br><span class="line">obj := <span class="string">"data1"</span> <span class="comment">// 将要被访问的资源</span></span><br><span class="line">act := <span class="string">"read"</span>  <span class="comment">// 该用户访问资源的具体操作</span></span><br><span class="line">ok, err := enforcer.Enforce(sub, obj, act)</span><br><span class="line">assert.Nil(t, err)</span><br><span class="line"><span class="keyword">if</span> ok &#123;</span><br><span class="line">	t.Logf(<span class="string">"%s has %s on %s"</span>, sub, act, obj)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	t.Logf(<span class="string">"%s dosen't has %s on %s"</span>, sub, act, obj)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行结果:</p>
+<pre><code>=== RUN   TestDemo1
+TestDemo1: demos_test.go:24: alice has read on data1
+--- PASS: TestDemo1 (0.00s)
+PASS
+</code></pre><h2 id="1-3-工作原理"><a href="#1-3-工作原理" class="headerlink" title="1.3 工作原理"></a>1.3 工作原理</h2><p>在 Casbin 中, 访问控制模型被抽象为 PERM(Policy, Effect, Request, Matcher) 的一个文件, 因此, 切换或升级项目的授权机制时, 只需修改该文件, 开发者可以通过组合可用的模型来指定自己的访问规则:</p>
+<p>Casbin 中最基本最简单的访问控制模型(model)是 ACL, ACL 中 model 的 CONF 为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># Request definition</span><br><span class="line">[request_definition]</span><br><span class="line">r = sub, obj, act</span><br><span class="line"></span><br><span class="line"># Policy definition</span><br><span class="line">[policy_definition]</span><br><span class="line">p = sub, obj, act</span><br><span class="line"></span><br><span class="line"># Policy effect</span><br><span class="line">[policy_effect]</span><br><span class="line">e = some(where (p.eft == allow))</span><br><span class="line"></span><br><span class="line"># Matchers</span><br><span class="line">[matchers]</span><br><span class="line">m = r.sub == p.sub &amp;&amp; r.obj == p.obj &amp;&amp; r.act == p.act</span><br></pre></td></tr></table></figure>
+<p>ACL model 的实例 policy:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">p, alice, data1, read</span><br><span class="line">p, bob, data2, write</span><br></pre></td></tr></table></figure>
+<p>含义:</p>
+<ul>
+<li><code>alice</code> 对 <code>data1</code> 有 <code>read</code> 权限</li>
+<li><code>bob</code> 对 <code>data2</code> 有 <code>write</code> 权限</li>
+</ul>
+<h1 id="2-Model-访问控制模型"><a href="#2-Model-访问控制模型" class="headerlink" title="2. Model(访问控制模型)"></a>2. Model(访问控制模型)</h1><h2 id="2-1-Model-语法"><a href="#2-1-Model-语法" class="headerlink" title="2.1 Model 语法"></a>2.1 Model 语法</h2><ul>
+<li>model 配置文件至少应该包含四部分:<ul>
+<li><code>[request_defintion]</code></li>
+<li><code>[policy_destintion]</code></li>
+<li><code>[policy_effect]</code></li>
+<li><code>[mathers]</code></li>
+</ul>
+</li>
+<li>如果 model 使用 RBAC, 还需要添加 <code>[role_defition]</code> 部分</li>
+<li>Model CONF 文件可以包含注释</li>
+</ul>
+<h3 id="2-1-1-Request-定义"><a href="#2-1-1-Request-定义" class="headerlink" title="2.1.1 Request 定义"></a>2.1.1 Request 定义</h3><p><code>[request_defintion]</code> 部分用于 request 的定义, 它明确了 <code>func NewEnforcer(params ...interface{}) (*Enforcer, error) {}</code> 方法的参数列表定义</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[request_definition]</span><br><span class="line">r = sub, obj, act</span><br></pre></td></tr></table></figure>
+<p><code>sub, obj, act</code> 表示经典三元组: 访问实体, 访问资源和访问方法. 如果不需要指定特定特定资源, 可以定义成 <code>r = sub, obj</code>, 或者如果有两个访问实体, 可以定义成 <code>sub1, sub2, obj, act</code>.</p>
+<h3 id="2-1-2-Policy-定义"><a href="#2-1-2-Policy-定义" class="headerlink" title="2.1.2 Policy 定义"></a>2.1.2 Policy 定义</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[policy_definition]</span><br><span class="line">p = sub, obj, act</span><br><span class="line">p2 = sub, act</span><br></pre></td></tr></table></figure>
+<p>对 policy 规则的具体描述:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">p, alice, data1, read</span><br><span class="line">p2, bob, write-all-objects</span><br></pre></td></tr></table></figure>
+<p><code>[policy_definition]</code> 部分是对策略的定义, 每条规则通常是以行如 p, p2 的 <code>policy type</code> 开头, 如果存在多个 policy 定义, casbin 会根据前文提到的 <code>policy type</code> 与具体的某条规则匹配, 上面的 policy 绑定关系将会在 matcher 中使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(alice, data1, read) -&gt; (p.sub, p.obj, p.act)</span><br><span class="line">(bob, write-all-objects) -&gt; (p2.sub, p2.act)</span><br></pre></td></tr></table></figure>
+<h3 id="2-1-3-Policy-Effect-定义"><a href="#2-1-3-Policy-Effect-定义" class="headerlink" title="2.1.3 Policy Effect 定义"></a>2.1.3 Policy Effect 定义</h3><p><code>[policy_effect]</code> 部分是对policy生效范围的定义, 原语定义了当多个 policy rule 同时匹配访问请求 request 时, 该如何对多个决策结果进行集成以实现统一决策. 以下示例展示了一个只有一条规则生效，其余都被拒绝的情况:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[policy_effect]</span><br><span class="line">e = some(where (p.eft == allow))</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>表示如果存在任意一个决策结果为 allow 的匹配规则, 则最终决策结果为 allow, 其中 p.eft 表示决策规则的决策解雇, 可以为 allow 或者 deny, 当不指定规则的决策结果时, 取默认值 allow, 通常情况下, policy 的 p.eft 默认为 allow</p>
+</blockquote>
+<h3 id="2-1-4-Matchers"><a href="#2-1-4-Matchers" class="headerlink" title="2.1.4 Matchers"></a>2.1.4 Matchers</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[matchers]</span><br><span class="line">m = r.sub == p.sub &amp;&amp; r.obj == p.obj &amp;&amp; r.act == p.act</span><br></pre></td></tr></table></figure>
+<p><code>[matchers]</code> 原语定义了策略规则如何与访问请求进行匹配的匹配器, 其本质上是布尔表达式, 可以理解为 Request, Policy 等原语定义了关于策略和请求的变量, 然后将这些变量代入Matcher原语中求值, 从而进行策略决策.</p>
+<p>可以在 matcher 中定义函数, 可以是内置函数或自定义函数:</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>keyMatch(arg1,arg2)</td>
+<td>arg1 是一个 URL 路径, 如 <code>/alice_data/resource1</code>, arg2 可以是 URL 路径或者一个模式, 如 <code>/alice_data/</code>, 返回 arg1 是否与 arg2 匹配</td>
+</tr>
+<tr>
+<td>keyMatch2(arg1,arg2)</td>
+<td>arg1 是一个 URL 路径, 例如 <code>/alice_data/resource1</code>, arg2 可以是 URL 路径或者是一个 <code>:</code> 模式，例如 <code>/alice_data/:resource</code>. 此函数返回 arg1 是否与 arg2 匹配</td>
+</tr>
+</tbody>
+</table>
+<p>regexMatch(arg1, arg2) | arg1 可以是任何字符串. arg2 是一个正则表达式. 它返回 arg1 是否匹配 arg2.|<br>ipMatch(arg1, arg2) | arg1 是一个 IP 地址, 如 <code>192.168.2.123</code>. arg2 可以是 IP 地址或 CIDR, 如 <code>192.168.2. 0/24</code>. 它返回 arg1 是否匹配 arg2.</p>
+<blockquote>
+<p>添加自定义函数</p>
+</blockquote>
+<p>准备好一个有多个参数以及一个 bool 类型返回值的函数, 然后用 <code>interface{}</code> 类型包装该函数</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">MyFunc</span><span class="params">(key1, key2 <span class="keyword">string</span>)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">    <span class="comment">/// ~</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">MyFuncAdaptor</span><span class="params">(args ...<span class="keyword">interface</span>&#123;&#125;)</span> <span class="params">(<span class="keyword">interface</span>&#123;&#125;, error)</span></span> &#123;</span><br><span class="line">    key1 := args[<span class="number">0</span>].(<span class="keyword">string</span>)</span><br><span class="line">    key2 := args[<span class="number">1</span>].(<span class="keyword">string</span>)</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">bool</span>)(MyFunc(key1, key2)), <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后注册到 Casbin enforcer 中</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">e.AddFunction(<span class="string">"my_func"</span>, MyFuncAdaptor)</span><br></pre></td></tr></table></figure>
+<p>然后就可以在 model 中使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[matchers]</span><br><span class="line">m = r.sub == p.sub &amp;&amp; my_func(r.obj, p.obj) &amp;&amp; r.act == p.act</span><br></pre></td></tr></table></figure>
+<h3 id="2-1-5-Role-定义"><a href="#2-1-5-Role-定义" class="headerlink" title="2.1.5 Role 定义"></a>2.1.5 Role 定义</h3><p><code>[role_defintion]</code> 定义了 RBAC 中的角色继承关系, Casbin 支持 RBAC 系统的多个实例, 用户可以有角色和继承关系, 资源也可以有角色和继承关系</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[role_definition]</span><br><span class="line">g = _, _</span><br><span class="line">g2 = _, _</span><br></pre></td></tr></table></figure>
+<p>g1 是一个 RBAC 体系, g2 是另一个 RBAC 体系, <code>,</code> 表示角色继承关系的前项和后项, 前项继承后项的角色的权限, 如果需要进行角色和用户的绑定, 直接使用 g 即可, 如果需要标识角色与用户和资源的绑定关系时, 可以使用 g 和 g2, 在 Casbin 中, 我们以 policy 表示实际的用户角色映射关系</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">p, data2_admin, data2, read</span><br><span class="line">g, alice, data2_admin</span><br></pre></td></tr></table></figure>
+<p>上述策略规则表示 <code>alice</code> 继承或具有角色 <code>data2_admin</code>, 这里的 <code>alice</code> 可以为具体的某个用户, 某种资源抑或某个角色, 在 Casbin 中它将会被当作字符串(string)来对待.</p>
+<p>在 matcher 中, 应该用如下方式校验角色:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[matchers]</span><br><span class="line">m = g(r.sub, p.sub) &amp;&amp; r.obj == p.obj &amp;&amp; r.act == p.act</span><br></pre></td></tr></table></figure>
+<ol>
+<li>Casbin 只存储用户角色的映射关系;</li>
+<li>Casbin 不验证用户是否为有效用户, 或者角色是否为有效角色. 这应该由身份验证来处理.</li>
+<li>RBAC 系统中的用户名称和角色名称不应相同, 因为Casbin将用户名和角色识别为字符串, 所以当前语境下Casbin无法得出这个字面量到底指代用户 alice 还是角色 alice. 这时, 使用明确的 role_alice, 问题便可迎刃而解;</li>
+<li>假设 A 具有角色 B, B 具有角色 C, 并且 A 有角色 C. 这种传递性在当前版本会造成死循环.</li>
+</ol>
+<p>域租户的角色定义</p>
+<p>在 Casbin 中的 RBAC 角色可以是全局或是基于特定域的, 特定域的角色意味着当用户处于不同的租户时, 用户所关联的角色也不尽相同, 租户角色定义类似如下写法, 第三个 <code>_</code> 表示域的概念</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[role_definition]</span><br><span class="line">g = _, _, _</span><br></pre></td></tr></table></figure>
+<p>对应的策略规则实例如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">p, admin, tenant1, data1, read</span><br><span class="line">p, admin, tenant2, data2, read</span><br><span class="line"></span><br><span class="line">g, alice, admin, tenant1</span><br><span class="line">g, alice, user, tenant2</span><br></pre></td></tr></table></figure>
+<p>接下来在matcher中, 应该像下面的例子一样检查角色信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[matchers]</span><br><span class="line">m = g(r.sub, p.sub, r.dom) &amp;&amp; r.dom == p.dom &amp;&amp; r.obj == p.obj &amp;&amp; r.act == p.act</span><br></pre></td></tr></table></figure>
+<h2 id="2-2"><a href="#2-2" class="headerlink" title="2.2"></a>2.2</h2><h1 id="3-存储"><a href="#3-存储" class="headerlink" title="3. 存储"></a>3. 存储</h1><h2 id="3-1-Model-存储"><a href="#3-1-Model-存储" class="headerlink" title="3.1 Model 存储"></a>3.1 Model 存储</h2><h3 id="3-1-1-从-CONF-文件中加载-model"><a href="#3-1-1-从-CONF-文件中加载-model" class="headerlink" title="3.1.1 从 CONF 文件中加载 model"></a>3.1.1 从 CONF 文件中加载 model</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Casbin 决策器需要有模型文件和策略文件作为参数</span></span><br><span class="line">enforcer, err := casbin.NewEnforcer(<span class="string">"conf/model.conf"</span>, <span class="string">"conf/policy.csv"</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="3-1-2-从代码加载-model"><a href="#3-1-2-从代码加载-model" class="headerlink" title="3.1.2 从代码加载 model"></a>3.1.2 从代码加载 model</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用 Go 代码初始化 model</span></span><br><span class="line">m := casbin.NewModel()</span><br><span class="line">m.AddDef(<span class="string">"r"</span>, <span class="string">"r"</span>, <span class="string">"sub, obj, act"</span>)</span><br><span class="line">m.AddDef(<span class="string">"p"</span>, <span class="string">"p"</span>, <span class="string">"sub, obj, act"</span>)</span><br><span class="line">m.AddDef(<span class="string">"g"</span>, <span class="string">"g"</span>, <span class="string">"_, _"</span>)</span><br><span class="line">m.AddDef(<span class="string">"e"</span>, <span class="string">"e"</span>, <span class="string">"some(where (p.eft == allow))"</span>)</span><br><span class="line">m.AddDef(<span class="string">"m"</span>, <span class="string">"m"</span>, <span class="string">"g(r.sub, p.sub) &amp;&amp; r.obj == p.obj &amp;&amp; r.act == p.act"</span>)</span><br><span class="line"><span class="comment">// 从 .CSV 文件 adapter 中加载 policy 规则。</span></span><br><span class="line"><span class="comment">// 使用自己的 adapter 替换</span></span><br><span class="line">a := persist.NewFileAdapter(<span class="string">"examples/rbac_policy.csv"</span>)</span><br><span class="line"><span class="comment">// 创建一个 enforcer。</span></span><br><span class="line">e := casbin.NewEnforcer(m, a)</span><br></pre></td></tr></table></figure>
+<h3 id="3-1-3-从字符串加载-model"><a href="#3-1-3-从字符串加载-model" class="headerlink" title="3.1.3 从字符串加载 model"></a>3.1.3 从字符串加载 model</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用字符串初始化 model</span></span><br><span class="line">text :=</span><br><span class="line"><span class="string">`</span></span><br><span class="line"><span class="string">[request_definition]</span></span><br><span class="line"><span class="string">r = sub, obj, act</span></span><br><span class="line"><span class="string">[policy_definition]</span></span><br><span class="line"><span class="string">p = sub, obj, act</span></span><br><span class="line"><span class="string">[role_definition]</span></span><br><span class="line"><span class="string">g = _, _</span></span><br><span class="line"><span class="string">[policy_effect]</span></span><br><span class="line"><span class="string">e = some(where (p.eft == allow))</span></span><br><span class="line"><span class="string">[matchers]</span></span><br><span class="line"><span class="string">m = g(r.sub, p.sub) &amp;&amp; r.obj == p.obj &amp;&amp; r.act == p.act</span></span><br><span class="line"><span class="string">`</span></span><br><span class="line">m := NewModel(text)</span><br><span class="line"><span class="comment">// 从 .CSV 文件 adapter 中加载 policy 规则。</span></span><br><span class="line"><span class="comment">// 使用自己的 adapter 替换。</span></span><br><span class="line">a := persist.NewFileAdapter(<span class="string">"examples/rbac_policy.csv"</span>)</span><br><span class="line"><span class="comment">// 创建一个 enforcer。</span></span><br><span class="line">e := casbin.NewEnforcer(m, a)</span><br></pre></td></tr></table></figure>
+<h2 id="3-2-Policy-存储"><a href="#3-2-Policy-存储" class="headerlink" title="3.2 Policy 存储"></a>3.2 Policy 存储</h2><h3 id="3-2-1-File-Adapter-内置"><a href="#3-2-1-File-Adapter-内置" class="headerlink" title="3.2.1 File Adapter(内置)"></a>3.2.1 File Adapter(内置)</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">e := casbin.NewEnforcer(<span class="string">"examples/basic_model.conf"</span>, <span class="string">"examples/basic_policy.csv"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 等同于</span></span><br><span class="line">a := fileadapter.NewAdapter(<span class="string">"examples/basic_policy.csv"</span>)</span><br><span class="line">e := casbin.NewEnforcer(<span class="string">"examples/basic_model.conf"</span>, a)</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-2-MySQL-Adapter"><a href="#3-2-2-MySQL-Adapter" class="headerlink" title="3.2.2 MySQL Adapter"></a>3.2.2 MySQL Adapter</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a := mysqladapter.NewAdapter(<span class="string">"mysql"</span>, <span class="string">"root:@tcp(127.0.0.1:3306)/"</span>)</span><br><span class="line">e := casbin.NewEnforcer(<span class="string">"examples/basic_model.conf"</span>, a)</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-3-自建-Adapter"><a href="#3-2-3-自建-Adapter" class="headerlink" title="3.2.3 自建 Adapter"></a>3.2.3 自建 Adapter</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a := yourpackage.NewAdapter(params)</span><br><span class="line">e := casbin.NewEnforcer(<span class="string">"examples/basic_model.conf"</span>, a)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2020/03/12/领域驱动设计/" rel="next" title="领域驱动设计">
+                <i class="fa fa-chevron-left"></i> 领域驱动设计
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/blog/images/blog-logo.jpeg" alt="destiny">
+            
+              <p class="site-author-name" itemprop="name">destiny</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/blog/archives">
+                
+                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/blog/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">23</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/blog/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/blog/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-基础知识"><span class="nav-text">1. 基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-概述"><span class="nav-text">1.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-简单使用"><span class="nav-text">1.2 简单使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-工作原理"><span class="nav-text">1.3 工作原理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Model-访问控制模型"><span class="nav-text">2. Model(访问控制模型)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Model-语法"><span class="nav-text">2.1 Model 语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-Request-定义"><span class="nav-text">2.1.1 Request 定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2-Policy-定义"><span class="nav-text">2.1.2 Policy 定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-3-Policy-Effect-定义"><span class="nav-text">2.1.3 Policy Effect 定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-4-Matchers"><span class="nav-text">2.1.4 Matchers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-5-Role-定义"><span class="nav-text">2.1.5 Role 定义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2"><span class="nav-text">2.2</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-存储"><span class="nav-text">3. 存储</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-Model-存储"><span class="nav-text">3.1 Model 存储</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-1-从-CONF-文件中加载-model"><span class="nav-text">3.1.1 从 CONF 文件中加载 model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-2-从代码加载-model"><span class="nav-text">3.1.2 从代码加载 model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-3-从字符串加载-model"><span class="nav-text">3.1.3 从字符串加载 model</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-Policy-存储"><span class="nav-text">3.2 Policy 存储</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-File-Adapter-内置"><span class="nav-text">3.2.1 File Adapter(内置)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-MySQL-Adapter"><span class="nav-text">3.2.2 MySQL Adapter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-3-自建-Adapter"><span class="nav-text">3.2.3 自建 Adapter</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate"> 
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">destiny</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">
+  <i class="fa fa-user-md"></i>
+  <span id="busuanzi_container_site_uv">本站访客数:<span id="busuanzi_value_site_uv"></span></span>
+  
+  <!-- 由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动 -->
+  </div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Code Alone </div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=6.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=6.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=6.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=6.1.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/blog/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/src/love.js"></script>>
