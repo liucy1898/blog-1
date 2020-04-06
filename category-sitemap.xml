@@ -140,20 +140,6 @@
     </url>
 
     <url>
-        <loc>https://destinywang.github.io/blog/categories/Nginx/</loc>
-        <lastmod>2020-01-24T02:10:58.892Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://destinywang.github.io/blog/categories/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/</loc>
-        <lastmod>2020-04-04T03:36:25.176Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://destinywang.github.io/blog/categories/go/</loc>
         <lastmod>2020-04-04T03:38:05.979Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -163,6 +149,27 @@
     <url>
         <loc>https://destinywang.github.io/blog/categories/go/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</loc>
         <lastmod>2020-04-04T03:38:05.979Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://destinywang.github.io/blog/categories/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/</loc>
+        <lastmod>2020-04-05T03:03:45.360Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://destinywang.github.io/blog/categories/Nginx/</loc>
+        <lastmod>2020-04-05T03:03:52.200Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://destinywang.github.io/blog/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/</loc>
+        <lastmod>2020-04-06T05:53:32.153Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
