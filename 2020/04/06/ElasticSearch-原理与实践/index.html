@@ -115,7 +115,8 @@
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/78682078-2121d080-7920-11ea-9a3d-dffa50bc634d.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/78691662-74e5e700-792b-11ea-8298-8c7e1616818c.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/78797005-b341db80-79e9-11ea-9d89-f976c796bf1b.png">
-<meta property="og:updated_time" content="2020-04-08T14:40:55.566Z">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/79042721-87fafe80-7c2c-11ea-9814-d83afe9b90ca.png">
+<meta property="og:updated_time" content="2020-04-11T11:59:25.037Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ElasticSearch 原理与实践">
 <meta name="twitter:description" content="1. ElasticSearch 概述1.1 生态圈    组件 简介 特性     Logstash 开源的服务端数据处理通道, 支持从不同来源采集和转换数据, 并将数据发送到不同的存储中, 2013 年被 ElasticSearch 收购 1. 实时解析和转换数据(从 IP 破译出地理坐标)2. 可扩展(200多个插件, 日志/数据库/Arcsign/Netflow)3. 可靠安全性(通过持久">
@@ -571,7 +572,9 @@
 </ul>
 <p><img src="https://user-images.githubusercontent.com/17758731/78691662-74e5e700-792b-11ea-8298-8c7e1616818c.png" alt="image"></p>
 <p>通过 cerebro 可以比较直观的展现 ElasticSearch 集群的名称, 节点数量, 索引树, 分片数, 文档数量以及文件总大小, 以及每个节点的健康情况.</p>
-<h2 id="2-7-Logstash-安装与导入数据"><a href="#2-7-Logstash-安装与导入数据" class="headerlink" title="2.7 Logstash 安装与导入数据"></a>2.7 Logstash 安装与导入数据</h2><ol>
+<h2 id="2-7-Logstash-安装与导入数据"><a href="#2-7-Logstash-安装与导入数据" class="headerlink" title="2.7 Logstash 安装与导入数据"></a>2.7 Logstash 安装与导入数据</h2><p>Logstash: 是一个灵活的数据传输和处理系统, 在beats出来之前, 还负责进行数据收集.Logstash的任务是将各种各样的数据, 经过配置转化规则, 统一化存入Elasticsearch. 使用Ruby 开发的 Logstash 在灵活性上非常出色, 不过性能一直是被诟病的问题.</p>
+<p>由于 Logstash 在数据收集上并不出色, 而且作为 agent, 性能并不达标. elastic 发布了 <code>beats</code> 系列轻量级采集组件. 至此, elastic 形成了一个完整的生态链和技术栈, 成为大数据市场的佼佼者.</p>
+<ol>
 <li>下载并解压缩 <code>logstash</code></li>
 <li>准备 <code>logstash.conf</code> 配置文件</li>
 <li>执行 <code>bin/logstash -f logstash.conf</code></li>
@@ -584,6 +587,199 @@
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">input &#123;</span><br><span class="line">  file &#123;</span><br><span class="line">    path =&gt; &quot;/Users/destiny/dev/logstash-7.6.2/bin/movies.csv&quot; # movies 数据所在路径</span><br><span class="line">    start_position =&gt; &quot;beginning&quot;</span><br><span class="line">    sincedb_path =&gt; &quot;/dev/null&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">filter &#123;</span><br><span class="line">  csv &#123;</span><br><span class="line">    separator =&gt; &quot;,&quot;</span><br><span class="line">    columns =&gt; [&quot;id&quot;,&quot;content&quot;,&quot;genre&quot;]</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  mutate &#123;</span><br><span class="line">    split =&gt; &#123; &quot;genre&quot; =&gt; &quot;|&quot; &#125;</span><br><span class="line">    remove_field =&gt; [&quot;path&quot;, &quot;host&quot;,&quot;@timestamp&quot;,&quot;message&quot;]</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  mutate &#123;</span><br><span class="line"></span><br><span class="line">    split =&gt; [&quot;content&quot;, &quot;(&quot;]</span><br><span class="line">    add_field =&gt; &#123; &quot;title&quot; =&gt; &quot;%&#123;[content][0]&#125;&quot;&#125;</span><br><span class="line">    add_field =&gt; &#123; &quot;year&quot; =&gt; &quot;%&#123;[content][1]&#125;&quot;&#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  mutate &#123;</span><br><span class="line">    convert =&gt; &#123;</span><br><span class="line">      &quot;year&quot; =&gt; &quot;integer&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    strip =&gt; [&quot;title&quot;]</span><br><span class="line">    remove_field =&gt; [&quot;path&quot;, &quot;host&quot;,&quot;@timestamp&quot;,&quot;message&quot;,&quot;content&quot;]</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">output &#123;</span><br><span class="line">   elasticsearch &#123;</span><br><span class="line">     hosts =&gt; &quot;http://localhost:9200&quot; # 写入 9200 端口, 即 ElasticSearch</span><br><span class="line">     index =&gt; &quot;movies&quot;</span><br><span class="line">     document_id =&gt; &quot;%&#123;id&#125;&quot;</span><br><span class="line">   &#125;</span><br><span class="line">  stdout &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>logstash 的进程会一直阻塞去读取指定路径的文件, 因此看到最后一条记录被导入成功后就可以手动停止.</p>
+<h1 id="2-基本概念"><a href="#2-基本概念" class="headerlink" title="2. 基本概念"></a>2. 基本概念</h1><h2 id="2-1-文档"><a href="#2-1-文档" class="headerlink" title="2.1 文档"></a>2.1 文档</h2><p>ElasticSearch 是面向文档的存储/搜索引擎, 文档是所有课搜索数据的最小单位, 可以理解为关系型数据中的一条记录, ElasticSearch 中的文档可以是:</p>
+<ul>
+<li>日志文件中的日志项</li>
+<li>一部电影/一张唱片的详细信息</li>
+<li>一篇 PDF 的内容等</li>
+</ul>
+<p>文档会被序列化成 JSON 格式保存在 ElasticSearch 中</p>
+<ul>
+<li>JSON 对象由字段组成</li>
+<li>每个字段都有对应的类型(string/number/bool/date/object/array)</li>
+</ul>
+<p>每个文档都有一个 uniqueId, 可以自己指定, 也可以直接由 ElasticSearch 生成.</p>
+<p>文档中包含了一系列的字段, 类似数据库中的一条记录, 字段的类型可以指定或者通过 ElasticSearch 自动推算, 如之前的 movielens 数据经过 logstash 转化后会变成如下格式:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">movieId,title,genres</span><br><span class="line">1,Toy Story (1995), Adventure|Animation|Children|Comedy|Fantasy</span><br></pre></td></tr></table></figure>
+<p>转换后:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"_index"</span>: <span class="string">"movies"</span>,</span><br><span class="line">    <span class="attr">"_type"</span>: <span class="string">"_doc"</span>,</span><br><span class="line">    <span class="attr">"_id"</span>: <span class="string">"1"</span>,</span><br><span class="line">    <span class="attr">"_score"</span>: <span class="number">14.69302</span>,</span><br><span class="line">    <span class="attr">"_source"</span>: &#123;</span><br><span class="line">        <span class="attr">"year"</span>: <span class="number">1995</span>,</span><br><span class="line">        <span class="attr">"@version"</span>: <span class="string">"1"</span>,</span><br><span class="line">        <span class="attr">"genre"</span>: [</span><br><span class="line">            <span class="string">"Adventure"</span>,</span><br><span class="line">            <span class="string">"Animation"</span>,</span><br><span class="line">            <span class="string">"Children"</span>,</span><br><span class="line">            <span class="string">"Comedy"</span>,</span><br><span class="line">            <span class="string">"Fantasy"</span>,</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"id"</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="attr">"title"</span>: <span class="string">"Toy Story"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>除了输入的数据外还有一部分元数据用于标注文档的相关信息:</p>
+<table>
+<thead>
+<tr>
+<th>元数据</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_index</td>
+<td>文档所属的索引名</td>
+</tr>
+<tr>
+<td>_type</td>
+<td>文档所属的类型名</td>
+</tr>
+<tr>
+<td>_id</td>
+<td>文档唯一 id</td>
+</tr>
+<tr>
+<td>_source</td>
+<td>文档的原始 Json 数据</td>
+</tr>
+<tr>
+<td>_version</td>
+<td>文档的版本信息</td>
+</tr>
+<tr>
+<td>_score</td>
+<td>相关性打分</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-2-索引"><a href="#2-2-索引" class="headerlink" title="2.2 索引"></a>2.2 索引</h2><ul>
+<li>名词(index): 是文档的容器, 是一类文档的集合</li>
+<li><p>动词(indexing): 将一个文档保存到 ElasticSearch 的过程(创建倒排索引)</p>
+</li>
+<li><p>index 体现了逻辑空间的概念: 每个索引都有自己的 mapping 定义, 用于定义包含的文档的字段名和字段类型</p>
+</li>
+<li>shard 体现物理空间的概念: 索引中的数据分散在 shard 上</li>
+</ul>
+<p>索引的 mapping 定义文档字段的类型, setting 定义不同的数据分布.</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"movies"</span>: &#123;</span><br><span class="line">        <span class="attr">"setting"</span>: &#123;</span><br><span class="line">            <span class="attr">"index"</span>: &#123;</span><br><span class="line">                <span class="attr">"creation_date"</span>: <span class="string">"155273758543"</span>,</span><br><span class="line">                <span class="attr">"number_of_shards"</span>: <span class="string">"2"</span>,</span><br><span class="line">                <span class="attr">"number_of_replicas"</span>: <span class="string">"0"</span>,</span><br><span class="line">                <span class="attr">"uuid"</span>: <span class="string">"Qnd7lmrNQPGdaeJ0oR0tfQ"</span>,</span><br><span class="line">                <span class="attr">"version"</span>: &#123;</span><br><span class="line">                    <span class="attr">"created"</span>: <span class="string">"6060299"</span></span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="attr">"provided_name"</span>: <span class="string">"movies"</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>与关系型数据的概念对比:</p>
+<table>
+<thead>
+<tr>
+<th>RDBMS</th>
+<th>ElasticSearch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Table</td>
+<td>Index</td>
+</tr>
+<tr>
+<td>Row</td>
+<td>Doc</td>
+</tr>
+<tr>
+<td>Column</td>
+<td>Field</td>
+</tr>
+<tr>
+<td>Schema</td>
+<td>Mapping</td>
+</tr>
+<tr>
+<td>SQL</td>
+<td>DSL</td>
+</tr>
+</tbody>
+</table>
+<p>传统关系型数据库和 ElasticSearch 的区别:</p>
+<ul>
+<li>ElasticSearch: Schemaless/相关性/高性能全文索引</li>
+<li>RDBMS: 事务性/Join</li>
+</ul>
+<h2 id="2-3-集群-节点和分片"><a href="#2-3-集群-节点和分片" class="headerlink" title="2.3 集群, 节点和分片"></a>2.3 集群, 节点和分片</h2><h3 id="2-3-1-集群"><a href="#2-3-1-集群" class="headerlink" title="2.3.1 集群"></a>2.3.1 集群</h3><ul>
+<li>不同的集群通过 name 来区分, 默认 name 是 <code>elasticsearch</code></li>
+<li>通过修改配置文件, 或者在命令行中直接指定 <code>-E cluster.name=xxx</code> 进行设定</li>
+<li>一个集群可以有一个或多个节点</li>
+</ul>
+<h3 id="2-3-2-节点"><a href="#2-3-2-节点" class="headerlink" title="2.3.2 节点"></a>2.3.2 节点</h3><ul>
+<li>节点是一个 ElasticSearch 实例, 本质上是一个 Java 进程, 一台机器可以运行多个 ElasticSearch 实例, 但生产环境一般建议一台机器只运行一个 ElasticSearch 实例</li>
+<li>每个节点都有自己的名字, 可以通过配置文件指定, 也可以在命令行中指定 <code>-E node.name=node1</code> 指定</li>
+<li>每个节点在启动后, 会分配一个 UID, 保存在 data 目录下</li>
+</ul>
+<p>Master-eligible nodes 和 Master Node</p>
+<ul>
+<li>每个节点启动后, 默认就是一个 Master-eligible 节点, 可以通过 <code>node.master: false</code> 禁止</li>
+<li>Master-eligible 节点可以参加选主流程, 成为 Master 节点</li>
+<li>当第一个节点启动的时候, 它会将自己选举成 Master 节点</li>
+<li>每个节点上都保存了集群的状态, 只有 Master 节点才能修改集群的状态信息<ul>
+<li>集群信息(Cluster State), 维护了一个集群中必要的信息:<ul>
+<li>所有的节点信息</li>
+<li>所有的索引和其相关的 mapping 和 setting 信息</li>
+<li>分片的路由信息</li>
+</ul>
+</li>
+<li>任意节点都能修改信息的话会导致数据不一致</li>
+</ul>
+</li>
+</ul>
+<p>Data Node &amp; Coordinating Node</p>
+<ul>
+<li>Data Node: 可以保存数据的节点, 负责保存分片数据, 在数据扩展上起到了重要作用</li>
+<li>Coordinating Node: 负责接受 Client 的请求, 将请求分发到合适的节点, 最终把结果汇集在一起, 每个节点默认都起到了 Coordinating Node 的职责</li>
+</ul>
+<p>其他节点类型:</p>
+<ul>
+<li>Hot &amp; Warm Node: 不同硬件配置的 Data Node, 用来实现 Hot &amp; Warm 架构, 降低集群部署成本(Hot 节点配置较高, 吞吐量较好)</li>
+<li>Machine Learning Node: 负责跑机器学习的 Job, 用来做异常检测</li>
+<li>Tribe Node: (即将淘汰吗 5.3 开始使用 cross cluster serarch)连接到不同的 ElasticSearch 集群, 并支持将这些集群当成一个单独的集群处理.</li>
+</ul>
+<p>配置节点类型:</p>
+<ul>
+<li>开发环境中的一个节点可以承担多种角色</li>
+<li>生产环境中, 应该给每个节点设置单一的角色</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>节点类型</th>
+<th>配置参数</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>master eligible</td>
+<td>node.master</td>
+<td>true</td>
+</tr>
+<tr>
+<td>data</td>
+<td>node.data</td>
+<td>true</td>
+</tr>
+<tr>
+<td>ingest</td>
+<td>node.ingest</td>
+<td>true</td>
+</tr>
+<tr>
+<td>coordinating only</td>
+<td>-</td>
+<td>每个节点默认都是 coordinating 节点, 设置其他类型全部为 false</td>
+</tr>
+<tr>
+<td>machine learning</td>
+<td>node.ml</td>
+<td>true(需 enable x-pack)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-3-3-分片"><a href="#2-3-3-分片" class="headerlink" title="2.3.3 分片"></a>2.3.3 分片</h3><ul>
+<li>主分片: 用以解决数据水平扩展的问题, 通过主分片可以将数据分布到集群内的所有节点之上, 每个分片都是 Lucene 实例, 主分片数在创建索引时指定, 后续不允许修改, 除非 reindex</li>
+<li>副本: 用以解决数据高可用的问题, 分片是主分片的拷贝, 副本分片数可以动态调整</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PUT /blogs</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"settings"</span>: &#123;</span><br><span class="line">        <span class="attr">"number_of_shards"</span>: <span class="number">3</span>,</span><br><span class="line">        <span class="attr">"number_of_reolicas"</span>: <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过上面的请求, 会创建一个拥有 3 个分片, 1 个副本的 ElasticSearch 集群</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/79042721-87fafe80-7c2c-11ea-9814-d83afe9b90ca.png" alt="image"></p>
+<p>对于生产环境中分片的设定需要提前做好容量规划:</p>
+<ul>
+<li>分片数设置过小会导致后续无法增加节点实现水平扩容, 并且单个分片数据量过大会导致 reindex 耗时较长</li>
+<li>分片数过大会影响搜索结果的相关性打分, 影响统计结果的准确性, 单个节点上过多的分片会导致资源浪费, 同时也会影响性能.</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">GET /_cluster/health</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"cluster_name"</span> : <span class="string">"destiny"</span>,</span><br><span class="line">  <span class="attr">"status"</span> : <span class="string">"green"</span>,</span><br><span class="line">  <span class="attr">"timed_out"</span> : <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">"number_of_nodes"</span> : <span class="number">2</span>,</span><br><span class="line">  <span class="attr">"number_of_data_nodes"</span> : <span class="number">2</span>,</span><br><span class="line">  <span class="attr">"active_primary_shards"</span> : <span class="number">6</span>,</span><br><span class="line">  <span class="attr">"active_shards"</span> : <span class="number">12</span>,</span><br><span class="line">  <span class="attr">"relocating_shards"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"initializing_shards"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"unassigned_shards"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"delayed_unassigned_shards"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"number_of_pending_tasks"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"number_of_in_flight_fetch"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"task_max_waiting_in_queue_millis"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"active_shards_percent_as_number"</span> : <span class="number">100.0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Green: 主分片与副本分片都正常分配</li>
+<li>Yellow: 主分片全部正常分片, 有副本分片未能正常分配</li>
+<li>Red: 有主分片未能分配, 如磁盘容量超 85% 的时候创建索引</li>
+</ul>
 
       
     </div>
@@ -848,7 +1044,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-ElasticSearch-概述"><span class="nav-text">1. ElasticSearch 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-生态圈"><span class="nav-text">1.1 生态圈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-ElasticSearch-与数据库集成"><span class="nav-text">1.2 ElasticSearch 与数据库集成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-指标分析-日志分析"><span class="nav-text">1.3 指标分析, 日志分析</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-安装-ElasticSearch"><span class="nav-text">2. 安装 ElasticSearch</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-ElasticSearch-的文件目录结构"><span class="nav-text">2.1 ElasticSearch 的文件目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-JVM-配置"><span class="nav-text">2.2 JVM 配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-启动-ElasticSearch"><span class="nav-text">2.3 启动 ElasticSearch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-安装插件"><span class="nav-text">2.4 安装插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-本机运行多个-ElasticSearch-实例"><span class="nav-text">2.5 本机运行多个 ElasticSearch 实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6-安装-Kibana"><span class="nav-text">2.6 安装 Kibana</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-7-Logstash-安装与导入数据"><span class="nav-text">2.7 Logstash 安装与导入数据</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-ElasticSearch-概述"><span class="nav-text">1. ElasticSearch 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-生态圈"><span class="nav-text">1.1 生态圈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-ElasticSearch-与数据库集成"><span class="nav-text">1.2 ElasticSearch 与数据库集成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-指标分析-日志分析"><span class="nav-text">1.3 指标分析, 日志分析</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-安装-ElasticSearch"><span class="nav-text">2. 安装 ElasticSearch</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-ElasticSearch-的文件目录结构"><span class="nav-text">2.1 ElasticSearch 的文件目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-JVM-配置"><span class="nav-text">2.2 JVM 配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-启动-ElasticSearch"><span class="nav-text">2.3 启动 ElasticSearch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-安装插件"><span class="nav-text">2.4 安装插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-本机运行多个-ElasticSearch-实例"><span class="nav-text">2.5 本机运行多个 ElasticSearch 实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6-安装-Kibana"><span class="nav-text">2.6 安装 Kibana</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-7-Logstash-安装与导入数据"><span class="nav-text">2.7 Logstash 安装与导入数据</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-基本概念"><span class="nav-text">2. 基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-文档"><span class="nav-text">2.1 文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-索引"><span class="nav-text">2.2 索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-集群-节点和分片"><span class="nav-text">2.3 集群, 节点和分片</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-1-集群"><span class="nav-text">2.3.1 集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-2-节点"><span class="nav-text">2.3.2 节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-3-分片"><span class="nav-text">2.3.3 分片</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
