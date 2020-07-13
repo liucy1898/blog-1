@@ -99,12 +99,12 @@
 
 
 
-  <meta name="description" content="1. ElasticSearch 概述1.1 生态圈    组件 简介 特性     Logstash 开源的服务端数据处理通道, 支持从不同来源采集和转换数据, 并将数据发送到不同的存储中, 2013 年被 ElasticSearch 收购 1. 实时解析和转换数据(从 IP 破译出地理坐标)2. 可扩展(200多个插件, 日志/数据库/Arcsign/Netflow)3. 可靠安全性(通过持久">
+  <meta name="description" content="1. 概述1.1 生态圈ElasticSearch 是一款开源的分布式搜索引擎和近实时大数据分析平台.     组件 功能     Logstash 开源的服务端数据处理通道, 支持从不同数据源进行采集和转换, 并将数据发送到不同的存储中.   Kibana 数据可视化工具   Beats 轻量的数据采集器, ElasticSearch 提供了大量的 Beats 套件以针对不同的数据源, 如 Fi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ElasticSearch 原理与实践">
 <meta property="og:url" content="https://destinywang.github.io/blog/2020/04/06/ElasticSearch-原理与实践/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1. ElasticSearch 概述1.1 生态圈    组件 简介 特性     Logstash 开源的服务端数据处理通道, 支持从不同来源采集和转换数据, 并将数据发送到不同的存储中, 2013 年被 ElasticSearch 收购 1. 实时解析和转换数据(从 IP 破译出地理坐标)2. 可扩展(200多个插件, 日志/数据库/Arcsign/Netflow)3. 可靠安全性(通过持久">
+<meta property="og:description" content="1. 概述1.1 生态圈ElasticSearch 是一款开源的分布式搜索引擎和近实时大数据分析平台.     组件 功能     Logstash 开源的服务端数据处理通道, 支持从不同数据源进行采集和转换, 并将数据发送到不同的存储中.   Kibana 数据可视化工具   Beats 轻量的数据采集器, ElasticSearch 提供了大量的 Beats 套件以针对不同的数据源, 如 Fi">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/78526882-fba4a200-780d-11ea-8451-2c74d3c5103c.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/78528025-fb59d600-7810-11ea-82fc-c69cf4a0e3e5.png">
@@ -133,11 +133,12 @@
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/79131770-ba972980-7ddb-11ea-8dd9-f7a45808850c.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/79131430-2af17b00-7ddb-11ea-9d02-c08f1ab54043.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/79132307-ab64ab80-7ddc-11ea-8d0b-1b7ee7cc8ff2.png">
-<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/79128665-82d9b300-7dd6-11ea-8fe1-f880a14cc4c0.png">
-<meta property="og:updated_time" content="2020-04-29T13:02:57.170Z">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/87317863-28c5c680-c55a-11ea-8ba7-2acfc2d710d3.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/87319645-78a58d00-c55c-11ea-84b3-e2487ef5a80b.png">
+<meta property="og:updated_time" content="2020-07-13T15:02:25.584Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ElasticSearch 原理与实践">
-<meta name="twitter:description" content="1. ElasticSearch 概述1.1 生态圈    组件 简介 特性     Logstash 开源的服务端数据处理通道, 支持从不同来源采集和转换数据, 并将数据发送到不同的存储中, 2013 年被 ElasticSearch 收购 1. 实时解析和转换数据(从 IP 破译出地理坐标)2. 可扩展(200多个插件, 日志/数据库/Arcsign/Netflow)3. 可靠安全性(通过持久">
+<meta name="twitter:description" content="1. 概述1.1 生态圈ElasticSearch 是一款开源的分布式搜索引擎和近实时大数据分析平台.     组件 功能     Logstash 开源的服务端数据处理通道, 支持从不同数据源进行采集和转换, 并将数据发送到不同的存储中.   Kibana 数据可视化工具   Beats 轻量的数据采集器, ElasticSearch 提供了大量的 Beats 套件以针对不同的数据源, 如 Fi">
 <meta name="twitter:image" content="https://user-images.githubusercontent.com/17758731/78526882-fba4a200-780d-11ea-8451-2c74d3c5103c.png">
 
 
@@ -456,41 +457,52 @@
       
 
       
-        <h1 id="1-ElasticSearch-概述"><a href="#1-ElasticSearch-概述" class="headerlink" title="1. ElasticSearch 概述"></a>1. ElasticSearch 概述</h1><h2 id="1-1-生态圈"><a href="#1-1-生态圈" class="headerlink" title="1.1 生态圈"></a>1.1 生态圈</h2><p><img src="https://user-images.githubusercontent.com/17758731/78526882-fba4a200-780d-11ea-8451-2c74d3c5103c.png" alt="image"></p>
+        <h1 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h1><h2 id="1-1-生态圈"><a href="#1-1-生态圈" class="headerlink" title="1.1 生态圈"></a>1.1 生态圈</h2><p>ElasticSearch 是一款开源的分布式搜索引擎和近实时大数据分析平台.</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/78526882-fba4a200-780d-11ea-8451-2c74d3c5103c.png" alt="image"></p>
 <table>
 <thead>
 <tr>
 <th>组件</th>
-<th>简介</th>
-<th>特性</th>
+<th>功能</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Logstash</td>
-<td>开源的服务端数据处理通道, 支持从不同来源采集和转换数据, 并将数据发送到不同的存储中, 2013 年被 ElasticSearch 收购</td>
-<td>1. 实时解析和转换数据(从 IP 破译出地理坐标)<br>2. 可扩展(200多个插件, 日志/数据库/Arcsign/Netflow)<br>3. 可靠安全性(通过持久化保证至少送达一次, 数据加密传输)<br>4. 监控</td>
-</tr>
-<tr>
-<td>Beats</td>
-<td>轻量的数据采集器</td>
+<td>开源的服务端数据处理通道, 支持从不同数据源进行采集和转换, 并将数据发送到不同的存储中.</td>
 </tr>
 <tr>
 <td>Kibana</td>
-<td>数据可视化工具, 帮助用户接口对数据的任何疑问.</td>
+<td>数据可视化工具</td>
+</tr>
+<tr>
+<td>Beats</td>
+<td>轻量的数据采集器, ElasticSearch 提供了大量的 Beats 套件以针对不同的数据源, 如 Filebeat, Metricbeat, Functionbeat 等</td>
 </tr>
 <tr>
 <td>X-Pack</td>
-<td>商业化套件</td>
+<td>ElasticSearch 提供的商业化套件</td>
 </tr>
 </tbody>
 </table>
-<h2 id="1-2-ElasticSearch-与数据库集成"><a href="#1-2-ElasticSearch-与数据库集成" class="headerlink" title="1.2 ElasticSearch 与数据库集成"></a>1.2 ElasticSearch 与数据库集成</h2><p><img src="https://user-images.githubusercontent.com/17758731/78528025-fb59d600-7810-11ea-82fc-c69cf4a0e3e5.png" alt="image"></p>
-<blockquote>
-<p>在搜索场景中, ElasticSearch 可以作为存储单独使用, 但如果涉及实时读写以及事务等问题, 还是需要先写入 DB, 再通过一定的同步机制(如 BinLog)存入 ES.</p>
-</blockquote>
-<h2 id="1-3-指标分析-日志分析"><a href="#1-3-指标分析-日志分析" class="headerlink" title="1.3 指标分析, 日志分析"></a>1.3 指标分析, 日志分析</h2><p><img src="https://user-images.githubusercontent.com/17758731/78528881-06ae0100-7813-11ea-9557-248e135d04c3.png" alt="image"></p>
-<p>ElasticStack 是基于 ElasticSearch, Logstash, KiBana 构建出生态系统</p>
+<p>应用场景:</p>
+<ul>
+<li>页面搜索, 垂直搜索, 代码搜索</li>
+<li>日志管理与分析, 安全指标监控, 应用性能监控, Web 住区舆情分析.</li>
+</ul>
+<h2 id="1-2-搜索场景下与数据库集成"><a href="#1-2-搜索场景下与数据库集成" class="headerlink" title="1.2 搜索场景下与数据库集成"></a>1.2 搜索场景下与数据库集成</h2><p><img src="https://user-images.githubusercontent.com/17758731/78528025-fb59d600-7810-11ea-82fc-c69cf4a0e3e5.png" alt="image"></p>
+<ul>
+<li>搜索场景下 ElasticSearch 可以作为单独的存储, 优点是架构会变得比较简单</li>
+<li>但如何数据更新比较频繁, 并且有事务场景的时候, 还是需要与 RDS 配合, 先将数据写入 RDS, 再通过同步机制(如 BinLog) 写入 ElasticSearch</li>
+</ul>
+<h2 id="1-3-指标分析与日志分析"><a href="#1-3-指标分析与日志分析" class="headerlink" title="1.3 指标分析与日志分析"></a>1.3 指标分析与日志分析</h2><p><img src="https://user-images.githubusercontent.com/17758731/78528881-06ae0100-7813-11ea-9557-248e135d04c3.png" alt="image"></p>
+<ul>
+<li>Beats 可以从不同的数据源完成数据采集</li>
+<li>在实际场景中如果数据量比较大, 需要引入 MQ 来完成数据缓冲层</li>
+<li>缓冲层将数据发送给 Logstash</li>
+<li>Logstash 对数据完成转化和聚合后发送给 ElasticSearch</li>
+<li>基于 ElasticSearch 可以搭建 Kibana 分析平台, 或选择 Grafana 图形化工具去分析时序性数据.</li>
+</ul>
 <h1 id="2-安装-ElasticSearch"><a href="#2-安装-ElasticSearch" class="headerlink" title="2. 安装 ElasticSearch"></a>2. 安装 ElasticSearch</h1><h2 id="2-1-ElasticSearch-的文件目录结构"><a href="#2-1-ElasticSearch-的文件目录结构" class="headerlink" title="2.1 ElasticSearch 的文件目录结构"></a>2.1 ElasticSearch 的文件目录结构</h2><p><img src="https://user-images.githubusercontent.com/17758731/78550976-92d21f80-7837-11ea-97ce-c9015434a704.png" alt="image"></p>
 <table>
 <thead>
@@ -561,7 +573,7 @@
 </ul>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./bin/elasticsearch-plugin list</span><br></pre></td></tr></table></figure>
 <ul>
-<li>安装插件:</li>
+<li>安装插件: (国际化分词插件 analysis-icu)</li>
 </ul>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ ./bin/elasticsearch-plugin install analysis-icu</span><br><span class="line">-&gt; Installing analysis-icu</span><br><span class="line">-&gt; Downloading analysis-icu from elastic</span><br><span class="line">[=================================================] 100%</span><br><span class="line">-&gt; Installed analysis-icu</span><br></pre></td></tr></table></figure>
 <h2 id="2-5-本机运行多个-ElasticSearch-实例"><a href="#2-5-本机运行多个-ElasticSearch-实例" class="headerlink" title="2.5 本机运行多个 ElasticSearch 实例"></a>2.5 本机运行多个 ElasticSearch 实例</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ./bin/elasticsearch -E node.name=name0 -E cluster.name=destiny -E path.data=node0_data -d</span><br><span class="line">$ ./bin/elasticsearch -E node.name=name1 -E cluster.name=destiny -E path.data=node1_data -d</span><br><span class="line">$ ./bin/elasticsearch -E node.name=name2 -E cluster.name=destiny -E path.data=node2_data -d</span><br><span class="line">$ ./bin/elasticsearch -E node.name=name3 -E cluster.name=destiny -E path.data=node3_data -d</span><br></pre></td></tr></table></figure>
@@ -578,7 +590,7 @@
 <li>在浏览器中打开 <code>http://localhost:5601</code></li>
 </ol>
 <p><img src="https://user-images.githubusercontent.com/17758731/78680973-bf149b80-791e-11ea-8887-4fec79518d9a.png" alt="image"></p>
-<p>此时 Kibana 在开箱即用中准备好了三种版本样例数据, 分别是电商网站订单, 航空公司飞行记录已经交通网站日志三份样例数据. 在 Kibana 的 Dashboard 界面可以根据样例数据生成报表.</p>
+<p>此时 Kibana 在开箱即用中准备好了三种版本样例数据, 分别是电商网站订单, 航空公司飞行记录以及交通网站日志三份样例数据. 在 Kibana 的 Dashboard 界面可以根据样例数据生成报表.</p>
 <p>此外 Kibana 还提供了 <code>DevTools</code> 功能, 可以很方便的帮助用户在 Kibana 上执行 ElasticSearch 的 API:</p>
 <p><img src="https://user-images.githubusercontent.com/17758731/78682078-2121d080-7920-11ea-9a3d-dffa50bc634d.png" alt="image"></p>
 <p>dev tool 的一部分快捷键:</p>
@@ -588,9 +600,17 @@
 <li><code>cmd + option + O</code></li>
 <li><code>cmd + option + shift + O</code></li>
 </ul>
+<h2 id="2-7-在-docker-容器中运行-ElasticSearch"><a href="#2-7-在-docker-容器中运行-ElasticSearch" class="headerlink" title="2.7 在 docker 容器中运行 ElasticSearch"></a>2.7 在 docker 容器中运行 ElasticSearch</h2><p>docker-compose 相关命令:</p>
+<ul>
+<li>docker-compose up</li>
+<li>docker compose down</li>
+<li>docker compose down -v</li>
+<li>docker stop / rm ${comtaionerID}</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">version: &apos;2.2&apos;</span><br><span class="line">services:</span><br><span class="line">  cerebro:</span><br><span class="line">    image: lmenezes/cerebro:0.8.3</span><br><span class="line">    container_name: cerebro</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;9000:9000&quot;</span><br><span class="line">    command:</span><br><span class="line">      - -Dhosts.0.host=http://elasticsearch:9200</span><br><span class="line">    networks:</span><br><span class="line">      - es7net</span><br><span class="line">  kibana:</span><br><span class="line">    image: docker.elastic.co/kibana/kibana:7.1.0</span><br><span class="line">    container_name: kibana7</span><br><span class="line">    environment:</span><br><span class="line">      - I18N_LOCALE=zh-CN</span><br><span class="line">      - XPACK_GRAPH_ENABLED=true</span><br><span class="line">      - TIMELION_ENABLED=true</span><br><span class="line">      - XPACK_MONITORING_COLLECTION_ENABLED=&quot;true&quot;</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;5601:5601&quot;</span><br><span class="line">    networks:</span><br><span class="line">      - es7net</span><br><span class="line">  elasticsearch:</span><br><span class="line">    image: docker.elastic.co/elasticsearch/elasticsearch:7.1.0</span><br><span class="line">    container_name: es7_01</span><br><span class="line">    environment:</span><br><span class="line">      - cluster.name=destiny</span><br><span class="line">      - node.name=es7_01</span><br><span class="line">      - bootstrap.memory_lock=true</span><br><span class="line">      - &quot;ES_JAVA_OPTS=-Xms512m -Xmx512m&quot;</span><br><span class="line">      - discovery.seed_hosts=es7_01,es7_02</span><br><span class="line">      - cluster.initial_master_nodes=es7_01,es7_02</span><br><span class="line">    ulimits:</span><br><span class="line">      memlock:</span><br><span class="line">        soft: -1</span><br><span class="line">        hard: -1</span><br><span class="line">    volumes:</span><br><span class="line">      - es7data1:/usr/share/elasticsearch/data</span><br><span class="line">    ports:</span><br><span class="line">      - 9200:9200</span><br><span class="line">    networks:</span><br><span class="line">      - es7net</span><br><span class="line">  elasticsearch2:</span><br><span class="line">    image: docker.elastic.co/elasticsearch/elasticsearch:7.1.0</span><br><span class="line">    container_name: es7_02</span><br><span class="line">    environment:</span><br><span class="line">      - cluster.name=destiny</span><br><span class="line">      - node.name=es7_02</span><br><span class="line">      - bootstrap.memory_lock=true</span><br><span class="line">      - &quot;ES_JAVA_OPTS=-Xms512m -Xmx512m&quot;</span><br><span class="line">      - discovery.seed_hosts=es7_01,es7_02</span><br><span class="line">      - cluster.initial_master_nodes=es7_01,es7_02</span><br><span class="line">    ulimits:</span><br><span class="line">      memlock:</span><br><span class="line">        soft: -1</span><br><span class="line">        hard: -1</span><br><span class="line">    volumes:</span><br><span class="line">      - es7data2:/usr/share/elasticsearch/data</span><br><span class="line">    networks:</span><br><span class="line">      - es7net</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">volumes:</span><br><span class="line">  es7data1:</span><br><span class="line">    driver: local</span><br><span class="line">  es7data2:</span><br><span class="line">    driver: local</span><br><span class="line"></span><br><span class="line">networks:</span><br><span class="line">  es7net:</span><br><span class="line">    driver: bridge</span><br></pre></td></tr></table></figure>
 <p><img src="https://user-images.githubusercontent.com/17758731/78691662-74e5e700-792b-11ea-8298-8c7e1616818c.png" alt="image"></p>
 <p>通过 cerebro 可以比较直观的展现 ElasticSearch 集群的名称, 节点数量, 索引树, 分片数, 文档数量以及文件总大小, 以及每个节点的健康情况.</p>
-<h2 id="2-7-Logstash-安装与导入数据"><a href="#2-7-Logstash-安装与导入数据" class="headerlink" title="2.7 Logstash 安装与导入数据"></a>2.7 Logstash 安装与导入数据</h2><p>Logstash: 是一个灵活的数据传输和处理系统, 在beats出来之前, 还负责进行数据收集.Logstash的任务是将各种各样的数据, 经过配置转化规则, 统一化存入Elasticsearch. 使用Ruby 开发的 Logstash 在灵活性上非常出色, 不过性能一直是被诟病的问题.</p>
+<h2 id="2-8-Logstash-安装与导入数据"><a href="#2-8-Logstash-安装与导入数据" class="headerlink" title="2.8 Logstash 安装与导入数据"></a>2.8 Logstash 安装与导入数据</h2><p>Logstash 是一个灵活的数据传输和处理系统, 在beats出来之前, 还负责进行数据收集.Logstash的任务是将各种各样的数据, 经过配置转化规则, 统一化存入Elasticsearch. 使用Ruby 开发的 Logstash 在灵活性上非常出色, 不过性能一直是被诟病的问题.</p>
 <p>由于 Logstash 在数据收集上并不出色, 而且作为 agent, 性能并不达标. elastic 发布了 <code>beats</code> 系列轻量级采集组件. 至此, elastic 形成了一个完整的生态链和技术栈, 成为大数据市场的佼佼者.</p>
 <ol>
 <li>下载并解压缩 <code>logstash</code></li>
@@ -605,184 +625,71 @@
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">input &#123;</span><br><span class="line">  file &#123;</span><br><span class="line">    path =&gt; &quot;/Users/destiny/dev/logstash-7.6.2/bin/movies.csv&quot; # movies 数据所在路径</span><br><span class="line">    start_position =&gt; &quot;beginning&quot;</span><br><span class="line">    sincedb_path =&gt; &quot;/dev/null&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">filter &#123;</span><br><span class="line">  csv &#123;</span><br><span class="line">    separator =&gt; &quot;,&quot;</span><br><span class="line">    columns =&gt; [&quot;id&quot;,&quot;content&quot;,&quot;genre&quot;]</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  mutate &#123;</span><br><span class="line">    split =&gt; &#123; &quot;genre&quot; =&gt; &quot;|&quot; &#125;</span><br><span class="line">    remove_field =&gt; [&quot;path&quot;, &quot;host&quot;,&quot;@timestamp&quot;,&quot;message&quot;]</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  mutate &#123;</span><br><span class="line"></span><br><span class="line">    split =&gt; [&quot;content&quot;, &quot;(&quot;]</span><br><span class="line">    add_field =&gt; &#123; &quot;title&quot; =&gt; &quot;%&#123;[content][0]&#125;&quot;&#125;</span><br><span class="line">    add_field =&gt; &#123; &quot;year&quot; =&gt; &quot;%&#123;[content][1]&#125;&quot;&#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  mutate &#123;</span><br><span class="line">    convert =&gt; &#123;</span><br><span class="line">      &quot;year&quot; =&gt; &quot;integer&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    strip =&gt; [&quot;title&quot;]</span><br><span class="line">    remove_field =&gt; [&quot;path&quot;, &quot;host&quot;,&quot;@timestamp&quot;,&quot;message&quot;,&quot;content&quot;]</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">output &#123;</span><br><span class="line">   elasticsearch &#123;</span><br><span class="line">     hosts =&gt; &quot;http://localhost:9200&quot; # 写入 9200 端口, 即 ElasticSearch</span><br><span class="line">     index =&gt; &quot;movies&quot;</span><br><span class="line">     document_id =&gt; &quot;%&#123;id&#125;&quot;</span><br><span class="line">   &#125;</span><br><span class="line">  stdout &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>logstash 的进程会一直阻塞去读取指定路径的文件, 因此看到最后一条记录被导入成功后就可以手动停止.</p>
-<h1 id="2-基本概念"><a href="#2-基本概念" class="headerlink" title="2. 基本概念"></a>2. 基本概念</h1><h2 id="2-1-文档"><a href="#2-1-文档" class="headerlink" title="2.1 文档"></a>2.1 文档</h2><p>ElasticSearch 是面向文档的存储/搜索引擎, 文档是所有课搜索数据的最小单位, 可以理解为关系型数据中的一条记录, ElasticSearch 中的文档可以是:</p>
+<h1 id="3-ElasticSearch-基本概念"><a href="#3-ElasticSearch-基本概念" class="headerlink" title="3. ElasticSearch 基本概念"></a>3. ElasticSearch 基本概念</h1><h2 id="3-1-文档"><a href="#3-1-文档" class="headerlink" title="3.1 文档"></a>3.1 文档</h2><p>ElasticSearch 是面向文档的存储, 文档是所有可搜索数据的最小单位, 如日志文件中的日志项, 一部电影的详细信息等, 都可以被映射成 ElasticSearch 中的文档.</p>
+<p>文档会被序列化成 json, 保存在 ElasticSearch 中, 每个 json 对象都由固定字段组成, 每个字段的值都有对应的类型.</p>
+<p>每个文档都有一个 UniqueId, 可以由业务指定, 也可以通过 ElasticSearch 自动生成.</p>
+<p>一篇文档包含了一系列的字段, 类似数据库表中的记录, 字段类型可以指定也可以通过 ElasticSearch 自动推算, 支持数组和嵌套结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">movieId,title,genres</span><br><span class="line">1,Toy Story (1995),Adventure|Animation|Children|Comdy|Fantasy</span><br></pre></td></tr></table></figure>
+<p>转换成文档存入 ElasticSearch 中的格式:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    "_index": "movies",       // 文档所属的索引名</span><br><span class="line">    "_type": "_doc",          // 文档所属的类型名</span><br><span class="line">    "_id": "1",               // 文档唯一 id</span><br><span class="line">    "_score": 14.69302,       // 相关性打分</span><br><span class="line">    "_source": &#123;              // 原始文档的 json 数据</span><br><span class="line">        "year": 1995,</span><br><span class="line">        "@version": "1",      // 版本信息</span><br><span class="line">        "genre": [</span><br><span class="line">            "Adventure",</span><br><span class="line">            "Animation",</span><br><span class="line">            "Children",</span><br><span class="line">            "Comedy",</span><br><span class="line">            "Fantasy",</span><br><span class="line">        ],</span><br><span class="line">        "id": 1,</span><br><span class="line">        "title": "Toy Story"</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3-2-索引"><a href="#3-2-索引" class="headerlink" title="3.2 索引"></a>3.2 索引</h2><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"movies"</span>: &#123;</span><br><span class="line">    <span class="attr">"setting"</span>: &#123;</span><br><span class="line">      <span class="attr">"index"</span>: &#123;</span><br><span class="line">        <span class="attr">"creation_date"</span>: <span class="string">"155273758543"</span>,</span><br><span class="line">        <span class="attr">"number_of_shards"</span>: <span class="string">"2"</span>,</span><br><span class="line">        <span class="attr">"number_of_replicas"</span>: <span class="string">"0"</span>,</span><br><span class="line">        <span class="attr">"uuid"</span>: <span class="string">"Qnd7lmrNQPGdaeJ0oR0tfQ"</span>,</span><br><span class="line">        <span class="attr">"version"</span>: &#123;</span><br><span class="line">          <span class="attr">"created"</span>: <span class="string">"6060299"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">"provided_name"</span>: <span class="string">"movies"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>索引是文档的容器, 是一类文档的集合, mapping 定义文档字段的类型, setting 定义不同的数据分布:</p>
 <ul>
-<li>日志文件中的日志项</li>
-<li>一部电影/一张唱片的详细信息</li>
-<li>一篇 PDF 的内容等</li>
+<li>index 体现了逻辑空间的概念, 每个索引都有自己的 mapping 定义, 用于定义包含的文档的字段名和字段类型</li>
+<li>shard 体现了物理空间的概念, 索引中的数据分散在 shard 上</li>
 </ul>
-<p>文档会被序列化成 JSON 格式保存在 ElasticSearch 中</p>
-<ul>
-<li>JSON 对象由字段组成</li>
-<li>每个字段都有对应的类型(string/number/bool/date/object/array)</li>
-</ul>
-<p>每个文档都有一个 uniqueId, 可以自己指定, 也可以直接由 ElasticSearch 生成.</p>
-<p>文档中包含了一系列的字段, 类似数据库中的一条记录, 字段的类型可以指定或者通过 ElasticSearch 自动推算, 如之前的 movielens 数据经过 logstash 转化后会变成如下格式:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">movieId,title,genres</span><br><span class="line">1,Toy Story (1995), Adventure|Animation|Children|Comedy|Fantasy</span><br></pre></td></tr></table></figure>
-<p>转换后:</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"_index"</span>: <span class="string">"movies"</span>,</span><br><span class="line">    <span class="attr">"_type"</span>: <span class="string">"_doc"</span>,</span><br><span class="line">    <span class="attr">"_id"</span>: <span class="string">"1"</span>,</span><br><span class="line">    <span class="attr">"_score"</span>: <span class="number">14.69302</span>,</span><br><span class="line">    <span class="attr">"_source"</span>: &#123;</span><br><span class="line">        <span class="attr">"year"</span>: <span class="number">1995</span>,</span><br><span class="line">        <span class="attr">"@version"</span>: <span class="string">"1"</span>,</span><br><span class="line">        <span class="attr">"genre"</span>: [</span><br><span class="line">            <span class="string">"Adventure"</span>,</span><br><span class="line">            <span class="string">"Animation"</span>,</span><br><span class="line">            <span class="string">"Children"</span>,</span><br><span class="line">            <span class="string">"Comedy"</span>,</span><br><span class="line">            <span class="string">"Fantasy"</span>,</span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"id"</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="attr">"title"</span>: <span class="string">"Toy Story"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>除了输入的数据外还有一部分元数据用于标注文档的相关信息:</p>
+<p>与 RDS 的类比</p>
 <table>
 <thead>
 <tr>
-<th>元数据</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>_index</td>
-<td>文档所属的索引名</td>
-</tr>
-<tr>
-<td>_type</td>
-<td>文档所属的类型名</td>
-</tr>
-<tr>
-<td>_id</td>
-<td>文档唯一 id</td>
-</tr>
-<tr>
-<td>_source</td>
-<td>文档的原始 Json 数据</td>
-</tr>
-<tr>
-<td>_version</td>
-<td>文档的版本信息</td>
-</tr>
-<tr>
-<td>_score</td>
-<td>相关性打分</td>
-</tr>
-</tbody>
-</table>
-<h2 id="2-2-索引"><a href="#2-2-索引" class="headerlink" title="2.2 索引"></a>2.2 索引</h2><ul>
-<li>名词(index): 是文档的容器, 是一类文档的集合</li>
-<li><p>动词(indexing): 将一个文档保存到 ElasticSearch 的过程(创建倒排索引)</p>
-</li>
-<li><p>index 体现了逻辑空间的概念: 每个索引都有自己的 mapping 定义, 用于定义包含的文档的字段名和字段类型</p>
-</li>
-<li>shard 体现物理空间的概念: 索引中的数据分散在 shard 上</li>
-</ul>
-<p>索引的 mapping 定义文档字段的类型, setting 定义不同的数据分布.</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"movies"</span>: &#123;</span><br><span class="line">        <span class="attr">"setting"</span>: &#123;</span><br><span class="line">            <span class="attr">"index"</span>: &#123;</span><br><span class="line">                <span class="attr">"creation_date"</span>: <span class="string">"155273758543"</span>,</span><br><span class="line">                <span class="attr">"number_of_shards"</span>: <span class="string">"2"</span>,</span><br><span class="line">                <span class="attr">"number_of_replicas"</span>: <span class="string">"0"</span>,</span><br><span class="line">                <span class="attr">"uuid"</span>: <span class="string">"Qnd7lmrNQPGdaeJ0oR0tfQ"</span>,</span><br><span class="line">                <span class="attr">"version"</span>: &#123;</span><br><span class="line">                    <span class="attr">"created"</span>: <span class="string">"6060299"</span></span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="attr">"provided_name"</span>: <span class="string">"movies"</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>与关系型数据的概念对比:</p>
-<table>
-<thead>
-<tr>
-<th>RDBMS</th>
 <th>ElasticSearch</th>
+<th>RDS</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Table</td>
 <td>Index</td>
+<td>Table</td>
 </tr>
 <tr>
+<td>Document</td>
 <td>Row</td>
-<td>Doc</td>
 </tr>
 <tr>
-<td>Column</td>
 <td>Field</td>
+<td>Column</td>
 </tr>
 <tr>
-<td>Schema</td>
 <td>Mapping</td>
+<td>Schema</td>
 </tr>
 <tr>
-<td>SQL</td>
 <td>DSL</td>
+<td>SQL</td>
 </tr>
 </tbody>
 </table>
-<p>传统关系型数据库和 ElasticSearch 的区别:</p>
+<h2 id="3-3-集群"><a href="#3-3-集群" class="headerlink" title="3.3 集群"></a>3.3 集群</h2><p>不同的集群通过不同的名字来区分, 默认为 <code>elasticsearch</code>, 通过配置文件修改, 或者在命令行中通过 <code>-E cluster.name=${cluster_name}</code> 来设置, 一个集群可以包含多个节点.</p>
+<h2 id="3-4-节点"><a href="#3-4-节点" class="headerlink" title="3.4 节点"></a>3.4 节点</h2><p>节点时一个 ElasticSearch 进程实例, 每个节点都有 name, 可以通过配置文件或命令行中的 <code>-E node.name=${node_name}</code> 指定, 每个节点启动后会分配一个 UID, 保存在 data 目录下.</p>
+<h3 id="3-4-1-Master-eligible-节点和-Master-节点"><a href="#3-4-1-Master-eligible-节点和-Master-节点" class="headerlink" title="3.4.1 Master-eligible 节点和 Master 节点"></a>3.4.1 Master-eligible 节点和 Master 节点</h3><p>每个节点启动后, 默认就是一个 <code>Master-eligible</code> 节点, 可以通过配置 <code>node.master: false</code> 禁用. 每个 <code>Master-eligible</code> 节点都可以通过参与选主流程成为主节点, 当第一个 <code>Master-eligible</code> 节点启动时, 会将自己选举为主节点.</p>
+<p>每个节点上都保存了集群的状态, 只有 Master 才能修改集群的状态信息, 集群状态信息包括:</p>
 <ul>
-<li>ElasticSearch: Schemaless/相关性/高性能全文索引</li>
-<li>RDBMS: 事务性/Join</li>
-</ul>
-<h2 id="2-3-集群-节点和分片"><a href="#2-3-集群-节点和分片" class="headerlink" title="2.3 集群, 节点和分片"></a>2.3 集群, 节点和分片</h2><h3 id="2-3-1-集群"><a href="#2-3-1-集群" class="headerlink" title="2.3.1 集群"></a>2.3.1 集群</h3><ul>
-<li>不同的集群通过 name 来区分, 默认 name 是 <code>elasticsearch</code></li>
-<li>通过修改配置文件, 或者在命令行中直接指定 <code>-E cluster.name=xxx</code> 进行设定</li>
-<li>一个集群可以有一个或多个节点</li>
-</ul>
-<h3 id="2-3-2-节点"><a href="#2-3-2-节点" class="headerlink" title="2.3.2 节点"></a>2.3.2 节点</h3><ul>
-<li>节点是一个 ElasticSearch 实例, 本质上是一个 Java 进程, 一台机器可以运行多个 ElasticSearch 实例, 但生产环境一般建议一台机器只运行一个 ElasticSearch 实例</li>
-<li>每个节点都有自己的名字, 可以通过配置文件指定, 也可以在命令行中指定 <code>-E node.name=node1</code> 指定</li>
-<li>每个节点在启动后, 会分配一个 UID, 保存在 data 目录下</li>
-</ul>
-<p>Master-eligible nodes 和 Master Node</p>
-<ul>
-<li>每个节点启动后, 默认就是一个 Master-eligible 节点, 可以通过 <code>node.master: false</code> 禁止</li>
-<li>Master-eligible 节点可以参加选主流程, 成为 Master 节点</li>
-<li>当第一个节点启动的时候, 它会将自己选举成 Master 节点</li>
-<li>每个节点上都保存了集群的状态, 只有 Master 节点才能修改集群的状态信息<ul>
-<li>集群信息(Cluster State), 维护了一个集群中必要的信息:<ul>
 <li>所有的节点信息</li>
-<li>所有的索引和其相关的 mapping 和 setting 信息</li>
+<li>所有的索引和对应的 mapping 和 setting 信息</li>
 <li>分片的路由信息</li>
 </ul>
-</li>
-<li>任意节点都能修改信息的话会导致数据不一致</li>
+<h3 id="3-4-2-Data-节点和-Coordinating-Node"><a href="#3-4-2-Data-节点和-Coordinating-Node" class="headerlink" title="3.4.2 Data 节点和 Coordinating Node"></a>3.4.2 Data 节点和 Coordinating Node</h3><ul>
+<li>DataNode: 保存数据的节点, 负责保存分片数据</li>
+<li>CoordinationNode: 负责接收 client 请求, 将请求分发到对应节点, 最终把结果汇聚到一起, 每个节点默认都起到了 <code>Coordinating Node</code> 的职责</li>
 </ul>
-</li>
+<h3 id="3-4-3-其他节点类型"><a href="#3-4-3-其他节点类型" class="headerlink" title="3.4.3 其他节点类型"></a>3.4.3 其他节点类型</h3><ul>
+<li>Hot &amp; Warm Node: 不同硬件配置的 DataNode, 用来实现冷热分离架构, 降低部署陈本</li>
+<li>MachineLearningNode: 负责跑机器学习 Job, 实现异常检测的节点</li>
+<li>TribeNode: 连接到不同的 ElasticSearch 集群, 并支持将这些集群当成一个单独的集群</li>
 </ul>
-<p>Data Node &amp; Coordinating Node</p>
-<ul>
-<li>Data Node: 可以保存数据的节点, 负责保存分片数据, 在数据扩展上起到了重要作用</li>
-<li>Coordinating Node: 负责接受 Client 的请求, 将请求分发到合适的节点, 最终把结果汇集在一起, 每个节点默认都起到了 Coordinating Node 的职责</li>
-</ul>
-<p>其他节点类型:</p>
-<ul>
-<li>Hot &amp; Warm Node: 不同硬件配置的 Data Node, 用来实现 Hot &amp; Warm 架构, 降低集群部署成本(Hot 节点配置较高, 吞吐量较好)</li>
-<li>Machine Learning Node: 负责跑机器学习的 Job, 用来做异常检测</li>
-<li>Tribe Node: (即将淘汰吗 5.3 开始使用 cross cluster serarch)连接到不同的 ElasticSearch 集群, 并支持将这些集群当成一个单独的集群处理.</li>
-</ul>
-<p>配置节点类型:</p>
-<ul>
-<li>开发环境中的一个节点可以承担多种角色</li>
-<li>生产环境中, 应该给每个节点设置单一的角色</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>节点类型</th>
-<th>配置参数</th>
-<th>默认值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>master eligible</td>
-<td>node.master</td>
-<td>true</td>
-</tr>
-<tr>
-<td>data</td>
-<td>node.data</td>
-<td>true</td>
-</tr>
-<tr>
-<td>ingest</td>
-<td>node.ingest</td>
-<td>true</td>
-</tr>
-<tr>
-<td>coordinating only</td>
-<td>-</td>
-<td>每个节点默认都是 coordinating 节点, 设置其他类型全部为 false</td>
-</tr>
-<tr>
-<td>machine learning</td>
-<td>node.ml</td>
-<td>true(需 enable x-pack)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="2-3-3-分片"><a href="#2-3-3-分片" class="headerlink" title="2.3.3 分片"></a>2.3.3 分片</h3><ul>
-<li>主分片: 用以解决数据水平扩展的问题, 通过主分片可以将数据分布到集群内的所有节点之上, 每个分片都是 Lucene 实例, 主分片数在创建索引时指定, 后续不允许修改, 除非 reindex</li>
-<li>副本: 用以解决数据高可用的问题, 分片是主分片的拷贝, 副本分片数可以动态调整</li>
+<h2 id="3-5-分片"><a href="#3-5-分片" class="headerlink" title="3.5 分片"></a>3.5 分片</h2><ul>
+<li>主分片: 用于解决数据水平扩展问题, 通过主分片可以将数据分布到集群内的所有节点上, 每个分片都是一个 Lucene 的实例, 分片数在创建索引时指定, 后续不允许修改, 除非 Reindex</li>
+<li>副本: 用以解决数据高可用的问题, 分片是主分片的拷贝, 分片树龄可以动态调整, 副本可以完成读写分离.</li>
 </ul>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PUT /blogs</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"settings"</span>: &#123;</span><br><span class="line">        <span class="attr">"number_of_shards"</span>: <span class="number">3</span>,</span><br><span class="line">        <span class="attr">"number_of_reolicas"</span>: <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>通过上面的请求, 会创建一个拥有 3 个分片, 1 个副本的 ElasticSearch 集群</p>
@@ -792,31 +699,47 @@
 <li>分片数设置过小会导致后续无法增加节点实现水平扩容, 并且单个分片数据量过大会导致 reindex 耗时较长</li>
 <li>分片数过大会影响搜索结果的相关性打分, 影响统计结果的准确性, 单个节点上过多的分片会导致资源浪费, 同时也会影响性能.</li>
 </ul>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">GET /_cluster/health</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"cluster_name"</span> : <span class="string">"destiny"</span>,</span><br><span class="line">  <span class="attr">"status"</span> : <span class="string">"green"</span>,</span><br><span class="line">  <span class="attr">"timed_out"</span> : <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">"number_of_nodes"</span> : <span class="number">2</span>,</span><br><span class="line">  <span class="attr">"number_of_data_nodes"</span> : <span class="number">2</span>,</span><br><span class="line">  <span class="attr">"active_primary_shards"</span> : <span class="number">6</span>,</span><br><span class="line">  <span class="attr">"active_shards"</span> : <span class="number">12</span>,</span><br><span class="line">  <span class="attr">"relocating_shards"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"initializing_shards"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"unassigned_shards"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"delayed_unassigned_shards"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"number_of_pending_tasks"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"number_of_in_flight_fetch"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"task_max_waiting_in_queue_millis"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"active_shards_percent_as_number"</span> : <span class="number">100.0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">GET /_cluster/health</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"cluster_name"</span> : <span class="string">"destiny"</span>,</span><br><span class="line">  <span class="attr">"status"</span> : <span class="string">"green"</span>,</span><br><span class="line">  <span class="attr">"timed_out"</span> : <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">"number_of_nodes"</span> : <span class="number">2</span>,</span><br><span class="line">  <span class="attr">"number_of_data_nodes"</span> : <span class="number">2</span>,</span><br><span class="line">  <span class="attr">"active_primary_shards"</span> : <span class="number">6</span>,</span><br><span class="line">  <span class="attr">"active_shards"</span> : <span class="number">12</span>,</span><br><span class="line">  <span class="attr">"relocating_shards"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"initializing_shards"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"unassigned_shards"</span> : <span class="number">0</span>, </span><br><span class="line">  <span class="attr">"delayed_unassigned_shards"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"number_of_pending_tasks"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"number_of_in_flight_fetch"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"task_max_waiting_in_queue_millis"</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"active_shards_percent_as_number"</span> : <span class="number">100.0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>Green: 主分片与副本分片都正常分配</li>
 <li>Yellow: 主分片全部正常分片, 有副本分片未能正常分配</li>
 <li>Red: 有主分片未能分配, 如磁盘容量超 85% 的时候创建索引</li>
 </ul>
-<h2 id="2-4-文档-CRUD"><a href="#2-4-文档-CRUD" class="headerlink" title="2.4 文档 CRUD"></a>2.4 文档 CRUD</h2><table>
+<h2 id="3-6-文档的-CRUD"><a href="#3-6-文档的-CRUD" class="headerlink" title="3.6 文档的 CRUD"></a>3.6 文档的 CRUD</h2><table>
 <thead>
 <tr>
-<th style="text-align:center">HTTP method</th>
-<th style="text-align:center">索引名</th>
-<th style="text-align:center">TYPE(默认 <code>&quot;_doc&quot;</code>)</th>
-<th style="text-align:center">文档 id</th>
+<th>操作</th>
+<th>请求</th>
+<th>功能</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">PUT</td>
-<td style="text-align:center">my_index</td>
-<td style="text-align:center">_doc</td>
-<td style="text-align:center">1</td>
+<td>index</td>
+<td>PUT my_index/_doc/1<br>{“user”:”mike”,”comment”:”you know, for search”}</td>
+<td>如果 ID 不存在, 创建新的文档, 否则先删除现有的文档, 再创建新的文档, 版本会增加</td>
+</tr>
+<tr>
+<td>Create</td>
+<td>PUT my_index/_create/1<br>{“user”:”mike”,”comment”:”you know, for search”}<br>POST my_index/_doc/1<br>{“user”:”mike”,”comment”:”you know, for search”}</td>
+<td>如果 ID 已经存在, 会失败</td>
+</tr>
+<tr>
+<td>Read</td>
+<td>GET my_index/_doc/1</td>
+</tr>
+<tr>
+<td>Update</td>
+<td>POST my_index/_update/1<br>{“doc”:{“user”:”mike”,”comment”:”you know, for search”}}</td>
+<td>文档必须已经存在, 更新只会将相应字段做增量修改</td>
+</tr>
+<tr>
+<td>Delete</td>
+<td>DELETE my_index/_doc/1</td>
 </tr>
 </tbody>
 </table>
-<h3 id="2-4-1-Create-一个文档"><a href="#2-4-1-Create-一个文档" class="headerlink" title="2.4.1 Create 一个文档"></a>2.4.1 Create 一个文档</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PUT /users/_create/1</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"firstName"</span>: <span class="string">"Jack"</span>,</span><br><span class="line">    <span class="attr">"lastName"</span>: <span class="string">"Johnson"</span>,</span><br><span class="line">    <span class="attr">"tags"</span>: [<span class="string">"guitar"</span>, <span class="string">"games"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-6-1-创建一个文档"><a href="#3-6-1-创建一个文档" class="headerlink" title="3.6.1 创建一个文档"></a>3.6.1 创建一个文档</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PUT /users/_create/1</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"firstName"</span>: <span class="string">"Jack"</span>,</span><br><span class="line">    <span class="attr">"lastName"</span>: <span class="string">"Johnson"</span>,</span><br><span class="line">    <span class="attr">"tags"</span>: [<span class="string">"guitar"</span>, <span class="string">"games"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>支持自动生成文档 id 和指定文档 id 两种方式</li>
 <li>通过调用 <code>post/users/_doc</code> 自动生成 documentId</li>
@@ -831,7 +754,7 @@
 <p>使用 POST 方式自动分配 id</p>
 </blockquote>
 <p><img src="https://user-images.githubusercontent.com/17758731/79043859-8a615680-7c34-11ea-8fb8-36779dded710.png" alt="image"></p>
-<h3 id="2-4-2-Get-一个文档"><a href="#2-4-2-Get-一个文档" class="headerlink" title="2.4.2 Get 一个文档"></a>2.4.2 Get 一个文档</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">GET /users/_doc/1</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"_index"</span>: <span class="string">"users"</span>,</span><br><span class="line">    <span class="attr">"_type"</span>: <span class="string">"_doc"</span>,</span><br><span class="line">    <span class="attr">"_id"</span>: <span class="string">"1"</span>,</span><br><span class="line">    <span class="attr">"_version"</span>: <span class="number">32</span>,</span><br><span class="line">    <span class="attr">"_seq_no"</span>: <span class="number">36</span>,</span><br><span class="line">    <span class="attr">"primary_term"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"found"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"_source"</span>: &#123;</span><br><span class="line">        <span class="attr">"firstName"</span>: <span class="string">"Jack"</span>,</span><br><span class="line">        <span class="attr">"lastName"</span>: <span class="string">"Johnson"</span>,</span><br><span class="line">        <span class="attr">"age"</span>: <span class="number">39</span>,</span><br><span class="line">        <span class="attr">"tags"</span>: [</span><br><span class="line">            <span class="string">"guitar"</span>,</span><br><span class="line">            <span class="string">"games"</span></span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-6-2-读取一个文档"><a href="#3-6-2-读取一个文档" class="headerlink" title="3.6.2 读取一个文档"></a>3.6.2 读取一个文档</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">GET /users/_doc/1</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"_index"</span>: <span class="string">"users"</span>,</span><br><span class="line">    <span class="attr">"_type"</span>: <span class="string">"_doc"</span>,</span><br><span class="line">    <span class="attr">"_id"</span>: <span class="string">"1"</span>,</span><br><span class="line">    <span class="attr">"_version"</span>: <span class="number">32</span>,</span><br><span class="line">    <span class="attr">"_seq_no"</span>: <span class="number">36</span>,</span><br><span class="line">    <span class="attr">"primary_term"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"found"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"_source"</span>: &#123;</span><br><span class="line">        <span class="attr">"firstName"</span>: <span class="string">"Jack"</span>,</span><br><span class="line">        <span class="attr">"lastName"</span>: <span class="string">"Johnson"</span>,</span><br><span class="line">        <span class="attr">"age"</span>: <span class="number">39</span>,</span><br><span class="line">        <span class="attr">"tags"</span>: [</span><br><span class="line">            <span class="string">"guitar"</span>,</span><br><span class="line">            <span class="string">"games"</span></span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>找到文档返回 HTTP 200, 否则返回 404</li>
 <li>格式 <code>Get _index/_type/docId</code></li>
@@ -839,20 +762,20 @@
 <li>_source 中国默认包含了文档的所有原始信息</li>
 </ul>
 <p><img src="https://user-images.githubusercontent.com/17758731/79044003-50dd1b00-7c35-11ea-9287-8e4ea7698410.png" alt="image"></p>
-<h3 id="2-4-3-Index-文档"><a href="#2-4-3-Index-文档" class="headerlink" title="2.4.3 Index 文档"></a>2.4.3 Index 文档</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PUT /users/_doc/1</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"tags"</span>: [</span><br><span class="line">        <span class="string">"guitar"</span>,</span><br><span class="line">        <span class="string">"games"</span>,</span><br><span class="line">        <span class="string">"Gunpla"</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-6-3-Index-文档"><a href="#3-6-3-Index-文档" class="headerlink" title="3.6.3 Index 文档"></a>3.6.3 Index 文档</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PUT /users/_doc/1</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"tags"</span>: [</span><br><span class="line">        <span class="string">"guitar"</span>,</span><br><span class="line">        <span class="string">"games"</span>,</span><br><span class="line">        <span class="string">"Gunpla"</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>Index 和 Create 的不同之处在于如果文档不存在就索引新的文档, 否则现有的文档会被删除, 新的文档被索引, 版本信息 +1, 上面例子中此时再查出来的记录中只会存在 <code>tags</code></li>
 </ul>
 <blockquote>
 <p>此时 version 增加, 再次 get 是发现文档内容已被覆盖<br><img src="https://user-images.githubusercontent.com/17758731/79044089-c648eb80-7c35-11ea-8b2a-40281f8e0343.png" alt="image"></p>
 </blockquote>
-<h3 id="2-4-5-Update-文档"><a href="#2-4-5-Update-文档" class="headerlink" title="2.4.5 Update 文档"></a>2.4.5 Update 文档</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">POST /users/_update/1</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"doc"</span>: &#123;</span><br><span class="line">        <span class="attr">"albums"</span>: [</span><br><span class="line">            <span class="string">"album1"</span>,</span><br><span class="line">            <span class="string">"album2"</span></span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-6-4-Update-文档"><a href="#3-6-4-Update-文档" class="headerlink" title="3.6.4 Update 文档"></a>3.6.4 Update 文档</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">POST /users/_update/1</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"doc"</span>: &#123;</span><br><span class="line">    <span class="attr">"albums"</span>: [</span><br><span class="line">      <span class="string">"album1"</span>,</span><br><span class="line">      <span class="string">"album2"</span></span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>Update 不会删除原有的文档, 而是实现真正的数据更新</li>
 <li>Post 方法/Payload 需要包含在 <code>doc</code> 中</li>
 </ul>
 <p><img src="https://user-images.githubusercontent.com/17758731/79044193-6bfc5a80-7c36-11ea-88ef-d4b31e80c93b.png" alt="image"></p>
-<h3 id="2-4-6-Bulk-API"><a href="#2-4-6-Bulk-API" class="headerlink" title="2.4.6 Bulk API"></a>2.4.6 Bulk API</h3><ul>
+<h3 id="3-6-5-Bulk"><a href="#3-6-5-Bulk" class="headerlink" title="3.6.5 Bulk"></a>3.6.5 Bulk</h3><ul>
 <li>支持在一次调用中对不同的索引进行操作</li>
 <li>支持四种类型操作:<ul>
 <li>Index</li>
@@ -867,10 +790,10 @@
 <li>bulk api 对 json 的语法, 有严格的要求, 每个json串不能换行, 只能放一行, 同时一个 json 串和一个 json 串之间, 必须有一个换行</li>
 </ul>
 <p><img src="https://user-images.githubusercontent.com/17758731/79044620-b8e13080-7c38-11ea-8a2d-414907758dd1.png" alt="image"></p>
-<h3 id="2-4-7-MGet"><a href="#2-4-7-MGet" class="headerlink" title="2.4.7 MGet"></a>2.4.7 MGet</h3><p>批量操作, 可以减少网络连接所产生的开销, 提高性能, 当其中一条执行失败时同样不会影响其他文档的查询</p>
+<h3 id="3-6-6-MGet"><a href="#3-6-6-MGet" class="headerlink" title="3.6.6 MGet"></a>3.6.6 MGet</h3><p>批量操作, 可以减少网络连接所产生的开销, 提高性能, 当其中一条执行失败时同样不会影响其他文档的查询</p>
 <p><img src="https://user-images.githubusercontent.com/17758731/79044689-0d84ab80-7c39-11ea-971c-cf1d952339d0.png" alt="image"></p>
-<h3 id="2-4-8-MSearch"><a href="#2-4-8-MSearch" class="headerlink" title="2.4.8 MSearch"></a>2.4.8 MSearch</h3><p><img src="https://user-images.githubusercontent.com/17758731/79044801-da8ee780-7c39-11ea-863c-f3c8b7f93dc7.png" alt="image"></p>
-<h2 id="2-5-倒排索引"><a href="#2-5-倒排索引" class="headerlink" title="2.5 倒排索引"></a>2.5 倒排索引</h2><ul>
+<h3 id="3-6-7-MSearch"><a href="#3-6-7-MSearch" class="headerlink" title="3.6.7 MSearch"></a>3.6.7 MSearch</h3><p><img src="https://user-images.githubusercontent.com/17758731/79044801-da8ee780-7c39-11ea-863c-f3c8b7f93dc7.png" alt="image"></p>
+<h2 id="3-7-倒排索引"><a href="#3-7-倒排索引" class="headerlink" title="3.7 倒排索引"></a>3.7 倒排索引</h2><ul>
 <li>正排索引: 类似于书的目录, 标示每一章的页码. 对搜索引擎来说就是文档 id 到文档内容的关联.</li>
 <li>倒排索引: 类似于书中关键词的索引, 标示每个关键词分别在哪些页码出现过. 对搜索引擎来说就是文档内容到文档 id 的关联.</li>
 </ul>
@@ -887,7 +810,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="2-6-Analysis-与分词"><a href="#2-6-Analysis-与分词" class="headerlink" title="2.6 Analysis 与分词"></a>2.6 Analysis 与分词</h2><ul>
+<h2 id="3-8-Analysis-与分词"><a href="#3-8-Analysis-与分词" class="headerlink" title="3.8 Analysis 与分词"></a>3.8 Analysis 与分词</h2><ul>
 <li>Analysis: 是把全文本转换成一系列单词的过程, 也成分词</li>
 <li>Analysis 是通过 Analyzer 实现的, 可以使用 ElasticSearch 内置的分词器或者按照需要定制化分词器</li>
 <li>除了在数据写入时转换词条, 匹配 Query 语句时候也需要用相同的分析器对查询语句进行分析</li>
@@ -909,16 +832,87 @@
 <li>Language: 提供 30 多种常见语言的分词器</li>
 <li>Customer Analyzer: 自定义分词器</li>
 </ul>
+<h3 id="3-8-1-Standard-Analyzer"><a href="#3-8-1-Standard-Analyzer" class="headerlink" title="3.8.1 Standard Analyzer"></a>3.8.1 Standard Analyzer</h3><ol>
+<li>默认分词器</li>
+<li>按词切分</li>
+<li>小写处理</li>
+</ol>
 <p><img src="https://user-images.githubusercontent.com/17758731/79072067-9707ac80-7d11-11ea-9c77-7910c46dc2ec.png" alt="image"></p>
+<p>按照空格进行切分, 并将切分后的单词按照小写转换, 并且不会去掉 <code>a/an/the</code> 等词</p>
+<h3 id="3-8-2-Simple-Analyzer"><a href="#3-8-2-Simple-Analyzer" class="headerlink" title="3.8.2 Simple Analyzer"></a>3.8.2 Simple Analyzer</h3><ol>
+<li>按照非子母切分, 非子母的都会被去除</li>
+<li>小写处理</li>
+</ol>
+<h3 id="3-8-3-Whitespace-Analyzer"><a href="#3-8-3-Whitespace-Analyzer" class="headerlink" title="3.8.3 Whitespace Analyzer"></a>3.8.3 Whitespace Analyzer</h3><ol>
+<li>仅按照空格切分</li>
+</ol>
+<h3 id="3-8-4-Stop-Analyzer"><a href="#3-8-4-Stop-Analyzer" class="headerlink" title="3.8.4 Stop Analyzer"></a>3.8.4 Stop Analyzer</h3><ul>
+<li>Tokenizer:<ul>
+<li>lower case</li>
+</ul>
+</li>
+<li>Token Filters:<ul>
+<li>Stop</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>按照非子母切分, 非子母的文本都会被去除</li>
+<li>小写处理</li>
+<li>会把 <code>the/a/is</code> 等修饰词去除</li>
+</ol>
+<h3 id="3-8-5-Keyword-Analyzer"><a href="#3-8-5-Keyword-Analyzer" class="headerlink" title="3.8.5 Keyword Analyzer"></a>3.8.5 Keyword Analyzer</h3><ul>
+<li><p>Tokenizer:</p>
+<ul>
+<li>Keyword</li>
+</ul>
+</li>
+<li><p>不分词, 直接将输出当一个 Term 输出</p>
+</li>
+</ul>
+<h3 id="3-8-6-Pattern-Analyzer"><a href="#3-8-6-Pattern-Analyzer" class="headerlink" title="3.8.6 Pattern Analyzer"></a>3.8.6 Pattern Analyzer</h3><ul>
+<li>Tokenizer:<ul>
+<li>Pattern</li>
+</ul>
+</li>
+<li>Token Filters:<ul>
+<li>Lower Case</li>
+<li>Stop</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>通过正则表达式进行分词</li>
+<li>默认是 <code>\W+</code>, 非字符的符号进行分隔</li>
+</ol>
+<h3 id="3-8-9-Language-Analyzer"><a href="#3-8-9-Language-Analyzer" class="headerlink" title="3.8.9 Language Analyzer"></a>3.8.9 Language Analyzer</h3><p>选择指定不同语言完成分词</p>
+<h3 id="3-8-10-ICU-Analyzer"><a href="#3-8-10-ICU-Analyzer" class="headerlink" title="3.8.10 ICU Analyzer"></a>3.8.10 ICU Analyzer</h3><ul>
+<li>Character Filters:<ul>
+<li>Normalization</li>
+</ul>
+</li>
+<li>Tokenizer:<ul>
+<li>ICU Tokenizer</li>
+</ul>
+</li>
+<li>Token Filters:<ul>
+<li>Normalization</li>
+<li>Folding</li>
+<li>Collation</li>
+<li>Transform</li>
+</ul>
+</li>
+</ul>
 <p>更多的中分分词器:</p>
 <ul>
 <li>IK: 支持自定义词库, 支持热更新分词字典 <a href="https://github.com/medcl/elasticsearch-analysis-ik" target="_blank" rel="noopener">https://github.com/medcl/elasticsearch-analysis-ik</a></li>
 <li>THULAC: 清华大学自然语言处理与社会人文计算实验室的一套中文分词器 <a href="https://github.com/microbun/elasticsearch-thulac-plugin" target="_blank" rel="noopener">https://github.com/microbun/elasticsearch-thulac-plugin</a></li>
 </ul>
-<h2 id="2-7-Search-API"><a href="#2-7-Search-API" class="headerlink" title="2.7 Search API"></a>2.7 Search API</h2><ul>
-<li>URI Search: 在 URL 中使用查询参数</li>
-<li>Request Body Search: 使用 ElasticSearch 提供的基于 JSON 格式的更加完备的 Query Domain Specific Language(DSL)</li>
-</ul>
+<h2 id="3-9-Search-API"><a href="#3-9-Search-API" class="headerlink" title="3.9 Search API"></a>3.9 Search API</h2><ol>
+<li>URI Search: 在 HttpGET 方式下 URL 中提供查询参数</li>
+<li>Request Body Search: 使用 ElasticSearch 提供的基于 json 格式的更加完备的 Query Domain Specific Language(DSL)</li>
+</ol>
+<p>指定查询的索引</p>
 <table>
 <thead>
 <tr>
@@ -929,7 +923,7 @@
 <tbody>
 <tr>
 <td>/_search</td>
-<td>集群上所有索引</td>
+<td>集群上所有的索引</td>
 </tr>
 <tr>
 <td>/index1/_search</td>
@@ -940,43 +934,38 @@
 <td>index1 和 index2</td>
 </tr>
 <tr>
-<td>/index*/_search</td>
+<td>index*/_search</td>
 <td>以 index 开头的索引</td>
 </tr>
 </tbody>
 </table>
-<p>|查询方式|描述|<br>|TermQuery|查询单词|<br>|DisjunctionMaxQuery|对所有字段进行查询|<br>|PhraseQuery|查询内容同时出现且顺序相同的文档|</p>
-<h3 id="2-7-1-URI-查询"><a href="#2-7-1-URI-查询" class="headerlink" title="2.7.1 URI 查询"></a>2.7.1 URI 查询</h3><ul>
-<li>使用 <code>q</code>, 指定查询字符串</li>
-<li><code>query string syntax</code>, KV 键值对</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET <span class="string">"http://localhost:9200/moviews/_search?q=2012&amp;df=title&amp;sort=year:desc&amp;from=0&amp;size=10&amp;timeout=1s"</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-9-1-URI-Search-通过-URI-query-实现搜索"><a href="#3-9-1-URI-Search-通过-URI-query-实现搜索" class="headerlink" title="3.9.1 URI Search: 通过 URI query 实现搜索"></a>3.9.1 URI Search: 通过 URI query 实现搜索</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GET /movies/_search?q=2012&amp;df=title&amp;sort=year:desc&amp;from=0&amp;size=0&amp;timeout=1s  </span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"profile"</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
-<li>q 指定查询语句, 使用 Query String Syntax</li>
-<li>df 默认字段, 不指定时会对所有字段进行查询</li>
+<li>q: 指定查询语句, 使用 Query String Syntax</li>
+<li>df: 默认字段, 不指定时, 会对所有字段进行查询</li>
 <li>sort: 排序</li>
-<li>from 和 size: 分页的开始页码和页宽</li>
-<li>profile: 可以查看查询是如何被执行的</li>
+<li>from/size: 用于分页</li>
+<li>profile: 可以查看查询如何被执行</li>
 </ul>
-<h4 id="2-7-1-1-指定字段-amp-泛查询"><a href="#2-7-1-1-指定字段-amp-泛查询" class="headerlink" title="2.7.1.1 指定字段&amp;泛查询"></a>2.7.1.1 指定字段&amp;泛查询</h4><blockquote>
+<h4 id="3-9-1-1-指定字段-amp-泛查询"><a href="#3-9-1-1-指定字段-amp-泛查询" class="headerlink" title="3.9.1.1 指定字段 &amp; 泛查询"></a>3.9.1.1 指定字段 &amp; 泛查询</h4><blockquote>
 <p>q=title:2012 / q=2012</p>
 </blockquote>
 <p><img src="https://user-images.githubusercontent.com/17758731/79130345-64c18200-7dd9-11ea-87b5-193897281771.png" alt="image"></p>
 <p>可以看到指定 df 时, 只查询 title 中包含 2012 的文档, 可以简写为 <code>q=title:2012</code></p>
 <p><img src="https://user-images.githubusercontent.com/17758731/79130531-b1a55880-7dd9-11ea-9eed-f52e02d76718.png" alt="image"></p>
 <p>而如果不指定 df, ElasticSearch 会将 <code>(title.keyword:2012 | id.keyword:2012 | year:[2012 TO 2012] | genre:2012 | @version:2012 | @version.keyword:2012 | id:2012 | genre.keyword:2012 | title:2012)</code> 全部作为条件参与查询.</p>
-<h4 id="2-7-1-2-Term-amp-Phrase"><a href="#2-7-1-2-Term-amp-Phrase" class="headerlink" title="2.7.1.2 Term &amp; Phrase"></a>2.7.1.2 Term &amp; Phrase</h4><blockquote>
+<h4 id="3-9-1-2-Term-amp-Phrase"><a href="#3-9-1-2-Term-amp-Phrase" class="headerlink" title="3.9.1.2 Term &amp; Phrase"></a>3.9.1.2 Term &amp; Phrase</h4><blockquote>
 <ul>
 <li>Beautiful Mind 等效于 Beautiful OR Mind</li>
 <li>“Beautiful Mind” 等效于 Beautiful AND Mind, Phrase 查询还要求前后顺序保持一致</li>
 </ul>
 </blockquote>
 <p><img src="https://user-images.githubusercontent.com/17758731/79131770-ba972980-7ddb-11ea-8dd9-f7a45808850c.png" alt="image"></p>
-<p>查询 title 为 “Beautiful Mind” 的文档, <code>PhraseQuery</code> 代表 “Beautiful Mind” </p>
+<p>查询 title 为 “Beautiful Mind” 的文档, <code>PhraseQuery</code> 代表 “Beautiful Mind”</p>
 <p><img src="https://user-images.githubusercontent.com/17758731/79131430-2af17b00-7ddb-11ea-9d02-c08f1ab54043.png" alt="image"></p>
 <p>可以看到, 查询方式变成了 <code>title:beautiful (title.keyword:Mind | id.keyword:Mind | MatchNoDocsQuery(&quot;failed [year] query, caused by number_format_exception:[For input string: &quot;Mind&quot;]&quot;) | genre:mind | @version:mind | @version.keyword:Mind | id:mind | genre.keyword:Mind | title:mind)</code></p>
 <p>即 <code>(title 包含 &quot;Beautiful&quot;) 或 (匹配 &quot;Mind&quot; 泛查询)</code></p>
-<h4 id="2-7-1-3-分组-amp-引号"><a href="#2-7-1-3-分组-amp-引号" class="headerlink" title="2.7.1.3 分组 &amp; 引号"></a>2.7.1.3 分组 &amp; 引号</h4><blockquote>
+<h4 id="3-9-1-3-分组-amp-引号"><a href="#3-9-1-3-分组-amp-引号" class="headerlink" title="3.9.1.3 分组 &amp; 引号"></a>3.9.1.3 分组 &amp; 引号</h4><blockquote>
 <ul>
 <li>title:(Beautiful AND Mind) (分组)</li>
 <li>title=”Beautiful Mind” (Phrase)</li>
@@ -985,68 +974,94 @@
 <p><img src="https://user-images.githubusercontent.com/17758731/79132307-ab64ab80-7ddc-11ea-8d0b-1b7ee7cc8ff2.png" alt="image"></p>
 <p>此时变成了 BoolQuery, 必须满足title 中包括 <code>beautiful</code> 或 <code>mind</code> 的文档</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"query"</span> : [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"type"</span> : <span class="string">"BooleanQuery"</span>,</span><br><span class="line">            <span class="attr">"description"</span> : <span class="string">"title:beautiful title:mind"</span>,</span><br><span class="line">            <span class="attr">"time_in_nanos"</span> : <span class="number">16955769</span>,</span><br><span class="line">            <span class="attr">"children"</span> : [</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="attr">"type"</span> : <span class="string">"TermQuery"</span>,</span><br><span class="line">                    <span class="attr">"description"</span> : <span class="string">"title:beautiful"</span>,</span><br><span class="line">                    <span class="attr">"time_in_nanos"</span> : <span class="number">5470360</span>,</span><br><span class="line">                &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="attr">"type"</span> : <span class="string">"TermQuery"</span>,</span><br><span class="line">                    <span class="attr">"description"</span> : <span class="string">"title:mind"</span>,</span><br><span class="line">                    <span class="attr">"time_in_nanos"</span> : <span class="number">8406435</span>,</span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="2-7-1-4-Bool-操作"><a href="#2-7-1-4-Bool-操作" class="headerlink" title="2.7.1.4 Bool 操作"></a>2.7.1.4 Bool 操作</h4><ul>
+<h4 id="3-9-1-4-Bool-操作"><a href="#3-9-1-4-Bool-操作" class="headerlink" title="3.9.1.4 Bool 操作"></a>3.9.1.4 Bool 操作</h4><ul>
 <li><code>AND</code> / <code>OR</code> / <code>NOT</code> 或者 <code>&amp;&amp;</code> / <code>||</code> / <code>!</code><ul>
 <li>必须大写</li>
 <li>title:(matrix NOT reloaded): 排除《reloaded》的《matrix》</li>
 </ul>
 </li>
 </ul>
-<h4 id="2-7-1-5-分组"><a href="#2-7-1-5-分组" class="headerlink" title="2.7.1.5 分组"></a>2.7.1.5 分组</h4><ul>
+<h4 id="3-9-1-5-分组"><a href="#3-9-1-5-分组" class="headerlink" title="3.9.1.5 分组"></a>3.9.1.5 分组</h4><ul>
 <li><code>+</code> 表示 must</li>
 <li><code>-</code> 表示 must_not</li>
 <li>title:(+matrix -reloaded)</li>
 </ul>
-<h4 id="2-7-1-6-范围查询"><a href="#2-7-1-6-范围查询" class="headerlink" title="2.7.1.6 范围查询"></a>2.7.1.6 范围查询</h4><p>区间表示:</p>
+<h4 id="3-9-1-6-范围查询"><a href="#3-9-1-6-范围查询" class="headerlink" title="3.9.1.6 范围查询"></a>3.9.1.6 范围查询</h4><p>区间表示:</p>
 <ul>
 <li><code>[]</code> 闭区间: year:[* TO 2020]</li>
 <li><code>{}</code> 开区间: year:{2018 TO 2020}</li>
 </ul>
-<h4 id="2-7-1-7-算数符号"><a href="#2-7-1-7-算数符号" class="headerlink" title="2.7.1.7 算数符号"></a>2.7.1.7 算数符号</h4><ul>
+<h4 id="3-9-1-7-算数符号"><a href="#3-9-1-7-算数符号" class="headerlink" title="3.9.1.7 算数符号"></a>3.9.1.7 算数符号</h4><ul>
 <li>year:&gt;2010</li>
 <li>year:(&gt;2010 &amp;&amp; &lt;=2018)</li>
 <li>year:(+&gt;2010 +&lt;=2018)</li>
 </ul>
-<h4 id="2-7-1-8-通配符查询"><a href="#2-7-1-8-通配符查询" class="headerlink" title="2.7.1.8 通配符查询"></a>2.7.1.8 通配符查询</h4><ul>
+<h4 id="3-9-1-8-通配符查询"><a href="#3-9-1-8-通配符查询" class="headerlink" title="3.9.1.8 通配符查询"></a>3.9.1.8 通配符查询</h4><ul>
 <li><code>?</code> 代表一个字符, <code>*</code> 代表 0 或多个字符<ul>
 <li>title:b*</li>
 <li>title:mi?d</li>
 </ul>
 </li>
 </ul>
-<h4 id="2-7-1-9-正则匹配"><a href="#2-7-1-9-正则匹配" class="headerlink" title="2.7.1.9 正则匹配"></a>2.7.1.9 正则匹配</h4><ul>
+<blockquote>
+<p>查询所有包含 B 开头单词的电影<br><img src="https://user-images.githubusercontent.com/17758731/87317863-28c5c680-c55a-11ea-8ba7-2acfc2d710d3.png" alt="image"></p>
+</blockquote>
+<h4 id="3-9-1-9-正则匹配"><a href="#3-9-1-9-正则匹配" class="headerlink" title="3.9.1.9 正则匹配"></a>3.9.1.9 正则匹配</h4><ul>
 <li>title:[bt]oy</li>
 </ul>
-<h4 id="2-7-1-10-模糊匹配与近似查询"><a href="#2-7-1-10-模糊匹配与近似查询" class="headerlink" title="2.7.1.10 模糊匹配与近似查询"></a>2.7.1.10 模糊匹配与近似查询</h4><ul>
+<h4 id="3-9-1-10-模糊匹配与近似查询"><a href="#3-9-1-10-模糊匹配与近似查询" class="headerlink" title="3.9.1.10 模糊匹配与近似查询"></a>3.9.1.10 模糊匹配与近似查询</h4><ul>
 <li>title:beafutifl~1, 允许输错一个字符</li>
 <li>title:”lord rings”~2</li>
 </ul>
-<h3 id="2-7-2-Request"><a href="#2-7-2-Request" class="headerlink" title="2.7.2 Request"></a>2.7.2 Request</h3><p><img src="https://user-images.githubusercontent.com/17758731/79128665-82d9b300-7dd6-11ea-8fe1-f880a14cc4c0.png" alt="image"></p>
-<p>搜索是用户和搜索引擎的对话, 用户关心的是搜索结果的相关性:</p>
-<ul>
-<li>是否可以找到所有相关的内容</li>
-<li>有多少不相关的内容被返回了</li>
-<li>文档的打分是否合理</li>
-<li>结合业务需求, 平衡结果排名</li>
-</ul>
-<h3 id="2-7-2-1-分页"><a href="#2-7-2-1-分页" class="headerlink" title="2.7.2.1 分页"></a>2.7.2.1 分页</h3><ul>
-<li>将查询语句通过 HTTP Request Body 发送给 ElasticSearch</li>
+<h3 id="3-9-2-RequestBody-Search"><a href="#3-9-2-RequestBody-Search" class="headerlink" title="3.9.2 RequestBody Search"></a>3.9.2 RequestBody Search</h3><ul>
+<li>将查询语句通过 HttpRequestBody 发送给 ElasticSearch</li>
 <li>Query DSL</li>
 </ul>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">POST /kibana_sample_data_ecommerce/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"from"</span>: <span class="number">10</span>,</span><br><span class="line">  <span class="attr">"size"</span>: <span class="number">20</span>,</span><br><span class="line">  <span class="attr">"query"</span>: &#123;</span><br><span class="line">    <span class="attr">"match_all"</span>: &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="2-7-2-2-排序"><a href="#2-7-2-2-排序" class="headerlink" title="2.7.2.2 排序"></a>2.7.2.2 排序</h3><ul>
-<li>最好在数字型和日期型字段上排序</li>
-<li>因为对于多值类型或分析过的字段排序系统会选择一个字段</li>
-</ul>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">POST /kibana_sample_data_ecommerce/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"from"</span>: <span class="number">10</span>,</span><br><span class="line">  <span class="attr">"size"</span>: <span class="number">20</span>,</span><br><span class="line">  <span class="attr">"sort"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"FIELD"</span>: &#123;</span><br><span class="line">        <span class="attr">"order"</span>: <span class="string">"desc"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ], </span><br><span class="line">  <span class="attr">"query"</span>: &#123;</span><br><span class="line">    <span class="attr">"match_all"</span>: &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="2-7-2-3-source-filtering"><a href="#2-7-2-3-source-filtering" class="headerlink" title="2.7.2.3 _source filtering"></a>2.7.2.3 _source filtering</h3><ul>
-<li>如果 _source 没有存储, 那就只返回匹配的文档元数据</li>
-<li>_source 支持使用通配符 <code>_source[&quot;name*&quot;,&quot;desc*&quot;]</code></li>
-</ul>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">POST /kibana_sample_data_ecommerce/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"_source"</span>: [<span class="string">"order"</span>,<span class="string">"category.keyword"</span>], </span><br><span class="line">  <span class="attr">"from"</span>: <span class="number">10</span>,</span><br><span class="line">  <span class="attr">"size"</span>: <span class="number">20</span>,</span><br><span class="line">  <span class="attr">"sort"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"FIELD"</span>: &#123;</span><br><span class="line">        <span class="attr">"order"</span>: <span class="string">"desc"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ], </span><br><span class="line">  <span class="attr">"query"</span>: &#123;</span><br><span class="line">    <span class="attr">"match_all"</span>: &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="2-7-2-4-脚本字段"><a href="#2-7-2-4-脚本字段" class="headerlink" title="2.7.2.4 脚本字段"></a>2.7.2.4 脚本字段</h3><ul>
-<li>实例: 将订单日期与 <code>hello</code> 进行拼接</li>
-</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">POST /movies/_search?ignore_unavailable=true</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"profile"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">"query"</span>: &#123;</span><br><span class="line">    <span class="attr">"match_all"</span>: &#123;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"from"</span>: <span class="number">10</span>,</span><br><span class="line">  <span class="attr">"size"</span>: <span class="number">20</span>,</span><br><span class="line">  <span class="attr">"sort"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"order_date"</span>: <span class="string">"desc"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"_source"</span>: [<span class="string">"order_date"</span>, <span class="string">"category.keyword"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>请求体字段</th>
+<th>类型</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>profile</td>
+<td>bool</td>
+<td>是否返回查询过程, 类似 explain</td>
+</tr>
+<tr>
+<td>query</td>
+<td></td>
+<td>查询条件</td>
+</tr>
+<tr>
+<td>from</td>
+<td>number</td>
+<td>分页起点</td>
+</tr>
+<tr>
+<td>size</td>
+<td>number</td>
+<td>分页偏移量</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>list</td>
+<td>字段名和升序/降序的组合</td>
+</tr>
+<tr>
+<td>_source</td>
+<td>list<string></string></td>
+<td>需要查询的字段</td>
+</tr>
+</tbody>
+</table>
+<h4 id="3-9-2-1-脚本字段"><a href="#3-9-2-1-脚本字段" class="headerlink" title="3.9.2.1 脚本字段"></a>3.9.2.1 脚本字段</h4><blockquote>
+<p>实例: 将订单日期与 <code>hello</code> 进行拼接<br><img src="https://user-images.githubusercontent.com/17758731/87319645-78a58d00-c55c-11ea-84b3-e2487ef5a80b.png" alt="image"></p>
+</blockquote>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">POST /kibana_sample_data_ecommerce/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"script_fields"</span>: &#123;</span><br><span class="line">    <span class="attr">"FIELD"</span>: &#123;</span><br><span class="line">      <span class="attr">"script"</span>: &#123;</span><br><span class="line">        <span class="attr">"lang"</span>: <span class="string">"painless"</span>,</span><br><span class="line">        <span class="attr">"source"</span>: <span class="string">"doc['order_date'].value+'hello'"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,  </span><br><span class="line">  <span class="attr">"from"</span>: <span class="number">10</span>,</span><br><span class="line">  <span class="attr">"size"</span>: <span class="number">20</span>,</span><br><span class="line">  <span class="attr">"query"</span>: &#123;</span><br><span class="line">    <span class="attr">"match_all"</span>: &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
@@ -1316,7 +1331,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-ElasticSearch-概述"><span class="nav-text">1. ElasticSearch 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-生态圈"><span class="nav-text">1.1 生态圈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-ElasticSearch-与数据库集成"><span class="nav-text">1.2 ElasticSearch 与数据库集成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-指标分析-日志分析"><span class="nav-text">1.3 指标分析, 日志分析</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-安装-ElasticSearch"><span class="nav-text">2. 安装 ElasticSearch</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-ElasticSearch-的文件目录结构"><span class="nav-text">2.1 ElasticSearch 的文件目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-JVM-配置"><span class="nav-text">2.2 JVM 配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-启动-ElasticSearch"><span class="nav-text">2.3 启动 ElasticSearch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-安装插件"><span class="nav-text">2.4 安装插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-本机运行多个-ElasticSearch-实例"><span class="nav-text">2.5 本机运行多个 ElasticSearch 实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6-安装-Kibana"><span class="nav-text">2.6 安装 Kibana</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-7-Logstash-安装与导入数据"><span class="nav-text">2.7 Logstash 安装与导入数据</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-基本概念"><span class="nav-text">2. 基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-文档"><span class="nav-text">2.1 文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-索引"><span class="nav-text">2.2 索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-集群-节点和分片"><span class="nav-text">2.3 集群, 节点和分片</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-1-集群"><span class="nav-text">2.3.1 集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-2-节点"><span class="nav-text">2.3.2 节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-3-分片"><span class="nav-text">2.3.3 分片</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-文档-CRUD"><span class="nav-text">2.4 文档 CRUD</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-1-Create-一个文档"><span class="nav-text">2.4.1 Create 一个文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-2-Get-一个文档"><span class="nav-text">2.4.2 Get 一个文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-3-Index-文档"><span class="nav-text">2.4.3 Index 文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-5-Update-文档"><span class="nav-text">2.4.5 Update 文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-6-Bulk-API"><span class="nav-text">2.4.6 Bulk API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-7-MGet"><span class="nav-text">2.4.7 MGet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-8-MSearch"><span class="nav-text">2.4.8 MSearch</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-倒排索引"><span class="nav-text">2.5 倒排索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6-Analysis-与分词"><span class="nav-text">2.6 Analysis 与分词</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-7-Search-API"><span class="nav-text">2.7 Search API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-1-URI-查询"><span class="nav-text">2.7.1 URI 查询</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-1-1-指定字段-amp-泛查询"><span class="nav-text">2.7.1.1 指定字段&amp;泛查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-1-2-Term-amp-Phrase"><span class="nav-text">2.7.1.2 Term &amp; Phrase</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-1-3-分组-amp-引号"><span class="nav-text">2.7.1.3 分组 &amp; 引号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-1-4-Bool-操作"><span class="nav-text">2.7.1.4 Bool 操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-1-5-分组"><span class="nav-text">2.7.1.5 分组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-1-6-范围查询"><span class="nav-text">2.7.1.6 范围查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-1-7-算数符号"><span class="nav-text">2.7.1.7 算数符号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-1-8-通配符查询"><span class="nav-text">2.7.1.8 通配符查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-1-9-正则匹配"><span class="nav-text">2.7.1.9 正则匹配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-1-10-模糊匹配与近似查询"><span class="nav-text">2.7.1.10 模糊匹配与近似查询</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-2-Request"><span class="nav-text">2.7.2 Request</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-2-1-分页"><span class="nav-text">2.7.2.1 分页</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-2-2-排序"><span class="nav-text">2.7.2.2 排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-2-3-source-filtering"><span class="nav-text">2.7.2.3 _source filtering</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-2-4-脚本字段"><span class="nav-text">2.7.2.4 脚本字段</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-概述"><span class="nav-text">1. 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-生态圈"><span class="nav-text">1.1 生态圈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-搜索场景下与数据库集成"><span class="nav-text">1.2 搜索场景下与数据库集成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-指标分析与日志分析"><span class="nav-text">1.3 指标分析与日志分析</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-安装-ElasticSearch"><span class="nav-text">2. 安装 ElasticSearch</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-ElasticSearch-的文件目录结构"><span class="nav-text">2.1 ElasticSearch 的文件目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-JVM-配置"><span class="nav-text">2.2 JVM 配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-启动-ElasticSearch"><span class="nav-text">2.3 启动 ElasticSearch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-安装插件"><span class="nav-text">2.4 安装插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-本机运行多个-ElasticSearch-实例"><span class="nav-text">2.5 本机运行多个 ElasticSearch 实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6-安装-Kibana"><span class="nav-text">2.6 安装 Kibana</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-7-在-docker-容器中运行-ElasticSearch"><span class="nav-text">2.7 在 docker 容器中运行 ElasticSearch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-8-Logstash-安装与导入数据"><span class="nav-text">2.8 Logstash 安装与导入数据</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-ElasticSearch-基本概念"><span class="nav-text">3. ElasticSearch 基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-文档"><span class="nav-text">3.1 文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-索引"><span class="nav-text">3.2 索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-集群"><span class="nav-text">3.3 集群</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-节点"><span class="nav-text">3.4 节点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-1-Master-eligible-节点和-Master-节点"><span class="nav-text">3.4.1 Master-eligible 节点和 Master 节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-2-Data-节点和-Coordinating-Node"><span class="nav-text">3.4.2 Data 节点和 Coordinating Node</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-3-其他节点类型"><span class="nav-text">3.4.3 其他节点类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-分片"><span class="nav-text">3.5 分片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-6-文档的-CRUD"><span class="nav-text">3.6 文档的 CRUD</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-1-创建一个文档"><span class="nav-text">3.6.1 创建一个文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-2-读取一个文档"><span class="nav-text">3.6.2 读取一个文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-3-Index-文档"><span class="nav-text">3.6.3 Index 文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-4-Update-文档"><span class="nav-text">3.6.4 Update 文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-5-Bulk"><span class="nav-text">3.6.5 Bulk</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-6-MGet"><span class="nav-text">3.6.6 MGet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-7-MSearch"><span class="nav-text">3.6.7 MSearch</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-7-倒排索引"><span class="nav-text">3.7 倒排索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-8-Analysis-与分词"><span class="nav-text">3.8 Analysis 与分词</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-1-Standard-Analyzer"><span class="nav-text">3.8.1 Standard Analyzer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-2-Simple-Analyzer"><span class="nav-text">3.8.2 Simple Analyzer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-3-Whitespace-Analyzer"><span class="nav-text">3.8.3 Whitespace Analyzer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-4-Stop-Analyzer"><span class="nav-text">3.8.4 Stop Analyzer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-5-Keyword-Analyzer"><span class="nav-text">3.8.5 Keyword Analyzer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-6-Pattern-Analyzer"><span class="nav-text">3.8.6 Pattern Analyzer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-9-Language-Analyzer"><span class="nav-text">3.8.9 Language Analyzer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-10-ICU-Analyzer"><span class="nav-text">3.8.10 ICU Analyzer</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-9-Search-API"><span class="nav-text">3.9 Search API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-9-1-URI-Search-通过-URI-query-实现搜索"><span class="nav-text">3.9.1 URI Search: 通过 URI query 实现搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-1-指定字段-amp-泛查询"><span class="nav-text">3.9.1.1 指定字段 &amp; 泛查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-2-Term-amp-Phrase"><span class="nav-text">3.9.1.2 Term &amp; Phrase</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-3-分组-amp-引号"><span class="nav-text">3.9.1.3 分组 &amp; 引号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-4-Bool-操作"><span class="nav-text">3.9.1.4 Bool 操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-5-分组"><span class="nav-text">3.9.1.5 分组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-6-范围查询"><span class="nav-text">3.9.1.6 范围查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-7-算数符号"><span class="nav-text">3.9.1.7 算数符号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-8-通配符查询"><span class="nav-text">3.9.1.8 通配符查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-9-正则匹配"><span class="nav-text">3.9.1.9 正则匹配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-10-模糊匹配与近似查询"><span class="nav-text">3.9.1.10 模糊匹配与近似查询</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-9-2-RequestBody-Search"><span class="nav-text">3.9.2 RequestBody Search</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-2-1-脚本字段"><span class="nav-text">3.9.2.1 脚本字段</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>
