@@ -135,7 +135,10 @@
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/79132307-ab64ab80-7ddc-11ea-8d0b-1b7ee7cc8ff2.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/87317863-28c5c680-c55a-11ea-8ba7-2acfc2d710d3.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/17758731/87319645-78a58d00-c55c-11ea-84b3-e2487ef5a80b.png">
-<meta property="og:updated_time" content="2020-07-13T15:02:25.584Z">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/87320647-c078e400-c55d-11ea-9b85-a7621b6aa534.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/87320934-2b2a1f80-c55e-11ea-84d5-00edebe91d09.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/87321324-b0adcf80-c55e-11ea-84c7-2f8cdd96f9d2.png">
+<meta property="og:updated_time" content="2020-07-14T15:37:42.388Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ElasticSearch 原理与实践">
 <meta name="twitter:description" content="1. 概述1.1 生态圈ElasticSearch 是一款开源的分布式搜索引擎和近实时大数据分析平台.     组件 功能     Logstash 开源的服务端数据处理通道, 支持从不同数据源进行采集和转换, 并将数据发送到不同的存储中.   Kibana 数据可视化工具   Beats 轻量的数据采集器, ElasticSearch 提供了大量的 Beats 套件以针对不同的数据源, 如 Fi">
@@ -1063,6 +1066,119 @@
 <p>实例: 将订单日期与 <code>hello</code> 进行拼接<br><img src="https://user-images.githubusercontent.com/17758731/87319645-78a58d00-c55c-11ea-84b3-e2487ef5a80b.png" alt="image"></p>
 </blockquote>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">POST /kibana_sample_data_ecommerce/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"script_fields"</span>: &#123;</span><br><span class="line">    <span class="attr">"FIELD"</span>: &#123;</span><br><span class="line">      <span class="attr">"script"</span>: &#123;</span><br><span class="line">        <span class="attr">"lang"</span>: <span class="string">"painless"</span>,</span><br><span class="line">        <span class="attr">"source"</span>: <span class="string">"doc['order_date'].value+'hello'"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,  </span><br><span class="line">  <span class="attr">"from"</span>: <span class="number">10</span>,</span><br><span class="line">  <span class="attr">"size"</span>: <span class="number">20</span>,</span><br><span class="line">  <span class="attr">"query"</span>: &#123;</span><br><span class="line">    <span class="attr">"match_all"</span>: &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3-9-2-2-match-query"><a href="#3-9-2-2-match-query" class="headerlink" title="3.9.2.2 match query"></a>3.9.2.2 match query</h4><blockquote>
+<p>该模式下所有的 query 单词只需要命中一个<br><img src="https://user-images.githubusercontent.com/17758731/87320647-c078e400-c55d-11ea-9b85-a7621b6aa534.png" alt="image"></p>
+</blockquote>
+<blockquote>
+<p>如果添加了 and, 则所有单词需要同时出现(不记顺序)<br><img src="https://user-images.githubusercontent.com/17758731/87320934-2b2a1f80-c55e-11ea-84d5-00edebe91d09.png" alt="image"></p>
+</blockquote>
+<h4 id="3-9-2-3-math-phrase"><a href="#3-9-2-3-math-phrase" class="headerlink" title="3.9.2.3 math phrase"></a>3.9.2.3 math phrase</h4><blockquote>
+<p>phrase 查询会保证顺序<br><img src="https://user-images.githubusercontent.com/17758731/87321324-b0adcf80-c55e-11ea-84c7-2f8cdd96f9d2.png" alt="image"></p>
+</blockquote>
+<h4 id="3-9-2-4-Query-string"><a href="#3-9-2-4-Query-string" class="headerlink" title="3.9.2.4 Query string"></a>3.9.2.4 Query string</h4><p>类似 URI Query</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">POST users/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"query"</span>: &#123;</span><br><span class="line">    <span class="attr">"query_string"</span>: &#123;</span><br><span class="line">      <span class="attr">"default_field"</span>: <span class="string">"name"</span>,</span><br><span class="line">      <span class="attr">"query"</span>: <span class="string">"destiny"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3-9-2-5-simple-query-string-query"><a href="#3-9-2-5-simple-query-string-query" class="headerlink" title="3.9.2.5 simple query string query"></a>3.9.2.5 simple query string query</h4><ul>
+<li>类似 Query String, 但是会忽略错误的语法, 同时只支持部分查询语法</li>
+<li>不支持 AND, OR, NOT, 会当做字符串处理</li>
+<li>Term 之间默认的关系是 or, 可以指定 operator</li>
+<li>支持部分逻辑:<ul>
+<li><code>+</code> 代替 AND</li>
+<li><code>|</code> 替代 OR</li>
+<li><code>-</code> 提到 NOT</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-10-Mapping"><a href="#3-10-Mapping" class="headerlink" title="3.10 Mapping"></a>3.10 Mapping</h2><ul>
+<li>Mapping 类似数据库中 schema 的定义, 作用:<ol>
+<li>定义索引中的字段名称</li>
+<li>定义字段的数据类型</li>
+<li>字段, 倒排索引的相关配置(Analyzed or Not Analyzed)</li>
+</ol>
+</li>
+<li>Mapping 会把 JSON 文档映射成 Lucene 所需要的扁平格式</li>
+<li>一个 Mapping 属于一个索引的 Type<ol>
+<li>每个文档都属于一个 Type</li>
+<li>一个 Type 有一个 Mapping 定义</li>
+<li>7.0 开始不需要在 Mapping 中定义 Type 信息</li>
+</ol>
+</li>
+</ul>
+<p>字段类型:</p>
+<ul>
+<li>简单类型:<ol>
+<li>Text/Keyword</li>
+<li>Date</li>
+<li>Integer/Folating</li>
+<li>Boolean</li>
+<li>IPv4 &amp; IPv6</li>
+</ol>
+</li>
+<li>复杂类型: 对象和嵌套类型</li>
+<li>特殊类型: geo_point &amp; geo_shape / percolator</li>
+</ul>
+<h3 id="3-10-1-Dynamic-Mapping"><a href="#3-10-1-Dynamic-Mapping" class="headerlink" title="3.10.1 Dynamic Mapping"></a>3.10.1 Dynamic Mapping</h3><ul>
+<li>在写入文档的时候, 如果索引不存在, 就会自动创建索引</li>
+<li>Dynamic Mapping 的机制使得我们无需手动定义 Mapping, ElasticSearch 会自动根据文档信息推算出字段的类型</li>
+<li>如果类型设置错误, 会导致一些功能无法正常运行, 例如 Range 查询</li>
+</ul>
+<blockquote>
+<p>类型的自动识别</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>JSON 类型</th>
+<th>ElasticSearch 类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>字符串</td>
+<td>匹配日期格式, 设置成 Date<br>配置数字设置为 float或 long, 该选项默认关闭<br>设置为 Text, 并且增加 keyword 子字段</td>
+</tr>
+<tr>
+<td>布尔</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>浮点数</td>
+<td>float</td>
+</tr>
+<tr>
+<td>整数</td>
+<td>long</td>
+</tr>
+<tr>
+<td>对象</td>
+<td>object</td>
+</tr>
+<tr>
+<td>数组</td>
+<td>由第一个非空数值的类型所决定</td>
+</tr>
+<tr>
+<td>空值</td>
+<td>忽略</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-10-2-Mapping-字段的修改"><a href="#3-10-2-Mapping-字段的修改" class="headerlink" title="3.10.2 Mapping 字段的修改"></a>3.10.2 Mapping 字段的修改</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PUT movies</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"mappings"</span>: &#123;</span><br><span class="line">    <span class="attr">"_doc"</span>: &#123;</span><br><span class="line">      <span class="attr">"dynamic"</span>: <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>字段的新增:<ul>
+<li>Dynamic 为 true 时, 一旦有新增字段的文档写入, Mapping 也同时被更新</li>
+<li>Dynamic 为 false 时, Mapping 不会被更新, 新增字段无法被索引, 但是信息会出现在 <code>_source</code> 中</li>
+<li>Dynamic 为 strict 时, 文档写入失败</li>
+</ul>
+</li>
+<li>修改字段<ul>
+<li>正常情况下一旦写入就不再支持修改字段定义, 因为 Lucene 实现倒排索引一旦生成就不允许修改</li>
+<li>如果希望改变字段类型, 需要 Reindex, 重建索引</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>如果修改了字段的数据类型, 会导致已被索引的数据无法被搜索, 如果只是新增字段, 就不会有影响</p>
+</blockquote>
 
       
     </div>
@@ -1331,7 +1447,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-概述"><span class="nav-text">1. 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-生态圈"><span class="nav-text">1.1 生态圈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-搜索场景下与数据库集成"><span class="nav-text">1.2 搜索场景下与数据库集成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-指标分析与日志分析"><span class="nav-text">1.3 指标分析与日志分析</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-安装-ElasticSearch"><span class="nav-text">2. 安装 ElasticSearch</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-ElasticSearch-的文件目录结构"><span class="nav-text">2.1 ElasticSearch 的文件目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-JVM-配置"><span class="nav-text">2.2 JVM 配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-启动-ElasticSearch"><span class="nav-text">2.3 启动 ElasticSearch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-安装插件"><span class="nav-text">2.4 安装插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-本机运行多个-ElasticSearch-实例"><span class="nav-text">2.5 本机运行多个 ElasticSearch 实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6-安装-Kibana"><span class="nav-text">2.6 安装 Kibana</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-7-在-docker-容器中运行-ElasticSearch"><span class="nav-text">2.7 在 docker 容器中运行 ElasticSearch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-8-Logstash-安装与导入数据"><span class="nav-text">2.8 Logstash 安装与导入数据</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-ElasticSearch-基本概念"><span class="nav-text">3. ElasticSearch 基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-文档"><span class="nav-text">3.1 文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-索引"><span class="nav-text">3.2 索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-集群"><span class="nav-text">3.3 集群</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-节点"><span class="nav-text">3.4 节点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-1-Master-eligible-节点和-Master-节点"><span class="nav-text">3.4.1 Master-eligible 节点和 Master 节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-2-Data-节点和-Coordinating-Node"><span class="nav-text">3.4.2 Data 节点和 Coordinating Node</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-3-其他节点类型"><span class="nav-text">3.4.3 其他节点类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-分片"><span class="nav-text">3.5 分片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-6-文档的-CRUD"><span class="nav-text">3.6 文档的 CRUD</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-1-创建一个文档"><span class="nav-text">3.6.1 创建一个文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-2-读取一个文档"><span class="nav-text">3.6.2 读取一个文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-3-Index-文档"><span class="nav-text">3.6.3 Index 文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-4-Update-文档"><span class="nav-text">3.6.4 Update 文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-5-Bulk"><span class="nav-text">3.6.5 Bulk</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-6-MGet"><span class="nav-text">3.6.6 MGet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-7-MSearch"><span class="nav-text">3.6.7 MSearch</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-7-倒排索引"><span class="nav-text">3.7 倒排索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-8-Analysis-与分词"><span class="nav-text">3.8 Analysis 与分词</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-1-Standard-Analyzer"><span class="nav-text">3.8.1 Standard Analyzer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-2-Simple-Analyzer"><span class="nav-text">3.8.2 Simple Analyzer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-3-Whitespace-Analyzer"><span class="nav-text">3.8.3 Whitespace Analyzer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-4-Stop-Analyzer"><span class="nav-text">3.8.4 Stop Analyzer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-5-Keyword-Analyzer"><span class="nav-text">3.8.5 Keyword Analyzer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-6-Pattern-Analyzer"><span class="nav-text">3.8.6 Pattern Analyzer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-9-Language-Analyzer"><span class="nav-text">3.8.9 Language Analyzer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-10-ICU-Analyzer"><span class="nav-text">3.8.10 ICU Analyzer</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-9-Search-API"><span class="nav-text">3.9 Search API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-9-1-URI-Search-通过-URI-query-实现搜索"><span class="nav-text">3.9.1 URI Search: 通过 URI query 实现搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-1-指定字段-amp-泛查询"><span class="nav-text">3.9.1.1 指定字段 &amp; 泛查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-2-Term-amp-Phrase"><span class="nav-text">3.9.1.2 Term &amp; Phrase</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-3-分组-amp-引号"><span class="nav-text">3.9.1.3 分组 &amp; 引号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-4-Bool-操作"><span class="nav-text">3.9.1.4 Bool 操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-5-分组"><span class="nav-text">3.9.1.5 分组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-6-范围查询"><span class="nav-text">3.9.1.6 范围查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-7-算数符号"><span class="nav-text">3.9.1.7 算数符号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-8-通配符查询"><span class="nav-text">3.9.1.8 通配符查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-9-正则匹配"><span class="nav-text">3.9.1.9 正则匹配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-10-模糊匹配与近似查询"><span class="nav-text">3.9.1.10 模糊匹配与近似查询</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-9-2-RequestBody-Search"><span class="nav-text">3.9.2 RequestBody Search</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-2-1-脚本字段"><span class="nav-text">3.9.2.1 脚本字段</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-概述"><span class="nav-text">1. 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-生态圈"><span class="nav-text">1.1 生态圈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-搜索场景下与数据库集成"><span class="nav-text">1.2 搜索场景下与数据库集成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-指标分析与日志分析"><span class="nav-text">1.3 指标分析与日志分析</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-安装-ElasticSearch"><span class="nav-text">2. 安装 ElasticSearch</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-ElasticSearch-的文件目录结构"><span class="nav-text">2.1 ElasticSearch 的文件目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-JVM-配置"><span class="nav-text">2.2 JVM 配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-启动-ElasticSearch"><span class="nav-text">2.3 启动 ElasticSearch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-安装插件"><span class="nav-text">2.4 安装插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-本机运行多个-ElasticSearch-实例"><span class="nav-text">2.5 本机运行多个 ElasticSearch 实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6-安装-Kibana"><span class="nav-text">2.6 安装 Kibana</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-7-在-docker-容器中运行-ElasticSearch"><span class="nav-text">2.7 在 docker 容器中运行 ElasticSearch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-8-Logstash-安装与导入数据"><span class="nav-text">2.8 Logstash 安装与导入数据</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-ElasticSearch-基本概念"><span class="nav-text">3. ElasticSearch 基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-文档"><span class="nav-text">3.1 文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-索引"><span class="nav-text">3.2 索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-集群"><span class="nav-text">3.3 集群</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-节点"><span class="nav-text">3.4 节点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-1-Master-eligible-节点和-Master-节点"><span class="nav-text">3.4.1 Master-eligible 节点和 Master 节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-2-Data-节点和-Coordinating-Node"><span class="nav-text">3.4.2 Data 节点和 Coordinating Node</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-3-其他节点类型"><span class="nav-text">3.4.3 其他节点类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-分片"><span class="nav-text">3.5 分片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-6-文档的-CRUD"><span class="nav-text">3.6 文档的 CRUD</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-1-创建一个文档"><span class="nav-text">3.6.1 创建一个文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-2-读取一个文档"><span class="nav-text">3.6.2 读取一个文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-3-Index-文档"><span class="nav-text">3.6.3 Index 文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-4-Update-文档"><span class="nav-text">3.6.4 Update 文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-5-Bulk"><span class="nav-text">3.6.5 Bulk</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-6-MGet"><span class="nav-text">3.6.6 MGet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-7-MSearch"><span class="nav-text">3.6.7 MSearch</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-7-倒排索引"><span class="nav-text">3.7 倒排索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-8-Analysis-与分词"><span class="nav-text">3.8 Analysis 与分词</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-1-Standard-Analyzer"><span class="nav-text">3.8.1 Standard Analyzer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-2-Simple-Analyzer"><span class="nav-text">3.8.2 Simple Analyzer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-3-Whitespace-Analyzer"><span class="nav-text">3.8.3 Whitespace Analyzer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-4-Stop-Analyzer"><span class="nav-text">3.8.4 Stop Analyzer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-5-Keyword-Analyzer"><span class="nav-text">3.8.5 Keyword Analyzer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-6-Pattern-Analyzer"><span class="nav-text">3.8.6 Pattern Analyzer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-9-Language-Analyzer"><span class="nav-text">3.8.9 Language Analyzer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-10-ICU-Analyzer"><span class="nav-text">3.8.10 ICU Analyzer</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-9-Search-API"><span class="nav-text">3.9 Search API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-9-1-URI-Search-通过-URI-query-实现搜索"><span class="nav-text">3.9.1 URI Search: 通过 URI query 实现搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-1-指定字段-amp-泛查询"><span class="nav-text">3.9.1.1 指定字段 &amp; 泛查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-2-Term-amp-Phrase"><span class="nav-text">3.9.1.2 Term &amp; Phrase</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-3-分组-amp-引号"><span class="nav-text">3.9.1.3 分组 &amp; 引号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-4-Bool-操作"><span class="nav-text">3.9.1.4 Bool 操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-5-分组"><span class="nav-text">3.9.1.5 分组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-6-范围查询"><span class="nav-text">3.9.1.6 范围查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-7-算数符号"><span class="nav-text">3.9.1.7 算数符号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-8-通配符查询"><span class="nav-text">3.9.1.8 通配符查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-9-正则匹配"><span class="nav-text">3.9.1.9 正则匹配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-10-模糊匹配与近似查询"><span class="nav-text">3.9.1.10 模糊匹配与近似查询</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-9-2-RequestBody-Search"><span class="nav-text">3.9.2 RequestBody Search</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-2-1-脚本字段"><span class="nav-text">3.9.2.1 脚本字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-2-2-match-query"><span class="nav-text">3.9.2.2 match query</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-2-3-math-phrase"><span class="nav-text">3.9.2.3 math phrase</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-2-4-Query-string"><span class="nav-text">3.9.2.4 Query string</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-2-5-simple-query-string-query"><span class="nav-text">3.9.2.5 simple query string query</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-10-Mapping"><span class="nav-text">3.10 Mapping</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-10-1-Dynamic-Mapping"><span class="nav-text">3.10.1 Dynamic Mapping</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-10-2-Mapping-字段的修改"><span class="nav-text">3.10.2 Mapping 字段的修改</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
