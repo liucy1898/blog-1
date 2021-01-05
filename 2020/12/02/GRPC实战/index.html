@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/blog/css/main.css?v=6.1.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=6.1.0">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=6.1.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Pisces',
+    version: '6.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1. 简介GRPC 是一个语言中立, 平台中立的 RPC 框架, 支持 Java, C++, Golang, php 等多个语言版本, 使用 ProtoBuf 作为传输协议 . GRPC golang 版本 1.1 ProtobufGithub 地址 Golang 库地址 Google Protocol Buffer, 是 google 的一种语言中立和平台中立的数据交换格式, google 提供">
+<meta name="keywords" content="GRPC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GRPC实战">
+<meta property="og:url" content="https://destinywang.github.io/blog/2020/12/02/GRPC实战/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1. 简介GRPC 是一个语言中立, 平台中立的 RPC 框架, 支持 Java, C++, Golang, php 等多个语言版本, 使用 ProtoBuf 作为传输协议 . GRPC golang 版本 1.1 ProtobufGithub 地址 Golang 库地址 Google Protocol Buffer, 是 google 的一种语言中立和平台中立的数据交换格式, google 提供">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://user-images.githubusercontent.com/17758731/101018218-2534e980-35a6-11eb-90bf-4457c5e3e137.png">
+<meta property="og:updated_time" content="2020-12-20T03:37:33.481Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GRPC实战">
+<meta name="twitter:description" content="1. 简介GRPC 是一个语言中立, 平台中立的 RPC 框架, 支持 Java, C++, Golang, php 等多个语言版本, 使用 ProtoBuf 作为传输协议 . GRPC golang 版本 1.1 ProtobufGithub 地址 Golang 库地址 Google Protocol Buffer, 是 google 的一种语言中立和平台中立的数据交换格式, google 提供">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/17758731/101018218-2534e980-35a6-11eb-90bf-4457c5e3e137.png">
+
+
+
+  <link rel="alternate" href="/blog/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://destinywang.github.io/blog/2020/12/02/GRPC实战/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>GRPC实战 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/destinywang"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/blog/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/blog/archives" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>归档</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/blog/categories" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/blog/tags" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/blog/about" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>关于</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-search">
+    <a href="/blog/search" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>搜索</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-commonweal">
+    <a href="/blog/404.html" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>公益 404</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-something">
+    <a href="/blog/something" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>something</a>
+</li>
+
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://destinywang.github.io/blog/blog/2020/12/02/GRPC实战/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="destiny">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/blog/images/blog-logo.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">GRPC实战</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-02T21:08:55+08:00">2020-12-02</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/blog/categories/实战/" itemprop="url" rel="index"><span itemprop="name">实战</span></a></span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/blog/categories/实战/RPC/" itemprop="url" rel="index"><span itemprop="name">RPC</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h2><p>GRPC 是一个语言中立, 平台中立的 RPC 框架, 支持 Java, C++, Golang, php 等多个语言版本, 使用 ProtoBuf 作为传输协议 .</p>
+<p><a href="https://github.com/grpc/grpc-go" target="_blank" rel="noopener">GRPC golang 版本</a></p>
+<h3 id="1-1-Protobuf"><a href="#1-1-Protobuf" class="headerlink" title="1.1 Protobuf"></a>1.1 Protobuf</h3><p><a href="https://github.com/protocolbuffers/protobuf" target="_blank" rel="noopener">Github 地址</a></p>
+<p><a href="https://github.com/golang/protobuf" target="_blank" rel="noopener">Golang 库地址</a></p>
+<p>Google Protocol Buffer, 是 google 的一种语言中立和平台中立的数据交换格式, google 提供了多种语言的实现, 包括 Java, C#, C++, go 和 Python, 每一种都实现了包含对应语言的编译器及库文件, 由于它是一种二进制格式, 因此相比 XML, JSON 等在传输时占用带宽更小, 是一种效率和兼容性都比较优秀的二进制数据传输格式, 可以用于网络传输, 数据存储等多个领域.</p>
+<p><a href="https://github.com/protocolbuffers/protobuf/releases/tag/v3.14.0" target="_blank" rel="noopener">proto release 包下载</a></p>
+<p>再将 protoc 文件路径 (如 <code>/usr/local/bin/protoc</code>) 添加的环境变量中, protoc 是 protobuf 文件的编译器, 可以把 <code>.proto</code> 文件转译成各种编程语言对应的源码, 包含数据类型定义, 调用接口等.</p>
+<p>安装编译出 go 文件的插件: <a href="https://github.com/golang/protobuf/protoc-gen-go" target="_blank" rel="noopener">proto-gen-go</a>, 执行 go get 后会在 <code>$GOPAHT/bin</code> 目录下生成可执行文件 <code>.protobuf</code> 的编译器插件 <code>protoc-gen-go</code>, 当我们使用命令 <code>protoc --go_out=$output_dir $input_dir/target.proto</code> 转译 proto 文件时, 其中 <code>--go_out=</code> 表示生成 go 文件, protoc 会自动寻找 GOPATH 下的 proto-gen-go 执行文件.</p>
+<p><img src="https://user-images.githubusercontent.com/17758731/101018218-2534e980-35a6-11eb-90bf-4457c5e3e137.png" alt="image"></p>
+<h2 id="2-QuickStart"><a href="#2-QuickStart" class="headerlink" title="2. QuickStart"></a>2. QuickStart</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go get -u google.golang.org/grpc</span><br></pre></td></tr></table></figure>
+<h3 id="2-1-创建中间文件"><a href="#2-1-创建中间文件" class="headerlink" title="2.1 创建中间文件"></a>2.1 创建中间文件</h3><figure class="highlight pb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">syntax = <span class="string">"proto3"</span><span class="comment">;</span></span><br><span class="line">package services<span class="comment">;</span></span><br><span class="line">message ProdRequest &#123;</span><br><span class="line">  int32 prod_id = 1<span class="comment">; // 商品 id</span></span><br><span class="line">&#125;</span><br><span class="line">message ProdResponse &#123;</span><br><span class="line">  int32 prod_stock = 1<span class="comment">; // 商品库存</span></span><br><span class="line">&#125;</span><br><span class="line">service ProdService &#123;</span><br><span class="line">  rpc GetProdStock(ProdRequest) returns (ProdResponse)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>然后执行 <code>protoc --go_out=${target_dir} target.proto</code>, 则可以将当前路径下的 target.proto 转译成 go 源代码并保存在 <code>target_dir</code> 路径下</p>
+<h3 id="2-2-服务端代码"><a href="#2-2-服务端代码" class="headerlink" title="2.2 服务端代码"></a>2.2 服务端代码</h3><p>服务端需要实现 pb 已生成的接口</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ProdServiceServer is the server API for ProdService service.</span></span><br><span class="line"><span class="keyword">type</span> ProdServiceServer <span class="keyword">interface</span> &#123;</span><br><span class="line">    GetProdStock(context.Context, *ProdRequest) (*ProdResponse, error)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 下面是实现代码</span></span><br><span class="line"><span class="keyword">type</span> ProdService <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *ProdService)</span> <span class="title">GetProdStock</span><span class="params">(ctx context.Context, req *ProdRequest)</span> <span class="params">(*ProdResponse, error)</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &amp;ProdResponse&#123;</span><br><span class="line">        state:         protoimpl.MessageState&#123;&#125;,</span><br><span class="line">        sizeCache:     <span class="number">0</span>,</span><br><span class="line">        unknownFields: <span class="literal">nil</span>,</span><br><span class="line">        ProdStock:     rand.Int31n(<span class="number">1000</span>),</span><br><span class="line">    &#125;, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>服务端启动函数:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    rpcServer := grpc.NewServer()</span><br><span class="line">    services.RegisterProdServiceServer(rpcServer, <span class="built_in">new</span>(services.ProdService))</span><br><span class="line">    <span class="comment">// 监听地址</span></span><br><span class="line">    listen, err := net.Listen(<span class="string">"tcp"</span>, <span class="string">":8081"</span>)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        logrus.Error(<span class="string">"listen fail"</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    logrus.Info(<span class="string">"listen"</span>)</span><br><span class="line">    <span class="keyword">if</span> err = rpcServer.Serve(listen); err != <span class="literal">nil</span> &#123;</span><br><span class="line">         logrus.Error(<span class="string">"grpc serve fail"</span>)</span><br><span class="line">         <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    logrus.Info(<span class="string">"serve"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-3-客户端代码"><a href="#2-3-客户端代码" class="headerlink" title="2.3 客户端代码"></a>2.3 客户端代码</h3><p>客户端</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// 创建连接</span></span><br><span class="line">    conn, err := grpc.Dial(<span class="string">":8081"</span>, grpc.WithInsecure()) <span class="comment">// WithInsecure 表示不使用证书</span></span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        logrus.WithError(err).Error(<span class="string">"dial fail"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> conn != <span class="literal">nil</span> &#123;</span><br><span class="line">            _ = conn.Close()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;()</span><br><span class="line"></span><br><span class="line">    prodServiceClient := services.NewProdServiceClient(conn)</span><br><span class="line">    prodResponse, err := prodServiceClient.GetProdStock(context.Background(), &amp;services.ProdRequest&#123;ProdId: <span class="number">10</span>&#125;)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        logrus.WithError(err).Error(<span class="string">"rpc fail"</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    logrus.Infof(<span class="string">"prodResp=[%+v]"</span>, prodResponse)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-4-自签证书"><a href="#2-4-自签证书" class="headerlink" title="2.4 自签证书"></a>2.4 自签证书</h3><p>在生产环境中, 一般都会通过 SSL 证书来保证 RPC 通信的安全性, GRPC 也默认实现开启了字签证书认证, 本地调试下可以显式关闭:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conn, err := grpc.Dial(<span class="string">":8081"</span>, grpc.WithInsecure())</span><br></pre></td></tr></table></figure>
+<p>本章我们尝试在 MacOS 环境下申请自签名的 SSL 证书</p>
+<h4 id="2-4-1-进入管理员"><a href="#2-4-1-进入管理员" class="headerlink" title="2.4.1 进入管理员"></a>2.4.1 进入管理员</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo su</span><br></pre></td></tr></table></figure>
+<h4 id="2-4-2-创建-rootCA-key"><a href="#2-4-2-创建-rootCA-key" class="headerlink" title="2.4.2 创建 rootCA.key"></a>2.4.2 创建 rootCA.key</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ openssl genrsa -des3 -out rootCA.key 2048</span><br><span class="line"></span><br><span class="line">Generating RSA private key, 2048 bit long modulus</span><br><span class="line">....................+++</span><br><span class="line">.............................+++</span><br><span class="line">e is 65537 (0x10001)</span><br><span class="line">Enter pass phrase <span class="keyword">for</span> rootCA.key:</span><br><span class="line">Verifying - Enter pass phrase <span class="keyword">for</span> rootCA.key:</span><br></pre></td></tr></table></figure>
+<p>此时需要输入密码, 密码需要记住, 后面还会用到.</p>
+<h4 id="2-4-3-创建-rootCA-pem"><a href="#2-4-3-创建-rootCA-pem" class="headerlink" title="2.4.3 创建 rootCA.pem"></a>2.4.3 创建 rootCA.pem</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 3650 -out rootCA.pem</span><br><span class="line"></span><br><span class="line">Enter pass phrase <span class="keyword">for</span> rootCA.key:</span><br><span class="line">You are about to be asked to enter information that will be incorporated</span><br><span class="line">into your certificate request.</span><br><span class="line">What you are about to enter is what is called a Distinguished Name or a DN.</span><br><span class="line">There are quite a few fields but you can leave some blank</span><br><span class="line">For some fields there will be a default value,</span><br><span class="line">If you enter <span class="string">'.'</span>, the field will be left blank.</span><br><span class="line">-----</span><br><span class="line">Country Name (2 letter code) []:CN</span><br><span class="line">State or Province Name (full name) []:shanxi</span><br><span class="line">Locality Name (eg, city) []:xian</span><br><span class="line">Organization Name (eg, company) []:wk</span><br><span class="line">Organizational Unit Name (eg, section) []:wk</span><br><span class="line">Common Name (eg, fully qualified host name) []:destiny.com</span><br><span class="line">Email Address []:destinywk@163.com</span><br></pre></td></tr></table></figure>
+<p>省市公司名称等信息都可以随便填写, 此外这里需要输入 rootCA.key 的密码</p>
+<h4 id="2-4-4-创建-v3-ext-文件"><a href="#2-4-4-创建-v3-ext-文件" class="headerlink" title="2.4.4 创建 v3.ext 文件"></a>2.4.4 创建 v3.ext 文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">authorityKeyIdentifier=keyid,issuer</span><br><span class="line">basicConstraints=CA:FALSE</span><br><span class="line">keyUsage=digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment</span><br><span class="line">subjectAltName=@alt_names</span><br><span class="line"></span><br><span class="line">[alt_names]</span><br><span class="line">DNS.1 = 192.168.2.10 # 本机 ip</span><br></pre></td></tr></table></figure>
+<h4 id="2-4-5-创建-server-csr-和-server-key"><a href="#2-4-5-创建-server-csr-和-server-key" class="headerlink" title="2.4.5 创建 server.csr 和 server.key"></a>2.4.5 创建 server.csr 和 server.key</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">$ openssl req -new -sha256 -nodes -out server.csr -newkey rsa:2048 -keyout server.key</span><br><span class="line"></span><br><span class="line">Generating a 2048 bit RSA private key</span><br><span class="line">..............................+++</span><br><span class="line">................................................................+++</span><br><span class="line">writing new private key to <span class="string">'server.key'</span></span><br><span class="line">-----</span><br><span class="line">You are about to be asked to enter information that will be incorporated</span><br><span class="line">into your certificate request.</span><br><span class="line">What you are about to enter is what is called a Distinguished Name or a DN.</span><br><span class="line">There are quite a few fields but you can leave some blank</span><br><span class="line">For some fields there will be a default value,</span><br><span class="line">If you enter <span class="string">'.'</span>, the field will be left blank.</span><br><span class="line">-----</span><br><span class="line">Country Name (2 letter code) []:CN</span><br><span class="line">State or Province Name (full name) []:shanxi</span><br><span class="line">Locality Name (eg, city) []:xian</span><br><span class="line">Organization Name (eg, company) []:wk</span><br><span class="line">Organizational Unit Name (eg, section) []:wk</span><br><span class="line">Common Name (eg, fully qualified host name) []:destiny.com</span><br><span class="line">Email Address []:destinywk@163.com</span><br><span class="line"></span><br><span class="line">Please enter the following <span class="string">'extra'</span> attributes</span><br><span class="line">to be sent with your certificate request</span><br><span class="line">A challenge password []:</span><br></pre></td></tr></table></figure>
+<h4 id="2-4-6-创建-server-crt"><a href="#2-4-6-创建-server-crt" class="headerlink" title="2.4.6 创建 server.crt"></a>2.4.6 创建 server.crt</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ openssl x509 -req -<span class="keyword">in</span> ./server.csr -signkey ./server.key -out ./server.crt</span><br><span class="line"></span><br><span class="line">Signature ok</span><br><span class="line">subject=/C=CN/ST=shanxi/L=xian/O=wk/OU=wk/CN=192.168.2.10/emailAddress=destinywk@163.com</span><br><span class="line">Getting Private key</span><br></pre></td></tr></table></figure>
+<h4 id="2-4-7-查看证书"><a href="#2-4-7-查看证书" class="headerlink" title="2.4.7 查看证书"></a>2.4.7 查看证书</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ ll ~/dev/ssl</span><br><span class="line">total 48</span><br><span class="line">-rw-r--r--  1 destiny  staff     8B 12  1 19:49 password</span><br><span class="line">-rw-r--r--  1 root     staff   1.2K 12  1 22:28 server.crt</span><br><span class="line">-rw-r--r--  1 root     staff   1.0K 12  1 20:47 server.csr</span><br><span class="line">-rw-r--r--  1 root     staff   1.7K 12  1 20:47 server.key</span><br><span class="line">-rw-r--r--  1 root     staff   1.6K 12  1 22:28 server_no_passwd.key</span><br><span class="line">-rw-r--r--  1 root     staff   199B 12  1 20:45 v3.ext</span><br></pre></td></tr></table></figure>
+<p>生成 server.crt 即是所需的证书</p>
+<h3 id="2-5-GRPC-整合证书"><a href="#2-5-GRPC-整合证书" class="headerlink" title="2.5 GRPC 整合证书"></a>2.5 GRPC 整合证书</h3><h4 id="2-5-1-服务端代码"><a href="#2-5-1-服务端代码" class="headerlink" title="2.5.1 服务端代码"></a>2.5.1 服务端代码</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// 添加证书验证</span></span><br><span class="line">    transportCredentials, err := credentials.NewServerTLSFromFile(<span class="string">"grpc_test/keys/server.crt"</span>, <span class="string">"grpc_test/keys/server_no_passwd.key"</span>)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        logrus.WithError(err).Error(<span class="string">"load server tls fail"</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    rpcServer := grpc.NewServer(grpc.Creds(transportCredentials))</span><br><span class="line">    services.RegisterProdServiceServer(rpcServer, <span class="built_in">new</span>(services.ProdService))</span><br><span class="line">    listen, err := net.Listen(<span class="string">"tcp"</span>, <span class="string">":8081"</span>)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        logrus.Error(<span class="string">"listen fail"</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    logrus.Info(<span class="string">"listen"</span>)</span><br><span class="line">    <span class="keyword">if</span> err = rpcServer.Serve(listen); err != <span class="literal">nil</span> &#123;</span><br><span class="line">        logrus.Error(<span class="string">"grpc serve fail"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    logrus.Info(<span class="string">"serve"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时如果用当前的客户端代码, 启动时会报错:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERRO[<span class="number">0000</span>] rpc fail                                      error=<span class="string">"rpc error: code = Unavailable desc = connection closed"</span></span><br></pre></td></tr></table></figure>
+<h4 id="2-5-2-客户端代码"><a href="#2-5-2-客户端代码" class="headerlink" title="2.5.2 客户端代码"></a>2.5.2 客户端代码</h4><h2 id="3-语法"><a href="#3-语法" class="headerlink" title="3. 语法"></a>3. 语法</h2>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/GRPC/" rel="tag"># GRPC</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2020/08/01/Go-kit解析/" rel="next" title="Go-kit解析">
+                <i class="fa fa-chevron-left"></i> Go-kit解析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2020/12/20/Docker-实现-DevOps/" rel="prev" title="Docker 实现 DevOps">
+                Docker 实现 DevOps <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/blog/images/blog-logo.jpeg" alt="destiny">
+            
+              <p class="site-author-name" itemprop="name">destiny</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/blog/archives">
+                
+                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/blog/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/blog/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/blog/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-简介"><span class="nav-text">1. 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-Protobuf"><span class="nav-text">1.1 Protobuf</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-QuickStart"><span class="nav-text">2. QuickStart</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-创建中间文件"><span class="nav-text">2.1 创建中间文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-服务端代码"><span class="nav-text">2.2 服务端代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-客户端代码"><span class="nav-text">2.3 客户端代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-自签证书"><span class="nav-text">2.4 自签证书</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-1-进入管理员"><span class="nav-text">2.4.1 进入管理员</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-2-创建-rootCA-key"><span class="nav-text">2.4.2 创建 rootCA.key</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-3-创建-rootCA-pem"><span class="nav-text">2.4.3 创建 rootCA.pem</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-4-创建-v3-ext-文件"><span class="nav-text">2.4.4 创建 v3.ext 文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-5-创建-server-csr-和-server-key"><span class="nav-text">2.4.5 创建 server.csr 和 server.key</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-6-创建-server-crt"><span class="nav-text">2.4.6 创建 server.crt</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-7-查看证书"><span class="nav-text">2.4.7 查看证书</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-GRPC-整合证书"><span class="nav-text">2.5 GRPC 整合证书</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-1-服务端代码"><span class="nav-text">2.5.1 服务端代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-2-客户端代码"><span class="nav-text">2.5.2 客户端代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-语法"><span class="nav-text">3. 语法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate"> 
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">destiny</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">
+  <i class="fa fa-user-md"></i>
+  <span id="busuanzi_container_site_uv">本站访客数:<span id="busuanzi_value_site_uv"></span></span>
+  
+  <!-- 由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动 -->
+  </div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Code Alone </div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=6.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=6.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=6.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=6.1.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/blog/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/src/love.js"></script>>

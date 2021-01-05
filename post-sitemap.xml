@@ -7,8 +7,24 @@
     </url>
 
     <url>
+        <loc>https://destinywang.github.io/blog/2020/12/20/Docker-%E5%AE%9E%E7%8E%B0-DevOps/</loc>
+        <lastmod>2021-01-05T14:06:55.226Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://destinywang.github.io/blog/2020/12/02/GRPC%E5%AE%9E%E6%88%98/</loc>
+        <lastmod>2020-12-20T03:37:33.481Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://destinywang.github.io/blog/2020/05/17/%E4%BB%8E%E6%BA%90%E7%A0%81%E5%AE%9E%E7%8E%B0%E8%A7%A3%E8%AF%BBRaft%E5%8D%8F%E8%AE%AE/</loc>
-        <lastmod>2020-12-01T07:28:53.839Z</lastmod>
+        <lastmod>2020-12-20T03:36:57.476Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
